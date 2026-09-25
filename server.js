@@ -2,15 +2,15 @@ import express from 'express';
 import compression from 'compression';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { createMcpRouter } from './dist-server/mcp.js';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const dist = path.join(root, 'dist');
 const port = Number(process.env.PORT) || 3000;
 
-const runtimeConfig = `window.__FLOWDRAFT__=${JSON.stringify({
-  supabaseUrl: process.env.SUPABASE_URL ?? '',
-  supabaseAnonKey: process.env.SUPABASE_ANON_KEY ?? '',
-})};`;
+const supabaseUrl = process.env.SUPABASE_URL ?? '';
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY ?? '';
+const runtimeConfig = `window.__FLOWDRAFT__=${JSON.stringify({ supabaseUrl, supabaseAnonKey })};`;
 
 const csp = [
   "default-src 'self'",
@@ -39,6 +39,9 @@ app.use((_req, res, next) => {
 });
 
 app.get('/healthz', (_req, res) => res.type('text/plain').send('ok'));
+
+// MCP endpoint for ChatGPT, Claude and other AI clients (built from server/mcp.ts).
+app.use(createMcpRouter({ supabaseUrl, supabaseAnonKey }));
 
 app.get('/config.js', (_req, res) => {
   res.type('application/javascript').set('Cache-Control', 'no-store').send(runtimeConfig);

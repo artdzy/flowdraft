@@ -1,5 +1,6 @@
 import { ReactFlowProvider } from '@xyflow/react';
 import { useEffect, useSyncExternalStore } from 'react';
+import { AiDialog } from './components/AiDialog';
 import { AuthModal } from './components/AuthModal';
 import { Canvas } from './components/Canvas';
 import { Credit } from './components/Credit';
@@ -8,7 +9,7 @@ import { Inspector } from './components/Inspector';
 import { MobileBar } from './components/MobileBar';
 import { Palette } from './components/Palette';
 import { TopBar } from './components/TopBar';
-import { requestSave, saveToCloud } from './lib/actions';
+import { openProjectLink, refreshFromCloud, requestSave, saveToCloud } from './lib/actions';
 import { saveDraft } from './lib/draft';
 import { serializeDoc } from './lib/doc';
 import { useAuth } from './store/auth';
@@ -98,6 +99,34 @@ function useDraftMirror() {
   }, []);
 }
 
+/** Opens the diagram from a ?p=<id> link (AI tools hand these out), then drops the parameter. */
+function useProjectLink() {
+  const ready = useAuth((s) => s.ready);
+  useEffect(() => {
+    if (!ready) return;
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get('p');
+    if (!id) return;
+    url.searchParams.delete('p');
+    window.history.replaceState(window.history.state, '', url);
+    openProjectLink(id);
+  }, [ready]);
+}
+
+/** Picks up edits made elsewhere (an AI tool, another device) on sign-in and whenever the tab comes back into view. */
+function useCloudRefresh() {
+  const userId = useAuth((s) => s.user?.id);
+  useEffect(() => {
+    if (!userId) return;
+    void refreshFromCloud();
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') void refreshFromCloud();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [userId]);
+}
+
 /** Browser tab shows the open diagram, with a dot while there are unsaved cloud changes. */
 function useDocumentTitle() {
   const title = useEditor((s) => s.title.trim() || 'Adsız akış');
@@ -113,6 +142,8 @@ export default function App() {
   useShortcuts();
   useAutosave();
   useDraftMirror();
+  useProjectLink();
+  useCloudRefresh();
 
   return (
     <ReactFlowProvider>
@@ -135,6 +166,7 @@ export default function App() {
         <AuthModal />
         <ProjectsDialog />
         <NewDialog />
+        <AiDialog />
         <Toasts />
       </div>
     </ReactFlowProvider>

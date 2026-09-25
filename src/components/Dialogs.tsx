@@ -1,18 +1,13 @@
 import { FilePlus2, LoaderCircle, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { confirmDiscard, openProject } from '../lib/actions';
 import { parseDoc } from '../lib/doc';
-import { deleteProject, describeError, fetchProject, listProjects, type ProjectSummary } from '../lib/projects';
+import { deleteProject, describeError, listProjects, type ProjectSummary } from '../lib/projects';
 import { getIcon } from '../flow/icons';
 import { TEMPLATES, type TemplateId } from '../flow/templates';
-import { isDirty, useEditor } from '../store/editor';
+import { useEditor } from '../store/editor';
 import { toast, useUi } from '../store/ui';
 import { Modal } from './Modal';
-
-function confirmDiscard(): boolean {
-  const s = useEditor.getState();
-  if (!s.nodes.length || !isDirty(s)) return true;
-  return window.confirm('Kaydedilmemiş değişikliklerin var. Bu akışı bırakıp devam edilsin mi?');
-}
 
 export function startTemplate(id: TemplateId): boolean {
   if (!confirmDiscard()) return false;
@@ -77,10 +72,7 @@ function ProjectList({ onDone }: { onDone: () => void }) {
     if (p.id !== currentId && !confirmDiscard()) return;
     setBusyId(p.id);
     try {
-      const row = await fetchProject(p.id);
-      const doc = parseDoc(row.content);
-      if (!doc) throw new Error('Proje verisi okunamadı.');
-      useEditor.getState().loadDoc(doc, { title: row.title, projectId: row.id, dirty: false });
+      await openProject(p.id);
       onDone();
     } catch (err) {
       toast(describeError(err), 'error');

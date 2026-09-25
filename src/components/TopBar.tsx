@@ -1,4 +1,5 @@
 import {
+  Bot,
   ChevronDown,
   Cloud,
   CloudOff,
@@ -31,7 +32,7 @@ import { Credit } from './Credit';
 import { Segmented, Switch } from './fields';
 import { Menu, MenuItem } from './Menu';
 
-function Logo() {
+export function Logo() {
   return (
     <span className="fd-logo" aria-label="flowdraft">
       <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden>
@@ -172,6 +173,9 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       </MenuItem>
       <MenuItem icon={<Upload size={16} />} onSelect={() => (close(), fileInput.current?.click())}>
         JSON içe aktar
+      </MenuItem>
+      <MenuItem icon={<Bot size={16} />} onSelect={() => (close(), useUi.setState({ aiOpen: true }))}>
+        AI araçlarına bağla
       </MenuItem>
       <MenuItem icon={<Eraser size={16} />} onSelect={() => (close(), clearCanvas())} danger>
         Tuvali temizle

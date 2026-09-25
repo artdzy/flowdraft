@@ -5,6 +5,7 @@ export type Toast = { id: number; text: string; tone: 'default' | 'error' };
 type UiState = {
   projectsOpen: boolean;
   newOpen: boolean;
+  aiOpen: boolean;
   paletteSheet: boolean;
   inspectorSheet: boolean;
   toasts: Toast[];
@@ -13,6 +14,7 @@ type UiState = {
 export const useUi = create<UiState>()(() => ({
   projectsOpen: false,
   newOpen: false,
+  aiOpen: false,
   paletteSheet: false,
   inspectorSheet: false,
   toasts: [],

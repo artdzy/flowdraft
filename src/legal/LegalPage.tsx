@@ -138,6 +138,11 @@ function Privacy() {
         Veriler flowdraft'ın kendi sunucusunda, kendi kurduğumuz bir Supabase veritabanında saklanır. Sunucu, barındırma
         hizmeti sağlayıcısının altyapısında çalışır. Yasal bir zorunluluk olmadıkça verilerin üçüncü kişilerle paylaşılmaz.
       </p>
+      <p>
+        Kendi isteğinle bir AI aracını (ör. ChatGPT, Claude) flowdraft hesabına bağlarsan, o araç senin adına projelerini
+        okuyabilir, oluşturabilir, değiştirebilir ve silebilir. Bu araçlara giden veriler onların kendi gizlilik
+        politikalarına tabidir. Bağlantıyı istediğin zaman uygulamada Dosya → AI araçlarına bağla bölümünden kaldırabilirsin.
+      </p>
 
       <h2>6. Saklama süresi</h2>
       <p>

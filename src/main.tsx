@@ -9,23 +9,38 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import { LegalPage, legalKindFromPath } from './legal/LegalPage';
 import { loadDraft } from './lib/draft';
+import { isGuidePath, McpGuidePage } from './guide/McpGuidePage';
+import { ConsentPage, isConsentPath } from './oauth/ConsentPage';
 import { initAuth } from './store/auth';
 import { useEditor } from './store/editor';
 import { initTheme } from './store/theme';
 
 initTheme();
-const legal = legalKindFromPath(window.location.pathname);
+const path = window.location.pathname;
+const legal = legalKindFromPath(path);
+const consent = isConsentPath(path);
+const guide = isGuidePath(path);
+const editor = !legal && !consent && !guide;
 
-if (!legal) {
+if (editor) {
   const draft = loadDraft();
   if (draft) {
     useEditor.getState().loadDoc(draft.doc, { title: draft.title, projectId: draft.projectId, dirty: draft.dirty });
   }
-  initAuth();
+}
+if (editor || consent) initAuth();
+
+function Page() {
+  if (legal) return <LegalPage kind={legal} />;
+  if (consent) return <ConsentPage />;
+  if (guide) return <McpGuidePage />;
+  return <App />;
 }
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>{legal ? <LegalPage kind={legal} /> : <App />}</StrictMode>,
+  <StrictMode>
+    <Page />
+  </StrictMode>,
 );
 
 if ('serviceWorker' in navigator && import.meta.env.PROD) {

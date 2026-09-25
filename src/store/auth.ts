@@ -40,8 +40,8 @@ export function requireAuth(reason: string, action: () => void) {
   useAuth.setState({ modal: { mode: 'login', reason }, pending: action });
 }
 
-export function openAuth(mode: AuthMode) {
-  useAuth.setState({ modal: { mode, reason: '' }, pending: null });
+export function openAuth(mode: AuthMode, reason = '') {
+  useAuth.setState({ modal: { mode, reason }, pending: null });
 }
 
 export function closeAuth() {

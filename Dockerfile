@@ -10,6 +10,7 @@ WORKDIR /app
 ENV NODE_ENV=production PORT=3000
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
+COPY --from=build /app/dist-server ./dist-server
 COPY package.json server.js ./
 EXPOSE 3000
 USER node

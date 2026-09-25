@@ -1,17 +1,20 @@
 import { create } from 'zustand';
 import { requireAuth } from '../store/auth';
-import { useEditor } from '../store/editor';
+import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
 import { toast } from '../store/ui';
 import { parseDoc, serializeDoc } from './doc';
 import { exportImage, exportJson, type ExportKind } from './exporter';
-import { createProject, describeError, updateProject } from './projects';
+import { createProject, describeError, fetchProject, fetchUpdatedAt, updateProject, type ProjectRow } from './projects';
 
 type SaveState = { status: 'idle' | 'saving' | 'saved' | 'error'; savedAt: number | null; error: string | null };
 
 export const useSaveState = create<SaveState>()(() => ({ status: 'idle', savedAt: null, error: null }));
 
 let inflight: Promise<boolean> | null = null;
+
+/** Last cloud version of the open project we know of, to notice edits made elsewhere (another device, an AI tool). */
+let cloudVersion: { id: string; updatedAt: string } | null = null;
 
 /** Writes the current canvas to the signed-in user's projects (creates the row on first save). */
 export async function saveToCloud(): Promise<boolean> {
@@ -24,9 +27,14 @@ export async function saveToCloud(): Promise<boolean> {
     useSaveState.setState({ status: 'saving', error: null });
     try {
       let id = s.projectId;
-      if (id && !(await updateProject(id, title, doc))) id = null;
-      if (!id) id = await createProject(title, doc);
+      let updatedAt = id ? await updateProject(id, title, doc) : null;
+      if (!id || !updatedAt) {
+        const created = await createProject(title, doc);
+        id = created.id;
+        updatedAt = created.updated_at;
+      }
       useEditor.getState().markSaved(revision, id);
+      cloudVersion = { id, updatedAt };
       useSaveState.setState({ status: 'saved', savedAt: Date.now(), error: null });
       return true;
     } catch (err) {
@@ -41,6 +49,51 @@ export async function saveToCloud(): Promise<boolean> {
     return await run;
   } finally {
     inflight = null;
+  }
+}
+
+export function confirmDiscard(): boolean {
+  const s = useEditor.getState();
+  if (!s.nodes.length || !isDirty(s)) return true;
+  return window.confirm('Kaydedilmemiş değişikliklerin var. Bu akışı bırakıp devam edilsin mi?');
+}
+
+function showProject(row: ProjectRow) {
+  const doc = parseDoc(row.content);
+  if (!doc) throw new Error('Proje verisi okunamadı.');
+  useEditor.getState().loadDoc(doc, { title: row.title, projectId: row.id, dirty: false });
+  cloudVersion = { id: row.id, updatedAt: row.updated_at };
+}
+
+export async function openProject(id: string): Promise<void> {
+  showProject(await fetchProject(id));
+}
+
+/** Opens a ?p=<id> link, e.g. one handed out by an AI tool connected over MCP (only the owner can open it). */
+export function openProjectLink(id: string) {
+  requireAuth('Bu akışı açmak için giriş yap.', () => {
+    if (!confirmDiscard()) return;
+    openProject(id).catch((err: unknown) => toast(describeError(err), 'error'));
+  });
+}
+
+/** Reloads the open project when it changed in the cloud and nothing here is unsaved. */
+export async function refreshFromCloud() {
+  const s = useEditor.getState();
+  const id = s.projectId;
+  if (!id || isDirty(s) || inflight) return;
+  try {
+    const updatedAt = await fetchUpdatedAt(id);
+    const known = cloudVersion?.id === id;
+    if (!updatedAt || (known && cloudVersion?.updatedAt === updatedAt)) return;
+    const row = await fetchProject(id);
+    const now = useEditor.getState();
+    // The user may have opened something else or started editing while we were fetching.
+    if (now.projectId !== id || isDirty(now) || inflight) return;
+    showProject(row);
+    if (known) toast('Akış başka bir yerde değişti; son hali yüklendi.');
+  } catch {
+    // Offline or signed out: the next visit tries again.
   }
 }
 

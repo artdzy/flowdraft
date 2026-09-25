@@ -1,7 +1,7 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, isSsrBuild }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const config = {
     supabaseUrl: env.SUPABASE_URL ?? '',
@@ -23,6 +23,7 @@ export default defineConfig(({ mode }) => {
         },
       },
     ],
-    build: { target: 'es2022', chunkSizeWarningLimit: 900 },
+    // The SSR build is the MCP server module (server/mcp.ts); it needs no public/ files.
+    build: { target: 'es2022', chunkSizeWarningLimit: 900, copyPublicDir: !isSsrBuild },
   };
 });

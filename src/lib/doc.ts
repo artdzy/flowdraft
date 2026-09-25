@@ -1,12 +1,14 @@
 import { EDGE_DEFAULTS, HANDLE_IDS, NODE_DEFAULTS, NODE_KINDS } from '../flow/defaults';
-import { decorateEdge } from '../flow/edgeStyle';
 import type { FlowDoc, FlowEdge, FlowEdgeData, FlowNode, NodeKind } from '../flow/types';
 
-const MAX_NODES = 600;
-const MAX_EDGES = 1200;
-const MAX_TEXT = 2000;
+// Also imported by the MCP server (server/mcp.ts), so this module must stay free of browser-only code.
 
-const ENUMS: Record<string, readonly string[]> = {
+export const MAX_NODES = 600;
+export const MAX_EDGES = 1200;
+export const MAX_TEXT = 2000;
+
+/** Allowed values for enum-like data fields, keyed by field name. */
+export const ENUMS = {
   tone: ['default', 'accent', 'gate', 'muted'],
   kind: ['note', 'info', 'warning', 'danger', 'success'],
   variant: ['heading', 'label', 'body'],
@@ -15,7 +17,7 @@ const ENUMS: Record<string, readonly string[]> = {
   color: ['light', 'accent', 'muted', 'blue', 'green', 'amber'],
   path: ['smooth', 'bezier', 'straight'],
   arrow: ['end', 'both', 'none'],
-};
+} as const;
 
 const isObj = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 const num = (v: unknown, min: number, max: number): number | undefined =>
@@ -29,7 +31,7 @@ function cleanData<T extends Record<string, unknown>>(defaults: T, raw: unknown)
     const def = defaults[key];
     const val = raw[key];
     if (typeof def === 'string' && typeof val === 'string') {
-      const allowed = ENUMS[key];
+      const allowed = (ENUMS as Record<string, readonly string[]>)[key];
       if (!allowed) out[key] = val.slice(0, MAX_TEXT);
       else if (allowed.includes(val)) out[key] = val;
     } else if (typeof def === 'boolean' && typeof val === 'boolean') {
@@ -68,7 +70,7 @@ export function serializeDoc(nodes: FlowNode[], edges: FlowEdge[]): FlowDoc {
   };
 }
 
-/** Validates untrusted JSON (cloud rows, imports, drafts) into a safe document. */
+/** Validates untrusted JSON (cloud rows, imports, drafts) into a safe document. Edge markers are added by loadDoc. */
 export function parseDoc(raw: unknown): FlowDoc | null {
   if (!isObj(raw) || !Array.isArray(raw.nodes) || !Array.isArray(raw.edges)) return null;
   const ids = new Set<string>();
@@ -102,17 +104,15 @@ export function parseDoc(raw: unknown): FlowDoc | null {
     const sh = typeof r.sourceHandle === 'string' && handles.includes(r.sourceHandle) ? r.sourceHandle : null;
     const th = typeof r.targetHandle === 'string' && handles.includes(r.targetHandle) ? r.targetHandle : null;
     edgeIds.add(r.id);
-    edges.push(
-      decorateEdge({
-        id: r.id.slice(0, 64),
-        type: 'flow',
-        source: r.source,
-        target: r.target,
-        sourceHandle: sh,
-        targetHandle: th,
-        data: cleanData(EDGE_DEFAULTS as Record<string, unknown>, r.data) as FlowEdgeData,
-      }),
-    );
+    edges.push({
+      id: r.id.slice(0, 64),
+      type: 'flow',
+      source: r.source,
+      target: r.target,
+      sourceHandle: sh,
+      targetHandle: th,
+      data: cleanData(EDGE_DEFAULTS as Record<string, unknown>, r.data) as FlowEdgeData,
+    });
   }
   return { version: 1, nodes, edges };
 }
