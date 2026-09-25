@@ -1,0 +1,15 @@
+/* websiteniyapalım.com — footer rozeti v1 (standart). Kaynak: websiteniyapalim/docs/footer-rozet.html */
+.wsy-credit{box-sizing:border-box;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;width:100%;min-height:52px;padding:14px 20px;font:500 13px/1.4 "Plus Jakarta Sans",Inter,"Helvetica Neue",Arial,sans-serif;letter-spacing:-.01em;background:#FFFFFF;color:#6B6B6B;border-top:1px solid #E8E8E8}
+.wsy-credit *{box-sizing:border-box}
+.wsy-credit__copy{margin:0}
+.wsy-credit__link{display:inline-flex;align-items:center;gap:8px;min-height:32px;padding:0 4px;color:#111111;font-weight:700;text-decoration:none;white-space:nowrap;border-radius:999px;transition:opacity .2s}
+.wsy-credit__link:hover{opacity:.75}
+.wsy-credit__link:focus-visible{outline:2px solid #C8FF00;outline-offset:3px}
+.wsy-credit__dot{width:10px;height:10px;border-radius:50%;background:#C8FF00;box-shadow:0 0 0 3px #F1FFB3;flex:none}
+.wsy-credit__tld{display:inline-block;margin-left:1px;padding:1px 6px;border-radius:999px;background:#C8FF00;color:#111111;font-weight:800;font-style:normal}
+/* koyu zemin */
+.wsy-credit[data-theme="dark"]{background:#111111;color:#9A9A9A;border-top-color:rgba(255,255,255,.12)}
+.wsy-credit[data-theme="dark"] .wsy-credit__link{color:#FFFFFF}
+.wsy-credit[data-theme="dark"] .wsy-credit__dot{box-shadow:0 0 0 3px rgba(200,255,0,.25)}
+.wsy-credit[data-theme="dark"] .wsy-credit__tld{background:transparent;color:#C8FF00;padding:0;margin-left:0}
+@media (max-width:640px){.wsy-credit{flex-direction:column;align-items:flex-start;padding:16px 20px}}
