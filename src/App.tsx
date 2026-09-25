@@ -80,22 +80,32 @@ function useAutosave() {
 function useDraftMirror() {
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
+    const save = () => {
+      timer = undefined;
+      const cur = useEditor.getState();
+      saveDraft({
+        title: cur.title,
+        projectId: cur.projectId,
+        dirty: isDirty(cur),
+        doc: serializeDoc(cur.nodes, cur.edges),
+      });
+    };
     const unsubscribe = useEditor.subscribe((s, prev) => {
       if (s.nodes === prev.nodes && s.edges === prev.edges && s.title === prev.title && s.projectId === prev.projectId && s.savedRevision === prev.savedRevision) return;
       clearTimeout(timer);
-      timer = setTimeout(() => {
-        const cur = useEditor.getState();
-        saveDraft({
-          title: cur.title,
-          projectId: cur.projectId,
-          dirty: isDirty(cur),
-          doc: serializeDoc(cur.nodes, cur.edges),
-        });
-      }, 400);
+      timer = setTimeout(save, 400);
     });
+    // A reload (such as switching language) must not drop the last edits still waiting to be mirrored.
+    const flush = () => {
+      if (!timer) return;
+      clearTimeout(timer);
+      save();
+    };
+    window.addEventListener('pagehide', flush);
     return () => {
       clearTimeout(timer);
       unsubscribe();
+      window.removeEventListener('pagehide', flush);
     };
   }, []);
 }

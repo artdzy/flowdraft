@@ -1,6 +1,7 @@
 import { ArrowLeft, FolderOpen, Link2, PenLine, ShieldCheck, Workflow } from 'lucide-react';
 import { useEffect, type ReactNode } from 'react';
 import { Credit } from '../components/Credit';
+import { LangSwitch } from '../components/LangSwitch';
 import { CopyBlock, CopyField, mcpUrl } from '../components/Copy';
 import { Toasts } from '../components/Dialogs';
 import { Logo } from '../components/TopBar';
@@ -106,9 +107,12 @@ export function McpGuidePage() {
         <a href="/" className="fd-oauth-home" aria-label={t('flowdraft ana sayfa', 'flowdraft home')}>
           <Logo />
         </a>
-        <a href="/" className="fd-btn is-ghost">
-          <ArrowLeft size={16} /> {t('Uygulamayı aç', 'Open the app')}
-        </a>
+        <div className="fd-legal-end">
+          <LangSwitch />
+          <a href="/" className="fd-btn is-ghost">
+            <ArrowLeft size={16} /> {t('Uygulamayı aç', 'Open the app')}
+          </a>
+        </div>
       </header>
 
       <main className="fd-guide">

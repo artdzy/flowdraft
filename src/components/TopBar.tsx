@@ -23,7 +23,7 @@ import {
   UserX,
 } from 'lucide-react';
 import { useRef } from 'react';
-import { locale, t, UNTITLED } from '../i18n';
+import { lang, locale, setLang, t, UNTITLED, type Lang } from '../i18n';
 import { importFile, requestAutosave, requestExport, requestSave, useSaveState } from '../lib/actions';
 import { deleteAccount, openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
@@ -32,6 +32,7 @@ import { toast, useUi } from '../store/ui';
 import { THEME_LABEL, useTheme, type ThemePref } from '../store/theme';
 import { Credit } from './Credit';
 import { Segmented, Switch } from './fields';
+import { LANGS, LangSwitch } from './LangSwitch';
 import { Menu, MenuItem } from './Menu';
 
 export function Logo() {
@@ -117,6 +118,19 @@ function ThemeChoice() {
           const Icon = THEME_ICON[p];
           return { value: p, label: <span className="fd-seg-icon"><Icon size={14} /> {THEME_LABEL[p]}</span> };
         })}
+      />
+    </div>
+  );
+}
+
+function LangChoice() {
+  return (
+    <div className="fd-menu-row">
+      <Segmented<Lang>
+        label={t('Dil', 'Language')}
+        value={lang}
+        onChange={setLang}
+        options={LANGS.map((l) => ({ value: l.value, label: <span lang={l.value}>{l.name}</span> }))}
       />
     </div>
   );
@@ -266,6 +280,7 @@ export function TopBar({ mobile }: { mobile: boolean }) {
                 />
               </div>
               <ThemeChoice />
+              <LangChoice />
               <div className="fd-menu-sep" />
               {fileItems(close)}
               <div className="fd-menu-sep" />
@@ -328,6 +343,7 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       <Menu label={<><Download size={16} /> {t('Dışa aktar', 'Export')}</>} align="right">
         {exportItems}
       </Menu>
+      <LangSwitch />
       <ThemeButton />
       {user ? (
         <Menu

@@ -8,6 +8,8 @@ type UiState = {
   aiOpen: boolean;
   paletteSheet: boolean;
   inspectorSheet: boolean;
+  /** Node text field being edited in place on the canvas. */
+  editing: { id: string; field: string } | null;
   toasts: Toast[];
 };
 
@@ -17,6 +19,7 @@ export const useUi = create<UiState>()(() => ({
   aiOpen: false,
   paletteSheet: false,
   inspectorSheet: false,
+  editing: null,
   toasts: [],
 }));
 

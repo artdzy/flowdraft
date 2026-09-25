@@ -12,7 +12,7 @@ import {
 } from '@xyflow/react';
 import { useEffect, useRef, type DragEvent, type MouseEvent } from 'react';
 import { EDGE_TYPES } from '../flow/edges';
-import { NODE_TYPES } from '../flow/nodes';
+import { editText, NODE_TYPES } from '../flow/nodes';
 import { DND_MIME, PALETTE_BY_ID } from '../flow/palette';
 import type { FlowEdge, FlowNode } from '../flow/types';
 import { t } from '../i18n';
@@ -69,6 +69,32 @@ export function Canvas({ mobile }: { mobile: boolean }) {
     return () => cancelAnimationFrame(frame);
   }, [initialized, fitRequest, nodes.length, rf]);
 
+  // Enter edits the text of the one selected node, when focus is on the canvas rather than a field or button.
+  useEffect(() => {
+    if (mobile) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Enter' || e.defaultPrevented || e.isComposing || e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+      const target = e.target as HTMLElement;
+      if (target !== document.body && !target.classList.contains('react-flow__node')) return;
+      const { nodes, edges } = useEditor.getState();
+      const picked = nodes.filter((n) => n.selected);
+      if (picked.length !== 1 || edges.some((edge) => edge.selected)) return;
+      e.preventDefault();
+      editText(picked[0]);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mobile]);
+
+  const onNodeDoubleClick = (event: MouseEvent, node: FlowNode) => {
+    if (mobile) {
+      useUi.setState({ inspectorSheet: true, paletteSheet: false });
+      return;
+    }
+    const field = (event.target as HTMLElement).closest<HTMLElement>('[data-field]')?.dataset.field;
+    editText(node, field);
+  };
+
   // Lane bodies let pointer events through so the canvas stays pannable; a plain click on one selects it.
   const onPaneClick = (event: MouseEvent) => {
     const p = rf.screenToFlowPosition({ x: event.clientX, y: event.clientY });
@@ -112,7 +138,7 @@ export function Canvas({ mobile }: { mobile: boolean }) {
         }}
         onPaneClick={onPaneClick}
         selectionMode={SelectionMode.Partial}
-        onNodeDoubleClick={() => mobile && useUi.setState({ inspectorSheet: true, paletteSheet: false })}
+        onNodeDoubleClick={onNodeDoubleClick}
         onEdgeDoubleClick={() => mobile && useUi.setState({ inspectorSheet: true, paletteSheet: false })}
         connectionMode={ConnectionMode.Loose}
         connectionLineType={ConnectionLineType.SmoothStep}

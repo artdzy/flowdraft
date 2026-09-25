@@ -1,6 +1,7 @@
 import { ArrowLeft } from 'lucide-react';
 import { useEffect, type ReactElement } from 'react';
 import { Credit } from '../components/Credit';
+import { LangSwitch } from '../components/LangSwitch';
 import { lang, t } from '../i18n';
 
 export const LEGAL_VERSION = '2026-09-25';
@@ -453,17 +454,20 @@ export function LegalPage({ kind }: { kind: LegalKind }) {
         <a href="/" className="fd-btn is-ghost">
           <ArrowLeft size={16} /> {t('Uygulamaya dön', 'Back to the app')}
         </a>
-        <nav aria-label={t('Yasal metinler', 'Legal documents')} className="fd-legal-nav">
-          <a href={LEGAL_PATHS.terms} aria-current={kind === 'terms' ? 'page' : undefined}>
-            {t('Kullanım Şartları', 'Terms of Use')}
-          </a>
-          <a href={LEGAL_PATHS.privacy} aria-current={kind === 'privacy' ? 'page' : undefined}>
-            {t('Gizlilik', 'Privacy')}
-          </a>
-          <a href={LEGAL_PATHS.support} aria-current={kind === 'support' ? 'page' : undefined}>
-            {t('Destek', 'Support')}
-          </a>
-        </nav>
+        <div className="fd-legal-end">
+          <nav aria-label={t('Yasal metinler', 'Legal documents')} className="fd-legal-nav">
+            <a href={LEGAL_PATHS.terms} aria-current={kind === 'terms' ? 'page' : undefined}>
+              {t('Kullanım Şartları', 'Terms of Use')}
+            </a>
+            <a href={LEGAL_PATHS.privacy} aria-current={kind === 'privacy' ? 'page' : undefined}>
+              {t('Gizlilik', 'Privacy')}
+            </a>
+            <a href={LEGAL_PATHS.support} aria-current={kind === 'support' ? 'page' : undefined}>
+              {t('Destek', 'Support')}
+            </a>
+          </nav>
+          <LangSwitch />
+        </div>
       </header>
       <main className="fd-legal">
         <Body />
