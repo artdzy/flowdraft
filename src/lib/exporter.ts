@@ -1,6 +1,7 @@
 import { getNodesBounds } from '@xyflow/react';
 import { toPng, toSvg } from 'html-to-image';
 import type { FlowDoc, FlowNode } from '../flow/types';
+import { t } from '../i18n';
 import { nativeApp, postNative } from './platform';
 
 const PADDING = 48;
@@ -34,7 +35,7 @@ function download(href: string, filename: string) {
 
 export async function exportImage(kind: 'png' | 'svg', nodes: FlowNode[], title: string) {
   const viewport = document.querySelector<HTMLElement>('.react-flow__viewport');
-  if (!viewport || !nodes.length) throw new Error('Dışa aktarılacak bir şey yok.');
+  if (!viewport || !nodes.length) throw new Error(t('Dışa aktarılacak bir şey yok.', 'There’s nothing to export.'));
 
   const bounds = getNodesBounds(nodes);
   const rawW = bounds.width + PADDING * 2;

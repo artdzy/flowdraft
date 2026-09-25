@@ -1,4 +1,5 @@
 import type { FlowDoc } from '../flow/types';
+import { UNTITLED } from '../i18n';
 import { parseDoc } from './doc';
 
 const KEY = 'flowdraft:draft:v1';
@@ -15,7 +16,7 @@ export function loadDraft(): Draft | null {
     if (!doc) return null;
     return {
       doc,
-      title: typeof parsed.title === 'string' && parsed.title.trim() ? parsed.title.slice(0, 120) : 'Adsız akış',
+      title: typeof parsed.title === 'string' && parsed.title.trim() ? parsed.title.slice(0, 120) : UNTITLED,
       projectId: typeof parsed.projectId === 'string' ? parsed.projectId : null,
       dirty: parsed.dirty === true,
     };

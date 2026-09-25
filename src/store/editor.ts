@@ -11,6 +11,7 @@ import { create } from 'zustand';
 import { EDGE_DEFAULTS, NODE_DEFAULTS, NODE_SIZE } from '../flow/defaults';
 import { decorateEdge } from '../flow/edgeStyle';
 import type { FlowDoc, FlowEdge, FlowEdgeData, FlowNode, NodeDataMap, NodeKind } from '../flow/types';
+import { UNTITLED } from '../i18n';
 import { uid } from '../lib/doc';
 
 type Snapshot = { nodes: FlowNode[]; edges: FlowEdge[] };
@@ -63,7 +64,7 @@ function typingSnapshot(snapshot: () => void) {
 export const useEditor = create<EditorState>()((set, get) => ({
   nodes: [],
   edges: [],
-  title: 'Adsız akış',
+  title: UNTITLED,
   projectId: null,
   revision: 0,
   savedRevision: 0,

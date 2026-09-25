@@ -1,26 +1,29 @@
+import { t } from '../i18n';
 import { useTheme } from '../store/theme';
 
 const YEAR = new Date().getFullYear();
 
 /** websiteniyapalım.com standard footer badge, light or dark to match the app theme. */
 export function Credit() {
-  const theme = useTheme((t) => t.theme);
+  const theme = useTheme((s) => s.theme);
   return (
     <div className="wsy-credit" data-theme={theme}>
       <span className="wsy-credit__copy">
-        © {YEAR} flowdraft · Tüm hakları saklıdır. · <a href="/kullanim-sartlari">Kullanım Şartları</a> ·{' '}
-        <a href="/gizlilik">Gizlilik</a> · <a href="/destek">Destek</a> · <a href="/mcp">Yapay zekâ ile kullan</a>
+        © {YEAR} flowdraft · {t('Tüm hakları saklıdır.', 'All rights reserved.')} ·{' '}
+        <a href="/kullanim-sartlari">{t('Kullanım Şartları', 'Terms of Use')}</a> ·{' '}
+        <a href="/gizlilik">{t('Gizlilik', 'Privacy')}</a> · <a href="/destek">{t('Destek', 'Support')}</a> ·{' '}
+        <a href="/mcp">{t('Yapay zekâ ile kullan', 'Use with AI')}</a>
       </span>
       <a
         className="wsy-credit__link"
         href="https://websiteniyapalim.com/?utm_source=flowdraft&utm_medium=footer&utm_campaign=rozet"
         target="_blank"
         rel="noopener"
-        title="Bu site Web Siteni Yapalım tarafından hazırlandı"
+        title={t('Bu site Web Siteni Yapalım tarafından hazırlandı', 'This site was made by Web Siteni Yapalım')}
       >
         <span className="wsy-credit__dot" aria-hidden="true" />
         <span>
-          Tasarım: websiteniyapalım<b className="wsy-credit__tld">.com</b>
+          {t('Tasarım:', 'Design:')} websiteniyapalım<b className="wsy-credit__tld">.com</b>
         </span>
       </a>
     </div>

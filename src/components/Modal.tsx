@@ -1,5 +1,6 @@
 import { X } from 'lucide-react';
 import { useEffect, useRef, type ReactNode } from 'react';
+import { t } from '../i18n';
 
 const supportsClosedBy = typeof HTMLDialogElement !== 'undefined' && 'closedBy' in HTMLDialogElement.prototype;
 
@@ -48,7 +49,7 @@ export function Modal({ open, onClose, title, titleId, className, children }: Pr
     <dialog ref={ref} className={`fd-modal ${className ?? ''}`} aria-labelledby={titleId} {...{ closedby: 'any' }}>
       <div className="fd-modal-head">
         <h2 id={titleId}>{title}</h2>
-        <button type="button" className="fd-icon-btn" onClick={() => ref.current?.close()} aria-label="Kapat">
+        <button type="button" className="fd-icon-btn" onClick={() => ref.current?.close()} aria-label={t('Kapat', 'Close')}>
           <X size={18} />
         </button>
       </div>

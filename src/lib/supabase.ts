@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { t } from '../i18n';
 
 declare global {
   interface Window {
@@ -17,6 +18,6 @@ export const supabase: SupabaseClient | null = url && anonKey
   : null;
 
 export function requireClient(): SupabaseClient {
-  if (!supabase) throw new Error('Sunucu bağlantısı yapılandırılmamış.');
+  if (!supabase) throw new Error(t('Sunucu bağlantısı yapılandırılmamış.', 'The server connection isn’t set up.'));
   return supabase;
 }

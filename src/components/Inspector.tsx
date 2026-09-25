@@ -2,29 +2,30 @@ import { ArrowLeftRight, ArrowRight, Copy, Minus, Trash2 } from 'lucide-react';
 import { useShallow } from 'zustand/react/shallow';
 import { EDGE_DEFAULTS, EDGE_COLOR } from '../flow/defaults';
 import type { EdgeColor, FlowEdgeData, FlowNode, NoteKind, SimpleTone, TextVariant, Tone } from '../flow/types';
+import { locale, t } from '../i18n';
 import { useEditor } from '../store/editor';
 import { IconPicker, Segmented, Swatches, Switch, TextInput } from './fields';
 
 const SIMPLE_TONES: { value: SimpleTone; label: string }[] = [
-  { value: 'default', label: 'Normal' },
-  { value: 'accent', label: 'Vurgu' },
-  { value: 'muted', label: 'Soluk' },
+  { value: 'default', label: t('Normal', 'Normal') },
+  { value: 'accent', label: t('Vurgu', 'Accent') },
+  { value: 'muted', label: t('Soluk', 'Muted') },
 ];
 
 const CARD_TONES: { value: Tone; label: string; title: string }[] = [
-  { value: 'default', label: 'Normal', title: 'Normal' },
-  { value: 'accent', label: 'Vurgu', title: 'Kırmızı vurgu' },
-  { value: 'gate', label: 'Kapı', title: 'İnsan onayı: beyaz çerçeve' },
-  { value: 'muted', label: 'Soluk', title: 'Soluk' },
+  { value: 'default', label: t('Normal', 'Normal'), title: t('Normal', 'Normal') },
+  { value: 'accent', label: t('Vurgu', 'Accent'), title: t('Kırmızı vurgu', 'Red accent') },
+  { value: 'gate', label: t('Kapı', 'Gate'), title: t('İnsan onayı: beyaz çerçeve', 'Human approval: white border') },
+  { value: 'muted', label: t('Soluk', 'Muted'), title: t('Soluk', 'Muted') },
 ];
 
 const COLORS: { value: EdgeColor; title: string }[] = [
-  { value: 'light', title: 'Açık gri' },
-  { value: 'accent', title: 'Kırmızı' },
-  { value: 'muted', title: 'Koyu gri' },
-  { value: 'blue', title: 'Mavi' },
-  { value: 'green', title: 'Yeşil' },
-  { value: 'amber', title: 'Turuncu' },
+  { value: 'light', title: t('Açık gri', 'Light gray') },
+  { value: 'accent', title: t('Kırmızı', 'Red') },
+  { value: 'muted', title: t('Koyu gri', 'Dark gray') },
+  { value: 'blue', title: t('Mavi', 'Blue') },
+  { value: 'green', title: t('Yeşil', 'Green') },
+  { value: 'amber', title: t('Turuncu', 'Orange') },
 ];
 
 function LinePreview({ line }: { line: FlowEdgeData['line'] }) {
@@ -57,44 +58,44 @@ export function EdgeStyleFields({
   return (
     <>
       <Segmented
-        label="Çizgi"
+        label={t('Çizgi', 'Line')}
         value={value.line}
         onChange={(line) => onChange({ line })}
         options={[
-          { value: 'solid', label: <LinePreview line="solid" />, title: 'Düz çizgi' },
-          { value: 'dashed', label: <LinePreview line="dashed" />, title: 'Kesikli çizgi' },
-          { value: 'dotted', label: <LinePreview line="dotted" />, title: 'Noktalı çizgi' },
+          { value: 'solid', label: <LinePreview line="solid" />, title: t('Düz çizgi', 'Solid line') },
+          { value: 'dashed', label: <LinePreview line="dashed" />, title: t('Kesikli çizgi', 'Dashed line') },
+          { value: 'dotted', label: <LinePreview line="dotted" />, title: t('Noktalı çizgi', 'Dotted line') },
         ]}
       />
       <Swatches
-        label="Renk"
+        label={t('Renk', 'Color')}
         value={value.color}
         onChange={(color) => onChange({ color })}
         options={COLORS.map((c) => ({ ...c, color: EDGE_COLOR[c.value] }))}
       />
       <Segmented
-        label="Yol"
+        label={t('Yol', 'Path')}
         value={value.path}
         onChange={(path) => onChange({ path })}
         options={[
-          { value: 'smooth', label: 'Köşeli' },
-          { value: 'bezier', label: 'Eğri' },
-          { value: 'straight', label: 'Düz' },
+          { value: 'smooth', label: t('Köşeli', 'Stepped') },
+          { value: 'bezier', label: t('Eğri', 'Curved') },
+          { value: 'straight', label: t('Düz', 'Straight') },
         ]}
       />
       <Segmented
-        label="Ok"
+        label={t('Ok', 'Arrow')}
         value={value.arrow}
         onChange={(arrow) => onChange({ arrow })}
         options={[
-          { value: 'end', label: <ArrowRight size={15} />, title: 'Sonda ok' },
-          { value: 'both', label: <ArrowLeftRight size={15} />, title: 'İki uçta ok' },
-          { value: 'none', label: <Minus size={15} />, title: 'Oksuz' },
+          { value: 'end', label: <ArrowRight size={15} />, title: t('Sonda ok', 'Arrow at end') },
+          { value: 'both', label: <ArrowLeftRight size={15} />, title: t('İki uçta ok', 'Arrows at both ends') },
+          { value: 'none', label: <Minus size={15} />, title: t('Oksuz', 'No arrow') },
         ]}
       />
-      <Switch label="Akış animasyonu" checked={value.animated} onChange={(animated) => onChange({ animated })} />
+      <Switch label={t('Akış animasyonu', 'Flow animation')} checked={value.animated} onChange={(animated) => onChange({ animated })} />
       {withLabel && (
-        <TextInput label="Etiket" value={value.label} placeholder="ör. evet, tetik" onChange={(label) => onChange({ label })} />
+        <TextInput label={t('Etiket', 'Label')} value={value.label} placeholder={t('ör. evet, tetik', 'e.g. yes, trigger')} onChange={(label) => onChange({ label })} />
       )}
     </>
   );
@@ -109,12 +110,12 @@ function NodeFields({ node }: { node: FlowNode }) {
       const d = node.data;
       return (
         <>
-          <TextInput label="Başlık" value={d.title} onChange={(title) => set({ title })} />
-          <TextInput label="Alt yazı" value={d.subtitle} onChange={(subtitle) => set({ subtitle })} />
-          <TextInput label="Etiket" value={d.tag} placeholder="ör. BOT, SEN, API" onChange={(tag) => set({ tag: tag.toLocaleUpperCase('tr') })} />
+          <TextInput label={t('Başlık', 'Title')} value={d.title} onChange={(title) => set({ title })} />
+          <TextInput label={t('Alt yazı', 'Subtitle')} value={d.subtitle} onChange={(subtitle) => set({ subtitle })} />
+          <TextInput label={t('Etiket', 'Tag')} value={d.tag} placeholder={t('ör. BOT, SEN, API', 'e.g. BOT, YOU, API')} onChange={(tag) => set({ tag: tag.toLocaleUpperCase(locale) })} />
           <IconPicker value={d.icon} onChange={(icon) => set({ icon })} />
-          <Segmented label="Görünüm" value={d.tone} options={CARD_TONES} onChange={(tone) => set({ tone })} />
-          <Switch label="Başlığı vurgula" checked={d.highlight} onChange={(highlight) => set({ highlight })} />
+          <Segmented label={t('Görünüm', 'Style')} value={d.tone} options={CARD_TONES} onChange={(tone) => set({ tone })} />
+          <Switch label={t('Başlığı vurgula', 'Highlight title')} checked={d.highlight} onChange={(highlight) => set({ highlight })} />
         </>
       );
     }
@@ -122,10 +123,10 @@ function NodeFields({ node }: { node: FlowNode }) {
       const d = node.data;
       return (
         <>
-          <TextInput label="Kulvar adı" value={d.label} onChange={(label) => set({ label: label.toLocaleUpperCase('tr') })} />
+          <TextInput label={t('Kulvar adı', 'Lane name')} value={d.label} onChange={(label) => set({ label: label.toLocaleUpperCase(locale) })} />
           <IconPicker value={d.icon} onChange={(icon) => set({ icon })} />
-          <Segmented label="Renk" value={d.tone} options={SIMPLE_TONES} onChange={(tone) => set({ tone })} />
-          <Switch label="Kesikli çerçeve (otomatik bölge)" checked={d.dashed} onChange={(dashed) => set({ dashed })} />
+          <Segmented label={t('Renk', 'Color')} value={d.tone} options={SIMPLE_TONES} onChange={(tone) => set({ tone })} />
+          <Switch label={t('Kesikli çerçeve (otomatik bölge)', 'Dashed border (automation zone)')} checked={d.dashed} onChange={(dashed) => set({ dashed })} />
         </>
       );
     }
@@ -134,19 +135,19 @@ function NodeFields({ node }: { node: FlowNode }) {
       return (
         <>
           <Segmented<NoteKind>
-            label="Tür"
+            label={t('Tür', 'Type')}
             value={d.kind}
             onChange={(kind) => set({ kind })}
             options={[
-              { value: 'note', label: 'Not' },
-              { value: 'info', label: 'Bilgi' },
-              { value: 'warning', label: 'Uyarı' },
-              { value: 'danger', label: 'Hata' },
-              { value: 'success', label: 'Tamam' },
+              { value: 'note', label: t('Not', 'Note') },
+              { value: 'info', label: t('Bilgi', 'Info') },
+              { value: 'warning', label: t('Uyarı', 'Warning') },
+              { value: 'danger', label: t('Hata', 'Error') },
+              { value: 'success', label: t('Tamam', 'OK') },
             ]}
           />
-          <TextInput label="Başlık" value={d.title} onChange={(title) => set({ title })} />
-          <TextInput label="Metin" value={d.text} multiline onChange={(text) => set({ text })} />
+          <TextInput label={t('Başlık', 'Title')} value={d.title} onChange={(title) => set({ title })} />
+          <TextInput label={t('Metin', 'Text')} value={d.text} multiline onChange={(text) => set({ text })} />
         </>
       );
     }
@@ -155,8 +156,8 @@ function NodeFields({ node }: { node: FlowNode }) {
       const d = node.data;
       return (
         <>
-          <TextInput label={node.type === 'decision' ? 'Soru' : 'Metin'} value={d.title} onChange={(title) => set({ title })} />
-          <Segmented label="Renk" value={d.tone} options={SIMPLE_TONES} onChange={(tone) => set({ tone })} />
+          <TextInput label={node.type === 'decision' ? t('Soru', 'Question') : t('Metin', 'Text')} value={d.title} onChange={(title) => set({ title })} />
+          <Segmented label={t('Renk', 'Color')} value={d.tone} options={SIMPLE_TONES} onChange={(tone) => set({ tone })} />
         </>
       );
     }
@@ -164,18 +165,18 @@ function NodeFields({ node }: { node: FlowNode }) {
       const d = node.data;
       return (
         <>
-          <TextInput label="Metin" value={d.text} multiline onChange={(text) => set({ text })} />
+          <TextInput label={t('Metin', 'Text')} value={d.text} multiline onChange={(text) => set({ text })} />
           <Segmented<TextVariant>
-            label="Stil"
+            label={t('Stil', 'Style')}
             value={d.variant}
             onChange={(variant) => set({ variant })}
             options={[
-              { value: 'heading', label: 'Başlık' },
-              { value: 'label', label: 'Etiket' },
-              { value: 'body', label: 'Metin' },
+              { value: 'heading', label: t('Başlık', 'Heading') },
+              { value: 'label', label: t('Etiket', 'Label') },
+              { value: 'body', label: t('Metin', 'Body') },
             ]}
           />
-          <Segmented label="Renk" value={d.tone} options={SIMPLE_TONES} onChange={(tone) => set({ tone })} />
+          <Segmented label={t('Renk', 'Color')} value={d.tone} options={SIMPLE_TONES} onChange={(tone) => set({ tone })} />
         </>
       );
     }
@@ -183,9 +184,9 @@ function NodeFields({ node }: { node: FlowNode }) {
       const d = node.data;
       return (
         <>
-          <TextInput label="Metin" value={d.text} onChange={(text) => set({ text })} />
+          <TextInput label={t('Metin', 'Text')} value={d.text} onChange={(text) => set({ text })} />
           <IconPicker value={d.icon} onChange={(icon) => set({ icon })} />
-          <Segmented label="Renk" value={d.tone} options={SIMPLE_TONES} onChange={(tone) => set({ tone })} />
+          <Segmented label={t('Renk', 'Color')} value={d.tone} options={SIMPLE_TONES} onChange={(tone) => set({ tone })} />
         </>
       );
     }
@@ -193,18 +194,18 @@ function NodeFields({ node }: { node: FlowNode }) {
       const d = node.data;
       return (
         <>
-          <TextInput label="Konuşan" value={d.speaker} onChange={(speaker) => set({ speaker: speaker.toLocaleUpperCase('tr') })} />
-          <TextInput label="Mesaj" value={d.text} multiline onChange={(text) => set({ text })} />
+          <TextInput label={t('Konuşan', 'Speaker')} value={d.speaker} onChange={(speaker) => set({ speaker: speaker.toLocaleUpperCase(locale) })} />
+          <TextInput label={t('Mesaj', 'Message')} value={d.text} multiline onChange={(text) => set({ text })} />
           <Segmented
-            label="Yön"
+            label={t('Yön', 'Side')}
             value={d.side}
             onChange={(side) => set({ side })}
             options={[
-              { value: 'left', label: 'Sol' },
-              { value: 'right', label: 'Sağ' },
+              { value: 'left', label: t('Sol', 'Left') },
+              { value: 'right', label: t('Sağ', 'Right') },
             ]}
           />
-          <Segmented label="Renk" value={d.tone} options={SIMPLE_TONES} onChange={(tone) => set({ tone })} />
+          <Segmented label={t('Renk', 'Color')} value={d.tone} options={SIMPLE_TONES} onChange={(tone) => set({ tone })} />
         </>
       );
     }
@@ -212,14 +213,14 @@ function NodeFields({ node }: { node: FlowNode }) {
 }
 
 const KIND_LABEL: Record<FlowNode['type'], string> = {
-  card: 'Adım',
-  lane: 'Kulvar',
-  note: 'Not / uyarı',
-  decision: 'Karar',
-  terminal: 'Başla / bitir',
-  text: 'Yazı',
-  chip: 'Çip',
-  bubble: 'Mesaj',
+  card: t('Adım', 'Step'),
+  lane: t('Kulvar', 'Lane'),
+  note: t('Not / uyarı', 'Note / alert'),
+  decision: t('Karar', 'Decision'),
+  terminal: t('Başla / bitir', 'Start / end'),
+  text: t('Yazı', 'Text'),
+  chip: t('Çip', 'Chip'),
+  bubble: t('Mesaj', 'Message'),
 };
 
 function SelectionActions() {
@@ -230,11 +231,11 @@ function SelectionActions() {
     <div className="fd-inspector-actions">
       {hasNodes && (
         <button type="button" className="fd-btn" onClick={duplicate}>
-          <Copy size={15} /> Çoğalt
+          <Copy size={15} /> {t('Çoğalt', 'Duplicate')}
         </button>
       )}
       <button type="button" className="fd-btn is-danger" onClick={remove}>
-        <Trash2 size={15} /> Sil
+        <Trash2 size={15} /> {t('Sil', 'Delete')}
       </button>
     </div>
   );
@@ -262,7 +263,7 @@ export function Inspector() {
     const value = { ...EDGE_DEFAULTS, ...edges[0].data };
     return (
       <div className="fd-inspector">
-        <h2 className="fd-inspector-title">{edges.length > 1 ? `${edges.length} bağlantı` : 'Bağlantı'}</h2>
+        <h2 className="fd-inspector-title">{edges.length > 1 ? t(`${edges.length} bağlantı`, `${edges.length} connections`) : t('Bağlantı', 'Connection')}</h2>
         <EdgeStyleFields
           value={value}
           withLabel={edges.length === 1}
@@ -276,8 +277,8 @@ export function Inspector() {
   if (nodes.length + edges.length > 1) {
     return (
       <div className="fd-inspector">
-        <h2 className="fd-inspector-title">{nodes.length + edges.length} öğe seçili</h2>
-        <p className="fd-inspector-hint">Birlikte taşıyabilir, çoğaltabilir ya da silebilirsin.</p>
+        <h2 className="fd-inspector-title">{t(`${nodes.length + edges.length} öğe seçili`, `${nodes.length + edges.length} items selected`)}</h2>
+        <p className="fd-inspector-hint">{t('Birlikte taşıyabilir, çoğaltabilir ya da silebilirsin.', 'You can move, duplicate or delete them together.')}</p>
         <SelectionActions />
       </div>
     );
@@ -285,22 +286,22 @@ export function Inspector() {
 
   return (
     <div className="fd-inspector">
-      <h2 className="fd-inspector-title">Yeni bağlantı stili</h2>
-      <p className="fd-inspector-hint">Bundan sonra çizeceğin oklar bu stille başlar.</p>
+      <h2 className="fd-inspector-title">{t('Yeni bağlantı stili', 'New connection style')}</h2>
+      <p className="fd-inspector-hint">{t('Bundan sonra çizeceğin oklar bu stille başlar.', 'Arrows you draw from now on start with this style.')}</p>
       <EdgeStyleFields value={edgeDraft} withLabel={false} onChange={setEdgeDraft} />
       <div className="fd-shortcuts">
-        <h3>Kısayollar</h3>
+        <h3>{t('Kısayollar', 'Shortcuts')}</h3>
         <dl>
-          <dt>Sil</dt>
+          <dt>{t('Sil', 'Delete')}</dt>
           <dd>Delete / ⌫</dd>
-          <dt>Geri al / ileri</dt>
+          <dt>{t('Geri al / ileri', 'Undo / redo')}</dt>
           <dd>⌘Z / ⇧⌘Z</dd>
-          <dt>Çoğalt</dt>
+          <dt>{t('Çoğalt', 'Duplicate')}</dt>
           <dd>⌘D</dd>
-          <dt>Kaydet</dt>
+          <dt>{t('Kaydet', 'Save')}</dt>
           <dd>⌘S</dd>
-          <dt>Çoklu seçim</dt>
-          <dd>⇧ + sürükle</dd>
+          <dt>{t('Çoklu seçim', 'Multi-select')}</dt>
+          <dd>{t('⇧ + sürükle', '⇧ + drag')}</dd>
         </dl>
       </div>
     </div>

@@ -23,6 +23,7 @@ import {
   UserX,
 } from 'lucide-react';
 import { useRef } from 'react';
+import { locale, t, UNTITLED } from '../i18n';
 import { importFile, requestAutosave, requestExport, requestSave, useSaveState } from '../lib/actions';
 import { deleteAccount, openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
@@ -54,18 +55,18 @@ function SaveStatus() {
   const dirty = useEditor(isDirty);
   const projectId = useEditor((s) => s.projectId);
 
-  let text = 'Bu cihazda taslak';
+  let text = t('Bu cihazda taslak', 'Draft on this device');
   let icon = <CloudOff size={14} aria-hidden />;
   if (user) {
     if (status === 'saving') {
-      text = 'Kaydediliyor…';
+      text = t('Kaydediliyor…', 'Saving…');
       icon = <LoaderCircle size={14} className="fd-spin" aria-hidden />;
     } else if (status === 'error') {
-      text = 'Kaydedilemedi';
+      text = t('Kaydedilemedi', 'Couldn’t save');
     } else if (dirty || !projectId) {
-      text = autosave ? 'Birazdan kaydedilecek' : 'Kaydedilmedi';
+      text = autosave ? t('Birazdan kaydedilecek', 'Saving soon') : t('Kaydedilmedi', 'Not saved');
     } else {
-      text = 'Kaydedildi';
+      text = t('Kaydedildi', 'Saved');
       icon = <Cloud size={14} aria-hidden />;
     }
   }
@@ -81,16 +82,19 @@ const THEME_ORDER: ThemePref[] = ['system', 'light', 'dark'];
 const THEME_ICON: Record<ThemePref, typeof Sun> = { system: Monitor, light: Sun, dark: Moon };
 
 function ThemeButton() {
-  const pref = useTheme((t) => t.pref);
-  const setPref = useTheme((t) => t.setPref);
+  const pref = useTheme((s) => s.pref);
+  const setPref = useTheme((s) => s.setPref);
   const Icon = THEME_ICON[pref];
   const next = THEME_ORDER[(THEME_ORDER.indexOf(pref) + 1) % THEME_ORDER.length];
   return (
     <button
       type="button"
       className="fd-icon-btn"
-      aria-label={`Tema: ${THEME_LABEL[pref]}. ${THEME_LABEL[next]} temaya geç`}
-      title={`Tema: ${THEME_LABEL[pref]}`}
+      aria-label={t(
+        `Tema: ${THEME_LABEL[pref]}. ${THEME_LABEL[next]} temaya geç`,
+        `Theme: ${THEME_LABEL[pref]}. Switch to ${THEME_LABEL[next].toLowerCase()} theme`,
+      )}
+      title={t(`Tema: ${THEME_LABEL[pref]}`, `Theme: ${THEME_LABEL[pref]}`)}
       onClick={() => setPref(next)}
     >
       <Icon size={17} />
@@ -99,12 +103,12 @@ function ThemeButton() {
 }
 
 function ThemeChoice() {
-  const pref = useTheme((t) => t.pref);
-  const setPref = useTheme((t) => t.setPref);
+  const pref = useTheme((s) => s.pref);
+  const setPref = useTheme((s) => s.setPref);
   return (
     <div className="fd-menu-row">
       <Segmented<ThemePref>
-        label="Tema"
+        label={t('Tema', 'Theme')}
         value={pref}
         onChange={setPref}
         options={THEME_ORDER.map((p) => {
@@ -120,24 +124,32 @@ function clearCanvas() {
   const { nodes, edges, clearCanvas: clear } = useEditor.getState();
   if (!nodes.length && !edges.length) return;
   clear();
-  toast('Tuval temizlendi. Geri almak için ⌘Z / Ctrl+Z');
+  toast(t('Tuval temizlendi. Geri almak için ⌘Z / Ctrl+Z', 'Canvas cleared. Press ⌘Z / Ctrl+Z to undo'));
 }
 
 async function confirmDeleteAccount() {
   const ok = window.confirm(
-    'Hesabın ve kayıtlı tüm projelerin kalıcı olarak silinsin mi? Bu işlem geri alınamaz. Tuvaldeki çizim bu cihazda kalır.',
+    t(
+      'Hesabın ve kayıtlı tüm projelerin kalıcı olarak silinsin mi? Bu işlem geri alınamaz. Tuvaldeki çizim bu cihazda kalır.',
+      'Permanently delete your account and all your saved projects? This can’t be undone. The drawing on your canvas stays on this device.',
+    ),
   );
   if (!ok) return;
   try {
     await deleteAccount();
-    toast('Hesabın silindi');
+    toast(t('Hesabın silindi', 'Your account was deleted'));
   } catch {
-    toast('Hesap silinemedi. Biraz sonra tekrar dene.', 'error');
+    toast(
+      t('Hesap silinemedi. Biraz sonra tekrar dene.', 'Couldn’t delete your account. Try again in a little while.'),
+      'error',
+    );
   }
 }
 
 function openProjects() {
-  requireAuth('Projelerini görmek için giriş yap.', () => useUi.setState({ projectsOpen: true }));
+  requireAuth(t('Projelerini görmek için giriş yap.', 'Sign in to see your projects.'), () =>
+    useUi.setState({ projectsOpen: true }),
+  );
 }
 
 export function TopBar({ mobile }: { mobile: boolean }) {
@@ -156,10 +168,10 @@ export function TopBar({ mobile }: { mobile: boolean }) {
     <input
       className="fd-title"
       value={title}
-      aria-label="Akış adı"
+      aria-label={t('Akış adı', 'Flow name')}
       maxLength={120}
       onChange={(e) => setTitle(e.target.value)}
-      onBlur={(e) => !e.target.value.trim() && setTitle('Adsız akış')}
+      onBlur={(e) => !e.target.value.trim() && setTitle(UNTITLED)}
     />
   );
 
@@ -180,19 +192,19 @@ export function TopBar({ mobile }: { mobile: boolean }) {
   const fileItems = (close: () => void) => (
     <>
       <MenuItem icon={<FilePlus2 size={16} />} onSelect={() => (close(), useUi.setState({ newOpen: true }))}>
-        Yeni akış
+        {t('Yeni akış', 'New flow')}
       </MenuItem>
       <MenuItem icon={<FolderOpen size={16} />} onSelect={() => (close(), openProjects())}>
-        Projelerim
+        {t('Projelerim', 'My projects')}
       </MenuItem>
       <MenuItem icon={<Upload size={16} />} onSelect={() => (close(), fileInput.current?.click())}>
-        JSON içe aktar
+        {t('JSON içe aktar', 'Import JSON')}
       </MenuItem>
       <MenuItem icon={<Bot size={16} />} onSelect={() => (close(), useUi.setState({ aiOpen: true }))}>
-        AI araçlarına bağla
+        {t('AI araçlarına bağla', 'Connect AI tools')}
       </MenuItem>
       <MenuItem icon={<Eraser size={16} />} onSelect={() => (close(), clearCanvas())} danger>
-        Tuvali temizle
+        {t('Tuvali temizle', 'Clear canvas')}
       </MenuItem>
     </>
   );
@@ -200,13 +212,13 @@ export function TopBar({ mobile }: { mobile: boolean }) {
   const exportItems = (close: () => void) => (
     <>
       <MenuItem icon={<Download size={16} />} onSelect={() => (close(), requestExport('png'))}>
-        PNG görsel
+        {t('PNG görsel', 'PNG image')}
       </MenuItem>
       <MenuItem icon={<Download size={16} />} onSelect={() => (close(), requestExport('svg'))}>
-        SVG vektör
+        {t('SVG vektör', 'SVG vector')}
       </MenuItem>
       <MenuItem icon={<FileJson size={16} />} onSelect={() => (close(), requestExport('json'))}>
-        JSON (düzenlenebilir)
+        {t('JSON (düzenlenebilir)', 'JSON (editable)')}
       </MenuItem>
     </>
   );
@@ -216,19 +228,19 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       <>
         <div className="fd-menu-caption">{user.email}</div>
         <MenuItem icon={<LogOut size={16} />} onSelect={() => (close(), void signOut())}>
-          Çıkış yap
+          {t('Çıkış yap', 'Sign out')}
         </MenuItem>
         <MenuItem icon={<UserX size={16} />} onSelect={() => (close(), void confirmDeleteAccount())} danger>
-          Hesabı sil
+          {t('Hesabı sil', 'Delete account')}
         </MenuItem>
       </>
     ) : (
       <>
         <MenuItem icon={<LogIn size={16} />} onSelect={() => (close(), openAuth('login'))}>
-          Giriş yap
+          {t('Giriş yap', 'Sign in')}
         </MenuItem>
         <MenuItem icon={<UserRound size={16} />} onSelect={() => (close(), openAuth('register'))}>
-          Kayıt ol
+          {t('Kayıt ol', 'Sign up')}
         </MenuItem>
       </>
     );
@@ -238,20 +250,24 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       <header className="fd-topbar is-mobile">
         <Logo />
         {titleInput}
-        <button type="button" className="fd-icon-btn" aria-label="Kaydet" onClick={requestSave} disabled={saving}>
+        <button type="button" className="fd-icon-btn" aria-label={t('Kaydet', 'Save')} onClick={requestSave} disabled={saving}>
           {saving ? <LoaderCircle size={18} className="fd-spin" /> : <Save size={18} />}
         </button>
-        <Menu label={<MenuIcon size={18} />} ariaLabel="Menü" buttonClassName="fd-icon-btn" align="right">
+        <Menu label={<MenuIcon size={18} />} ariaLabel={t('Menü', 'Menu')} buttonClassName="fd-icon-btn" align="right">
           {(close) => (
             <>
               <div className="fd-menu-row">
-                <Switch label="Otomatik kaydet" checked={autosave && !!user} onChange={(on) => (close(), requestAutosave(on))} />
+                <Switch
+                  label={t('Otomatik kaydet', 'Auto-save')}
+                  checked={autosave && !!user}
+                  onChange={(on) => (close(), requestAutosave(on))}
+                />
               </div>
               <ThemeChoice />
               <div className="fd-menu-sep" />
               {fileItems(close)}
               <div className="fd-menu-sep" />
-              <div className="fd-menu-caption">Dışa aktar</div>
+              <div className="fd-menu-caption">{t('Dışa aktar', 'Export')}</div>
               {exportItems(close)}
               <div className="fd-menu-sep" />
               {accountItems(close)}
@@ -269,32 +285,52 @@ export function TopBar({ mobile }: { mobile: boolean }) {
   return (
     <header className="fd-topbar">
       <Logo />
-      <Menu label={<>Dosya <ChevronDown size={14} /></>} buttonClassName="fd-btn is-ghost">
+      <Menu label={<>{t('Dosya', 'File')} <ChevronDown size={14} /></>} buttonClassName="fd-btn is-ghost">
         {fileItems}
       </Menu>
       {titleInput}
       <div className="fd-topbar-spacer" />
       <div className="fd-topbar-group">
-        <button type="button" className="fd-icon-btn" aria-label="Geri al" title="Geri al (⌘Z)" onClick={undo} disabled={!canUndo}>
+        <button
+          type="button"
+          className="fd-icon-btn"
+          aria-label={t('Geri al', 'Undo')}
+          title={t('Geri al (⌘Z)', 'Undo (⌘Z)')}
+          onClick={undo}
+          disabled={!canUndo}
+        >
           <Undo2 size={17} />
         </button>
-        <button type="button" className="fd-icon-btn" aria-label="İleri al" title="İleri al (⇧⌘Z)" onClick={redo} disabled={!canRedo}>
+        <button
+          type="button"
+          className="fd-icon-btn"
+          aria-label={t('İleri al', 'Redo')}
+          title={t('İleri al (⇧⌘Z)', 'Redo (⇧⌘Z)')}
+          onClick={redo}
+          disabled={!canRedo}
+        >
           <Redo2 size={17} />
         </button>
       </div>
       <SaveStatus />
-      <Switch label="Otomatik kaydet" checked={autosave && !!user} onChange={requestAutosave} />
-      <button type="button" className="fd-btn is-primary" onClick={requestSave} disabled={saving} title="Kaydet (⌘S)">
-        {saving ? <LoaderCircle size={16} className="fd-spin" /> : <Save size={16} />} Kaydet
+      <Switch label={t('Otomatik kaydet', 'Auto-save')} checked={autosave && !!user} onChange={requestAutosave} />
+      <button
+        type="button"
+        className="fd-btn is-primary"
+        onClick={requestSave}
+        disabled={saving}
+        title={t('Kaydet (⌘S)', 'Save (⌘S)')}
+      >
+        {saving ? <LoaderCircle size={16} className="fd-spin" /> : <Save size={16} />} {t('Kaydet', 'Save')}
       </button>
-      <Menu label={<><Download size={16} /> Dışa aktar</>} align="right">
+      <Menu label={<><Download size={16} /> {t('Dışa aktar', 'Export')}</>} align="right">
         {exportItems}
       </Menu>
       <ThemeButton />
       {user ? (
         <Menu
-          label={<span className="fd-avatar">{(user.email ?? '?').slice(0, 1).toLocaleUpperCase('tr')}</span>}
-          ariaLabel="Hesap"
+          label={<span className="fd-avatar">{(user.email ?? '?').slice(0, 1).toLocaleUpperCase(locale)}</span>}
+          ariaLabel={t('Hesap', 'Account')}
           buttonClassName="fd-icon-btn"
           align="right"
         >
@@ -302,7 +338,7 @@ export function TopBar({ mobile }: { mobile: boolean }) {
         </Menu>
       ) : (
         <button type="button" className="fd-btn" onClick={() => openAuth('login')}>
-          <LogIn size={16} /> Giriş yap
+          <LogIn size={16} /> {t('Giriş yap', 'Sign in')}
         </button>
       )}
       {hiddenImport}

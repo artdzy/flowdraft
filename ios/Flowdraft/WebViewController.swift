@@ -71,7 +71,7 @@ final class WebViewController: UIViewController {
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             try data.write(to: file, options: .atomic)
         } catch {
-            showMessage("Dosya hazırlanamadı. Tekrar dene.")
+            showMessage(String(localized: "The file could not be prepared. Try again."))
             return
         }
         let sheet = UIActivityViewController(activityItems: [file], applicationActivities: nil)
@@ -88,7 +88,7 @@ final class WebViewController: UIViewController {
     private func showMessage(_ message: String) {
         guard presentedViewController == nil else { return }
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Tamam", style: .default))
+        alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default))
         present(alert, animated: true)
     }
 
@@ -110,7 +110,7 @@ extension WebViewController: WKScriptMessageHandler {
             guard let filename = body["filename"] as? String, let dataURL = body["dataUrl"] as? String,
                   let data = Self.decode(dataURL: dataURL)
             else {
-                showMessage("Dışa aktarılamadı.")
+                showMessage(String(localized: "Export failed."))
                 return
             }
             share(data, filename: filename)
@@ -164,7 +164,7 @@ extension WebViewController: WKUIDelegate {
     ) {
         guard presentedViewController == nil else { return completionHandler() }
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Tamam", style: .default) { _ in completionHandler() })
+        alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default) { _ in completionHandler() })
         present(alert, animated: true)
     }
 
@@ -176,8 +176,8 @@ extension WebViewController: WKUIDelegate {
     ) {
         guard presentedViewController == nil else { return completionHandler(false) }
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Vazgeç", style: .cancel) { _ in completionHandler(false) })
-        alert.addAction(UIAlertAction(title: "Tamam", style: .default) { _ in completionHandler(true) })
+        alert.addAction(UIAlertAction(title: String(localized: "Cancel"), style: .cancel) { _ in completionHandler(false) })
+        alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default) { _ in completionHandler(true) })
         present(alert, animated: true)
     }
 
@@ -191,8 +191,8 @@ extension WebViewController: WKUIDelegate {
         guard presentedViewController == nil else { return completionHandler(nil) }
         let alert = UIAlertController(title: nil, message: prompt, preferredStyle: .alert)
         alert.addTextField { $0.text = defaultText }
-        alert.addAction(UIAlertAction(title: "Vazgeç", style: .cancel) { _ in completionHandler(nil) })
-        alert.addAction(UIAlertAction(title: "Tamam", style: .default) { _ in completionHandler(alert.textFields?.first?.text) })
+        alert.addAction(UIAlertAction(title: String(localized: "Cancel"), style: .cancel) { _ in completionHandler(nil) })
+        alert.addAction(UIAlertAction(title: String(localized: "OK"), style: .default) { _ in completionHandler(alert.textFields?.first?.text) })
         present(alert, animated: true)
     }
 }

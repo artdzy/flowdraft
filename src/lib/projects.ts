@@ -1,4 +1,5 @@
 import type { FlowDoc } from '../flow/types';
+import { t } from '../i18n';
 import { requireClient } from './supabase';
 
 export type ProjectSummary = { id: string; title: string; updated_at: string };
@@ -61,10 +62,20 @@ export async function deleteProject(id: string): Promise<void> {
 export function describeError(err: unknown): string {
   const e = err as { message?: string; code?: string } | null;
   const msg = e?.message ?? '';
-  if (e?.code === 'PGRST116' || e?.code === '22P02') return 'Akış bulunamadı. Silinmiş ya da başka bir hesaba ait olabilir.';
-  if (msg.includes('projects_content_size')) return 'Akış çok büyük (en fazla 512 KB).';
-  if (msg.includes('projects_no_images')) return 'Görsel içeren akışlar kaydedilemez.';
-  if (msg.includes('project quota')) return 'Proje sınırına ulaştın (200). Birkaç eski projeyi sil.';
-  if (msg.includes('Failed to fetch') || msg.includes('NetworkError')) return 'Bağlantı yok. İnternetini kontrol et.';
-  return msg || 'Bir şeyler ters gitti.';
+  if (e?.code === 'PGRST116' || e?.code === '22P02')
+    return t(
+      'Akış bulunamadı. Silinmiş ya da başka bir hesaba ait olabilir.',
+      'Flow not found. It may have been deleted or belong to another account.',
+    );
+  if (msg.includes('projects_content_size'))
+    return t('Akış çok büyük (en fazla 512 KB).', 'This flow is too large (512 KB max).');
+  if (msg.includes('projects_no_images')) return t('Görsel içeren akışlar kaydedilemez.', 'Flows with images can’t be saved.');
+  if (msg.includes('project quota'))
+    return t(
+      'Proje sınırına ulaştın (200). Birkaç eski projeyi sil.',
+      'You’ve hit the project limit (200). Delete a few old projects.',
+    );
+  if (msg.includes('Failed to fetch') || msg.includes('NetworkError'))
+    return t('Bağlantı yok. İnternetini kontrol et.', 'No connection. Check your internet connection.');
+  return msg || t('Bir şeyler ters gitti.', 'Something went wrong.');
 }

@@ -3,7 +3,8 @@ options:
   bundleIdPrefix: tech.flowdraft
   deploymentTarget:
     iOS: "18.0"
-  developmentLanguage: tr
+  # English for every language except Turkish, like the web app (src/i18n.ts).
+  developmentLanguage: en
   createIntermediateGroups: true
 
 settings:
@@ -44,7 +45,7 @@ targets:
         INFOPLIST_KEY_CFBundleDisplayName: flowdraft
         INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
         INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
-        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: Dışa aktardığın akış görselini Fotoğraflar'a kaydetmek için.
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: To save the diagram image you export to Photos.
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_UILaunchScreen_BackgroundColor: LaunchBackground
         INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES

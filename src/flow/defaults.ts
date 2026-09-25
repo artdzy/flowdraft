@@ -1,16 +1,17 @@
+import { t } from '../i18n';
 import type { EdgeColor, FlowEdgeData, NodeDataMap, NodeKind } from './types';
 
 export const NODE_KINDS: NodeKind[] = ['card', 'lane', 'note', 'decision', 'terminal', 'text', 'chip', 'bubble'];
 
 export const NODE_DEFAULTS: { [K in NodeKind]: NodeDataMap[K] } = {
-  card: { tag: 'ADIM', title: 'Yeni adım', subtitle: 'kısa açıklama', icon: 'Zap', tone: 'default', highlight: false },
-  lane: { label: 'KULVAR', icon: 'Rows3', dashed: false, tone: 'default' },
-  note: { kind: 'note', title: 'Not', text: 'Buraya bir not yaz.' },
-  decision: { title: 'Uygun mu?', tone: 'default' },
-  terminal: { title: 'Başla', tone: 'default' },
-  text: { text: 'Başlık', variant: 'heading', tone: 'default' },
-  chip: { text: 'etiket', icon: 'Tag', tone: 'default' },
-  bubble: { speaker: 'KİŞİ', text: 'Merhaba!', side: 'left', tone: 'default' },
+  card: { tag: t('ADIM', 'STEP'), title: t('Yeni adım', 'New step'), subtitle: t('kısa açıklama', 'short description'), icon: 'Zap', tone: 'default', highlight: false },
+  lane: { label: t('KULVAR', 'LANE'), icon: 'Rows3', dashed: false, tone: 'default' },
+  note: { kind: 'note', title: t('Not', 'Note'), text: t('Buraya bir not yaz.', 'Write a note here.') },
+  decision: { title: t('Uygun mu?', 'Is it OK?'), tone: 'default' },
+  terminal: { title: t('Başla', 'Start'), tone: 'default' },
+  text: { text: t('Başlık', 'Heading'), variant: 'heading', tone: 'default' },
+  chip: { text: t('etiket', 'tag'), icon: 'Tag', tone: 'default' },
+  bubble: { speaker: t('KİŞİ', 'PERSON'), text: t('Merhaba!', 'Hello!'), side: 'left', tone: 'default' },
 };
 
 /** Initial box size per kind; kinds without an entry size to their content. */

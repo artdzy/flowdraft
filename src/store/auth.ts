@@ -1,5 +1,6 @@
 import type { User } from '@supabase/supabase-js';
 import { create } from 'zustand';
+import { t } from '../i18n';
 import { supabase } from '../lib/supabase';
 import { useEditor } from './editor';
 import { useSettings } from './settings';
@@ -63,7 +64,7 @@ export async function signOut() {
 
 /** Permanently deletes the signed-in account and its saved projects (see supabase/migrations/0002_delete_account.sql). */
 export async function deleteAccount() {
-  if (!supabase) throw new Error('Sunucu bağlantısı yapılandırılmamış.');
+  if (!supabase) throw new Error(t('Sunucu bağlantısı yapılandırılmamış.', 'The server connection isn’t set up.'));
   const { error } = await supabase.rpc('delete_account');
   if (error) throw error;
   // The user no longer exists on the server, so only the local session is left to clear.

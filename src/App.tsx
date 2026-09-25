@@ -9,6 +9,7 @@ import { Inspector } from './components/Inspector';
 import { MobileBar } from './components/MobileBar';
 import { Palette } from './components/Palette';
 import { TopBar } from './components/TopBar';
+import { t, UNTITLED } from './i18n';
 import { openProjectLink, refreshFromCloud, requestSave, saveToCloud } from './lib/actions';
 import { saveDraft } from './lib/draft';
 import { serializeDoc } from './lib/doc';
@@ -129,7 +130,7 @@ function useCloudRefresh() {
 
 /** Browser tab shows the open diagram, with a dot while there are unsaved cloud changes. */
 function useDocumentTitle() {
-  const title = useEditor((s) => s.title.trim() || 'Adsız akış');
+  const title = useEditor((s) => s.title.trim() || UNTITLED);
   const unsaved = useEditor((s) => isDirty(s) && !!s.projectId);
   useEffect(() => {
     document.title = `${unsaved ? '● ' : ''}${title} · flowdraft`;
@@ -151,13 +152,13 @@ export default function App() {
         <TopBar mobile={mobile} />
         <main className="fd-main">
           {!mobile && (
-            <aside className="fd-sidebar" aria-label="Parçalar">
+            <aside className="fd-sidebar" aria-label={t('Parçalar', 'Parts')}>
               <Palette />
             </aside>
           )}
           <Canvas mobile={mobile} />
           {!mobile && (
-            <aside className="fd-sidebar is-right" aria-label="Özellikler">
+            <aside className="fd-sidebar is-right" aria-label={t('Özellikler', 'Properties')}>
               <Inspector />
             </aside>
           )}

@@ -1,6 +1,7 @@
 import type { DragEvent } from 'react';
 import { getIcon } from '../flow/icons';
 import { DND_MIME, PALETTE, type PaletteItem } from '../flow/palette';
+import { t } from '../i18n';
 import { useAddNode } from './useAddNode';
 
 export function Palette({ onAdded }: { onAdded?: () => void }) {
@@ -30,7 +31,7 @@ export function Palette({ onAdded }: { onAdded?: () => void }) {
                     add(item);
                     onAdded?.();
                   }}
-                  title="Tuvale sürükle ya da tıkla"
+                  title={t('Tuvale sürükle ya da tıkla', 'Drag onto the canvas or click')}
                 >
                   <span className="fd-palette-icon">{Icon && <Icon size={16} strokeWidth={1.75} aria-hidden />}</span>
                   <span>{item.label}</span>
@@ -41,7 +42,10 @@ export function Palette({ onAdded }: { onAdded?: () => void }) {
         </section>
       ))}
       <p className="fd-palette-tip">
-        Kutuların kenarındaki noktalardan sürükleyerek bağla. Çizgiye tıklayıp stilini değiştir.
+        {t(
+          'Kutuların kenarındaki noktalardan sürükleyerek bağla. Çizgiye tıklayıp stilini değiştir.',
+          'Drag from the dots on a box’s edge to connect it. Click a line to change its style.',
+        )}
       </p>
     </div>
   );

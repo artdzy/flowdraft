@@ -1,0 +1,5 @@
+/* Native alerts; the web app picks its language the same way (Turkish devices get Turkish). */
+"OK" = "Tamam";
+"Cancel" = "Vazgeç";
+"The file could not be prepared. Try again." = "Dosya hazırlanamadı. Tekrar dene.";
+"Export failed." = "Dışa aktarılamadı.";

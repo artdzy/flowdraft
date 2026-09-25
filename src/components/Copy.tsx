@@ -1,5 +1,6 @@
 import { Check, Copy } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { t } from '../i18n';
 import { nativeApp, postNative, siteOrigin } from '../lib/platform';
 import { toast } from '../store/ui';
 
@@ -19,7 +20,7 @@ function useCopy(text: string) {
       else await navigator.clipboard.writeText(text);
       setCopied(true);
     } catch {
-      toast('Kopyalanamadı; seçip elle kopyala.', 'error');
+      toast(t('Kopyalanamadı; seçip elle kopyala.', 'Couldn’t copy; select it and copy it yourself.'), 'error');
     }
   };
   return { copied, copy };
@@ -31,7 +32,7 @@ export function CopyField({ value, labelId }: { value: string; labelId: string }
     <div className="fd-copy">
       <input readOnly value={value} aria-labelledby={labelId} onFocus={(e) => e.target.select()} />
       <button type="button" className="fd-btn" onClick={() => void copy()}>
-        {copied ? <Check size={15} /> : <Copy size={15} />} {copied ? 'Kopyalandı' : 'Kopyala'}
+        {copied ? <Check size={15} /> : <Copy size={15} />} {copied ? t('Kopyalandı', 'Copied') : t('Kopyala', 'Copy')}
       </button>
     </div>
   );
@@ -45,7 +46,13 @@ export function CopyBlock({ text, label }: { text: string; label: string }) {
       <pre>
         <code>{text}</code>
       </pre>
-      <button type="button" className="fd-icon-btn" onClick={() => void copy()} aria-label={`${label} kopyala`} title="Kopyala">
+      <button
+        type="button"
+        className="fd-icon-btn"
+        onClick={() => void copy()}
+        aria-label={t(`${label} kopyala`, `Copy ${label}`)}
+        title={t('Kopyala', 'Copy')}
+      >
         {copied ? <Check size={15} /> : <Copy size={15} />}
       </button>
     </div>

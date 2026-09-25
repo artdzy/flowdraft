@@ -1,5 +1,6 @@
 import { FilePlus2, LoaderCircle, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { locale, t, UNTITLED } from '../i18n';
 import { confirmDiscard, openProject } from '../lib/actions';
 import { parseDoc } from '../lib/doc';
 import { deleteProject, describeError, listProjects, type ProjectSummary } from '../lib/projects';
@@ -11,9 +12,9 @@ import { Modal } from './Modal';
 
 export function startTemplate(id: TemplateId): boolean {
   if (!confirmDiscard()) return false;
-  const t = TEMPLATES.find((x) => x.id === id)!;
-  useEditor.getState().loadDoc(parseDoc(t.build())!, {
-    title: id === 'blank' ? 'Adsız akış' : `${t.title} akışı`,
+  const tpl = TEMPLATES.find((x) => x.id === id)!;
+  useEditor.getState().loadDoc(parseDoc(tpl.build())!, {
+    title: id === 'blank' ? UNTITLED : t(`${tpl.title} akışı`, `${tpl.title} flow`),
     projectId: null,
     dirty: false,
   });
@@ -23,20 +24,20 @@ export function startTemplate(id: TemplateId): boolean {
 export function TemplateGrid({ onPicked, includeBlank = true }: { onPicked?: () => void; includeBlank?: boolean }) {
   return (
     <div className="fd-templates">
-      {TEMPLATES.filter((t) => includeBlank || t.id !== 'blank').map((t) => {
-        const Icon = getIcon(t.icon);
+      {TEMPLATES.filter((tpl) => includeBlank || tpl.id !== 'blank').map((tpl) => {
+        const Icon = getIcon(tpl.icon);
         return (
           <button
-            key={t.id}
+            key={tpl.id}
             type="button"
             className="fd-template"
             onClick={() => {
-              if (startTemplate(t.id)) onPicked?.();
+              if (startTemplate(tpl.id)) onPicked?.();
             }}
           >
             <span className="fd-template-icon">{Icon && <Icon size={18} strokeWidth={1.75} aria-hidden />}</span>
-            <span className="fd-template-title">{t.title}</span>
-            <span className="fd-template-desc">{t.description}</span>
+            <span className="fd-template-title">{tpl.title}</span>
+            <span className="fd-template-desc">{tpl.description}</span>
           </button>
         );
       })}
@@ -48,13 +49,13 @@ export function NewDialog() {
   const open = useUi((s) => s.newOpen);
   const close = () => useUi.setState({ newOpen: false });
   return (
-    <Modal open={open} onClose={close} title="Yeni akış" titleId="fd-new-title">
+    <Modal open={open} onClose={close} title={t('Yeni akış', 'New flow')} titleId="fd-new-title">
       <TemplateGrid onPicked={close} />
     </Modal>
   );
 }
 
-const dateFmt = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+const dateFmt = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 
 function ProjectList({ onDone }: { onDone: () => void }) {
   const [items, setItems] = useState<ProjectSummary[] | null>(null);
@@ -82,13 +83,13 @@ function ProjectList({ onDone }: { onDone: () => void }) {
   };
 
   const remove = async (p: ProjectSummary) => {
-    if (!window.confirm(`“${p.title}” kalıcı olarak silinsin mi?`)) return;
+    if (!window.confirm(t(`“${p.title}” kalıcı olarak silinsin mi?`, `Delete “${p.title}” permanently?`))) return;
     setBusyId(p.id);
     try {
       await deleteProject(p.id);
       setItems((list) => list?.filter((x) => x.id !== p.id) ?? null);
       if (p.id === useEditor.getState().projectId) useEditor.setState({ projectId: null, savedRevision: -1 });
-      toast('Proje silindi');
+      toast(t('Proje silindi', 'Project deleted'));
     } catch (err) {
       toast(describeError(err), 'error');
     } finally {
@@ -100,10 +101,18 @@ function ProjectList({ onDone }: { onDone: () => void }) {
   if (!items)
     return (
       <p className="fd-muted fd-loading">
-        <LoaderCircle size={16} className="fd-spin" /> Yükleniyor…
+        <LoaderCircle size={16} className="fd-spin" /> {t('Yükleniyor…', 'Loading…')}
       </p>
     );
-  if (!items.length) return <p className="fd-muted">Henüz kayıtlı projen yok. Çiz, sonra “Kaydet”e bas.</p>;
+  if (!items.length)
+    return (
+      <p className="fd-muted">
+        {t(
+          'Henüz kayıtlı projen yok. Çiz, sonra “Kaydet”e bas.',
+          'You don’t have any saved projects yet. Draw something, then hit “Save”.',
+        )}
+      </p>
+    );
 
   return (
     <ul className="fd-projects">
@@ -116,7 +125,7 @@ function ProjectList({ onDone }: { onDone: () => void }) {
           <button
             type="button"
             className="fd-icon-btn"
-            aria-label={`${p.title} projesini sil`}
+            aria-label={t(`${p.title} projesini sil`, `Delete ${p.title}`)}
             onClick={() => void remove(p)}
             disabled={busyId === p.id}
           >
@@ -132,18 +141,20 @@ export function ProjectsDialog() {
   const open = useUi((s) => s.projectsOpen);
   const close = () => useUi.setState({ projectsOpen: false });
   return (
-    <Modal open={open} onClose={close} title="Projelerim" titleId="fd-projects-title">
+    <Modal open={open} onClose={close} title={t('Projelerim', 'My projects')} titleId="fd-projects-title">
       <button
         type="button"
         className="fd-btn is-block"
         onClick={() => useUi.setState({ projectsOpen: false, newOpen: true })}
       >
-        <FilePlus2 size={16} /> Yeni akış
+        <FilePlus2 size={16} /> {t('Yeni akış', 'New flow')}
       </button>
       <ProjectList onDone={close} />
       <p className="fd-muted fd-small">
-        flowdraft ücretsizdir ve garanti verilmez; sunucudaki projeler silinebilir. Önemli akışlarını Dışa aktar → JSON ile
-        yedekle.
+        {t(
+          'flowdraft ücretsizdir ve garanti verilmez; sunucudaki projeler silinebilir. Önemli akışlarını Dışa aktar → JSON ile yedekle.',
+          'flowdraft is free and comes with no warranty; projects on the server may be deleted. Back up important flows with Export → JSON.',
+        )}
       </p>
     </Modal>
   );
@@ -153,9 +164,9 @@ export function Toasts() {
   const toasts = useUi((s) => s.toasts);
   return (
     <div className="fd-toasts" aria-live="polite">
-      {toasts.map((t) => (
-        <div key={t.id} className={`fd-toast tone-${t.tone}`} role={t.tone === 'error' ? 'alert' : 'status'}>
-          {t.text}
+      {toasts.map((item) => (
+        <div key={item.id} className={`fd-toast tone-${item.tone}`} role={item.tone === 'error' ? 'alert' : 'status'}>
+          {item.text}
         </div>
       ))}
     </div>

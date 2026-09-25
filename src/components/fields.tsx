@@ -1,6 +1,7 @@
 import { ChevronDown, Search } from 'lucide-react';
 import { useId, useMemo, useState, type ReactNode } from 'react';
 import { getIcon, ICON_OPTIONS } from '../flow/icons';
+import { locale, t } from '../i18n';
 
 export function Field({ label, children }: { label: string; children: (id: string) => ReactNode }) {
   const id = useId();
@@ -117,16 +118,16 @@ export function IconPicker({ value, onChange }: { value: string; onChange: (v: s
   const [query, setQuery] = useState('');
   const Current = getIcon(value);
   const results = useMemo(() => {
-    const q = query.trim().toLocaleLowerCase('tr');
+    const q = query.trim().toLocaleLowerCase(locale);
     return q ? ICON_OPTIONS.filter((o) => o.keywords.includes(q)) : ICON_OPTIONS;
   }, [query]);
 
   return (
     <div className="fd-field">
-      <span className="fd-field-label">İkon</span>
+      <span className="fd-field-label">{t('İkon', 'Icon')}</span>
       <button type="button" className="fd-icon-select" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-        {Current ? <Current size={16} /> : <span className="fd-muted">Yok</span>}
-        <span>{value || 'İkon yok'}</span>
+        {Current ? <Current size={16} /> : <span className="fd-muted">{t('Yok', 'None')}</span>}
+        <span>{value || t('İkon yok', 'No icon')}</span>
         <ChevronDown size={14} />
       </button>
       {open && (
@@ -135,8 +136,8 @@ export function IconPicker({ value, onChange }: { value: string; onChange: (v: s
             <Search size={14} aria-hidden />
             <input
               type="search"
-              placeholder="İkon ara (ör. onay, kargo)"
-              aria-label="İkon ara"
+              placeholder={t('İkon ara (ör. onay, kargo)', 'Search icons (e.g. check, truck)')}
+              aria-label={t('İkon ara', 'Search icons')}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
@@ -145,8 +146,8 @@ export function IconPicker({ value, onChange }: { value: string; onChange: (v: s
             <button
               type="button"
               className={!value ? 'is-on' : ''}
-              title="İkon yok"
-              aria-label="İkon yok"
+              title={t('İkon yok', 'No icon')}
+              aria-label={t('İkon yok', 'No icon')}
               onClick={() => {
                 onChange('');
                 setOpen(false);

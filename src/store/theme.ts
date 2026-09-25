@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { t } from '../i18n';
 
 export type ThemePref = 'system' | 'light' | 'dark';
 export type Theme = 'light' | 'dark';
@@ -56,4 +57,8 @@ export function initTheme() {
   });
 }
 
-export const THEME_LABEL: Record<ThemePref, string> = { system: 'Sistem', light: 'Açık', dark: 'Koyu' };
+export const THEME_LABEL: Record<ThemePref, string> = {
+  system: t('Sistem', 'System'),
+  light: t('Açık', 'Light'),
+  dark: t('Koyu', 'Dark'),
+};

@@ -1,9 +1,11 @@
 import { ArrowLeft } from 'lucide-react';
 import { useEffect, type ReactElement } from 'react';
 import { Credit } from '../components/Credit';
+import { lang, t } from '../i18n';
 
 export const LEGAL_VERSION = '2026-09-25';
 const UPDATED = '25 Eylül 2026';
+const UPDATED_EN = 'September 25, 2026';
 const CONTACT_URL = 'https://websiteniyapalim.com/?utm_source=flowdraft&utm_medium=legal';
 
 export type LegalKind = 'terms' | 'privacy' | 'support';
@@ -15,12 +17,12 @@ export const LEGAL_PATHS: Record<LegalKind, string> = {
 };
 
 const TITLE: Record<LegalKind, string> = {
-  terms: 'Kullanım Şartları',
-  privacy: 'Gizlilik Politikası',
-  support: 'Destek',
+  terms: t('Kullanım Şartları', 'Terms of Use'),
+  privacy: t('Gizlilik Politikası', 'Privacy Policy'),
+  support: t('Destek', 'Support'),
 };
 
-function Terms() {
+function TermsTr() {
   return (
     <>
       <h1>Kullanım Şartları</h1>
@@ -101,7 +103,7 @@ function Terms() {
   );
 }
 
-function Privacy() {
+function PrivacyTr() {
   return (
     <>
       <h1>Gizlilik Politikası</h1>
@@ -181,7 +183,7 @@ function Privacy() {
   );
 }
 
-function Support() {
+function SupportTr() {
   return (
     <>
       <h1>Destek</h1>
@@ -225,7 +227,219 @@ function Support() {
   );
 }
 
-const BODY: Record<LegalKind, () => ReactElement> = { terms: Terms, privacy: Privacy, support: Support };
+function TermsEn() {
+  return (
+    <>
+      <h1>Terms of Use</h1>
+      <p className="fd-legal-meta">Last updated: {UPDATED_EN}</p>
+
+      <div className="fd-legal-callout" role="note">
+        <strong>In short:</strong> flowdraft is a free app and comes with <strong>no warranty of any kind</strong>. The
+        database may be deleted on any day, without prior notice. Your account and projects may be lost. Be sure to{' '}
+        <strong>export your important work as JSON or PNG and back it up on your own device</strong>.
+      </div>
+
+      <h2>1. The service</h2>
+      <p>
+        flowdraft (flowdraft.tech) is a free flowchart editor that runs in your browser. The service is provided “as is”
+        and “as available”. It is an experimental product; its features may change at any time.
+      </p>
+
+      <h2>2. No warranty</h2>
+      <p>
+        No warranty of any kind, express or implied, is given that the service will be uninterrupted, error-free, secure or
+        fit for a particular purpose. The integrity, availability and retention of stored data are not guaranteed.
+      </p>
+
+      <h2>3. Data loss and deletion</h2>
+      <ul>
+        <li>The database may be partially or completely deleted or reset without prior notice, for maintenance, migration, cost or any other reason.</li>
+        <li>If that happens, your account, your projects and all of your content may be lost with no way to recover them.</li>
+        <li>You are responsible for backing up your work. Export (PNG, SVG, JSON) is provided for this purpose.</li>
+      </ul>
+
+      <h2>4. Changes to the service or its discontinuation</h2>
+      <p>
+        flowdraft may be changed, restricted, suspended or shut down completely at any time, for any reason and without
+        notice.
+      </p>
+
+      <h2>5. Your responsibilities</h2>
+      <ul>
+        <li>You agree not to create content that is unlawful, harmful, infringes the rights of others or is misleading.</li>
+        <li>You must not put sensitive personal data such as passwords, ID numbers, card details or health information into your diagrams.</li>
+        <li>You are responsible for the security of your account and for keeping your password confidential.</li>
+        <li>Images and files cannot be uploaded to the app; attempts to abuse the system may lead to your account being closed.</li>
+      </ul>
+
+      <h2>6. Limitation of liability</h2>
+      <p>
+        To the maximum extent permitted by applicable law, no liability is accepted for any direct or indirect damage
+        arising from the use of or inability to use the service, from data loss, or from interruptions or errors.
+      </p>
+
+      <h2>7. Ownership of content</h2>
+      <p>
+        You own the diagrams you create. We store them only to provide the service to you (saving and displaying them).
+      </p>
+
+      <h2>8. Deleting your account</h2>
+      <p>
+        You can delete your projects and your account from within the app at any time (account menu → Delete account); all
+        projects saved to your account are permanently deleted along with it. Accounts that violate these terms of use may
+        be closed without notice.
+      </p>
+
+      <h2>9. Changes</h2>
+      <p>
+        These terms may be updated. The current version is always published on this page. If you keep using the app after
+        a change, it means you accept the updated terms.
+      </p>
+
+      <h2>10. Governing law and contact</h2>
+      <p>
+        These terms are governed by the laws of the Republic of Türkiye. For questions:{' '}
+        <a href={CONTACT_URL} target="_blank" rel="noopener">
+          websiteniyapalım.com
+        </a>
+        .
+      </p>
+    </>
+  );
+}
+
+function PrivacyEn() {
+  return (
+    <>
+      <h1>Privacy Policy</h1>
+      <p className="fd-legal-meta">Last updated: {UPDATED_EN}</p>
+
+      <div className="fd-legal-callout" role="note">
+        <strong>In short:</strong> We keep only the minimum information needed to open your account and save your projects.
+        We don't use ads, tracking cookies or third-party analytics tools. Your data is not sold. However, flowdraft is free
+        and the database may be deleted at any time; see the <a href={LEGAL_PATHS.terms}>Terms of Use</a>.
+      </div>
+
+      <h2>1. Information we collect</h2>
+      <ul>
+        <li><strong>Account information:</strong> your email address and password. Your password is not stored in plain text; it is stored as a one-way hash.</li>
+        <li><strong>Your projects:</strong> the diagram title and content (boxes, text, connections). Images and files cannot be uploaded.</li>
+        <li><strong>Consent record:</strong> the date on which you accepted these documents when signing up, and the version of the documents.</li>
+        <li><strong>Technical logs:</strong> for security and debugging, servers may keep standard access logs such as IP address, date and browser information.</li>
+      </ul>
+
+      <h2>2. Using the app without signing in</h2>
+      <p>
+        What you draw without signing in is not sent to the server; it is stored only in your own browser's local storage
+        (localStorage). If you clear your browser data, this draft is deleted.
+      </p>
+
+      <h2>3. Cookies and local storage</h2>
+      <p>
+        We don't use advertising or tracking cookies. Only the following is stored in your browser: your session (so you
+        stay signed in), your draft drawing and your autosave preference.
+      </p>
+
+      <h2>4. What we use your information for</h2>
+      <ul>
+        <li>To create your account and recognize you (signing in and out).</li>
+        <li>To save your projects and show them to you again.</li>
+        <li>To keep the service secure and prevent abuse.</li>
+      </ul>
+      <p>Your information is not sold, rented or shared for marketing purposes.</p>
+
+      <h2>5. Where it is stored and who it is shared with</h2>
+      <p>
+        Your data is stored on flowdraft's own server, in a Supabase database that we set up and run ourselves. The server
+        runs on the infrastructure of a hosting provider. Your data is not shared with third parties unless there is a legal
+        obligation to do so.
+      </p>
+      <p>
+        If you choose to connect an AI tool (e.g. ChatGPT, Claude) to your flowdraft account, that tool can read, create,
+        change and delete your projects on your behalf. Data sent to these tools is subject to their own privacy policies.
+        You can remove the connection at any time in the app under File → Connect AI tools.
+      </p>
+
+      <h2>6. How long we keep it</h2>
+      <p>
+        Your data is kept for as long as your account stays open. When you delete your account from within the app (account
+        menu → Delete account), your email address and your saved projects are deleted immediately and permanently. Also,
+        flowdraft is a free service: the database may be deleted without prior notice, in which case your data may be
+        permanently lost.
+      </p>
+
+      <h2>7. Security</h2>
+      <p>
+        Connections are encrypted with HTTPS, and each user can access only their own projects. Although reasonable
+        measures are taken, no system is completely secure; security is not guaranteed.
+      </p>
+
+      <h2>8. Your rights (KVKK)</h2>
+      <p>
+        Under Türkiye's Law No. 6698 on the Protection of Personal Data (KVKK), you can contact us to find out whether
+        your data is being processed, request information, ask for your data to be corrected or deleted, and exercise your
+        other legal rights:{' '}
+        <a href={CONTACT_URL} target="_blank" rel="noopener">
+          websiteniyapalım.com
+        </a>
+        .
+      </p>
+
+      <h2>9. Changes</h2>
+      <p>This policy may be updated. The current version is always published on this page.</p>
+    </>
+  );
+}
+
+function SupportEn() {
+  return (
+    <>
+      <h1>Support</h1>
+      <p className="fd-legal-meta">flowdraft on the web (flowdraft.tech) and the iPad app</p>
+
+      <h2>How do I get started?</h2>
+      <p>
+        Open the app; pick a template on the empty canvas, or drag parts from the left panel onto the canvas. To connect boxes,
+        drag one of the dots on a box's edges onto another box. Tap a box or a line to change its text, color and style in
+        the panel on the right. You don't need an account; your drawing is saved automatically on this device.
+      </p>
+
+      <h2>How do I save and share?</h2>
+      <ul>
+        <li>Export → PNG, SVG or JSON. On iPad, the share sheet opens: Save to Files, AirDrop or another app.</li>
+        <li>File → Import JSON reopens a flow you exported earlier.</li>
+        <li>With a free account, tap “Save” to save the flow to the cloud; open it from File → My projects.</li>
+      </ul>
+
+      <h2>How do I delete my account?</h2>
+      <p>
+        After signing in, tap the account button in the top right → Delete account → confirm. Your account and all your
+        saved projects are deleted immediately and permanently. The draft drawing on your device is not deleted.
+      </p>
+
+      <h2>How do I use it with AI tools?</h2>
+      <p>
+        Add the address shown under File → Connect AI tools to the connector settings of an AI tool that supports MCP.
+        Step-by-step guide: <a href="/mcp">flowdraft.tech/mcp</a>. You can remove the connection from the same place at any
+        time.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        For questions, bug reports and suggestions, write to us through the contact options on{' '}
+        <a href={CONTACT_URL} target="_blank" rel="noopener">
+          websiteniyapalım.com
+        </a>
+        . We usually reply within a few business days.
+      </p>
+    </>
+  );
+}
+
+const BODY: Record<LegalKind, () => ReactElement> =
+  lang === 'tr'
+    ? { terms: TermsTr, privacy: PrivacyTr, support: SupportTr }
+    : { terms: TermsEn, privacy: PrivacyEn, support: SupportEn };
 
 export function LegalPage({ kind }: { kind: LegalKind }) {
   useEffect(() => {
@@ -237,17 +451,17 @@ export function LegalPage({ kind }: { kind: LegalKind }) {
     <div className="fd-legal-page">
       <header className="fd-legal-head">
         <a href="/" className="fd-btn is-ghost">
-          <ArrowLeft size={16} /> Uygulamaya dön
+          <ArrowLeft size={16} /> {t('Uygulamaya dön', 'Back to the app')}
         </a>
-        <nav aria-label="Yasal metinler" className="fd-legal-nav">
+        <nav aria-label={t('Yasal metinler', 'Legal documents')} className="fd-legal-nav">
           <a href={LEGAL_PATHS.terms} aria-current={kind === 'terms' ? 'page' : undefined}>
-            Kullanım Şartları
+            {t('Kullanım Şartları', 'Terms of Use')}
           </a>
           <a href={LEGAL_PATHS.privacy} aria-current={kind === 'privacy' ? 'page' : undefined}>
-            Gizlilik
+            {t('Gizlilik', 'Privacy')}
           </a>
           <a href={LEGAL_PATHS.support} aria-current={kind === 'support' ? 'page' : undefined}>
-            Destek
+            {t('Destek', 'Support')}
           </a>
         </nav>
       </header>

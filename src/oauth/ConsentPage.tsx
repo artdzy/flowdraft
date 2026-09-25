@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { AuthModal } from '../components/AuthModal';
 import { Credit } from '../components/Credit';
 import { Logo } from '../components/TopBar';
+import { lang, t } from '../i18n';
 import { supabase } from '../lib/supabase';
 import { openAuth, signOut, useAuth } from '../store/auth';
 
@@ -21,7 +22,10 @@ type View =
   | { kind: 'redirecting' };
 
 const authorizationId = new URLSearchParams(window.location.search).get('authorization_id');
-const SIGN_IN_REASON = 'Bir AI aracı flowdraft hesabına bağlanmak istiyor. Devam etmek için giriş yap.';
+const SIGN_IN_REASON = t(
+  'Bir AI aracı flowdraft hesabına bağlanmak istiyor. Devam etmek için giriş yap.',
+  'An AI tool wants to connect to your flowdraft account. Sign in to continue.',
+);
 
 function hostOf(url: string) {
   try {
@@ -33,15 +37,20 @@ function hostOf(url: string) {
 
 function describe(message: string) {
   const m = message.toLowerCase();
-  if (m.includes('expired') || m.includes('not found')) return 'Bu bağlantı isteğinin süresi dolmuş. AI aracından yeniden bağlanmayı dene.';
-  if (m.includes('failed to fetch') || m.includes('network')) return 'Bağlantı kurulamadı. İnternetini kontrol et.';
-  return `Bağlantı isteği işlenemedi: ${message}`;
+  if (m.includes('expired') || m.includes('not found'))
+    return t(
+      'Bu bağlantı isteğinin süresi dolmuş. AI aracından yeniden bağlanmayı dene.',
+      'This connection request has expired. Try connecting again from your AI tool.',
+    );
+  if (m.includes('failed to fetch') || m.includes('network'))
+    return t('Bağlantı kurulamadı. İnternetini kontrol et.', 'Couldn’t connect. Check your internet connection.');
+  return t(`Bağlantı isteği işlenemedi: ${message}`, `Couldn’t process the connection request: ${message}`);
 }
 
 function Decision({ details, onRedirect }: { details: OAuthAuthorizationDetails; onRedirect: (url: string) => void }) {
   const [busy, setBusy] = useState<'approve' | 'deny' | null>(null);
   const [error, setError] = useState('');
-  const name = details.client.name || 'Bir uygulama';
+  const name = details.client.name || t('Bir uygulama', 'An app');
   const scopes = details.scope.split(' ');
 
   const decide = async (approve: boolean) => {
@@ -66,34 +75,49 @@ function Decision({ details, onRedirect }: { details: OAuthAuthorizationDetails;
         <ShieldCheck size={22} />
       </span>
       <h1 id="fd-oauth-title">
-        <strong>{name}</strong> flowdraft hesabına bağlanmak istiyor
+        {lang === 'tr' ? (
+          <>
+            <strong>{name}</strong> flowdraft hesabına bağlanmak istiyor
+          </>
+        ) : (
+          <>
+            <strong>{name}</strong> wants to connect to your flowdraft account
+          </>
+        )}
       </h1>
       <dl className="fd-oauth-meta">
         <div>
-          <dt>Hesap</dt>
+          <dt>{t('Hesap', 'Account')}</dt>
           <dd>{details.user.email}</dd>
         </div>
         <div>
-          <dt>Dönüş adresi</dt>
+          <dt>{t('Dönüş adresi', 'Redirect URL')}</dt>
           <dd>{hostOf(details.redirect_uri)}</dd>
         </div>
         {details.client.uri && (
           <div>
-            <dt>Uygulama</dt>
+            <dt>{t('Uygulama', 'App')}</dt>
             <dd>{hostOf(details.client.uri)}</dd>
           </div>
         )}
       </dl>
-      <p className="fd-oauth-lead">İzin verirsen bu uygulama:</p>
+      <p className="fd-oauth-lead">{t('İzin verirsen bu uygulama:', 'If you allow it, this app can:')}</p>
       <ul className="fd-oauth-perms">
-        <li>Kayıtlı akışlarını listeleyip okuyabilir</li>
-        <li>Yeni akış oluşturabilir, mevcut akışlarını değiştirebilir ve silebilir</li>
-        {scopes.includes('email') && <li>E-posta adresini görebilir</li>}
-        {scopes.includes('profile') && <li>Profil bilgilerini görebilir</li>}
+        <li>{t('Kayıtlı akışlarını listeleyip okuyabilir', 'List and read your saved flows')}</li>
+        <li>
+          {t(
+            'Yeni akış oluşturabilir, mevcut akışlarını değiştirebilir ve silebilir',
+            'Create new flows, and change or delete your existing ones',
+          )}
+        </li>
+        {scopes.includes('email') && <li>{t('E-posta adresini görebilir', 'See your email address')}</li>}
+        {scopes.includes('profile') && <li>{t('Profil bilgilerini görebilir', 'See your profile info')}</li>}
       </ul>
       <p className="fd-muted fd-small">
-        Şifreni göremez. Sadece güvendiğin uygulamalara izin ver; dönüş adresi kullandığın AI aracına ait olmalı (ör.
-        claude.ai, chatgpt.com). İzni istediğin zaman flowdraft'ta Dosya → AI araçlarına bağla bölümünden kaldırabilirsin.
+        {t(
+          "Şifreni göremez. Sadece güvendiğin uygulamalara izin ver; dönüş adresi kullandığın AI aracına ait olmalı (ör. claude.ai, chatgpt.com). İzni istediğin zaman flowdraft'ta Dosya → AI araçlarına bağla bölümünden kaldırabilirsin.",
+          'It can’t see your password. Only allow apps you trust; the redirect URL should belong to the AI tool you’re using (e.g. claude.ai, chatgpt.com). You can revoke access anytime in flowdraft under File → Connect AI tools.',
+        )}
       </p>
       {error && (
         <p className="fd-form-error" role="alert">
@@ -102,14 +126,14 @@ function Decision({ details, onRedirect }: { details: OAuthAuthorizationDetails;
       )}
       <div className="fd-oauth-actions">
         <button type="button" className="fd-btn" onClick={() => void decide(false)} disabled={!!busy}>
-          {busy === 'deny' && <LoaderCircle size={16} className="fd-spin" />} Reddet
+          {busy === 'deny' && <LoaderCircle size={16} className="fd-spin" />} {t('Reddet', 'Deny')}
         </button>
         <button type="button" className="fd-btn is-primary" onClick={() => void decide(true)} disabled={!!busy}>
-          {busy === 'approve' && <LoaderCircle size={16} className="fd-spin" />} İzin ver
+          {busy === 'approve' && <LoaderCircle size={16} className="fd-spin" />} {t('İzin ver', 'Allow')}
         </button>
       </div>
       <button type="button" className="fd-link fd-small" onClick={() => void signOut()} disabled={!!busy}>
-        Başka bir hesapla devam et
+        {t('Başka bir hesapla devam et', 'Continue with a different account')}
       </button>
     </>
   );
@@ -119,11 +143,19 @@ export function ConsentPage() {
   const ready = useAuth((s) => s.ready);
   const userId = useAuth((s) => s.user?.id);
   const [view, setView] = useState<View>(
-    authorizationId ? { kind: 'loading' } : { kind: 'error', message: 'Geçersiz bağlantı isteği. AI aracından yeniden bağlanmayı dene.' },
+    authorizationId
+      ? { kind: 'loading' }
+      : {
+          kind: 'error',
+          message: t(
+            'Geçersiz bağlantı isteği. AI aracından yeniden bağlanmayı dene.',
+            'Invalid connection request. Try connecting again from your AI tool.',
+          ),
+        },
   );
 
   useEffect(() => {
-    document.title = 'Bağlantı izni · flowdraft';
+    document.title = t('Bağlantı izni · flowdraft', 'Authorize connection · flowdraft');
   }, []);
 
   useEffect(() => {
@@ -155,26 +187,27 @@ export function ConsentPage() {
   if (view.kind === 'error') {
     body = (
       <>
-        <h1 id="fd-oauth-title">Bağlantı kurulamadı</h1>
+        <h1 id="fd-oauth-title">{t('Bağlantı kurulamadı', 'Couldn’t connect')}</h1>
         <p className="fd-form-error">{view.message}</p>
       </>
     );
   } else if (!ready || view.kind === 'redirecting' || (userId && view.kind === 'loading')) {
     body = (
       <>
-        <h1 id="fd-oauth-title">Bağlantı izni</h1>
+        <h1 id="fd-oauth-title">{t('Bağlantı izni', 'Authorize connection')}</h1>
         <p className="fd-muted fd-loading">
-          <LoaderCircle size={16} className="fd-spin" /> {view.kind === 'redirecting' ? 'Yönlendiriliyor…' : 'Yükleniyor…'}
+          <LoaderCircle size={16} className="fd-spin" />{' '}
+          {view.kind === 'redirecting' ? t('Yönlendiriliyor…', 'Redirecting…') : t('Yükleniyor…', 'Loading…')}
         </p>
       </>
     );
   } else if (!userId) {
     body = (
       <>
-        <h1 id="fd-oauth-title">AI aracını flowdraft'a bağla</h1>
+        <h1 id="fd-oauth-title">{t("AI aracını flowdraft'a bağla", 'Connect an AI tool to flowdraft')}</h1>
         <p className="fd-muted">{SIGN_IN_REASON}</p>
         <button type="button" className="fd-btn is-primary is-block" onClick={() => openAuth('login', SIGN_IN_REASON)}>
-          Giriş yap
+          {t('Giriş yap', 'Sign in')}
         </button>
       </>
     );
@@ -185,7 +218,7 @@ export function ConsentPage() {
   return (
     <div className="fd-legal-page">
       <header className="fd-legal-head">
-        <a href="/" className="fd-oauth-home" aria-label="flowdraft ana sayfa">
+        <a href="/" className="fd-oauth-home" aria-label={t('flowdraft ana sayfa', 'flowdraft home')}>
           <Logo />
         </a>
       </header>

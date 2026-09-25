@@ -1,0 +1,5 @@
+/* Native alerts; the web app picks its language the same way (Turkish devices get Turkish). */
+"OK" = "OK";
+"Cancel" = "Cancel";
+"The file could not be prepared. Try again." = "The file could not be prepared. Try again.";
+"Export failed." = "Export failed.";

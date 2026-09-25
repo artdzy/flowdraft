@@ -11,10 +11,12 @@ import { LegalPage, legalKindFromPath } from './legal/LegalPage';
 import { loadDraft } from './lib/draft';
 import { isGuidePath, McpGuidePage } from './guide/McpGuidePage';
 import { ConsentPage, isConsentPath } from './oauth/ConsentPage';
+import { lang } from './i18n';
 import { initAuth } from './store/auth';
 import { useEditor } from './store/editor';
 import { initTheme } from './store/theme';
 
+document.documentElement.lang = lang;
 initTheme();
 const path = window.location.pathname;
 const legal = legalKindFromPath(path);

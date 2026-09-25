@@ -15,6 +15,7 @@ import { EDGE_TYPES } from '../flow/edges';
 import { NODE_TYPES } from '../flow/nodes';
 import { DND_MIME, PALETTE_BY_ID } from '../flow/palette';
 import type { FlowEdge, FlowNode } from '../flow/types';
+import { t } from '../i18n';
 import { useEditor } from '../store/editor';
 import { useTheme } from '../store/theme';
 import { useUi } from '../store/ui';
@@ -35,8 +36,8 @@ function EmptyState() {
   return (
     <div className="fd-empty">
       <div className="fd-empty-card">
-        <p className="fd-kicker">Boş tuval</p>
-        <h2>Bir parça sürükle ya da bir şablonla başla</h2>
+        <p className="fd-kicker">{t('Boş tuval', 'Blank canvas')}</p>
+        <h2>{t('Bir parça sürükle ya da bir şablonla başla', 'Drag in a part or start from a template')}</h2>
         <TemplateGrid includeBlank={false} />
       </div>
     </div>
@@ -54,7 +55,7 @@ export function Canvas({ mobile }: { mobile: boolean }) {
   const snapshot = useEditor((s) => s.snapshot);
   const fitRequest = useEditor((s) => s.fitRequest);
   const initialized = useNodesInitialized();
-  const theme = useTheme((t) => t.theme);
+  const theme = useTheme((s) => s.theme);
   const pendingFit = useRef(fitRequest > 0);
 
   useEffect(() => {
@@ -140,7 +141,7 @@ export function Canvas({ mobile }: { mobile: boolean }) {
               nodeColor={minimapColor}
               nodeStrokeWidth={0}
               maskColor={theme === 'light' ? 'rgba(245,245,243,0.75)' : 'rgba(10,10,10,0.72)'}
-              ariaLabel="Mini harita"
+              ariaLabel={t('Mini harita', 'Minimap')}
             />
             <Controls showInteractive={false} position="bottom-left" />
           </>

@@ -1,9 +1,12 @@
 # App Store kaydı — flowdraft (iPad)
 
-- Bundle ID: `tech.flowdraft.app` · SKU: `flowdraft-ipad` · Birincil dil: Türkçe · Sadece iPad (iPadOS 18+)
+- Bundle ID: `tech.flowdraft.app` · SKU: `flowdraft-ipad` · Birincil dil: English (U.S.), ek dil: Türkçe · Sadece iPad (iPadOS 18+)
+- Uygulama dili cihaza göre: Türkçe cihazda Türkçe, diğer her dilde İngilizce (`src/i18n.ts`)
 - Kategori: Verimlilik (Productivity), ikincil: Grafik ve Tasarım · Fiyat: Ücretsiz · Yaş: 4+
 - Destek: https://flowdraft.tech/destek · Pazarlama: https://flowdraft.tech · Gizlilik: https://flowdraft.tech/gizlilik
-- Ekran görüntüleri: `screenshots/` (iPad 13", 2064×2752, gerçek simülatör çekimi) · İnceleme notları: `review-notes.txt`
+- Ekran görüntüleri: `screenshots/` (iPad 13", 2064×2752, gerçek simülatör çekimi; `tr-*` Türkçe, `en-*` İngilizce) · İnceleme notları: `review-notes.txt`
+
+# Türkçe
 
 ## Ad (30)
 flowdraft
@@ -50,6 +53,54 @@ AI ARAÇLARIYLA KULLAN
 Geri al / ileri al, çoğalt, çoklu seçim ve klavye kısayolları (⌘Z, ⇧⌘Z, ⌘D, ⌘S) var. Açık ve koyu tema cihazına uyar.
 
 flowdraft ücretsizdir; reklam ve uygulama içi satın alma yoktur.
+
+# English (U.S.)
+
+## Name (30)
+flowdraft
+
+## Subtitle (30)
+Draw and share flowcharts
+
+## Promotional text (170)
+Drag, connect, export. Sketch automations, software architecture and conversations in minutes, then share them as PNG, SVG or JSON. Start right away, no account needed.
+
+## Keywords (100)
+flowchart,diagram,workflow,process,flow,chart,automation,architecture,mind map,whiteboard,planning
+
+## Description
+flowdraft is a fast, simple flowchart and diagram editor for iPad. Sketch processes, automations, software architecture and customer conversations in a few taps.
+
+START RIGHT AWAY
+• No account needed; your drawing is kept on this iPad automatically.
+• Ready-made templates: Automation, Software, Conversation.
+• Works offline.
+
+PARTS
+• Step, highlighted step, human approval, decision, start/end
+• Person, agent/bot, system, database
+• Chat bubbles, note, info, warning, error, success
+• Lane, automation zone, heading, label, chip
+
+CONNECTIONS
+• Solid, dashed or dotted lines in 6 colors
+• Stepped, curved or straight paths; arrow direction, flow animation and labels
+
+EXPORT AND SHARE
+• PNG image, SVG vector and editable JSON
+• Save to Files, send with AirDrop or share to any app
+• Import an exported JSON file back
+
+SAVE TO THE CLOUD IF YOU LIKE
+• With a free account, save your projects, turn on auto-save and open the same projects in your browser at flowdraft.tech.
+• Delete your account and projects from inside the app at any time.
+
+USE WITH AI
+• Optionally connect your flowdraft account to an AI assistant that supports MCP; ask it to "draw me a flow", it is saved to your account, then open and edit it here.
+
+Undo/redo, duplicate, multi-select and keyboard shortcuts (⌘Z, ⇧⌘Z, ⌘D, ⌘S). Light and dark themes follow your device.
+
+flowdraft is free, with no ads and no in-app purchases.
 
 ## Uygulama gizliliği (App Privacy)
 Toplanan veriler (hepsi hesaba bağlı, izleme yok, amaç: Uygulama işlevselliği):
