@@ -8,6 +8,7 @@ import { NewDialog, ProjectsDialog, Toasts } from './components/Dialogs';
 import { Inspector } from './components/Inspector';
 import { MobileBar } from './components/MobileBar';
 import { Palette } from './components/Palette';
+import { PromoDialog } from './components/PromoDialog';
 import { TopBar } from './components/TopBar';
 import { t, UNTITLED } from './i18n';
 import { openProjectLink, refreshFromCloud, requestSave, saveToCloud } from './lib/actions';
@@ -178,6 +179,7 @@ export default function App() {
         <ProjectsDialog />
         <NewDialog />
         <AiDialog />
+        <PromoDialog />
         <Toasts />
       </div>
     </ReactFlowProvider>

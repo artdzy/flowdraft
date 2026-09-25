@@ -74,7 +74,7 @@ function usePortrait() {
   return portrait;
 }
 
-function PromoVideo() {
+export function PromoVideo() {
   const portrait = usePortrait();
   const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const cut = portrait ? '9x16' : '16x9';

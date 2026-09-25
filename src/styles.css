@@ -2540,6 +2540,32 @@ ul.fd-guide-features {
   text-align: center;
 }
 
+/* The same video as a welcome dialog in the app: sized so the whole clip fits the screen height. */
+.fd-modal.fd-promo-modal {
+  width: min(880px, calc(100vw - 32px), calc((100dvh - 200px) * 16 / 9));
+  max-height: calc(100dvh - 32px);
+}
+
+.fd-promo-modal .fd-promo-video video {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(100dvh - 250px);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.fd-promo-modal-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.fd-promo-modal-foot .fd-consent {
+  align-items: center;
+}
+
 ul.fd-promo-features {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
