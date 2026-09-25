@@ -38,10 +38,12 @@ export function Logo() {
   return (
     <span className="fd-logo" aria-label="flowdraft">
       <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden>
-        <rect width="64" height="64" rx="14" fill="#1e1e1e" />
-        <rect x="10" y="12" width="22" height="15" rx="4" fill="none" stroke="#f2f2f2" strokeWidth="3.5" />
-        <rect x="32" y="37" width="22" height="15" rx="4" fill="#e5484d" />
-        <path d="M21 27v17.5h7" fill="none" stroke="#f2f2f2" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+        <rect width="64" height="64" rx="14" fill="#1a1a1a" />
+        <path
+          fill="#f2f2f2"
+          d="M47 9H28C19.163 9 12 16.163 12 25V51C12 54.314 14.686 57 18 57S24 54.314 24 51V38H41V28H24V25C24 22.791 25.791 21 28 21H47C50.314 21 53 18.314 53 15S50.314 9 47 9Z"
+        />
+        <rect x="37" y="25" width="16" height="16" rx="4" fill="#e5484d" />
       </svg>
       <span className="fd-logo-text">flowdraft</span>
     </span>
