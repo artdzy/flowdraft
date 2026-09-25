@@ -20,14 +20,15 @@ function sdSegment(px, py, ax, ay, bx, by) {
   return Math.hypot(pax - bax * t, pay - bay * t);
 }
 
-/** Layers in 64-unit logo space: [distanceFn, color]. */
-const layers = [
-  [(x, y) => Math.abs(sdRoundBox(x, y, 10, 12, 22, 15, 4)) - 1.75, FG],
+/** Layers in 64-unit logo space: [distanceFn, color]. `half` is half the stroke width. */
+const makeLayers = (half) => [
+  [(x, y) => Math.abs(sdRoundBox(x, y, 10, 12, 22, 15, 4)) - half, FG],
   [(x, y) => sdRoundBox(x, y, 32, 37, 22, 15, 4), RED],
-  [(x, y) => Math.min(sdSegment(x, y, 21, 27, 21, 44.5), sdSegment(x, y, 21, 44.5, 28, 44.5)) - 1.75, FG],
+  [(x, y) => Math.min(sdSegment(x, y, 21, 27, 21, 44.5), sdSegment(x, y, 21, 44.5, 28, 44.5)) - half, FG],
 ];
 
-function render(size, { rounded, contentScale }) {
+function renderRgba(size, { rounded, contentScale, stroke = 3.5 }) {
+  const layers = makeLayers(stroke / 2);
   const px = new Uint8Array(size * size * 4);
   const unit = size / 64;
   for (let j = 0; j < size; j++) {
@@ -55,7 +56,31 @@ function render(size, { rounded, contentScale }) {
       px[o + 3] = Math.round(a * 255);
     }
   }
-  return encodePng(size, size, px);
+  return px;
+}
+
+const render = (size, opts) => encodePng(size, size, renderRgba(size, opts));
+
+/** ICO container with embedded PNG images (supported by every current browser). */
+function encodeIco(images) {
+  const header = Buffer.alloc(6);
+  header.writeUInt16LE(0, 0);
+  header.writeUInt16LE(1, 2);
+  header.writeUInt16LE(images.length, 4);
+  const entries = [];
+  let offset = 6 + 16 * images.length;
+  for (const { size, png } of images) {
+    const e = Buffer.alloc(16);
+    e[0] = size >= 256 ? 0 : size;
+    e[1] = size >= 256 ? 0 : size;
+    e.writeUInt16LE(1, 4);
+    e.writeUInt16LE(32, 6);
+    e.writeUInt32LE(png.length, 8);
+    e.writeUInt32LE(offset, 12);
+    offset += png.length;
+    entries.push(e);
+  }
+  return Buffer.concat([header, ...entries, ...images.map((i) => i.png)]);
 }
 
 const CRC_TABLE = Array.from({ length: 256 }, (_, n) => {
@@ -103,4 +128,8 @@ writeFileSync(new URL('icon-192.png', out), render(192, { rounded: true, content
 writeFileSync(new URL('icon-512.png', out), render(512, { rounded: true, contentScale: 1 }));
 writeFileSync(new URL('icon-maskable-512.png', out), render(512, { rounded: false, contentScale: 0.78 }));
 writeFileSync(new URL('apple-touch-icon.png', out), render(180, { rounded: false, contentScale: 0.86 }));
+// Tab icons: bolder strokes so the mark stays legible at 16px.
+const small = (size) => ({ size, png: render(size, { rounded: true, contentScale: 1.06, stroke: size <= 16 ? 6 : 5 }) });
+writeFileSync(new URL('favicon.ico', out), encodeIco([small(16), small(32), small(48)]));
+writeFileSync(new URL('favicon-32.png', out), small(32).png);
 console.log('icons written');

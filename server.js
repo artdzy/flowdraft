@@ -55,7 +55,12 @@ app.use(
   }),
 );
 
-app.get('/{*splat}', (_req, res) => {
+app.get('/{*splat}', (req, res) => {
+  // Missing files (favicon.ico, images, scripts) must 404, not receive the app shell.
+  if (path.extname(req.path)) {
+    res.status(404).type('text/plain').send('Not found');
+    return;
+  }
   res.set('Cache-Control', 'no-cache').sendFile(path.join(dist, 'index.html'));
 });
 

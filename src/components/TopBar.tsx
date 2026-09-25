@@ -3,6 +3,7 @@ import {
   Cloud,
   CloudOff,
   Download,
+  Eraser,
   FileJson,
   FilePlus2,
   FolderOpen,
@@ -24,7 +25,7 @@ import { importFile, requestAutosave, requestExport, requestSave, useSaveState }
 import { openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
-import { useUi } from '../store/ui';
+import { toast, useUi } from '../store/ui';
 import { THEME_LABEL, useTheme, type ThemePref } from '../store/theme';
 import { Credit } from './Credit';
 import { Segmented, Switch } from './fields';
@@ -113,6 +114,13 @@ function ThemeChoice() {
   );
 }
 
+function clearCanvas() {
+  const { nodes, edges, clearCanvas: clear } = useEditor.getState();
+  if (!nodes.length && !edges.length) return;
+  clear();
+  toast('Tuval temizlendi. Geri almak için ⌘Z / Ctrl+Z');
+}
+
 function openProjects() {
   requireAuth('Projelerini görmek için giriş yap.', () => useUi.setState({ projectsOpen: true }));
 }
@@ -164,6 +172,9 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       </MenuItem>
       <MenuItem icon={<Upload size={16} />} onSelect={() => (close(), fileInput.current?.click())}>
         JSON içe aktar
+      </MenuItem>
+      <MenuItem icon={<Eraser size={16} />} onSelect={() => (close(), clearCanvas())} danger>
+        Tuvali temizle
       </MenuItem>
     </>
   );

@@ -6,10 +6,11 @@ import {
   Controls,
   MiniMap,
   ReactFlow,
+  SelectionMode,
   useNodesInitialized,
   useReactFlow,
 } from '@xyflow/react';
-import { useEffect, useRef, type DragEvent } from 'react';
+import { useEffect, useRef, type DragEvent, type MouseEvent } from 'react';
 import { EDGE_TYPES } from '../flow/edges';
 import { NODE_TYPES } from '../flow/nodes';
 import { DND_MIME, PALETTE_BY_ID } from '../flow/palette';
@@ -67,6 +68,18 @@ export function Canvas({ mobile }: { mobile: boolean }) {
     return () => cancelAnimationFrame(frame);
   }, [initialized, fitRequest, nodes.length, rf]);
 
+  // Lane bodies let pointer events through so the canvas stays pannable; a plain click on one selects it.
+  const onPaneClick = (event: MouseEvent) => {
+    const p = rf.screenToFlowPosition({ x: event.clientX, y: event.clientY });
+    const lane = [...useEditor.getState().nodes].reverse().find((n) => {
+      if (n.type !== 'lane') return false;
+      const w = n.measured?.width ?? n.width ?? 0;
+      const h = n.measured?.height ?? n.height ?? 0;
+      return p.x >= n.position.x && p.x <= n.position.x + w && p.y >= n.position.y && p.y <= n.position.y + h;
+    });
+    if (lane) useEditor.getState().selectOnly(lane.id);
+  };
+
   const onDragOver = (event: DragEvent) => {
     if (!event.dataTransfer.types.includes(DND_MIME)) return;
     event.preventDefault();
@@ -96,6 +109,8 @@ export function Canvas({ mobile }: { mobile: boolean }) {
           snapshot();
           return true;
         }}
+        onPaneClick={onPaneClick}
+        selectionMode={SelectionMode.Partial}
         onNodeDoubleClick={() => mobile && useUi.setState({ inspectorSheet: true, paletteSheet: false })}
         onEdgeDoubleClick={() => mobile && useUi.setState({ inspectorSheet: true, paletteSheet: false })}
         connectionMode={ConnectionMode.Loose}

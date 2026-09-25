@@ -51,6 +51,9 @@ function useShortcuts() {
       } else if (key === 'd') {
         e.preventDefault();
         editor.duplicateSelection();
+      } else if (key === 'a') {
+        e.preventDefault();
+        editor.selectAll();
       }
     };
     window.addEventListener('keydown', onKey);
@@ -95,8 +98,18 @@ function useDraftMirror() {
   }, []);
 }
 
+/** Browser tab shows the open diagram, with a dot while there are unsaved cloud changes. */
+function useDocumentTitle() {
+  const title = useEditor((s) => s.title.trim() || 'Adsız akış');
+  const unsaved = useEditor((s) => isDirty(s) && !!s.projectId);
+  useEffect(() => {
+    document.title = `${unsaved ? '● ' : ''}${title} · flowdraft`;
+  }, [title, unsaved]);
+}
+
 export default function App() {
   const mobile = useIsMobile();
+  useDocumentTitle();
   useShortcuts();
   useAutosave();
   useDraftMirror();

@@ -42,6 +42,9 @@ export type EditorState = {
   setEdgeDraft: (patch: Partial<FlowEdgeData>) => void;
   deleteSelection: () => void;
   duplicateSelection: () => void;
+  selectOnly: (id: string) => void;
+  selectAll: () => void;
+  clearCanvas: () => void;
   setTitle: (title: string) => void;
   loadDoc: (doc: FlowDoc, meta: { title: string; projectId: string | null; dirty: boolean }) => void;
   markSaved: (revision: number, projectId: string) => void;
@@ -198,6 +201,25 @@ export const useEditor = create<EditorState>()((set, get) => ({
       edges: [...s.edges.map((e) => (e.selected ? { ...e, selected: false } : e)), ...cloneEdges],
       revision: s.revision + 1,
     }));
+  },
+
+  selectOnly: (id) =>
+    set((s) => ({
+      nodes: s.nodes.map((n) => (n.id === id ? { ...n, selected: true } : n.selected ? { ...n, selected: false } : n)),
+      edges: s.edges.map((e) => (e.selected ? { ...e, selected: false } : e)),
+    })),
+
+  selectAll: () =>
+    set((s) => ({
+      nodes: s.nodes.map((n) => (n.selected ? n : { ...n, selected: true })),
+      edges: s.edges.map((e) => (e.selected ? e : { ...e, selected: true })),
+    })),
+
+  clearCanvas: () => {
+    const { nodes, edges } = get();
+    if (!nodes.length && !edges.length) return;
+    get().snapshot();
+    set((s) => ({ nodes: [], edges: [], revision: s.revision + 1 }));
   },
 
   setTitle: (title) => set((s) => ({ title: title.slice(0, 120), revision: s.revision + 1 })),
