@@ -1737,3 +1737,139 @@ p {
     font-size: 16px;
   }
 }
+
+/* ---------- Consent & legal ---------- */
+
+.fd-small {
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.fd-auth-warning {
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(245, 165, 36, 0.4);
+  background: rgba(245, 165, 36, 0.08);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.fd-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-2);
+  cursor: pointer;
+}
+
+.fd-consent input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 1px 0 0;
+  accent-color: var(--accent);
+}
+
+.fd-consent a,
+.fd-legal a,
+.wsy-credit__copy a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.fd-consent a:hover,
+.fd-legal a:hover,
+.wsy-credit__copy a:hover {
+  color: var(--text);
+}
+
+.fd-legal-page {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100dvh;
+}
+
+.fd-legal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.fd-legal-nav {
+  display: flex;
+  gap: 16px;
+  font-size: 13.5px;
+}
+
+.fd-legal-nav a {
+  color: var(--text-2);
+  text-decoration: none;
+}
+
+.fd-legal-nav a[aria-current='page'] {
+  color: var(--text);
+  box-shadow: 0 2px 0 var(--accent);
+}
+
+.fd-legal {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: 40px 16px 64px;
+  color: var(--text-2);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.fd-legal h1 {
+  color: var(--text);
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.fd-legal h2 {
+  margin: 32px 0 8px;
+  color: var(--text);
+  font-size: 17px;
+}
+
+.fd-legal p,
+.fd-legal ul {
+  margin: 0 0 12px;
+}
+
+.fd-legal ul {
+  padding-left: 20px;
+}
+
+.fd-legal li + li {
+  margin-top: 6px;
+}
+
+.fd-legal strong {
+  color: var(--text);
+}
+
+.fd-legal-meta {
+  margin-top: 8px !important;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.fd-legal-callout {
+  margin: 24px 0 8px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  color: var(--text);
+}

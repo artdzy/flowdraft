@@ -1,5 +1,6 @@
 import { LoaderCircle } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
+import { LEGAL_PATHS, LEGAL_VERSION } from '../legal/LegalPage';
 import { supabase } from '../lib/supabase';
 import { closeAuth, completeAuth, useAuth } from '../store/auth';
 import { Modal } from './Modal';
@@ -20,6 +21,7 @@ function AuthForm({ initialMode, reason }: { initialMode: 'login' | 'register'; 
   const [mode, setMode] = useState(initialMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [accepted, setAccepted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [info, setInfo] = useState('');
@@ -28,6 +30,10 @@ function AuthForm({ initialMode, reason }: { initialMode: 'login' | 'register'; 
     event.preventDefault();
     if (!supabase) {
       setError('Giriş şu an kullanılamıyor: sunucu yapılandırması eksik.');
+      return;
+    }
+    if (mode === 'register' && !accepted) {
+      setError('Kayıt olmak için şartları kabul etmelisin.');
       return;
     }
     setBusy(true);
@@ -42,7 +48,11 @@ function AuthForm({ initialMode, reason }: { initialMode: 'login' | 'register'; 
         const { data, error: err } = await supabase.auth.signUp({
           email: email.trim(),
           password,
-          options: { emailRedirectTo: window.location.origin },
+          options: {
+            emailRedirectTo: window.location.origin,
+            // Proof of consent: which legal text version was accepted, and when.
+            data: { legal_version: LEGAL_VERSION, legal_accepted_at: new Date().toISOString() },
+          },
         });
         if (err) throw err;
         if (data.session && data.user) {
@@ -97,6 +107,27 @@ function AuthForm({ initialMode, reason }: { initialMode: 'login' | 'register'; 
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
+      {mode === 'register' && (
+        <>
+          <p className="fd-auth-warning">
+            flowdraft <strong>ücretsiz</strong> bir uygulamadır ve <strong>garanti verilmez</strong>. Veritabanı bir gün
+            silinebilir, projelerin kaybolabilir. Önemli işlerini JSON olarak yedekle.
+          </p>
+          <label className="fd-consent">
+            <input type="checkbox" required checked={accepted} onChange={(e) => setAccepted(e.target.checked)} />
+            <span>
+              <a href={LEGAL_PATHS.terms} target="_blank" rel="noopener">
+                Kullanım Şartları
+              </a>
+              ’nı ve{' '}
+              <a href={LEGAL_PATHS.privacy} target="_blank" rel="noopener">
+                Gizlilik Politikası
+              </a>
+              ’nı okudum, kabul ediyorum. Verilerimin silinebileceğini ve hiçbir garanti verilmediğini biliyorum.
+            </span>
+          </label>
+        </>
+      )}
       {error && (
         <p className="fd-form-error" role="alert">
           {error}
@@ -107,7 +138,7 @@ function AuthForm({ initialMode, reason }: { initialMode: 'login' | 'register'; 
           {info}
         </p>
       )}
-      <button type="submit" className="fd-btn is-primary is-block" disabled={busy}>
+      <button type="submit" className="fd-btn is-primary is-block" disabled={busy || (mode === 'register' && !accepted)}>
         {busy && <LoaderCircle size={16} className="fd-spin" />}
         {mode === 'login' ? 'Giriş yap' : 'Hesap oluştur'}
       </button>

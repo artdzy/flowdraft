@@ -4,7 +4,10 @@ const YEAR = new Date().getFullYear();
 export function Credit() {
   return (
     <div className="wsy-credit" data-theme="dark">
-      <span className="wsy-credit__copy">© {YEAR} flowdraft · Tüm hakları saklıdır.</span>
+      <span className="wsy-credit__copy">
+        © {YEAR} flowdraft · Tüm hakları saklıdır. · <a href="/kullanim-sartlari">Kullanım Şartları</a> ·{' '}
+        <a href="/gizlilik">Gizlilik</a>
+      </span>
       <a
         className="wsy-credit__link"
         href="https://websiteniyapalim.com/?utm_source=flowdraft&utm_medium=footer&utm_campaign=rozet"

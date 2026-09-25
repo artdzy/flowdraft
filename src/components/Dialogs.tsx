@@ -149,6 +149,10 @@ export function ProjectsDialog() {
         <FilePlus2 size={16} /> Yeni akış
       </button>
       <ProjectList onDone={close} />
+      <p className="fd-muted fd-small">
+        flowdraft ücretsizdir ve garanti verilmez; sunucudaki projeler silinebilir. Önemli akışlarını Dışa aktar → JSON ile
+        yedekle.
+      </p>
     </Modal>
   );
 }
