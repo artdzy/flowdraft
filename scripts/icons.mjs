@@ -104,16 +104,21 @@ function chunk(type, data) {
   return Buffer.concat([len, body, crc]);
 }
 
-function encodePng(w, h, rgba) {
+/** `alpha: false` drops the alpha channel (App Store icons must be opaque RGB). */
+function encodePng(w, h, rgba, { alpha = true } = {}) {
   const ihdr = Buffer.alloc(13);
   ihdr.writeUInt32BE(w, 0);
   ihdr.writeUInt32BE(h, 4);
   ihdr[8] = 8;
-  ihdr[9] = 6;
-  const raw = Buffer.alloc((w * 4 + 1) * h);
+  ihdr[9] = alpha ? 6 : 2;
+  const channels = alpha ? 4 : 3;
+  const stride = w * channels + 1;
+  const raw = Buffer.alloc(stride * h);
   for (let y = 0; y < h; y++) {
-    raw[y * (w * 4 + 1)] = 0;
-    Buffer.from(rgba.buffer, y * w * 4, w * 4).copy(raw, y * (w * 4 + 1) + 1);
+    raw[y * stride] = 0;
+    for (let x = 0; x < w; x++) {
+      for (let c = 0; c < channels; c++) raw[y * stride + 1 + x * channels + c] = rgba[(y * w + x) * 4 + c];
+    }
   }
   return Buffer.concat([
     Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]),
@@ -132,4 +137,9 @@ writeFileSync(new URL('apple-touch-icon.png', out), render(180, { rounded: false
 const small = (size) => ({ size, png: render(size, { rounded: true, contentScale: 1.06, stroke: size <= 16 ? 6 : 5 }) });
 writeFileSync(new URL('favicon.ico', out), encodeIco([small(16), small(32), small(48)]));
 writeFileSync(new URL('favicon-32.png', out), small(32).png);
+// iPad app icon: full bleed and opaque, iPadOS applies the rounded mask itself.
+writeFileSync(
+  new URL('../ios/Flowdraft/Assets.xcassets/AppIcon.appiconset/icon-1024.png', import.meta.url),
+  encodePng(1024, 1024, renderRgba(1024, { rounded: false, contentScale: 0.86 }), { alpha: false }),
+);
 console.log('icons written');

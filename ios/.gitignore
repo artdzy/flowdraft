@@ -1,0 +1,4 @@
+# Generated: `xcodegen generate` and scripts/build-web.sh
+Flowdraft.xcodeproj/
+Flowdraft/Web/
+build/

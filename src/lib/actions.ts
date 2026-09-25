@@ -4,6 +4,7 @@ import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
 import { toast } from '../store/ui';
 import { parseDoc, serializeDoc } from './doc';
+import { nativeApp } from './platform';
 import { exportImage, exportJson, type ExportKind } from './exporter';
 import { createProject, describeError, fetchProject, fetchUpdatedAt, updateProject, type ProjectRow } from './projects';
 
@@ -116,7 +117,7 @@ export function requestAutosave(on: boolean) {
 }
 
 export function requestExport(kind: ExportKind) {
-  requireAuth('Dışa aktarmak için giriş yap.', () => {
+  const run = () => {
     const { nodes, edges, title } = useEditor.getState();
     if (kind === 'json') {
       exportJson(serializeDoc(nodes, edges), title);
@@ -125,7 +126,10 @@ export function requestExport(kind: ExportKind) {
     exportImage(kind, nodes, title).catch((err: unknown) =>
       toast(err instanceof Error ? err.message : 'Dışa aktarılamadı.', 'error'),
     );
-  });
+  };
+  // The iPad app saves exports to the device through the share sheet, so no account is involved there.
+  if (nativeApp) run();
+  else requireAuth('Dışa aktarmak için giriş yap.', run);
 }
 
 export async function importFile(file: File) {

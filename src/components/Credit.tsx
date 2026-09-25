@@ -9,7 +9,7 @@ export function Credit() {
     <div className="wsy-credit" data-theme={theme}>
       <span className="wsy-credit__copy">
         © {YEAR} flowdraft · Tüm hakları saklıdır. · <a href="/kullanim-sartlari">Kullanım Şartları</a> ·{' '}
-        <a href="/gizlilik">Gizlilik</a> · <a href="/mcp">Yapay zekâ ile kullan</a>
+        <a href="/gizlilik">Gizlilik</a> · <a href="/destek">Destek</a> · <a href="/mcp">Yapay zekâ ile kullan</a>
       </span>
       <a
         className="wsy-credit__link"

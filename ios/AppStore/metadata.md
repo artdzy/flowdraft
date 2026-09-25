@@ -1,0 +1,67 @@
+# App Store kaydı — flowdraft (iPad)
+
+- Bundle ID: `tech.flowdraft.app` · SKU: `flowdraft-ipad` · Birincil dil: Türkçe · Sadece iPad (iPadOS 18+)
+- Kategori: Verimlilik (Productivity), ikincil: Grafik ve Tasarım · Fiyat: Ücretsiz · Yaş: 4+
+- Destek: https://flowdraft.tech/destek · Pazarlama: https://flowdraft.tech · Gizlilik: https://flowdraft.tech/gizlilik
+- Ekran görüntüleri: `screenshots/` (iPad 13", 2064×2752, gerçek simülatör çekimi) · İnceleme notları: `review-notes.txt`
+
+## Ad (30)
+flowdraft
+
+## Alt başlık (30)
+Akış diyagramı çiz ve paylaş
+
+## Tanıtım metni (170)
+Sürükle, bağla, dışa aktar. Otomasyon, yazılım ve konuşma akışlarını dakikalar içinde çiz; PNG, SVG ya da JSON olarak paylaş. Hesap açmadan hemen başla.
+
+## Anahtar kelimeler (100)
+akış,diyagram,şema,flowchart,süreç,iş akışı,otomasyon,mimari,çizim,tahta,plan,organizasyon
+
+## Açıklama
+flowdraft, iPad için hızlı ve sade bir akış diyagramı editörü. Süreçlerini, otomasyonlarını, yazılım mimarini ve müşteri konuşmalarını birkaç dokunuşla çiz.
+
+HEMEN BAŞLA
+• Hesap açmadan kullan; çizimin bu iPad'de otomatik saklanır.
+• Hazır şablonlar: Otomasyon, Yazılım, Konuşma.
+• İnternet olmadan da çalışır.
+
+PARÇALAR
+• Adım, vurgulu adım, insan onayı, karar, başla/bitir
+• Kişi, ajan/bot, sistem, veritabanı
+• Konuşma balonları, not, bilgi, uyarı, hata, başarılı
+• Kulvar, otomatik bölge, başlık, etiket yazı, çip
+
+BAĞLANTILAR
+• Düz, kesikli ya da noktalı çizgi, 6 renk
+• Köşeli, eğri ya da düz yol; ok yönü, akış animasyonu ve etiket
+
+DIŞA AKTAR VE PAYLAŞ
+• PNG görsel, SVG vektör ve düzenlenebilir JSON
+• Dosyalar'a kaydet, AirDrop ile gönder ya da istediğin uygulamada paylaş
+• Dışa aktardığın JSON dosyasını geri içe aktar
+
+İSTERSEN BULUTA KAYDET
+• Ücretsiz hesapla projelerini kaydet, otomatik kaydetmeyi aç; aynı projeleri flowdraft.tech üzerinden tarayıcıda da aç.
+• Hesabını ve projelerini istediğin an uygulama içinden silebilirsin.
+
+AI ARAÇLARIYLA KULLAN
+• İstersen flowdraft hesabını MCP destekleyen bir AI asistanına bağla; “bana bir akış çiz” de, akış hesabına kaydedilsin, sonra burada açıp düzenle.
+
+Geri al / ileri al, çoğalt, çoklu seçim ve klavye kısayolları (⌘Z, ⇧⌘Z, ⌘D, ⌘S) var. Açık ve koyu tema cihazına uyar.
+
+flowdraft ücretsizdir; reklam ve uygulama içi satın alma yoktur.
+
+## Uygulama gizliliği (App Privacy)
+Toplanan veriler (hepsi hesaba bağlı, izleme yok, amaç: Uygulama işlevselliği):
+- İletişim bilgileri → E-posta adresi
+- Kullanıcı içeriği → Diğer kullanıcı içeriği (hesaba kaydedilen diyagramlar)
+- Tanımlayıcılar → Kullanıcı kimliği (hesap kimliği)
+
+## Ekran kaydı senaryosu (fiziksel iPad, TestFlight build'i, ~1–1,5 dk)
+1. Ana ekrandan flowdraft'ı aç.
+2. Boş tuvalde “Otomasyon” şablonuna dokun.
+3. Bir kutuya dokun, sağ panelde başlığını değiştir.
+4. Soldan “Karar”ı tuvale sürükle, bir kutunun kenar noktasından ona bağla.
+5. Dışa aktar → PNG görsel → paylaşım menüsü açılsın → kapat (ya da Dosyalar'a kaydet).
+6. Giriş yap → demo hesabı → Kaydet → Dosya → Projelerim (kayıtlı akış görünsün) → kapat.
+7. Sağ üstteki hesap düğmesi → “Hesabı sil” → onay penceresi görünsün → Vazgeç.

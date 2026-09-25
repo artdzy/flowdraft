@@ -1,9 +1,10 @@
 import { Check, Copy } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { nativeApp, postNative, siteOrigin } from '../lib/platform';
 import { toast } from '../store/ui';
 
 /** Address users paste into their AI tool; opening it in a browser shows the setup guide instead. */
-export const mcpUrl = () => `${window.location.origin}/mcp`;
+export const mcpUrl = () => `${siteOrigin}/mcp`;
 
 function useCopy(text: string) {
   const [copied, setCopied] = useState(false);
@@ -14,7 +15,8 @@ function useCopy(text: string) {
   }, [copied]);
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(text);
+      if (nativeApp) postNative({ type: 'copy', text });
+      else await navigator.clipboard.writeText(text);
       setCopied(true);
     } catch {
       toast('Kopyalanamadı; seçip elle kopyala.', 'error');

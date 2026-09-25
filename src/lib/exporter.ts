@@ -1,6 +1,7 @@
 import { getNodesBounds } from '@xyflow/react';
 import { toPng, toSvg } from 'html-to-image';
 import type { FlowDoc, FlowNode } from '../flow/types';
+import { nativeApp, postNative } from './platform';
 
 const PADDING = 48;
 const MAX_SIDE = 8000;
@@ -19,6 +20,10 @@ function slug(title: string) {
 }
 
 function download(href: string, filename: string) {
+  if (nativeApp) {
+    postNative({ type: 'export', filename, dataUrl: href });
+    return;
+  }
   const a = document.createElement('a');
   a.href = href;
   a.download = filename;
@@ -57,7 +62,12 @@ export async function exportImage(kind: 'png' | 'svg', nodes: FlowNode[], title:
 }
 
 export function exportJson(doc: FlowDoc, title: string) {
-  const blob = new Blob([JSON.stringify({ title, ...doc }, null, 2)], { type: 'application/json' });
+  const text = JSON.stringify({ title, ...doc }, null, 2);
+  if (nativeApp) {
+    download(`data:application/json;charset=utf-8,${encodeURIComponent(text)}`, `${slug(title)}.flowdraft.json`);
+    return;
+  }
+  const blob = new Blob([text], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   download(url, `${slug(title)}.flowdraft.json`);
   setTimeout(() => URL.revokeObjectURL(url), 1000);

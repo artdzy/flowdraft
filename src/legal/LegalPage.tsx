@@ -1,16 +1,23 @@
 import { ArrowLeft } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, type ReactElement } from 'react';
 import { Credit } from '../components/Credit';
 
 export const LEGAL_VERSION = '2026-09-25';
 const UPDATED = '25 Eylül 2026';
 const CONTACT_URL = 'https://websiteniyapalim.com/?utm_source=flowdraft&utm_medium=legal';
 
-export type LegalKind = 'terms' | 'privacy';
+export type LegalKind = 'terms' | 'privacy' | 'support';
 
 export const LEGAL_PATHS: Record<LegalKind, string> = {
   terms: '/kullanim-sartlari',
   privacy: '/gizlilik',
+  support: '/destek',
+};
+
+const TITLE: Record<LegalKind, string> = {
+  terms: 'Kullanım Şartları',
+  privacy: 'Gizlilik Politikası',
+  support: 'Destek',
 };
 
 function Terms() {
@@ -71,8 +78,9 @@ function Terms() {
 
       <h2>8. Hesabın silinmesi</h2>
       <p>
-        Projelerini uygulama içinden istediğin zaman silebilirsin. Hesabının tamamen silinmesini istersen iletişim adresinden
-        talep edebilirsin. Kullanım şartlarına aykırı hesaplar bildirim yapılmadan kapatılabilir.
+        Projelerini ve hesabını uygulama içinden istediğin zaman silebilirsin (hesap menüsü → Hesabı sil); hesabınla
+        birlikte kayıtlı tüm projelerin de kalıcı olarak silinir. Kullanım şartlarına aykırı hesaplar bildirim yapılmadan
+        kapatılabilir.
       </p>
 
       <h2>9. Değişiklikler</h2>
@@ -146,7 +154,8 @@ function Privacy() {
 
       <h2>6. Saklama süresi</h2>
       <p>
-        Hesabın açık kaldığı sürece saklanır. Ancak flowdraft ücretsiz bir hizmettir: veritabanı önceden haber verilmeden
+        Hesabın açık kaldığı sürece saklanır. Hesabını uygulama içinden (hesap menüsü → Hesabı sil) sildiğinde e-posta
+        adresin ve kayıtlı projelerin hemen ve kalıcı olarak silinir. Ayrıca flowdraft ücretsiz bir hizmettir: veritabanı önceden haber verilmeden
         silinebilir ve bu durumda verilerin kalıcı olarak kaybolabilir.
       </p>
 
@@ -172,10 +181,57 @@ function Privacy() {
   );
 }
 
+function Support() {
+  return (
+    <>
+      <h1>Destek</h1>
+      <p className="fd-legal-meta">flowdraft web (flowdraft.tech) ve iPad uygulaması</p>
+
+      <h2>Nasıl başlarım?</h2>
+      <p>
+        Uygulamayı aç; boş tuvalde bir şablon seç ya da soldaki parçaları tuvale sürükle. Kutuları bağlamak için kenarlarındaki
+        noktalardan birini başka bir kutuya sürükle. Bir kutuya ya da çizgiye dokununca sağdaki panelden metnini, rengini ve
+        stilini değiştirebilirsin. Hesap açman gerekmez; çizimin bu cihazda otomatik saklanır.
+      </p>
+
+      <h2>Nasıl kaydederim ve paylaşırım?</h2>
+      <ul>
+        <li>Dışa aktar → PNG, SVG ya da JSON. iPad'de paylaşım menüsü açılır: Dosyalar'a kaydet, AirDrop ya da başka bir uygulama.</li>
+        <li>Dosya → JSON içe aktar ile daha önce dışa aktardığın akışı geri açarsın.</li>
+        <li>Ücretsiz bir hesapla “Kaydet”e basınca akış buluta kaydedilir; Dosya → Projelerim'den açarsın.</li>
+      </ul>
+
+      <h2>Hesabımı nasıl silerim?</h2>
+      <p>
+        Giriş yaptıktan sonra sağ üstteki hesap düğmesine dokun → Hesabı sil → onayla. Hesabın ve kayıtlı tüm projelerin hemen
+        ve kalıcı olarak silinir. Cihazdaki taslak çizim silinmez.
+      </p>
+
+      <h2>AI araçlarıyla nasıl kullanırım?</h2>
+      <p>
+        Dosya → AI araçlarına bağla bölümündeki adresi, MCP destekleyen AI aracının bağlayıcı ayarına ekle. Adım adım
+        rehber: <a href="/mcp">flowdraft.tech/mcp</a>. Bağlantıyı aynı bölümden istediğin zaman kaldırabilirsin.
+      </p>
+
+      <h2>İletişim</h2>
+      <p>
+        Soru, hata bildirimi ve önerilerin için{' '}
+        <a href={CONTACT_URL} target="_blank" rel="noopener">
+          websiteniyapalım.com
+        </a>{' '}
+        üzerindeki iletişim kanallarından bize yazabilirsin. Genellikle birkaç iş günü içinde yanıt veririz.
+      </p>
+    </>
+  );
+}
+
+const BODY: Record<LegalKind, () => ReactElement> = { terms: Terms, privacy: Privacy, support: Support };
+
 export function LegalPage({ kind }: { kind: LegalKind }) {
   useEffect(() => {
-    document.title = `${kind === 'terms' ? 'Kullanım Şartları' : 'Gizlilik Politikası'} · flowdraft`;
+    document.title = `${TITLE[kind]} · flowdraft`;
   }, [kind]);
+  const Body = BODY[kind];
 
   return (
     <div className="fd-legal-page">
@@ -190,9 +246,14 @@ export function LegalPage({ kind }: { kind: LegalKind }) {
           <a href={LEGAL_PATHS.privacy} aria-current={kind === 'privacy' ? 'page' : undefined}>
             Gizlilik
           </a>
+          <a href={LEGAL_PATHS.support} aria-current={kind === 'support' ? 'page' : undefined}>
+            Destek
+          </a>
         </nav>
       </header>
-      <main className="fd-legal">{kind === 'terms' ? <Terms /> : <Privacy />}</main>
+      <main className="fd-legal">
+        <Body />
+      </main>
       <Credit />
     </div>
   );
@@ -202,5 +263,6 @@ export function legalKindFromPath(pathname: string): LegalKind | null {
   const path = pathname.replace(/\/+$/, '');
   if (path === LEGAL_PATHS.terms) return 'terms';
   if (path === LEGAL_PATHS.privacy) return 'privacy';
+  if (path === LEGAL_PATHS.support) return 'support';
   return null;
 }

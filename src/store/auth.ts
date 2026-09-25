@@ -60,3 +60,14 @@ export async function signOut() {
   useSettings.getState().setAutosave(false);
   useEditor.setState({ projectId: null, savedRevision: -1 });
 }
+
+/** Permanently deletes the signed-in account and its saved projects (see supabase/migrations/0002_delete_account.sql). */
+export async function deleteAccount() {
+  if (!supabase) throw new Error('Sunucu bağlantısı yapılandırılmamış.');
+  const { error } = await supabase.rpc('delete_account');
+  if (error) throw error;
+  // The user no longer exists on the server, so only the local session is left to clear.
+  await supabase.auth.signOut({ scope: 'local' });
+  useSettings.getState().setAutosave(false);
+  useEditor.setState({ projectId: null, savedRevision: -1 });
+}

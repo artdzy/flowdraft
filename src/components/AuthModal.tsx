@@ -1,6 +1,7 @@
 import { LoaderCircle } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 import { LEGAL_PATHS, LEGAL_VERSION } from '../legal/LegalPage';
+import { siteOrigin } from '../lib/platform';
 import { supabase } from '../lib/supabase';
 import { closeAuth, completeAuth, useAuth } from '../store/auth';
 import { Modal } from './Modal';
@@ -49,7 +50,7 @@ function AuthForm({ initialMode, reason }: { initialMode: 'login' | 'register'; 
           email: email.trim(),
           password,
           options: {
-            emailRedirectTo: window.location.origin,
+            emailRedirectTo: siteOrigin,
             // Proof of consent: which legal text version was accepted, and when.
             data: { legal_version: LEGAL_VERSION, legal_accepted_at: new Date().toISOString() },
           },

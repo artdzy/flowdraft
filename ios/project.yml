@@ -1,0 +1,60 @@
+name: Flowdraft
+options:
+  bundleIdPrefix: tech.flowdraft
+  deploymentTarget:
+    iOS: "18.0"
+  developmentLanguage: tr
+  createIntermediateGroups: true
+
+settings:
+  base:
+    DEVELOPMENT_TEAM: QLSAXY9748
+    CODE_SIGN_STYLE: Automatic
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  Flowdraft:
+    type: application
+    platform: iOS
+    sources:
+      - path: Flowdraft
+        excludes:
+          - Web
+      # The bundled web app (scripts/build-web.sh), served to the web view from the app bundle.
+      - path: Flowdraft/Web
+        type: folder
+        buildPhase: resources
+    info:
+      path: Flowdraft/Info.plist
+      properties:
+        # One window: every window would share the same on-device draft.
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: tech.flowdraft.app
+        PRODUCT_NAME: Flowdraft
+        TARGETED_DEVICE_FAMILY: "2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: flowdraft
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.productivity
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+        INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: Dışa aktardığın akış görselini Fotoğraflar'a kaydetmek için.
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UILaunchScreen_BackgroundColor: LaunchBackground
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: YES
+        INFOPLIST_KEY_UIStatusBarHidden: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+
+schemes:
+  Flowdraft:
+    build:
+      targets:
+        Flowdraft: all
+    archive:
+      config: Release

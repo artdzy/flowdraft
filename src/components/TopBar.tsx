@@ -20,10 +20,11 @@ import {
   Undo2,
   Upload,
   UserRound,
+  UserX,
 } from 'lucide-react';
 import { useRef } from 'react';
 import { importFile, requestAutosave, requestExport, requestSave, useSaveState } from '../lib/actions';
-import { openAuth, requireAuth, signOut, useAuth } from '../store/auth';
+import { deleteAccount, openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
 import { toast, useUi } from '../store/ui';
@@ -122,6 +123,19 @@ function clearCanvas() {
   toast('Tuval temizlendi. Geri almak için ⌘Z / Ctrl+Z');
 }
 
+async function confirmDeleteAccount() {
+  const ok = window.confirm(
+    'Hesabın ve kayıtlı tüm projelerin kalıcı olarak silinsin mi? Bu işlem geri alınamaz. Tuvaldeki çizim bu cihazda kalır.',
+  );
+  if (!ok) return;
+  try {
+    await deleteAccount();
+    toast('Hesabın silindi');
+  } catch {
+    toast('Hesap silinemedi. Biraz sonra tekrar dene.', 'error');
+  }
+}
+
 function openProjects() {
   requireAuth('Projelerini görmek için giriş yap.', () => useUi.setState({ projectsOpen: true }));
 }
@@ -203,6 +217,9 @@ export function TopBar({ mobile }: { mobile: boolean }) {
         <div className="fd-menu-caption">{user.email}</div>
         <MenuItem icon={<LogOut size={16} />} onSelect={() => (close(), void signOut())}>
           Çıkış yap
+        </MenuItem>
+        <MenuItem icon={<UserX size={16} />} onSelect={() => (close(), void confirmDeleteAccount())} danger>
+          Hesabı sil
         </MenuItem>
       </>
     ) : (
