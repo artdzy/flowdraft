@@ -15,7 +15,7 @@ import { useAuth } from './store/auth';
 import { isDirty, useEditor } from './store/editor';
 import { useSettings } from './store/settings';
 
-const mobileQuery = window.matchMedia('(max-width: 760px)');
+const mobileQuery = window.matchMedia('(max-width: 960px)');
 const subscribeMobile = (cb: () => void) => {
   mobileQuery.addEventListener('change', cb);
   return () => mobileQuery.removeEventListener('change', cb);
