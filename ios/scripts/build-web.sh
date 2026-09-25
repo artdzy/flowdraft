@@ -12,6 +12,8 @@ mkdir -p "$web"
 cp -R ios/build/web/. "$web/"
 # Browser-only files: the app has no service worker or install prompt, and /config.js is served by the app.
 rm -f "$web/sw.js" "$web/manifest.webmanifest" "$web/icon-maskable-512.png"
+# The promo page videos (/tanitim) are web-only and would add megabytes to the app.
+rm -rf "$web/promo"
 
 cd ios
 xcodegen generate --quiet

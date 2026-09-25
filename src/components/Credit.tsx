@@ -1,4 +1,5 @@
 import { t } from '../i18n';
+import { nativeApp } from '../lib/platform';
 import { useTheme } from '../store/theme';
 
 const YEAR = new Date().getFullYear();
@@ -13,6 +14,13 @@ export function Credit() {
         <a href="/kullanim-sartlari">{t('Kullanım Şartları', 'Terms of Use')}</a> ·{' '}
         <a href="/gizlilik">{t('Gizlilik', 'Privacy')}</a> · <a href="/destek">{t('Destek', 'Support')}</a> ·{' '}
         <a href="/mcp">{t('Yapay zekâ ile kullan', 'Use with AI')}</a>
+        {/* The promo videos are web-only (not bundled into the iPad app). */}
+        {!nativeApp && (
+          <>
+            {' '}
+            · <a href="/tanitim">{t('Tanıtım', 'Product tour')}</a>
+          </>
+        )}
       </span>
       <a
         className="wsy-credit__link"

@@ -11,6 +11,7 @@ import { LegalPage, legalKindFromPath } from './legal/LegalPage';
 import { loadDraft } from './lib/draft';
 import { isGuidePath, McpGuidePage } from './guide/McpGuidePage';
 import { ConsentPage, isConsentPath } from './oauth/ConsentPage';
+import { isPromoPath, PromoPage } from './promo/PromoPage';
 import { lang } from './i18n';
 import { initAuth } from './store/auth';
 import { useEditor } from './store/editor';
@@ -22,7 +23,8 @@ const path = window.location.pathname;
 const legal = legalKindFromPath(path);
 const consent = isConsentPath(path);
 const guide = isGuidePath(path);
-const editor = !legal && !consent && !guide;
+const promo = isPromoPath(path);
+const editor = !legal && !consent && !guide && !promo;
 
 if (editor) {
   const draft = loadDraft();
@@ -36,6 +38,7 @@ function Page() {
   if (legal) return <LegalPage kind={legal} />;
   if (consent) return <ConsentPage />;
   if (guide) return <McpGuidePage />;
+  if (promo) return <PromoPage />;
   return <App />;
 }
 
