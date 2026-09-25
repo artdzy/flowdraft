@@ -4,7 +4,6 @@ import type { FlowDoc, FlowNode } from '../flow/types';
 
 const PADDING = 48;
 const MAX_SIDE = 8000;
-const BACKGROUND = '#111111';
 
 export type ExportKind = 'png' | 'svg' | 'json';
 
@@ -12,7 +11,7 @@ function slug(title: string) {
   const base = title
     .toLocaleLowerCase('tr')
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/ı/g, 'i')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
@@ -44,7 +43,7 @@ export async function exportImage(kind: 'png' | 'svg', nodes: FlowNode[], title:
   document.documentElement.classList.add('fd-exporting');
   try {
     const options = {
-      backgroundColor: BACKGROUND,
+      backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#111111',
       width,
       height,
       pixelRatio: kind === 'png' ? 2 : 1,

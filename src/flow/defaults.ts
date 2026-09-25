@@ -31,13 +31,14 @@ export const EDGE_DEFAULTS: FlowEdgeData = {
   label: '',
 };
 
-export const EDGE_HEX: Record<EdgeColor, string> = {
-  light: '#d4d4d4',
-  accent: '#e5484d',
-  muted: '#6b6b6b',
-  blue: '#5b9dff',
-  green: '#3ecf8e',
-  amber: '#f5a524',
+/** CSS color values; theme-dependent ones resolve through tokens in styles.css. */
+export const EDGE_COLOR: Record<EdgeColor, string> = {
+  light: 'var(--edge-ink)',
+  accent: 'var(--accent)',
+  muted: 'var(--edge-muted)',
+  blue: 'var(--blue)',
+  green: 'var(--green)',
+  amber: 'var(--amber)',
 };
 
 export const HANDLE_IDS = ['t', 'r', 'b', 'l'] as const;

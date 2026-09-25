@@ -15,6 +15,7 @@ import { NODE_TYPES } from '../flow/nodes';
 import { DND_MIME, PALETTE_BY_ID } from '../flow/palette';
 import type { FlowEdge, FlowNode } from '../flow/types';
 import { useEditor } from '../store/editor';
+import { useTheme } from '../store/theme';
 import { useUi } from '../store/ui';
 import { TemplateGrid } from './Dialogs';
 import { useAddNode } from './useAddNode';
@@ -22,9 +23,9 @@ import { useAddNode } from './useAddNode';
 const FIT = { padding: 0.15, maxZoom: 1 };
 
 function minimapColor(node: FlowNode): string {
-  if (node.type === 'lane') return '#1b1b1b';
-  if ('tone' in node.data && node.data.tone === 'accent') return '#e5484d';
-  return '#3a3a3a';
+  if (node.type === 'lane') return 'var(--minimap-lane)';
+  if ('tone' in node.data && node.data.tone === 'accent') return 'var(--accent)';
+  return 'var(--minimap-node)';
 }
 
 function EmptyState() {
@@ -52,6 +53,7 @@ export function Canvas({ mobile }: { mobile: boolean }) {
   const snapshot = useEditor((s) => s.snapshot);
   const fitRequest = useEditor((s) => s.fitRequest);
   const initialized = useNodesInitialized();
+  const theme = useTheme((t) => t.theme);
   const pendingFit = useRef(fitRequest > 0);
 
   useEffect(() => {
@@ -98,7 +100,7 @@ export function Canvas({ mobile }: { mobile: boolean }) {
         onEdgeDoubleClick={() => mobile && useUi.setState({ inspectorSheet: true, paletteSheet: false })}
         connectionMode={ConnectionMode.Loose}
         connectionLineType={ConnectionLineType.SmoothStep}
-        connectionLineStyle={{ stroke: '#e5484d', strokeWidth: 1.5 }}
+        connectionLineStyle={{ stroke: 'var(--accent)', strokeWidth: 1.5 }}
         connectionRadius={28}
         elevateNodesOnSelect={false}
         elevateEdgesOnSelect
@@ -111,10 +113,10 @@ export function Canvas({ mobile }: { mobile: boolean }) {
         panOnScroll={!mobile}
         selectionOnDrag={false}
         deleteKeyCode={['Backspace', 'Delete']}
-        colorMode="dark"
+        colorMode={theme}
         proOptions={{ hideAttribution: true }}
       >
-        <Background variant={BackgroundVariant.Dots} gap={20} size={1.2} color="#2b2b2b" />
+        <Background variant={BackgroundVariant.Dots} gap={20} size={1.2} color="var(--grid-dot)" />
         {!mobile && (
           <>
             <MiniMap<FlowNode>
@@ -122,7 +124,7 @@ export function Canvas({ mobile }: { mobile: boolean }) {
               zoomable
               nodeColor={minimapColor}
               nodeStrokeWidth={0}
-              maskColor="rgba(10,10,10,0.72)"
+              maskColor={theme === 'light' ? 'rgba(245,245,243,0.75)' : 'rgba(10,10,10,0.72)'}
               ariaLabel="Mini harita"
             />
             <Controls showInteractive={false} position="bottom-left" />

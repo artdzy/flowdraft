@@ -10,8 +10,11 @@ import {
   LogIn,
   LogOut,
   Menu as MenuIcon,
+  Monitor,
+  Moon,
   Redo2,
   Save,
+  Sun,
   Undo2,
   Upload,
   UserRound,
@@ -22,8 +25,9 @@ import { openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
 import { useUi } from '../store/ui';
+import { THEME_LABEL, useTheme, type ThemePref } from '../store/theme';
 import { Credit } from './Credit';
-import { Switch } from './fields';
+import { Segmented, Switch } from './fields';
 import { Menu, MenuItem } from './Menu';
 
 function Logo() {
@@ -67,6 +71,45 @@ function SaveStatus() {
       {icon}
       <span>{text}</span>
     </span>
+  );
+}
+
+const THEME_ORDER: ThemePref[] = ['system', 'light', 'dark'];
+const THEME_ICON: Record<ThemePref, typeof Sun> = { system: Monitor, light: Sun, dark: Moon };
+
+function ThemeButton() {
+  const pref = useTheme((t) => t.pref);
+  const setPref = useTheme((t) => t.setPref);
+  const Icon = THEME_ICON[pref];
+  const next = THEME_ORDER[(THEME_ORDER.indexOf(pref) + 1) % THEME_ORDER.length];
+  return (
+    <button
+      type="button"
+      className="fd-icon-btn"
+      aria-label={`Tema: ${THEME_LABEL[pref]}. ${THEME_LABEL[next]} temaya geç`}
+      title={`Tema: ${THEME_LABEL[pref]}`}
+      onClick={() => setPref(next)}
+    >
+      <Icon size={17} />
+    </button>
+  );
+}
+
+function ThemeChoice() {
+  const pref = useTheme((t) => t.pref);
+  const setPref = useTheme((t) => t.setPref);
+  return (
+    <div className="fd-menu-row">
+      <Segmented<ThemePref>
+        label="Tema"
+        value={pref}
+        onChange={setPref}
+        options={THEME_ORDER.map((p) => {
+          const Icon = THEME_ICON[p];
+          return { value: p, label: <span className="fd-seg-icon"><Icon size={14} /> {THEME_LABEL[p]}</span> };
+        })}
+      />
+    </div>
   );
 }
 
@@ -172,6 +215,7 @@ export function TopBar({ mobile }: { mobile: boolean }) {
               <div className="fd-menu-row">
                 <Switch label="Otomatik kaydet" checked={autosave && !!user} onChange={(on) => (close(), requestAutosave(on))} />
               </div>
+              <ThemeChoice />
               <div className="fd-menu-sep" />
               {fileItems(close)}
               <div className="fd-menu-sep" />
@@ -214,6 +258,7 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       <Menu label={<><Download size={16} /> Dışa aktar</>} align="right">
         {exportItems}
       </Menu>
+      <ThemeButton />
       {user ? (
         <Menu
           label={<span className="fd-avatar">{(user.email ?? '?').slice(0, 1).toLocaleUpperCase('tr')}</span>}

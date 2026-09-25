@@ -1,6 +1,6 @@
 import { ArrowLeftRight, ArrowRight, Copy, Minus, Trash2 } from 'lucide-react';
 import { useShallow } from 'zustand/react/shallow';
-import { EDGE_DEFAULTS, EDGE_HEX } from '../flow/defaults';
+import { EDGE_DEFAULTS, EDGE_COLOR } from '../flow/defaults';
 import type { EdgeColor, FlowEdgeData, FlowNode, NoteKind, SimpleTone, TextVariant, Tone } from '../flow/types';
 import { useEditor } from '../store/editor';
 import { IconPicker, Segmented, Swatches, Switch, TextInput } from './fields';
@@ -70,7 +70,7 @@ export function EdgeStyleFields({
         label="Renk"
         value={value.color}
         onChange={(color) => onChange({ color })}
-        options={COLORS.map((c) => ({ ...c, color: EDGE_HEX[c.value] }))}
+        options={COLORS.map((c) => ({ ...c, color: EDGE_COLOR[c.value] }))}
       />
       <Segmented
         label="Yol"

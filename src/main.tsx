@@ -11,7 +11,9 @@ import { LegalPage, legalKindFromPath } from './legal/LegalPage';
 import { loadDraft } from './lib/draft';
 import { initAuth } from './store/auth';
 import { useEditor } from './store/editor';
+import { initTheme } from './store/theme';
 
+initTheme();
 const legal = legalKindFromPath(window.location.pathname);
 
 if (!legal) {

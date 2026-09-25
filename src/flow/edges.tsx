@@ -8,7 +8,7 @@ import {
   type EdgeTypes,
 } from '@xyflow/react';
 import { memo } from 'react';
-import { EDGE_DEFAULTS, EDGE_HEX } from './defaults';
+import { EDGE_DEFAULTS, EDGE_COLOR } from './defaults';
 import { dashFor } from './edgeStyle';
 import type { FlowEdge } from './types';
 
@@ -36,7 +36,7 @@ function FlowEdgeView(props: EdgeProps<FlowEdge>) {
           .filter(Boolean)
           .join(' ')}
         style={{
-          stroke: EDGE_HEX[d.color],
+          stroke: EDGE_COLOR[d.color],
           strokeWidth: (dotted ? 2.2 : 1.5) + (selected ? 0.75 : 0),
           strokeDasharray: dashFor(d.line, d.animated),
           strokeLinecap: dotted ? 'round' : 'butt',
