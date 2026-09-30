@@ -274,10 +274,13 @@ function fail(message: string): CallToolResult {
   return { isError: true, content: [{ type: 'text', text: message }] };
 }
 
-/** Adds a PNG of the diagram, drawn here on the server, so the chat can show it without flowdraft being open. */
+/**
+ * Adds a PNG of the diagram, drawn here on the server, so the chat can show it without flowdraft being open.
+ * Watermarked: a clean file comes from flowdraft's own export, which needs an account.
+ */
 function withPicture(result: CallToolResult, doc: { nodes: FlowNode[]; edges: FlowEdge[] }): CallToolResult {
   try {
-    const picture = renderDiagramPng(doc);
+    const picture = renderDiagramPng(doc, { watermark: true });
     if (picture) result.content.push({ type: 'image', mimeType: 'image/png', data: picture.png.toString('base64') });
   } catch (err) {
     console.error('diagram render failed', err);
