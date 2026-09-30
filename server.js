@@ -3,10 +3,12 @@ import compression from 'compression';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { createMcpRouter } from './dist-server/mcp.js';
+import { createSeo } from './seo.js';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const dist = path.join(root, 'dist');
 const port = Number(process.env.PORT) || 3000;
+const seo = createSeo({ root, dist });
 
 const supabaseUrl = process.env.SUPABASE_URL ?? '';
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY ?? '';
@@ -35,6 +37,7 @@ app.use((_req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000');
   next();
 });
 
@@ -46,6 +49,13 @@ app.use(createMcpRouter({ supabaseUrl, supabaseAnonKey }));
 app.get('/config.js', (_req, res) => {
   res.type('application/javascript').set('Cache-Control', 'no-store').send(runtimeConfig);
 });
+
+app.get('/sitemap.xml', (_req, res) => {
+  res.type('application/xml').set('Cache-Control', 'public, max-age=3600').send(seo.sitemap());
+});
+
+// The shell is only served through seo.render, so the raw file never shows up as a duplicate page.
+app.get('/index.html', (_req, res) => res.redirect(301, '/'));
 
 app.use('/assets', express.static(path.join(dist, 'assets'), { immutable: true, maxAge: '1y', index: false }));
 app.use(
@@ -64,7 +74,9 @@ app.get('/{*splat}', (req, res) => {
     res.status(404).type('text/plain').send('Not found');
     return;
   }
-  res.set('Cache-Control', 'no-cache').sendFile(path.join(dist, 'index.html'));
+  const { html, varies } = seo.render(req);
+  if (varies) res.vary('Accept-Language');
+  res.set('Cache-Control', 'no-cache').type('html').send(html);
 });
 
 app.listen(port, '0.0.0.0', () => {

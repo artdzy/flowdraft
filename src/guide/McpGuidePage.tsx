@@ -1,5 +1,5 @@
 import { ArrowLeft, FolderOpen, Link2, PenLine, ShieldCheck, Workflow } from 'lucide-react';
-import { useEffect, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { Credit } from '../components/Credit';
 import { LangSwitch } from '../components/LangSwitch';
 import { CopyBlock, CopyField, mcpUrl } from '../components/Copy';
@@ -96,10 +96,6 @@ function Faq({ q, children }: { q: string; children: ReactNode }) {
 
 export function McpGuidePage() {
   const url = mcpUrl();
-
-  useEffect(() => {
-    document.title = t('Yapay zekâ ile kullan (MCP) · flowdraft', 'Use with AI (MCP) · flowdraft');
-  }, []);
 
   return (
     <div className="fd-legal-page">

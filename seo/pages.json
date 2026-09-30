@@ -1,0 +1,129 @@
+{
+  "origin": "https://flowdraft.tech",
+  "image": "/promo/flowdraft-16x9.jpg",
+  "pages": {
+    "/": {
+      "priority": "1.0",
+      "tr": {
+        "title": "flowdraft · Ücretsiz online akış diyagramı editörü",
+        "description": "Tarayıcıda ve telefonda çalışan ücretsiz akış diyagramı editörü. Hesap açmadan çiz; süreç, otomasyon ve konuşma akışlarını PNG, SVG ya da JSON olarak dışa aktar."
+      },
+      "en": {
+        "title": "flowdraft · Free online flowchart maker",
+        "description": "Free flowchart editor for your browser and phone. Start drawing without an account; map processes, automations and chat flows, then export PNG, SVG or JSON."
+      }
+    },
+    "/tanitim": {
+      "priority": "0.8",
+      "tr": {
+        "title": "flowdraft tanıtımı · 30 saniyede akış diyagramı editörü",
+        "description": "flowdraft'ı 30 saniyelik videoda gör: hazır parçalar, stilli bağlantılar, dışa aktarma ve yapay zekâ (MCP) desteğiyle ücretsiz akış diyagramı editörü."
+      },
+      "en": {
+        "title": "flowdraft tour · The free flowchart editor in 30 seconds",
+        "description": "See flowdraft in a 30-second video: a free flowchart editor with ready-made parts, styled connections, PNG/SVG/JSON export and AI (MCP) support."
+      }
+    },
+    "/mcp": {
+      "priority": "0.8",
+      "tr": {
+        "title": "flowdraft'ı ChatGPT, Claude ve Cursor'a bağla (MCP)",
+        "description": "flowdraft MCP sunucusunu ChatGPT, Claude, Claude Code, Cursor ya da VS Code'a ekle; yapay zekâ akış diyagramlarını senin hesabında çizsin ve düzenlesin."
+      },
+      "en": {
+        "title": "Connect flowdraft to ChatGPT, Claude and Cursor (MCP)",
+        "description": "Add the flowdraft MCP server to ChatGPT, Claude, Claude Code, Cursor or VS Code and let AI draw and edit flowcharts in your own account."
+      }
+    },
+    "/destek": {
+      "priority": "0.4",
+      "tr": {
+        "title": "Destek · flowdraft",
+        "description": "flowdraft için yardım ve iletişim: sık sorulan sorular, hesap silme ve bize ulaşma yolları."
+      },
+      "en": {
+        "title": "Support · flowdraft",
+        "description": "Help and contact for flowdraft: common questions, deleting your account and how to reach us."
+      }
+    },
+    "/gizlilik": {
+      "priority": "0.3",
+      "tr": {
+        "title": "Gizlilik Politikası · flowdraft",
+        "description": "flowdraft hangi verileri saklar, nasıl kullanır ve nasıl silebilirsin."
+      },
+      "en": {
+        "title": "Privacy Policy · flowdraft",
+        "description": "What data flowdraft stores, how it is used and how you can delete it."
+      }
+    },
+    "/kullanim-sartlari": {
+      "priority": "0.3",
+      "tr": {
+        "title": "Kullanım Şartları · flowdraft",
+        "description": "flowdraft akış diyagramı editörünü kullanma şartları."
+      },
+      "en": {
+        "title": "Terms of Use · flowdraft",
+        "description": "The terms for using the flowdraft flowchart editor."
+      }
+    }
+  },
+  "features": {
+    "tr": [
+      "Hesap açmadan kullan; çizim bu cihazda taslak olarak saklanır",
+      "Hazır parçalar: adım, karar, insan onayı, başla/bitir, kişi, bot, sistem, veritabanı, konuşma balonu, not, kulvar",
+      "Bağlantılar: düz, kesikli ya da noktalı; 6 renk; köşeli, eğri ya da düz yol; akış animasyonu ve etiket",
+      "PNG, SVG ve JSON olarak dışa aktarma",
+      "Ücretsiz hesapla buluta kaydetme ve otomatik kaydetme",
+      "MCP ile ChatGPT, Claude, Cursor gibi yapay zekâ araçlarından akış çizme",
+      "Türkçe ve İngilizce arayüz, açık ve koyu tema, PWA olarak ana ekrana ekleme"
+    ],
+    "en": [
+      "Works without an account; your drawing is kept on the device as a draft",
+      "Ready-made parts: step, decision, human approval, start/end, person, bot, system, database, chat bubble, note, swimlane",
+      "Connections: solid, dashed or dotted; 6 colors; stepped, curved or straight; flow animation and labels",
+      "Export to PNG, SVG and JSON",
+      "Cloud save and auto-save with a free account",
+      "Draw flows from AI tools such as ChatGPT, Claude and Cursor over MCP",
+      "Turkish and English interface, light and dark theme, installable as a PWA"
+    ]
+  },
+  "faq": [
+    {
+      "q": { "tr": "flowdraft ücretsiz mi?", "en": "Is flowdraft free?" },
+      "a": {
+        "tr": "Evet. flowdraft tamamen ücretsizdir; çizmek için hesap bile gerekmez. Projeleri buluta kaydetmek için ücretsiz bir hesap açman yeterli.",
+        "en": "Yes. flowdraft is completely free and you don't even need an account to draw. A free account lets you save projects to the cloud."
+      }
+    },
+    {
+      "q": { "tr": "Hesap açmadan kullanabilir miyim?", "en": "Can I use it without an account?" },
+      "a": {
+        "tr": "Evet. flowdraft açılır açılmaz kullanılır ve çizimin bu cihazda taslak olarak saklanır. Kaydetme, dışa aktarma ve otomatik kaydetme için giriş yapman istenir.",
+        "en": "Yes. flowdraft works the moment it opens and keeps your drawing on this device as a draft. Saving, exporting and auto-save ask you to sign in."
+      }
+    },
+    {
+      "q": { "tr": "Diyagramları hangi formatlarda dışa aktarabilirim?", "en": "Which formats can I export to?" },
+      "a": {
+        "tr": "PNG görsel, SVG vektör ya da tekrar açıp düzenleyebileceğin JSON dosyası olarak.",
+        "en": "A PNG image, an SVG vector or a JSON file you can open and edit again."
+      }
+    },
+    {
+      "q": { "tr": "ChatGPT ya da Claude ile akış çizdirebilir miyim?", "en": "Can ChatGPT or Claude draw flows for me?" },
+      "a": {
+        "tr": "Evet. https://flowdraft.tech/mcp adresini ChatGPT, Claude, Claude Code, Cursor ya da VS Code'a MCP sunucusu olarak ekle; yapay zekâ hesabındaki akışları listeler, okur, oluşturur ve günceller.",
+        "en": "Yes. Add https://flowdraft.tech/mcp as an MCP server in ChatGPT, Claude, Claude Code, Cursor or VS Code; the AI can list, read, create and update the flows in your account."
+      }
+    },
+    {
+      "q": { "tr": "Telefonda ve tablette çalışır mı?", "en": "Does it work on phones and tablets?" },
+      "a": {
+        "tr": "Evet. flowdraft tarayıcıda, telefonda ve tablette çalışır; ana ekrana uygulama (PWA) olarak eklenebilir.",
+        "en": "Yes. flowdraft runs in the browser on phones and tablets, and can be added to the home screen as an app (PWA)."
+      }
+    }
+  ]
+}

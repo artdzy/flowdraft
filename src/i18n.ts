@@ -5,6 +5,9 @@ const LANG_KEY = 'flowdraft:lang';
 function detect(): Lang {
   // The MCP server (server/mcp.ts) shares the node defaults and keeps its original Turkish ones.
   if (typeof window === 'undefined') return 'tr';
+  // ?lang= links (hreflang alternates, sitemap) pick the language for that visit without changing the saved choice.
+  const asked = new URLSearchParams(window.location.search).get('lang');
+  if (asked === 'tr' || asked === 'en') return asked;
   try {
     const chosen = localStorage.getItem(LANG_KEY);
     if (chosen === 'tr' || chosen === 'en') return chosen;
@@ -29,7 +32,10 @@ export function setLang(next: Lang) {
   } catch {
     return;
   }
-  window.location.reload();
+  // A ?lang= in the address would override the new choice after the reload.
+  const url = new URL(window.location.href);
+  url.searchParams.delete('lang');
+  window.location.replace(url);
 }
 
 /** BCP 47 locale for dates, case mapping and sorting in the current language. */

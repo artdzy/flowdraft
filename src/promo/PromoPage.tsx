@@ -4,6 +4,8 @@ import { Credit } from '../components/Credit';
 import { Logo } from '../components/TopBar';
 import { t } from '../i18n';
 import { GUIDE_PATH } from '../guide/McpGuidePage';
+import seo from '../../seo/pages.json';
+import './promo-faq.css';
 
 /** Public promo page with the 30 s product video (public/promo, made with ft-motion). */
 export const PROMO_PATH = '/tanitim';
@@ -114,10 +116,6 @@ export function PromoVideo() {
 }
 
 export function PromoPage() {
-  useEffect(() => {
-    document.title = t('flowdraft · Fikirden akışa', 'flowdraft · From idea to flow');
-  }, []);
-
   return (
     <div className="fd-legal-page">
       <header className="fd-legal-head">
@@ -162,6 +160,17 @@ export function PromoPage() {
             </li>
           ))}
         </ul>
+
+        {/* Same questions as the FAQPage structured data server.js adds to this page (seo/pages.json). */}
+        <section className="fd-promo-faq" aria-labelledby="fd-promo-faq-title">
+          <h2 id="fd-promo-faq-title">{t('Sık sorulan sorular', 'Frequently asked questions')}</h2>
+          {seo.faq.map((item) => (
+            <details key={item.q.en}>
+              <summary>{t(item.q.tr, item.q.en)}</summary>
+              <p>{t(item.a.tr, item.a.en)}</p>
+            </details>
+          ))}
+        </section>
 
         <section className="fd-promo-end" aria-labelledby="fd-promo-end-title">
           <h2 id="fd-promo-end-title">{t('Ücretsiz. Hesap açmadan başla.', 'Free. No account needed to start.')}</h2>

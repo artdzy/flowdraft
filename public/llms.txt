@@ -1,0 +1,32 @@
+# flowdraft
+
+> flowdraft (https://flowdraft.tech) is a free online flowchart editor that runs in the browser on desktops, phones and tablets. You can start drawing without an account; a free account adds cloud save and auto-save. Diagrams export to PNG, SVG and JSON. AI assistants such as ChatGPT, Claude, Claude Code, Cursor and VS Code can draw and edit a user's diagrams through the flowdraft MCP server at https://flowdraft.tech/mcp. The interface is available in Turkish and English. (Türkçe: flowdraft, tarayıcıda ve telefonda çalışan ücretsiz bir akış diyagramı editörüdür.)
+
+Good for: process maps, business workflows, automation and integration flows, chatbot and conversation flows, approval flows with human-in-the-loop steps, and swimlane diagrams.
+
+## Key facts
+
+- Price: free. No account needed to draw; sign-in (free) is only needed to save to the cloud, export and auto-save.
+- Platforms: any modern web browser; installable as a PWA. An iPad app is in preparation.
+- Building blocks: step, highlighted step, human approval, decision, start/end, person, bot, system, database, chat bubble, note/info/warning/error/success callouts, swimlane, automation zone, heading, chip.
+- Connections: solid, dashed or dotted; 6 colors; stepped, curved or straight paths; arrow direction; flow animation; labels.
+- Export: PNG image, SVG vector, editable JSON.
+- Storage: projects are stored only as node and edge JSON; no image uploads.
+
+## Pages
+
+- [flowdraft editor](https://flowdraft.tech/): open the editor and start drawing right away
+- [Product tour](https://flowdraft.tech/tanitim): 30-second video, feature list and FAQ
+- [Use flowdraft with AI (MCP setup guide)](https://flowdraft.tech/mcp): how to connect ChatGPT, Claude, Claude Code, Cursor and VS Code
+- [Support](https://flowdraft.tech/destek): getting started, saving and sharing, deleting an account, contact
+- [Privacy Policy](https://flowdraft.tech/gizlilik)
+- [Terms of Use](https://flowdraft.tech/kullanim-sartlari)
+
+Each page is available in Turkish (`?lang=tr`) and English (`?lang=en`).
+
+## MCP server (for AI assistants)
+
+- Endpoint: `https://flowdraft.tech/mcp` (Streamable HTTP). Opening it in a browser shows the setup guide.
+- Authentication: OAuth 2.1 with dynamic client registration; the user signs in to flowdraft and approves access.
+- Tools: `list_diagrams`, `get_diagram`, `create_diagram`, `update_diagram`, `delete_diagram`. Each works only on the signed-in user's own diagrams.
+- Tool results include a `https://flowdraft.tech/?p=<id>` link that opens the diagram in the editor.

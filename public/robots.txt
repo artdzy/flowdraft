@@ -1,0 +1,21 @@
+# flowdraft.tech: search engines and AI assistants are welcome on the public pages.
+User-agent: *
+Allow: /
+Disallow: /oauth/
+
+# AI search and assistant crawlers, listed explicitly so the intent is clear.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+Allow: /
+Disallow: /oauth/
+
+Sitemap: https://flowdraft.tech/sitemap.xml
