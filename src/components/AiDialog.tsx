@@ -118,26 +118,35 @@ function ConnectedApps() {
   );
 }
 
-const REVIEW_PROMPT = t('flowdraft’ta açık olan akışımı kritik et', 'Review the flow I have open in flowdraft');
+const CHAT_PROMPT = t(
+  'flowdraft ile müşteri iade sürecimizi çiz ve görselini göster',
+  'Use flowdraft to draw our customer return process and show me the picture',
+);
 
-/** Lets connected AI tools see the open canvas and pin their review on it (src/lib/live.ts, get_open_diagram, add_review). */
-function ScreenReview() {
+/** The chat loop (server-drawn PNGs) and sharing the open canvas with connected AI tools (src/lib/live.ts). */
+function ChatLoop() {
   const share = useSettings((s) => s.shareCanvas);
   const setShare = (on: boolean) => {
     useSettings.getState().setShareCanvas(on);
     if (!on) void clearLiveCanvas();
   };
   return (
-    <section className="fd-ai-section" aria-labelledby="fd-ai-review">
-      <h3 id="fd-ai-review">{t('Ekrandaki akışı kritik ettir', 'Get the flow on your screen reviewed')}</h3>
+    <section className="fd-ai-section" aria-labelledby="fd-ai-chat">
+      <h3 id="fd-ai-chat">{t('Sohbetten çiz, sohbette gör', 'Draw from the chat, see it in the chat')}</h3>
       <p className="fd-muted fd-small">
         {t(
-          'Bağlı AI aracı burada açık olan akışı (kaydedilmemiş değişiklikler dahil) ve küçük bir görselini görebilir. Sohbette şunu yaz; kritik burada, ilgili adımların yanında belirir. Düzeltmesini istersen akış da ekranında güncellenir.',
-          'A connected AI tool can see the flow open here, unsaved changes included, plus a small picture of it. Ask this in the chat; the review shows up right here, next to the steps it is about. Ask it to fix things and the flow updates on your screen too.',
+          'AI akışı oluşturduğunda ya da değiştirdiğinde sonucun görseli sohbete gelir. Beğenmediğin yeri sohbete yaz; AI aynı akışı düzeltir ve yeni görseli gösterir. flowdraft’ı açman gerekmez.',
+          'Whenever the AI creates or changes a flow, a picture of the result shows up in the chat. Say what you’d change; the AI fixes the same flow and shows the new picture. No need to open flowdraft.',
         )}
       </p>
-      <CopyField value={REVIEW_PROMPT} labelId="fd-ai-review" />
+      <CopyField value={CHAT_PROMPT} labelId="fd-ai-chat" />
       <Switch label={t('Açık akışı bağlı AI araçlarıyla paylaş', 'Share the open flow with connected AI tools')} checked={share} onChange={setShare} />
+      <p className="fd-muted fd-small">
+        {t(
+          'Açıkken AI, burada açık olan akışı (kaydedilmemiş değişiklikler dahil) görebilir: “flowdraft’ta açık olan akışa bir onay adımı ekle” gibi. AI’ın yaptığı değişiklik bu ekrana da hemen gelir.',
+          'While on, the AI can see the flow open here, unsaved changes included: try “add an approval step to the flow I have open in flowdraft”. Changes the AI makes show up on this screen right away.',
+        )}
+      </p>
     </section>
   );
 }
@@ -168,7 +177,7 @@ function AiConnect() {
         {t('Claude, ChatGPT, Cursor… için adım adım rehber', 'Step-by-step guide for Claude, ChatGPT, Cursor…')}{' '}
         <ArrowUpRight size={15} />
       </a>
-      <ScreenReview />
+      <ChatLoop />
       <ConnectedApps />
     </>
   );

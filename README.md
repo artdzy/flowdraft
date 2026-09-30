@@ -35,7 +35,7 @@ Auth → URL Configuration → Site URL: `https://flowdraft.tech`.
 
 ## AI araçları (MCP)
 
-Kullanıcılar flowdraft'ı ChatGPT, Claude, Claude Code, Cursor gibi araçlara **`https://flowdraft.tech/mcp`** adresiyle
+Kullanıcılar flowdraft'ı ChatGPT, Claude, Claude Code, Codex, Cursor gibi araçlara **`https://flowdraft.tech/mcp`** adresiyle
 ekler; AI kendi hesaplarındaki akışları listeler, okur, oluşturur, günceller ve siler. Aynı adres tarayıcıda açılınca
 herkese açık kurulum rehberini gösterir (Claude, ChatGPT, Claude Code, Cursor, VS Code). Uygulamada: Dosya → AI
 araçlarına bağla (adres, rehber linki, bağlı uygulamaları kaldırma).
@@ -46,18 +46,21 @@ araçlarına bağla (adres, rehber linki, bağlı uygulamaları kaldırma).
 - AI'ın verdiği `https://flowdraft.tech/?p=<id>` bağlantısı akışı açar; AI açık akışı güncellerse ekran Realtime ile hemen
   yenilenir (kaydedilmemiş değişiklik varsa uyarır), aksi halde sekmeye dönünce yüklenir.
 
-### Ekrandaki akışı kritik ettirme
+### Sohbetten çiz, sohbette gör
 
-Kullanıcı Claude/ChatGPT'de “flowdraft'ta açık olan akışımı kritik et” der; kritik flowdraft ekranında, ilgili adımların
-yanında numaralı işaretler ve bir panel olarak belirir.
+Kullanıcı flowdraft'ı hiç açmadan Claude/ChatGPT sohbetinden akış çizdirip düzelttirebilir: AI `create_diagram` /
+`update_diagram` çağırır, sonuç PNG olarak sohbete gelir, kullanıcı düzeltmesini sohbete yazar, AI aynı akışı günceller.
 
-- `get_open_diagram`: kullanıcının şu an açık tuvali (kaydedilmemiş değişiklikler dahil) ve küçük bir JPEG görseli.
-  Uygulama bunu `live_canvas` tablosuna yazar: sadece giriş yapılmış, hesaba bir AI aracı bağlı (OAuth grant) ve
-  “Açık akışı bağlı AI araçlarıyla paylaş” anahtarı açıkken (Dosya → AI araçlarına bağla).
-- `add_review`: özet + düğüm/bağlantıya iğnelenmiş maddeler (sorun, dikkat, öneri, iyi) `reviews` tablosuna yazılır; aynı
-  akışın önceki kritiğinin yerini alır. Uygulama Realtime ile dinler (`src/lib/live.ts`, `src/components/Review.tsx`).
-- Gerekenler: `0003_ai_review.sql` migration'ı (tablolar, RLS, `supabase_realtime` yayını) ve Supabase Realtime servisinin
-  çalışıyor olması (self-hosted'da Kong'daki `/realtime/v1` yolu).
+- PNG sunucuda çizilir (`server/render.ts`): akış JSON'u → SVG (editörün açık tema stilleri) → PNG. Ücretsiz, açık kaynak
+  parçalar: `@resvg/resvg-js`, `opentype.js` (yazı ölçümü) ve Geist fontları (OFL, `server/fonts/`). Arka plan opaktır.
+- `create_diagram`, `update_diagram`, `get_diagram`, `get_open_diagram` sonuçlarında PNG vardır; model her zaman görür.
+  MCP Apps destekleyen istemciler (Claude, ChatGPT) görseli sohbette de gösterir (`server/view.ts`, `ui://flowdraft/diagram.html`).
+- `get_open_diagram`: kullanıcının flowdraft'ta şu an açık tuvali (kaydedilmemiş değişiklikler dahil). Uygulama bunu
+  `live_canvas` tablosuna yazar: sadece giriş yapılmış, hesaba bir AI aracı bağlı (OAuth grant) ve “Açık akışı bağlı AI
+  araçlarıyla paylaş” anahtarı açıkken (Dosya → AI araçlarına bağla).
+- AI açık akışı güncellerse ekran Realtime ile hemen yenilenir (`src/lib/live.ts`).
+- Gerekenler: `0003_live_canvas.sql` migration'ı (tablo, RLS, `supabase_realtime` yayını) ve Supabase Realtime servisi
+  (self-hosted'da Kong'daki `/realtime/v1` yolu).
 
 ### Kurulum (self-hosted Supabase, `api.flowdraft.tech`)
 
@@ -115,4 +118,5 @@ Supabase Cloud kullanılırsa 1–2 yerine: Dashboard → Authentication → OAu
 - `src/oauth/` — AI araçları için OAuth onay sayfası (`/oauth/consent`)
 - `src/guide/` — kurulum rehberi (`/mcp`, tarayıcıdan açılınca)
 - `server/mcp.ts` — MCP sunucusu (`/mcp`); `npm run build` ile `dist-server/`'a derlenir
+- `server/render.ts` — akışı PNG olarak çizer; `server/view.ts` — görseli sohbette gösteren MCP Apps görünümü
 - `server.js` — Express: statik dosyalar, SPA fallback, `/config.js`, `/mcp`, güvenlik başlıkları

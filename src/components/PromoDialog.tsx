@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { t } from '../i18n';
 import { nativeApp } from '../lib/platform';
 import { PromoVideo } from '../promo/PromoPage';
+import { useUi } from '../store/ui';
 import { Modal } from './Modal';
 
 const HIDE_KEY = 'flowdraft:promo:hidden';
@@ -20,12 +21,15 @@ function shouldShow(): boolean {
   }
 }
 
+// Decided once at load, before the first render, so the what's-new dialog knows to wait for this one.
+useUi.setState({ promoOpen: shouldShow() });
+
 export function PromoDialog() {
-  const [open, setOpen] = useState(shouldShow);
+  const open = useUi((s) => s.promoOpen);
   const [hide, setHide] = useState(false);
 
   const close = () => {
-    setOpen(false);
+    useUi.setState({ promoOpen: false });
     try {
       sessionStorage.setItem(SEEN_KEY, '1');
       if (hide) localStorage.setItem(HIDE_KEY, '1');

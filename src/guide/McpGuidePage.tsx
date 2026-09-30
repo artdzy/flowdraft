@@ -1,4 +1,4 @@
-import { ArrowLeft, FolderOpen, Link2, PenLine, ShieldCheck, Workflow } from 'lucide-react';
+import { ArrowLeft, FolderOpen, Image as ImageIcon, Link2, PenLine, ShieldCheck, Workflow } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { Credit } from '../components/Credit';
 import { LangSwitch } from '../components/LangSwitch';
@@ -41,6 +41,14 @@ const FEATURES: { icon: ReactNode; title: string; text: string }[] = [
     ),
   },
   {
+    icon: <ImageIcon size={18} />,
+    title: t('Sohbette gösterir', 'Shows it in the chat'),
+    text: t(
+      'Her çizim ve değişiklikten sonra akışın görselini sohbete getirir; düzeltmeni yazarsın, o güncellenir.',
+      'Brings a picture of the flow into the chat after every change; you type your corrections and it updates.',
+    ),
+  },
+  {
     icon: <Link2 size={18} />,
     title: t('Link verir', 'Links back'),
     text: t(
@@ -68,8 +76,8 @@ const PROMPTS = [
     'List my flows in flowdraft and summarize the one I edited most recently.',
   ),
   t(
-    'flowdraft’ta açık olan akışımı kritik et; eksik dalları ve hata durumlarını işaretle.',
-    'Review the flow I have open in flowdraft and flag missing branches and error cases.',
+    'Son çizdiğin akışta ödeme reddedilirse ne olacağını da ekle ve yeni görseli göster.',
+    'In the flow you just drew, also show what happens if the payment is declined, and show me the new picture.',
   ),
 ];
 
@@ -179,6 +187,7 @@ export function McpGuidePage() {
             <a href="#claude">Claude</a>
             <a href="#chatgpt">ChatGPT</a>
             <a href="#claude-code">Claude Code</a>
+            <a href="#codex">Codex</a>
             <a href="#cursor">Cursor</a>
             <a href="#vscode">VS Code</a>
             <a href="#diger">{t('Diğer', 'Other')}</a>
@@ -309,6 +318,27 @@ export function McpGuidePage() {
             </Steps>
           </Client>
 
+          <Client id="codex" name="Codex" note={t('Terminal, IDE ve Codex uygulaması', 'Terminal, IDE and the Codex app')}>
+            <Steps>
+              <li>{t('Terminalde çalıştır:', 'Run this in your terminal:')}</li>
+            </Steps>
+            <CopyBlock label={t('Komutu', 'command')} text={`codex mcp add flowdraft --url ${url}`} />
+            <Steps>
+              {lang === 'tr' ? (
+                <li>
+                  Giriş sayfası kendiliğinden açılmazsa <code>codex mcp login flowdraft</code> çalıştır; tarayıcıda giriş
+                  yapıp izin ver. Terminal görseli gösteremez ama Codex onu görür; akışı açmak için verdiği bağlantıyı kullan.
+                </li>
+              ) : (
+                <li>
+                  If the sign-in page doesn’t open on its own, run <code>codex mcp login flowdraft</code>, then sign in in
+                  your browser and allow access. A terminal can’t show the picture, but Codex sees it; use the link it gives
+                  you to open the flow.
+                </li>
+              )}
+            </Steps>
+          </Client>
+
           <Client id="cursor" name="Cursor">
             <Steps>
               {lang === 'tr' ? (
@@ -412,8 +442,8 @@ export function McpGuidePage() {
               </li>
               <li>Şifreni görmez; giriş flowdraft’ın kendi sayfasında yapılır ve araç sadece bir erişim izni alır.</li>
               <li>
-                Bağlı bir araç varken flowdraft’ta açık olan akış (kaydedilmemiş değişiklikler dahil) ve küçük bir
-                görseli hesabına yazılır; araç bunu okuyup kritiğini ekranına bırakabilir. İstemezsen{' '}
+                Bağlı bir araç varken flowdraft’ta açık olan akış (kaydedilmemiş değişiklikler dahil) hesabına
+                yazılır; araç “açık olan akış” dediğinde bunu okur. İstemezsen{' '}
                 <strong>Dosya → AI araçlarına bağla</strong> altındaki paylaşım anahtarını kapat.
               </li>
               <li>
@@ -436,9 +466,8 @@ export function McpGuidePage() {
                 grant.
               </li>
               <li>
-                While a tool is connected, the flow open in flowdraft (unsaved changes included) and a small picture
-                of it are written to your account, so the tool can read it and leave its review on your screen. Don’t
-                want that? Turn off the sharing switch under <strong>File → Connect AI tools</strong>.
+                While a tool is connected, the flow open in flowdraft (unsaved changes included) is written to your
+                account, so the tool can read it when you mention “the flow I have open”. Don’t want that? Turn off the sharing switch under <strong>File → Connect AI tools</strong>.
               </li>
               <li>
                 Flow content the tool sees is subject to that tool’s own privacy terms (OpenAI, Anthropic, etc.).

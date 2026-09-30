@@ -120,7 +120,7 @@ function PrivacyTr() {
       <ul>
         <li><strong>Hesap bilgileri:</strong> e-posta adresin ve şifren. Şifre düz metin olarak değil, tek yönlü şifrelenmiş (hash) olarak saklanır.</li>
         <li><strong>Projelerin:</strong> diyagram başlığı ve içeriği (kutular, metinler, bağlantılar). Görsel veya dosya yüklenemez.</li>
-        <li><strong>AI araçları için açık akış:</strong> hesabına bir AI aracı bağlıysan ve paylaşımı kapatmadıysan, o an açık olan akış (kaydedilmemiş değişiklikler dahil) ve küçük bir görseli hesabına yazılır; bağlı aracın bıraktığı kritikler de saklanır. Paylaşımı Dosya → AI araçlarına bağla altından kapatabilirsin.</li>
+        <li><strong>AI araçları için açık akış:</strong> hesabına bir AI aracı bağlıysan ve paylaşımı kapatmadıysan, o an açık olan akış (kaydedilmemiş değişiklikler dahil) hesabına yazılır, böylece bağlı araç onu okuyabilir. Paylaşımı Dosya → AI araçlarına bağla altından kapatabilirsin.</li>
         <li><strong>Onay kaydı:</strong> kayıt olurken bu metinleri kabul ettiğin tarih ve metin sürümü.</li>
         <li><strong>Teknik kayıtlar:</strong> sunucular, güvenlik ve hata ayıklama için IP adresi, tarih ve tarayıcı bilgisi gibi standart erişim kayıtları tutabilir.</li>
       </ul>
@@ -326,7 +326,7 @@ function PrivacyEn() {
       <ul>
         <li><strong>Account information:</strong> your email address and password. Your password is not stored in plain text; it is stored as a one-way hash.</li>
         <li><strong>Your projects:</strong> the diagram title and content (boxes, text, connections). Images and files cannot be uploaded.</li>
-        <li><strong>The open flow, for AI tools:</strong> if you have connected an AI tool and kept sharing on, the flow open at that moment (unsaved changes included) and a small picture of it are written to your account, and reviews that tool leaves are stored too. You can turn sharing off under File → Connect AI tools.</li>
+        <li><strong>The open flow, for AI tools:</strong> if you have connected an AI tool and kept sharing on, the flow open at that moment (unsaved changes included) is written to your account so that tool can read it. You can turn sharing off under File → Connect AI tools.</li>
         <li><strong>Consent record:</strong> the date on which you accepted these documents when signing up, and the version of the documents.</li>
         <li><strong>Technical logs:</strong> for security and debugging, servers may keep standard access logs such as IP address, date and browser information.</li>
       </ul>

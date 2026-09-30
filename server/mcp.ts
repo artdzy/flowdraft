@@ -8,7 +8,8 @@ import { HANDLE_IDS, NODE_DEFAULTS, NODE_SIZE } from '../src/flow/defaults';
 import { ICON_OPTIONS } from '../src/flow/icons';
 import type { FlowEdge, FlowNode, NodeKind, SimpleTone } from '../src/flow/types';
 import { ENUMS, MAX_EDGES, MAX_NODES, MAX_TEXT, parseDoc, serializeDoc, uid } from '../src/lib/doc';
-import { MAX_REVIEW_ITEMS, MAX_REVIEW_SUMMARY, MAX_REVIEW_TEXT, SEVERITIES, type ReviewItem } from '../src/lib/review';
+import { renderDiagramPng } from './render';
+import { VIEW_HTML, VIEW_MIME, VIEW_URI } from './view';
 
 /**
  * Remote MCP server: lets ChatGPT, Claude and other MCP clients read and write the signed-in user's diagrams.
@@ -161,16 +162,6 @@ const diagramId = z.string().uuid().describe('Diagram id from list_diagrams.');
 const nodes = z.array(nodeSchema).max(MAX_NODES);
 const edges = z.array(edgeSchema).max(MAX_EDGES);
 
-const reviewItem = z.object({
-  severity: z
-    .enum(SEVERITIES)
-    .describe('problem (breaks the flow or is wrong), warning (risky or unclear), suggestion (could be better) or praise.'),
-  title: z.string().trim().min(1).max(120).describe('The finding in a few words, e.g. "No way out of retry".'),
-  text: z.string().max(MAX_REVIEW_TEXT).optional().describe('One or two sentences: why it matters and what to change.'),
-  node_id: z.string().max(64).optional().describe('Node the finding is about; it is pinned next to that node.'),
-  edge_id: z.string().max(64).optional().describe('Edge the finding is about, when it is about a connection.'),
-});
-
 type NodeInput = z.infer<typeof nodeSchema>;
 type EdgeInput = z.infer<typeof edgeSchema>;
 
@@ -194,11 +185,11 @@ Layout (pixels, y grows downward, position = top-left corner)
 - Label decision branches ("yes" / "no"); use color green for the happy path and amber or accent for the other, dashed for optional or async links.
 - Use tone "gate" on cards where a human must approve, tone "accent" plus highlight for the single most important step.
 
-The user's screen
-- When the user talks about "my flow", "this diagram" or what they have open, call get_open_diagram. It returns the canvas open in flowdraft right now, unsaved edits included, and a picture of it.
-- To review or critique: get_open_diagram, then add_review with a one or two sentence summary and concrete items pinned to node_id or edge_id. The review shows up on the user's flowdraft screen next to those nodes, so keep the chat reply short and point them there.
-- Look for: a missing start or end, dead ends, decisions with a missing or unlabeled branch, missing error or unhappy paths, human approval steps not marked as gate, unclear or inconsistent titles, crowded or overlapping nodes, lines that cross needlessly. Praise what works too.
-- Only change the diagram when the user asks. To apply fixes to the open diagram, call update_diagram with its id; their screen reloads with the new version. If the open canvas has no id or has unsaved edits, ask them to save it first.`;
+Pictures and the chat loop
+- create_diagram, update_diagram, get_diagram and get_open_diagram return a PNG of the diagram; hosts that support it show it to the user in the chat. The user may never open flowdraft: they judge the picture and tell you what to change.
+- Look at the picture after every change. If boxes overlap, text is cut off, lines cross needlessly or the layout is cramped, fix it with update_diagram before you answer.
+- Keep your reply short: say what you changed and invite corrections. Then apply the user's feedback with get_diagram + update_diagram on the same id; do not create a new diagram for a revision.
+- When the user talks about "my flow", "this diagram" or what they have open in flowdraft, call get_open_diagram. If the open canvas has no id or has unsaved edits, ask them to save it before you change it.`;
 
 // ---------- Diagram helpers ----------
 
@@ -283,6 +274,20 @@ function fail(message: string): CallToolResult {
   return { isError: true, content: [{ type: 'text', text: message }] };
 }
 
+/** Adds a PNG of the diagram, drawn here on the server, so the chat can show it without flowdraft being open. */
+function withPicture(result: CallToolResult, doc: { nodes: FlowNode[]; edges: FlowEdge[] }): CallToolResult {
+  try {
+    const picture = renderDiagramPng(doc);
+    if (picture) result.content.push({ type: 'image', mimeType: 'image/png', data: picture.png.toString('base64') });
+  } catch (err) {
+    console.error('diagram render failed', err);
+  }
+  return result;
+}
+
+/** Tool metadata that has MCP Apps hosts (Claude, ChatGPT, …) show the returned picture in the chat (server/view.ts). */
+const SHOWS_PICTURE = { ui: { resourceUri: VIEW_URI }, 'ui/resourceUri': VIEW_URI };
+
 function dbMessage(error: { message?: string; code?: string }): string {
   const msg = error.message ?? '';
   if (msg.includes('projects_content_size')) return 'The diagram is too large (max 512 KB). Use fewer or shorter nodes.';
@@ -301,20 +306,7 @@ const NOTHING_OPEN =
   'the account they connected, and try again; or use list_diagrams and get_diagram to read a saved diagram.';
 const STALE_AFTER = 10 * 60_000;
 
-type LiveRow = {
-  project_id: string | null;
-  title: string;
-  content: unknown;
-  dirty: boolean;
-  preview: string | null;
-  preview_at: string | null;
-  updated_at: string;
-};
-
-function previewImage(preview: string | null) {
-  const match = /^data:(image\/(?:jpeg|png));base64,(.+)$/.exec(preview ?? '');
-  return match ? { type: 'image' as const, mimeType: match[1], data: match[2] } : null;
-}
+type LiveRow = { project_id: string | null; title: string; content: unknown; dirty: boolean; updated_at: string };
 
 function minutesAgo(iso: string) {
   return Math.round((Date.now() - Date.parse(iso)) / 60_000);
@@ -358,15 +350,18 @@ function buildServer(db: SupabaseClient, origin: string) {
     'get_diagram',
     {
       title: 'Akışı oku',
-      description: 'Get a diagram with all of its nodes and edges, in the same format update_diagram accepts.',
+      description:
+        'Get a diagram with all of its nodes and edges, in the same format update_diagram accepts, plus a PNG of it.',
       inputSchema: { id: diagramId },
       annotations: { readOnlyHint: true, openWorldHint: false },
+      _meta: SHOWS_PICTURE,
     },
     async ({ id }) => {
       const { data, error } = await db.from('projects').select('id,title,content,updated_at').eq('id', id).maybeSingle();
       if (error) return fail(dbMessage(error));
       if (!data) return fail(NOT_FOUND);
-      return ok({ id: data.id, title: data.title, updated_at: data.updated_at, url: openUrl(data.id), ...readContent(data.content) });
+      const doc = readContent(data.content);
+      return withPicture(ok({ id: data.id, title: data.title, updated_at: data.updated_at, url: openUrl(data.id), ...doc }), doc);
     },
   );
 
@@ -374,22 +369,21 @@ function buildServer(db: SupabaseClient, origin: string) {
     'create_diagram',
     {
       title: 'Akış oluştur',
-      description: `Create a new diagram in the user's flowdraft account and return a link that opens it. ${DIAGRAM_FORMAT}`,
+      description:
+        "Create a new diagram in the user's flowdraft account. Returns a link that opens it and a PNG of the result: " +
+        `check the picture and fix any layout problems with update_diagram. ${DIAGRAM_FORMAT}`,
       inputSchema: { title, nodes, edges },
       annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
+      _meta: SHOWS_PICTURE,
     },
     async (input) => {
       const { content, warnings } = buildDoc(input.nodes, input.edges);
       const { data, error } = await db.from('projects').insert({ title: input.title, content }).select('id').single();
       if (error) return fail(dbMessage(error));
-      return ok({
-        id: data.id,
-        title: input.title,
-        url: openUrl(data.id),
-        nodes: content.nodes.length,
-        edges: content.edges.length,
-        warnings,
-      });
+      return withPicture(
+        ok({ id: data.id, title: input.title, url: openUrl(data.id), nodes: content.nodes.length, edges: content.edges.length, warnings }),
+        content,
+      );
     },
   );
 
@@ -399,9 +393,11 @@ function buildServer(db: SupabaseClient, origin: string) {
       title: 'Akışı güncelle',
       description:
         'Replace the content and/or title of an existing diagram. nodes and edges are complete replacements, not patches: ' +
-        `call get_diagram first and send back every node and edge that should remain. Omitted arrays are kept as they are. ${DIAGRAM_FORMAT}`,
+        'call get_diagram first and send back every node and edge that should remain. Omitted arrays are kept as they are. ' +
+        `Returns a PNG of the result; if the user has the diagram open in flowdraft, it reloads there too. ${DIAGRAM_FORMAT}`,
       inputSchema: { id: diagramId, title: title.optional(), nodes: nodes.optional(), edges: edges.optional() },
       annotations: { readOnlyHint: false, destructiveHint: true, idempotentHint: true, openWorldHint: false },
+      _meta: SHOWS_PICTURE,
     },
     async (input) => {
       const patch: { title?: string; content?: unknown } = {};
@@ -420,10 +416,10 @@ function buildServer(db: SupabaseClient, origin: string) {
         summary = { nodes: content.nodes.length, edges: content.edges.length, warnings };
       }
       if (!patch.title && !patch.content) return fail('Nothing to update: pass a title, nodes or edges.');
-      const { data, error } = await db.from('projects').update(patch).eq('id', input.id).select('id,title');
+      const { data, error } = await db.from('projects').update(patch).eq('id', input.id).select('id,title,content');
       if (error) return fail(dbMessage(error));
       if (!data.length) return fail(NOT_FOUND);
-      return ok({ id: input.id, title: data[0].title, url: openUrl(input.id), ...summary });
+      return withPicture(ok({ id: input.id, title: data[0].title, url: openUrl(input.id), ...summary }), readContent(data[0].content));
     },
   );
 
@@ -448,16 +444,14 @@ function buildServer(db: SupabaseClient, origin: string) {
     {
       title: 'Açık akışı oku',
       description:
-        'Get the diagram the user has open in flowdraft right now, unsaved edits included, together with a picture of the canvas. ' +
-        'Use it whenever the user refers to "my flow", "this diagram" or their screen, and before add_review. ' +
+        'Get the diagram the user has open in flowdraft right now, unsaved edits included, plus a PNG of it. ' +
+        'Use it when the user refers to "my flow", "this diagram" or what they have open. ' +
         'Nodes and edges come in the same format update_diagram accepts.',
       annotations: { readOnlyHint: true, openWorldHint: false },
+      _meta: SHOWS_PICTURE,
     },
     async () => {
-      const { data, error } = await db
-        .from('live_canvas')
-        .select('project_id,title,content,dirty,preview,preview_at,updated_at')
-        .maybeSingle<LiveRow>();
+      const { data, error } = await db.from('live_canvas').select('project_id,title,content,dirty,updated_at').maybeSingle<LiveRow>();
       if (error) return fail(dbMessage(error));
       if (!data) return fail(NOTHING_OPEN);
       const notes: string[] = [];
@@ -470,95 +464,27 @@ function buildServer(db: SupabaseClient, origin: string) {
       if (idle * 60_000 > STALE_AFTER) {
         notes.push(`flowdraft last reported this canvas ${idle} minutes ago; it may be closed or showing something else now.`);
       }
-      const image = previewImage(data.preview);
-      if (!image) notes.push('No picture of the canvas is available yet.');
-      else if (data.preview_at && Date.parse(data.preview_at) < Date.parse(data.updated_at)) notes.push('The picture may be a few seconds behind the JSON.');
-      const result = ok({
-        id: data.project_id,
-        title: data.title,
-        saved: !!data.project_id && !data.dirty,
-        url: data.project_id ? openUrl(data.project_id) : null,
-        reported_at: data.updated_at,
-        notes,
-        ...readContent(data.content),
-      });
-      if (image) result.content.push(image);
-      return result;
+      const doc = readContent(data.content);
+      return withPicture(
+        ok({
+          id: data.project_id,
+          title: data.title,
+          saved: !!data.project_id && !data.dirty,
+          url: data.project_id ? openUrl(data.project_id) : null,
+          reported_at: data.updated_at,
+          notes,
+          ...doc,
+        }),
+        doc,
+      );
     },
   );
 
-  server.registerTool(
-    'add_review',
-    {
-      title: 'Kritik bırak',
-      description:
-        "Show a review of a diagram on the user's flowdraft screen: a short summary plus findings pinned next to the nodes or edges " +
-        'they are about. Replaces the previous review of the same diagram. Without diagram_id it goes on the canvas open right now ' +
-        '(see get_open_diagram). Use node and edge ids exactly as get_open_diagram or get_diagram returned them.',
-      inputSchema: {
-        diagram_id: diagramId.optional().describe('Saved diagram to review. Omit to review the canvas open right now.'),
-        summary: z.string().trim().min(1).max(MAX_REVIEW_SUMMARY).describe('Overall verdict in one or two sentences.'),
-        items: z.array(reviewItem).max(MAX_REVIEW_ITEMS).describe('Findings, most important first.'),
-      },
-      annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
-    },
-    async (input) => {
-      const live = await db.from('live_canvas').select('project_id,content').maybeSingle<Pick<LiveRow, 'project_id' | 'content'>>();
-      if (live.error) return fail(dbMessage(live.error));
-
-      let projectId: string | null;
-      let content: unknown;
-      if (input.diagram_id) {
-        projectId = input.diagram_id;
-        const { data, error } = await db.from('projects').select('content').eq('id', projectId).maybeSingle();
-        if (error) return fail(dbMessage(error));
-        if (!data) return fail(NOT_FOUND);
-        // The open canvas may hold nodes that are not saved yet; pins to those should still land.
-        content = live.data?.project_id === projectId ? live.data.content : data.content;
-      } else {
-        if (!live.data) return fail(NOTHING_OPEN);
-        projectId = live.data.project_id;
-        content = live.data.content;
-      }
-
-      const doc = readContent(content);
-      const nodeIds = new Set(doc.nodes.map((n) => n.id));
-      const edgeIds = new Set(doc.edges.map((e) => e.id));
-      const warnings: string[] = [];
-      const items: ReviewItem[] = input.items.map((item) => {
-        const out: ReviewItem = { severity: item.severity, title: item.title, text: item.text ?? '' };
-        if (item.node_id) {
-          if (nodeIds.has(item.node_id)) out.node_id = item.node_id;
-          else warnings.push(`"${item.title}": node "${item.node_id}" does not exist, so it is shown without a pin.`);
-        }
-        if (item.edge_id) {
-          if (edgeIds.has(item.edge_id)) out.edge_id = item.edge_id;
-          else warnings.push(`"${item.title}": edge "${item.edge_id}" does not exist, so it is shown without a pin.`);
-        }
-        return out;
-      });
-
-      const previous = db.from('reviews').delete();
-      const cleared = await (projectId ? previous.eq('project_id', projectId) : previous.is('project_id', null));
-      if (cleared.error) return fail(dbMessage(cleared.error));
-      const { data, error } = await db
-        .from('reviews')
-        .insert({ project_id: projectId, summary: input.summary, items })
-        .select('id')
-        .single();
-      if (error) return fail(dbMessage(error));
-
-      const onScreen = !input.diagram_id || live.data?.project_id === projectId;
-      return ok({
-        review_id: data.id,
-        shown: onScreen
-          ? 'On the canvas the user has open in flowdraft now.'
-          : 'Saved with the diagram; it shows up when the user opens it.',
-        url: projectId ? openUrl(projectId) : null,
-        items: items.length,
-        warnings,
-      });
-    },
+  server.registerResource(
+    'diagram-view',
+    VIEW_URI,
+    { title: 'flowdraft diagram', description: 'Shows the picture of a flowdraft diagram in the chat.', mimeType: VIEW_MIME },
+    async () => ({ contents: [{ uri: VIEW_URI, mimeType: VIEW_MIME, text: VIEW_HTML, _meta: { ui: { prefersBorder: false } } }] }),
   );
 
   return server;

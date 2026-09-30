@@ -28,6 +28,7 @@ Each page is available in Turkish (`?lang=tr`) and English (`?lang=en`).
 
 - Endpoint: `https://flowdraft.tech/mcp` (Streamable HTTP). Opening it in a browser shows the setup guide.
 - Authentication: OAuth 2.1 with dynamic client registration; the user signs in to flowdraft and approves access.
-- Tools: `list_diagrams`, `get_diagram`, `create_diagram`, `update_diagram`, `delete_diagram`, `get_open_diagram`, `add_review`. Each works only on the signed-in user's own diagrams.
-- `get_open_diagram` returns the canvas the user has open in flowdraft right now (unsaved edits included) with a picture of it; `add_review` pins a critique next to its nodes on the user's screen.
+- Tools: `list_diagrams`, `get_diagram`, `create_diagram`, `update_diagram`, `delete_diagram`, `get_open_diagram`. Each works only on the signed-in user's own diagrams.
+- `create_diagram`, `update_diagram`, `get_diagram` and `get_open_diagram` return a PNG of the diagram, drawn on the server, which MCP Apps hosts (Claude, ChatGPT) show in the chat: users can draw and revise flows entirely from the chat.
+- `get_open_diagram` returns the canvas the user has open in flowdraft right now, unsaved edits included.
 - Tool results include a `https://flowdraft.tech/?p=<id>` link that opens the diagram in the editor.

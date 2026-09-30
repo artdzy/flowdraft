@@ -20,7 +20,6 @@ import { useEditor } from '../store/editor';
 import { useTheme } from '../store/theme';
 import { useUi } from '../store/ui';
 import { TemplateGrid } from './Dialogs';
-import { ReviewPanel, ReviewPins } from './Review';
 import { useAddNode } from './useAddNode';
 
 const FIT = { padding: 0.15, maxZoom: 1 };
@@ -159,7 +158,6 @@ export function Canvas({ mobile }: { mobile: boolean }) {
         colorMode={theme}
         proOptions={{ hideAttribution: true }}
       >
-        <ReviewPins />
         <Background variant={BackgroundVariant.Dots} gap={20} size={1.2} color="var(--grid-dot)" />
         {!mobile && (
           <>
@@ -176,7 +174,6 @@ export function Canvas({ mobile }: { mobile: boolean }) {
         )}
       </ReactFlow>
       <EmptyState />
-      <ReviewPanel />
     </div>
   );
 }
