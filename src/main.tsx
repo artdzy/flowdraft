@@ -7,6 +7,7 @@ import './credit.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import { AdminPage, isAdminPath } from './admin/AdminPage';
 import { LegalPage, legalKindFromPath } from './legal/LegalPage';
 import { loadDraft } from './lib/draft';
 import { isGuidePath, McpGuidePage } from './guide/McpGuidePage';
@@ -24,7 +25,8 @@ const legal = legalKindFromPath(path);
 const consent = isConsentPath(path);
 const guide = isGuidePath(path);
 const promo = isPromoPath(path);
-const editor = !legal && !consent && !guide && !promo;
+const admin = isAdminPath(path);
+const editor = !legal && !consent && !guide && !promo && !admin;
 
 if (editor) {
   const draft = loadDraft();
@@ -32,13 +34,14 @@ if (editor) {
     useEditor.getState().loadDoc(draft.doc, { title: draft.title, projectId: draft.projectId, dirty: draft.dirty });
   }
 }
-if (editor || consent) initAuth();
+if (editor || consent || admin) initAuth();
 
 function Page() {
   if (legal) return <LegalPage kind={legal} />;
   if (consent) return <ConsentPage />;
   if (guide) return <McpGuidePage />;
   if (promo) return <PromoPage />;
+  if (admin) return <AdminPage />;
   return <App />;
 }
 

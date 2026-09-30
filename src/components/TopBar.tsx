@@ -16,6 +16,7 @@ import {
   Moon,
   Redo2,
   Save,
+  ShieldCheck,
   Sun,
   Undo2,
   Upload,
@@ -24,6 +25,7 @@ import {
 } from 'lucide-react';
 import { useRef } from 'react';
 import { lang, locale, setLang, t, UNTITLED, type Lang } from '../i18n';
+import { ADMIN_PATH } from '../lib/admin';
 import { importFile, requestAutosave, requestExport, requestSave, useSaveState } from '../lib/actions';
 import { deleteAccount, openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
@@ -178,6 +180,7 @@ export function TopBar({ mobile }: { mobile: boolean }) {
   const canUndo = useEditor((s) => s.past.length > 0);
   const canRedo = useEditor((s) => s.future.length > 0);
   const user = useAuth((s) => s.user);
+  const admin = useAuth((s) => s.admin);
   const autosave = useSettings((s) => s.autosave);
   const saving = useSaveState((s) => s.status === 'saving');
   const fileInput = useRef<HTMLInputElement>(null);
@@ -245,6 +248,11 @@ export function TopBar({ mobile }: { mobile: boolean }) {
     user ? (
       <>
         <div className="fd-menu-caption">{user.email}</div>
+        {admin && (
+          <MenuItem icon={<ShieldCheck size={16} />} onSelect={() => (close(), window.location.assign(ADMIN_PATH))}>
+            {t('Yönetim paneli', 'Admin panel')}
+          </MenuItem>
+        )}
         <MenuItem icon={<LogOut size={16} />} onSelect={() => (close(), void signOut())}>
           {t('Çıkış yap', 'Sign out')}
         </MenuItem>

@@ -1,6 +1,7 @@
 import type { User } from '@supabase/supabase-js';
 import { create } from 'zustand';
 import { t } from '../i18n';
+import { checkAdmin } from '../lib/admin';
 import { supabase } from '../lib/supabase';
 import { useEditor } from './editor';
 import { useSettings } from './settings';
@@ -9,6 +10,8 @@ type AuthMode = 'login' | 'register';
 
 type AuthState = {
   user: User | null;
+  /** The signed-in account may open the admin panel (/yonetim). Null while that is being checked. */
+  admin: boolean | null;
   ready: boolean;
   modal: { mode: AuthMode; reason: string } | null;
   /** Action the user was trying to do before being asked to sign in. */
@@ -17,6 +20,7 @@ type AuthState = {
 
 export const useAuth = create<AuthState>()(() => ({
   user: null,
+  admin: false,
   ready: !supabase,
   modal: null,
   pending: null,
@@ -24,6 +28,17 @@ export const useAuth = create<AuthState>()(() => ({
 
 export function initAuth() {
   if (!supabase) return;
+  useAuth.subscribe((state, prev) => {
+    const id = state.user?.id;
+    if (id === prev.user?.id) return;
+    useAuth.setState({ admin: id ? null : false });
+    if (!id) return;
+    void checkAdmin()
+      .catch(() => false)
+      .then((admin) => {
+        if (useAuth.getState().user?.id === id) useAuth.setState({ admin });
+      });
+  });
   void supabase.auth.getSession().then(({ data }) => {
     useAuth.setState({ user: data.session?.user ?? null, ready: true });
   });

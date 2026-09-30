@@ -2,6 +2,7 @@
 User-agent: *
 Allow: /
 Disallow: /oauth/
+Disallow: /yonetim
 
 # AI search and assistant crawlers, listed explicitly so the intent is clear.
 User-agent: GPTBot
@@ -17,5 +18,6 @@ User-agent: Applebot-Extended
 User-agent: CCBot
 Allow: /
 Disallow: /oauth/
+Disallow: /yonetim
 
 Sitemap: https://flowdraft.tech/sitemap.xml
