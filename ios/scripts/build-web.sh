@@ -1,5 +1,5 @@
 #!/bin/sh
-# Builds the web app and copies it into the iPad app bundle (Flowdraft/Web), then regenerates the Xcode project.
+# Builds the web app and copies it into the iOS app bundle (Flowdraft/Web), then regenerates the Xcode project.
 # Run before building or archiving: ios/scripts/build-web.sh
 set -eu
 cd "$(dirname "$0")/../.."

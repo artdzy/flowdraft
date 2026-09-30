@@ -1,10 +1,10 @@
-# App Store kaydı — flowdraft (iPad)
+# App Store kaydı — flowdraft (iPhone + iPad)
 
-- Bundle ID: `tech.flowdraft.app` · SKU: `flowdraft-ipad` · Birincil dil: English (U.S.), ek dil: Türkçe · Sadece iPad (iPadOS 18+)
+- Bundle ID: `tech.flowdraft.app` · SKU: `flowdraft-ipad` · Birincil dil: English (U.S.), ek dil: Türkçe · iPhone ve iPad (iOS/iPadOS 18+; iPhone'da yalnız dikey)
 - Uygulama dili cihaza göre: Türkçe cihazda Türkçe, diğer her dilde İngilizce (`src/i18n.ts`)
 - Kategori: Verimlilik (Productivity), ikincil: Grafik ve Tasarım · Fiyat: Ücretsiz · Yaş: 4+
 - Destek: https://flowdraft.tech/destek · Pazarlama: https://flowdraft.tech · Gizlilik: https://flowdraft.tech/gizlilik
-- Ekran görüntüleri: `screenshots/` (iPad 13", 2064×2752, gerçek simülatör çekimi; `tr-*` Türkçe, `en-*` İngilizce) · İnceleme notları: `review-notes.txt`
+- Ekran görüntüleri: `screenshots/` (iPad 13" 2064×2752 `*-iPadPro13-*` ve iPhone 6.9" 1320×2868 `*-iPhone69-*`, gerçek simülatör çekimi; `tr-*` Türkçe, `en-*` İngilizce) · İnceleme notları: `review-notes.txt`
 
 # Türkçe
 
@@ -21,10 +21,10 @@ Sürükle, bağla, dışa aktar. Otomasyon, yazılım ve konuşma akışlarını
 akış,diyagram,şema,flowchart,süreç,iş akışı,otomasyon,mimari,çizim,tahta,plan,organizasyon
 
 ## Açıklama
-flowdraft, iPad için hızlı ve sade bir akış diyagramı editörü. Süreçlerini, otomasyonlarını, yazılım mimarini ve müşteri konuşmalarını birkaç dokunuşla çiz.
+flowdraft, iPhone ve iPad için hızlı ve sade bir akış diyagramı editörü. Süreçlerini, otomasyonlarını, yazılım mimarini ve müşteri konuşmalarını birkaç dokunuşla çiz.
 
 HEMEN BAŞLA
-• Hesap açmadan kullan; çizimin bu iPad'de otomatik saklanır.
+• Hesap açmadan kullan; çizimin bu cihazda otomatik saklanır.
 • Hazır şablonlar: Otomasyon, Yazılım, Konuşma.
 • İnternet olmadan da çalışır.
 
@@ -69,10 +69,10 @@ Drag, connect, export. Sketch automations, software architecture and conversatio
 flowchart,diagram,workflow,process,flow,chart,automation,architecture,mind map,whiteboard,planning
 
 ## Description
-flowdraft is a fast, simple flowchart and diagram editor for iPad. Sketch processes, automations, software architecture and customer conversations in a few taps.
+flowdraft is a fast, simple flowchart and diagram editor for iPhone and iPad. Sketch processes, automations, software architecture and customer conversations in a few taps.
 
 START RIGHT AWAY
-• No account needed; your drawing is kept on this iPad automatically.
+• No account needed; your drawing is kept on this device automatically.
 • Ready-made templates: Automation, Software, Conversation.
 • Works offline.
 
