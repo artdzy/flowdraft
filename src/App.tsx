@@ -10,9 +10,11 @@ import { MobileBar } from './components/MobileBar';
 import { Palette } from './components/Palette';
 import { PromoDialog } from './components/PromoDialog';
 import { TopBar } from './components/TopBar';
+import { WhatsNewDialog } from './components/WhatsNewDialog';
 import { t, UNTITLED } from './i18n';
 import { openProjectLink, refreshFromCloud, requestSave, saveToCloud } from './lib/actions';
 import { saveDraft } from './lib/draft';
+import { useLiveLink } from './lib/live';
 import { serializeDoc } from './lib/doc';
 import { useAuth } from './store/auth';
 import { isDirty, useEditor } from './store/editor';
@@ -156,6 +158,7 @@ export default function App() {
   useDraftMirror();
   useProjectLink();
   useCloudRefresh();
+  useLiveLink();
 
   return (
     <ReactFlowProvider>
@@ -180,6 +183,7 @@ export default function App() {
         <NewDialog />
         <AiDialog />
         <PromoDialog />
+        <WhatsNewDialog />
         <ConfirmDialog />
         <Toasts />
       </div>

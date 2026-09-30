@@ -2,10 +2,13 @@ import type { OAuthGrant } from '@supabase/supabase-js';
 import { ArrowUpRight, LoaderCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { lang, locale, t } from '../i18n';
+import { checkAiLink, clearLiveCanvas, useLive } from '../lib/live';
 import { supabase } from '../lib/supabase';
 import { openAuth, useAuth } from '../store/auth';
+import { useSettings } from '../store/settings';
 import { askConfirm, toast, useUi } from '../store/ui';
 import { CopyField, mcpUrl } from './Copy';
+import { Switch } from './fields';
 import { Modal } from './Modal';
 
 const dateFmt = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short', year: 'numeric' });
@@ -27,7 +30,10 @@ function ConnectedApps() {
     void supabase.auth.oauth.listGrants().then(({ data, error: err }) => {
       if (!alive) return;
       if (err) setError(t('Bağlı uygulamalar şu an yüklenemedi.', 'Couldn’t load your connected apps right now.'));
-      else setGrants(data);
+      else {
+        setGrants(data);
+        useLive.setState({ aiConnected: data.length > 0 });
+      }
     });
     return () => {
       alive = false;
@@ -53,6 +59,7 @@ function ConnectedApps() {
       return;
     }
     setGrants((list) => list?.filter((g) => g.client.id !== grant.client.id) ?? null);
+    void checkAiLink(true);
     toast(t('Erişim kaldırıldı', 'Access removed'));
   };
 
@@ -111,6 +118,39 @@ function ConnectedApps() {
   );
 }
 
+const CHAT_PROMPT = t(
+  'flowdraft ile müşteri iade sürecimizi çiz ve görselini göster',
+  'Use flowdraft to draw our customer return process and show me the picture',
+);
+
+/** The chat loop (server-drawn PNGs) and sharing the open canvas with connected AI tools (src/lib/live.ts). */
+function ChatLoop() {
+  const share = useSettings((s) => s.shareCanvas);
+  const setShare = (on: boolean) => {
+    useSettings.getState().setShareCanvas(on);
+    if (!on) void clearLiveCanvas();
+  };
+  return (
+    <section className="fd-ai-section" aria-labelledby="fd-ai-chat">
+      <h3 id="fd-ai-chat">{t('Sohbetten çiz, sohbette gör', 'Draw from the chat, see it in the chat')}</h3>
+      <p className="fd-muted fd-small">
+        {t(
+          'AI akışı oluşturduğunda ya da değiştirdiğinde sonucun görseli sohbete gelir. Beğenmediğin yeri sohbete yaz; AI aynı akışı düzeltir ve yeni görseli gösterir. flowdraft’ı açman gerekmez.',
+          'Whenever the AI creates or changes a flow, a picture of the result shows up in the chat. Say what you’d change; the AI fixes the same flow and shows the new picture. No need to open flowdraft.',
+        )}
+      </p>
+      <CopyField value={CHAT_PROMPT} labelId="fd-ai-chat" />
+      <Switch label={t('Açık akışı bağlı AI araçlarıyla paylaş', 'Share the open flow with connected AI tools')} checked={share} onChange={setShare} />
+      <p className="fd-muted fd-small">
+        {t(
+          'Açıkken AI, burada açık olan akışı (kaydedilmemiş değişiklikler dahil) görebilir: “flowdraft’ta açık olan akışa bir onay adımı ekle” gibi. AI’ın yaptığı değişiklik bu ekrana da hemen gelir.',
+          'While on, the AI can see the flow open here, unsaved changes included: try “add an approval step to the flow I have open in flowdraft”. Changes the AI makes show up on this screen right away.',
+        )}
+      </p>
+    </section>
+  );
+}
+
 function AiConnect() {
   const url = mcpUrl();
   return (
@@ -137,6 +177,7 @@ function AiConnect() {
         {t('Claude, ChatGPT, Cursor… için adım adım rehber', 'Step-by-step guide for Claude, ChatGPT, Cursor…')}{' '}
         <ArrowUpRight size={15} />
       </a>
+      <ChatLoop />
       <ConnectedApps />
     </>
   );

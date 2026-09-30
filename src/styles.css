@@ -1281,19 +1281,21 @@ span.fd-editing:not(.fd-tag) {
   overflow: visible;
 }
 
-.fd-decision-shape polygon {
+/* Paint set on the <svg> and inherited by the polygon: image export (html-to-image) copies an svg's own
+   computed style but not its children's, so rules on the polygon itself would export as a black diamond. */
+.fd-decision-shape {
   fill: var(--node-bg);
   stroke: var(--line-2);
   stroke-width: 1.25;
   stroke-linejoin: round;
 }
 
-.fd-decision.tone-accent .fd-decision-shape polygon {
+.fd-decision.tone-accent .fd-decision-shape {
   stroke: var(--accent);
   fill: color-mix(in srgb, var(--accent) 10%, var(--node-bg));
 }
 
-.fd-decision.tone-muted .fd-decision-shape polygon {
+.fd-decision.tone-muted .fd-decision-shape {
   fill: var(--panel);
   stroke: var(--line);
 }
@@ -1302,7 +1304,7 @@ span.fd-editing:not(.fd-tag) {
   outline: none;
 }
 
-.react-flow__node-decision.selected .fd-decision-shape polygon {
+.react-flow__node-decision.selected .fd-decision-shape {
   stroke: var(--accent);
   stroke-width: 2;
 }
@@ -2624,5 +2626,56 @@ ul.fd-promo-features {
 .fd-confirm-actions {
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
+}
+
+
+/* ---------- What's new (src/components/WhatsNewDialog.tsx) ---------- */
+
+.fd-modal.fd-whatsnew-modal {
+  width: min(520px, calc(100vw - 32px));
+}
+
+.fd-whatsnew {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fd-whatsnew li {
+  display: flex;
+  gap: 12px;
+}
+
+.fd-whatsnew-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.fd-whatsnew-body {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  color: var(--text-2);
+  line-height: 1.5;
+}
+
+.fd-whatsnew-body strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.fd-whatsnew-foot {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 8px;
 }

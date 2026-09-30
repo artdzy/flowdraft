@@ -13,6 +13,8 @@ type UiState = {
   projectsOpen: boolean;
   newOpen: boolean;
   aiOpen: boolean;
+  /** Welcome video dialog (PromoDialog); the what's-new dialog waits until it is closed. */
+  promoOpen: boolean;
   paletteSheet: boolean;
   inspectorSheet: boolean;
   /** Node text field being edited in place on the canvas. */
@@ -26,6 +28,7 @@ export const useUi = create<UiState>()(() => ({
   projectsOpen: false,
   newOpen: false,
   aiOpen: false,
+  promoOpen: false,
   paletteSheet: false,
   inspectorSheet: false,
   editing: null,
