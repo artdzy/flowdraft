@@ -108,6 +108,36 @@ export async function refreshFromCloud() {
   }
 }
 
+/**
+ * Realtime told us a project row changed (src/lib/live.ts). Reloads the open one right away when it was changed
+ * somewhere else, e.g. by a connected AI tool; our own saves come back here too and are ignored.
+ */
+export async function handleRemoteUpdate(id: string) {
+  while (inflight) await inflight;
+  if (useEditor.getState().projectId !== id) return;
+  // Compare in PostgREST's timestamp format (the one cloudVersion holds), not the Realtime payload's.
+  let latest: string | null;
+  try {
+    latest = await fetchUpdatedAt(id);
+  } catch {
+    return;
+  }
+  if (!latest || (cloudVersion?.id === id && cloudVersion.updatedAt === latest)) return;
+  const s = useEditor.getState();
+  if (s.projectId !== id || inflight) return;
+  if (isDirty(s)) {
+    toast(
+      t(
+        'Bu akış başka bir yerde değişti. Sende kaydedilmemiş değişiklikler var; kaydedersen o değişikliklerin üstüne yazılır.',
+        'This flow changed somewhere else. You have unsaved changes here; saving will overwrite that version.',
+      ),
+      'error',
+    );
+    return;
+  }
+  await refreshFromCloud();
+}
+
 export function requestSave() {
   const reason = t(
     'Akışını kaydetmek için giriş yap. Çizdiklerin kaybolmaz.',

@@ -30,7 +30,7 @@ Coolify: build pack **Dockerfile**, port **3000**, ortam değişkenleri `SUPABAS
 
 ## Veritabanı
 
-`supabase/migrations/0001_projects.sql` dosyasını Supabase SQL Editor'de çalıştır.
+`supabase/migrations/` altındaki dosyaları sırayla (0001, 0002, 0003) Supabase SQL Editor'de çalıştır.
 Auth → URL Configuration → Site URL: `https://flowdraft.tech`.
 
 ## AI araçları (MCP)
@@ -43,7 +43,21 @@ araçlarına bağla (adres, rehber linki, bağlı uygulamaları kaldırma).
 - Kimlik doğrulama **Supabase Auth'un OAuth 2.1 sunucusu** ile yapılır. AI aracı kendini kaydeder (dynamic client
   registration), kullanıcı `/oauth/consent` sayfasında giriş yapıp izin verir.
 - `/mcp` sadece korumalı kaynaktır: token'ı doğrular, sorguları kullanıcının kendi token'ıyla çalıştırır (RLS geçerli).
-- AI'ın verdiği `https://flowdraft.tech/?p=<id>` bağlantısı akışı açar; sekmeye dönünce AI'ın yaptığı değişiklik yüklenir.
+- AI'ın verdiği `https://flowdraft.tech/?p=<id>` bağlantısı akışı açar; AI açık akışı güncellerse ekran Realtime ile hemen
+  yenilenir (kaydedilmemiş değişiklik varsa uyarır), aksi halde sekmeye dönünce yüklenir.
+
+### Ekrandaki akışı kritik ettirme
+
+Kullanıcı Claude/ChatGPT'de “flowdraft'ta açık olan akışımı kritik et” der; kritik flowdraft ekranında, ilgili adımların
+yanında numaralı işaretler ve bir panel olarak belirir.
+
+- `get_open_diagram`: kullanıcının şu an açık tuvali (kaydedilmemiş değişiklikler dahil) ve küçük bir JPEG görseli.
+  Uygulama bunu `live_canvas` tablosuna yazar: sadece giriş yapılmış, hesaba bir AI aracı bağlı (OAuth grant) ve
+  “Açık akışı bağlı AI araçlarıyla paylaş” anahtarı açıkken (Dosya → AI araçlarına bağla).
+- `add_review`: özet + düğüm/bağlantıya iğnelenmiş maddeler (sorun, dikkat, öneri, iyi) `reviews` tablosuna yazılır; aynı
+  akışın önceki kritiğinin yerini alır. Uygulama Realtime ile dinler (`src/lib/live.ts`, `src/components/Review.tsx`).
+- Gerekenler: `0003_ai_review.sql` migration'ı (tablolar, RLS, `supabase_realtime` yayını) ve Supabase Realtime servisinin
+  çalışıyor olması (self-hosted'da Kong'daki `/realtime/v1` yolu).
 
 ### Kurulum (self-hosted Supabase, `api.flowdraft.tech`)
 
@@ -97,7 +111,7 @@ Supabase Cloud kullanılırsa 1–2 yerine: Dashboard → Authentication → OAu
 
 - `src/flow/` — düğüm/bağlantı tipleri, bileşenler, palet, şablonlar
 - `src/store/` — editör (geri al/ileri al), oturum, ayarlar, arayüz durumu
-- `src/lib/` — Supabase, proje CRUD, kaydetme, dışa aktarma, belge doğrulama
+- `src/lib/` — Supabase, proje CRUD, kaydetme, dışa aktarma, belge doğrulama, AI kritiği için canlı bağlantı (`live.ts`)
 - `src/oauth/` — AI araçları için OAuth onay sayfası (`/oauth/consent`)
 - `src/guide/` — kurulum rehberi (`/mcp`, tarayıcıdan açılınca)
 - `server/mcp.ts` — MCP sunucusu (`/mcp`); `npm run build` ile `dist-server/`'a derlenir

@@ -67,6 +67,10 @@ const PROMPTS = [
     'flowdraft’taki akışlarımı listele ve en son düzenlediğimi özetle.',
     'List my flows in flowdraft and summarize the one I edited most recently.',
   ),
+  t(
+    'flowdraft’ta açık olan akışımı kritik et; eksik dalları ve hata durumlarını işaretle.',
+    'Review the flow I have open in flowdraft and flag missing branches and error cases.',
+  ),
 ];
 
 function Steps({ children }: { children: ReactNode }) {
@@ -408,6 +412,11 @@ export function McpGuidePage() {
               </li>
               <li>Şifreni görmez; giriş flowdraft’ın kendi sayfasında yapılır ve araç sadece bir erişim izni alır.</li>
               <li>
+                Bağlı bir araç varken flowdraft’ta açık olan akış (kaydedilmemiş değişiklikler dahil) ve küçük bir
+                görseli hesabına yazılır; araç bunu okuyup kritiğini ekranına bırakabilir. İstemezsen{' '}
+                <strong>Dosya → AI araçlarına bağla</strong> altındaki paylaşım anahtarını kapat.
+              </li>
+              <li>
                 Aracın gördüğü akış içerikleri, o aracın (OpenAI, Anthropic vb.) kendi gizlilik kurallarına tabidir.
                 Ayrıntı: <a href={LEGAL_PATHS.privacy}>Gizlilik Politikası</a>.
               </li>
@@ -425,6 +434,11 @@ export function McpGuidePage() {
               <li>
                 It never sees your password: you sign in on flowdraft’s own page, and the tool only receives an access
                 grant.
+              </li>
+              <li>
+                While a tool is connected, the flow open in flowdraft (unsaved changes included) and a small picture
+                of it are written to your account, so the tool can read it and leave its review on your screen. Don’t
+                want that? Turn off the sharing switch under <strong>File → Connect AI tools</strong>.
               </li>
               <li>
                 Flow content the tool sees is subject to that tool’s own privacy terms (OpenAI, Anthropic, etc.).
