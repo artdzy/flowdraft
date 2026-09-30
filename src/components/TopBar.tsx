@@ -21,16 +21,15 @@ import {
   Undo2,
   Upload,
   UserRound,
-  UserX,
 } from 'lucide-react';
 import { useRef } from 'react';
 import { lang, locale, setLang, t, UNTITLED, type Lang } from '../i18n';
-import { ADMIN_PATH } from '../lib/admin';
+import { ADMIN_PATH, PROFILE_PATH } from '../lib/admin';
 import { importFile, requestAutosave, requestExport, requestSave, useSaveState } from '../lib/actions';
-import { deleteAccount, openAuth, requireAuth, signOut, useAuth } from '../store/auth';
+import { openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
-import { askConfirm, toast, useUi } from '../store/ui';
+import { toast, useUi } from '../store/ui';
 import { THEME_LABEL, useTheme, type ThemePref } from '../store/theme';
 import { Credit } from './Credit';
 import { Segmented, Switch } from './fields';
@@ -145,27 +144,6 @@ function clearCanvas() {
   toast(t('Tuval temizlendi. Geri almak için ⌘Z / Ctrl+Z', 'Canvas cleared. Press ⌘Z / Ctrl+Z to undo'));
 }
 
-async function confirmDeleteAccount() {
-  const ok = await askConfirm({
-    title: t('Hesabı sil', 'Delete account'),
-    message: t(
-      'Hesabın ve kayıtlı tüm projelerin kalıcı olarak silinsin mi? Bu işlem geri alınamaz. Tuvaldeki çizim bu cihazda kalır.',
-      'Permanently delete your account and all your saved projects? This can’t be undone. The drawing on your canvas stays on this device.',
-    ),
-    confirmLabel: t('Hesabı sil', 'Delete account'),
-  });
-  if (!ok) return;
-  try {
-    await deleteAccount();
-    toast(t('Hesabın silindi', 'Your account was deleted'));
-  } catch {
-    toast(
-      t('Hesap silinemedi. Biraz sonra tekrar dene.', 'Couldn’t delete your account. Try again in a little while.'),
-      'error',
-    );
-  }
-}
-
 function openProjects() {
   requireAuth(t('Projelerini görmek için giriş yap.', 'Sign in to see your projects.'), () =>
     useUi.setState({ projectsOpen: true }),
@@ -248,6 +226,9 @@ export function TopBar({ mobile }: { mobile: boolean }) {
     user ? (
       <>
         <div className="fd-menu-caption">{user.email}</div>
+        <MenuItem icon={<UserRound size={16} />} onSelect={() => (close(), window.location.assign(PROFILE_PATH))}>
+          {t('Profil', 'Profile')}
+        </MenuItem>
         {admin && (
           <MenuItem icon={<ShieldCheck size={16} />} onSelect={() => (close(), window.location.assign(ADMIN_PATH))}>
             {t('Yönetim paneli', 'Admin panel')}
@@ -255,9 +236,6 @@ export function TopBar({ mobile }: { mobile: boolean }) {
         )}
         <MenuItem icon={<LogOut size={16} />} onSelect={() => (close(), void signOut())}>
           {t('Çıkış yap', 'Sign out')}
-        </MenuItem>
-        <MenuItem icon={<UserX size={16} />} onSelect={() => (close(), void confirmDeleteAccount())} danger>
-          {t('Hesabı sil', 'Delete account')}
         </MenuItem>
       </>
     ) : (

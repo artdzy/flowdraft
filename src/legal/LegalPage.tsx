@@ -81,7 +81,7 @@ function TermsTr() {
 
       <h2>8. Hesabın silinmesi</h2>
       <p>
-        Projelerini ve hesabını uygulama içinden istediğin zaman silebilirsin (hesap menüsü → Hesabı sil); hesabınla
+        Projelerini ve hesabını uygulama içinden istediğin zaman silebilirsin (hesap menüsü → Profil → Hesabı sil); hesabınla
         birlikte kayıtlı tüm projelerin de kalıcı olarak silinir. Kullanım şartlarına aykırı hesaplar bildirim yapılmadan
         kapatılabilir.
       </p>
@@ -158,7 +158,7 @@ function PrivacyTr() {
 
       <h2>6. Saklama süresi</h2>
       <p>
-        Hesabın açık kaldığı sürece saklanır. Hesabını uygulama içinden (hesap menüsü → Hesabı sil) sildiğinde e-posta
+        Hesabın açık kaldığı sürece saklanır. Hesabını uygulama içinden (hesap menüsü → Profil → Hesabı sil) sildiğinde e-posta
         adresin ve kayıtlı projelerin hemen ve kalıcı olarak silinir. Ayrıca flowdraft ücretsiz bir hizmettir: veritabanı önceden haber verilmeden
         silinebilir ve bu durumda verilerin kalıcı olarak kaybolabilir.
       </p>
@@ -207,7 +207,7 @@ function SupportTr() {
 
       <h2>Hesabımı nasıl silerim?</h2>
       <p>
-        Giriş yaptıktan sonra sağ üstteki hesap düğmesine dokun → Hesabı sil → onayla. Hesabın ve kayıtlı tüm projelerin hemen
+        Giriş yaptıktan sonra sağ üstteki hesap düğmesine dokun → Profil → Hesabı sil → onayla. Hesabın ve kayıtlı tüm projelerin hemen
         ve kalıcı olarak silinir. Cihazdaki taslak çizim silinmez.
       </p>
 
@@ -287,7 +287,7 @@ function TermsEn() {
 
       <h2>8. Deleting your account</h2>
       <p>
-        You can delete your projects and your account from within the app at any time (account menu → Delete account); all
+        You can delete your projects and your account from within the app at any time (account menu → Profile → Delete account); all
         projects saved to your account are permanently deleted along with it. Accounts that violate these terms of use may
         be closed without notice.
       </p>
@@ -366,7 +366,7 @@ function PrivacyEn() {
       <h2>6. How long we keep it</h2>
       <p>
         Your data is kept for as long as your account stays open. When you delete your account from within the app (account
-        menu → Delete account), your email address and your saved projects are deleted immediately and permanently. Also,
+        menu → Profile → Delete account), your email address and your saved projects are deleted immediately and permanently. Also,
         flowdraft is a free service: the database may be deleted without prior notice, in which case your data may be
         permanently lost.
       </p>
@@ -416,7 +416,7 @@ function SupportEn() {
 
       <h2>How do I delete my account?</h2>
       <p>
-        After signing in, tap the account button in the top right → Delete account → confirm. Your account and all your
+        After signing in, tap the account button in the top right → Profile → Delete account → confirm. Your account and all your
         saved projects are deleted immediately and permanently. The draft drawing on your device is not deleted.
       </p>
 

@@ -115,4 +115,4 @@ Toplanan veriler (hepsi hesaba bağlı, izleme yok, amaç: Uygulama işlevselli�
 4. Soldan “Karar”ı tuvale sürükle, bir kutunun kenar noktasından ona bağla.
 5. Dışa aktar → PNG görsel → paylaşım menüsü açılsın → kapat (ya da Dosyalar'a kaydet).
 6. Giriş yap → demo hesabı → Kaydet → Dosya → Projelerim (kayıtlı akış görünsün) → kapat.
-7. Sağ üstteki hesap düğmesi → “Hesabı sil” → onay penceresi görünsün → Vazgeç.
+7. Sağ üstteki hesap düğmesi → “Profil” → “Hesabı sil” → onay penceresi görünsün → Vazgeç.

@@ -12,6 +12,7 @@ import { LegalPage, legalKindFromPath } from './legal/LegalPage';
 import { loadDraft } from './lib/draft';
 import { isGuidePath, McpGuidePage } from './guide/McpGuidePage';
 import { ConsentPage, isConsentPath } from './oauth/ConsentPage';
+import { isProfilePath, ProfilePage } from './profile/ProfilePage';
 import { isPromoPath, PromoPage } from './promo/PromoPage';
 import { lang } from './i18n';
 import { initAuth } from './store/auth';
@@ -26,7 +27,8 @@ const consent = isConsentPath(path);
 const guide = isGuidePath(path);
 const promo = isPromoPath(path);
 const admin = isAdminPath(path);
-const editor = !legal && !consent && !guide && !promo && !admin;
+const profile = isProfilePath(path);
+const editor = !legal && !consent && !guide && !promo && !admin && !profile;
 
 if (editor) {
   const draft = loadDraft();
@@ -34,7 +36,7 @@ if (editor) {
     useEditor.getState().loadDoc(draft.doc, { title: draft.title, projectId: draft.projectId, dirty: draft.dirty });
   }
 }
-if (editor || consent || admin) initAuth();
+if (editor || consent || admin || profile) initAuth();
 
 function Page() {
   if (legal) return <LegalPage kind={legal} />;
@@ -42,6 +44,7 @@ function Page() {
   if (guide) return <McpGuidePage />;
   if (promo) return <PromoPage />;
   if (admin) return <AdminPage />;
+  if (profile) return <ProfilePage />;
   return <App />;
 }
 

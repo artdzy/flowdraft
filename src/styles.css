@@ -2876,3 +2876,72 @@ ul.fd-promo-features {
 .fd-admin-empty {
   padding: 16px 14px;
 }
+
+/* ---------- Profile page ---------- */
+
+.fd-profile {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  width: min(560px, 100%);
+  margin: 0 auto;
+  padding: 32px 16px 64px;
+}
+
+.fd-profile h1 {
+  font-size: 24px;
+  letter-spacing: -0.02em;
+}
+
+.fd-profile-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.fd-profile-card.is-danger {
+  margin-top: 24px;
+  border-color: var(--accent-line);
+}
+
+.fd-profile-card h2 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.fd-profile-meta {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.fd-profile-meta div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.fd-profile-meta dt {
+  color: var(--text-3);
+}
+
+.fd-profile-meta dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
+
+.fd-profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fd-profile-actions a.fd-btn {
+  color: var(--text);
+  text-decoration: none;
+}

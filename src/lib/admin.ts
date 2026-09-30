@@ -2,6 +2,8 @@ import { requireClient } from './supabase';
 
 /** Admin panel: members and the titles of their flows, read-only. */
 export const ADMIN_PATH = '/yonetim';
+/** Profile page (src/profile/ProfilePage.tsx): account details, sign out, delete account. */
+export const PROFILE_PATH = '/profil';
 
 /** Rows of the admin functions in supabase/migrations/0004_admin.sql. */
 export type Member = {

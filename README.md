@@ -117,6 +117,7 @@ Supabase Cloud kullanılırsa 1–2 yerine: Dashboard → Authentication → OAu
 - `src/lib/` — Supabase, proje CRUD, kaydetme, dışa aktarma, belge doğrulama, AI kritiği için canlı bağlantı (`live.ts`)
 - `src/admin/` — yönetim paneli (`/yonetim`): üyeler ve akış başlıkları, salt okunur. Yöneticiler `public.admins`
   tablosunda durur (`0004_admin.sql`); akış içeriği panele hiç gelmez
+- `src/profile/` — profil sayfası (`/profil`): hesap bilgisi, çıkış, hesabı silme
 - `src/oauth/` — AI araçları için OAuth onay sayfası (`/oauth/consent`)
 - `src/guide/` — kurulum rehberi (`/mcp`, tarayıcıdan açılınca)
 - `server/mcp.ts` — MCP sunucusu (`/mcp`); `npm run build` ile `dist-server/`'a derlenir

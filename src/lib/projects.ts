@@ -14,6 +14,12 @@ export async function listProjects(): Promise<ProjectSummary[]> {
   return data ?? [];
 }
 
+export async function countProjects(): Promise<number> {
+  const { count, error } = await requireClient().from('projects').select('id', { count: 'exact', head: true });
+  if (error) throw error;
+  return count ?? 0;
+}
+
 export type ProjectRow = { id: string; title: string; content: unknown; updated_at: string };
 
 export async function fetchProject(id: string): Promise<ProjectRow> {

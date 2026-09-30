@@ -11,9 +11,9 @@ No account is needed for drawing, importing or exporting. For the account featur
 - Export: "Export" (top right) > "PNG image", "SVG vector" or "JSON (editable)". The share sheet opens (Save to Files, AirDrop, Photos, other apps).
 - Import: "File" (top left) > "Import JSON" opens the Files picker for a previously exported .json file.
 - Account (optional): "Sign in" (top right) > enter the demo email and password > "Sign in". Then "Save" stores the diagram in the account; "File" > "My projects" lists saved diagrams; the "Auto-save" switch turns on auto-save.
-- Account deletion: when signed in, tap the round account button (top right, the email's first letter) > "Delete account" > confirm. The account and all its saved diagrams are deleted immediately and permanently. You may test this with the demo account.
+- Account deletion: when signed in, tap the round account button (top right, the email's first letter) > "Profile" > "Delete account" > confirm. The account and all its saved diagrams are deleted immediately and permanently. You may test this with the demo account.
 - iPhone (portrait, compact layout): File, Export, Sign in and account items are in the ☰ menu (top right); the bottom bar has Add, undo/redo, edit panel, delete and fit.
-- Turkish labels seen in the recording: Dosya = File, Projelerim = My projects, Dışa aktar = Export, Kaydet = Save, Giriş yap = Sign in, Hesabı sil = Delete account, Otomatik kaydet = Auto-save, Otomasyon = Automation.
+- Turkish labels seen in the recording: Dosya = File, Projelerim = My projects, Dışa aktar = Export, Kaydet = Save, Giriş yap = Sign in, Profil = Profile, Hesabı sil = Delete account, Otomatik kaydet = Auto-save, Otomasyon = Automation.
 
 4. EXTERNAL SERVICES
 - flowdraft's own backend at flowdraft.tech (self-hosted Supabase: auth and database) stores accounts (email, password hash) and diagrams saved to an account. It is only contacted to sign up, sign in or save. Diagrams are JSON; images and files cannot be uploaded.
