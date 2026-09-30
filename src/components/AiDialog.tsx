@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { lang, locale, t } from '../i18n';
 import { supabase } from '../lib/supabase';
 import { openAuth, useAuth } from '../store/auth';
-import { toast, useUi } from '../store/ui';
+import { askConfirm, toast, useUi } from '../store/ui';
 import { CopyField, mcpUrl } from './Copy';
 import { Modal } from './Modal';
 
@@ -36,11 +36,15 @@ function ConnectedApps() {
 
   const revoke = async (grant: OAuthGrant) => {
     if (!supabase) return;
-    const question = t(
-      `${grant.client.name || 'Bu uygulama'} artık akışlarına erişemesin mi?`,
-      `Remove ${grant.client.name || 'this app'}’s access to your flows?`,
-    );
-    if (!window.confirm(question)) return;
+    const ok = await askConfirm({
+      title: t('Erişimi kaldır', 'Remove access'),
+      message: t(
+        `${grant.client.name || 'Bu uygulama'} artık akışlarına erişemesin mi?`,
+        `Remove ${grant.client.name || 'this app'}’s access to your flows?`,
+      ),
+      confirmLabel: t('Erişimi kaldır', 'Remove access'),
+    });
+    if (!ok) return;
     setBusyId(grant.client.id);
     const { error: err } = await supabase.auth.oauth.revokeGrant({ clientId: grant.client.id });
     setBusyId(null);

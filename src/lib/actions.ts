@@ -3,7 +3,7 @@ import { t, UNTITLED } from '../i18n';
 import { requireAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
-import { toast } from '../store/ui';
+import { askConfirm, toast } from '../store/ui';
 import { parseDoc, serializeDoc } from './doc';
 import { nativeApp } from './platform';
 import { exportImage, exportJson, type ExportKind } from './exporter';
@@ -54,15 +54,17 @@ export async function saveToCloud(): Promise<boolean> {
   }
 }
 
-export function confirmDiscard(): boolean {
+export async function confirmDiscard(): Promise<boolean> {
   const s = useEditor.getState();
   if (!s.nodes.length || !isDirty(s)) return true;
-  return window.confirm(
-    t(
+  return askConfirm({
+    title: t('Kaydedilmemiş değişiklikler', 'Unsaved changes'),
+    message: t(
       'Kaydedilmemiş değişikliklerin var. Bu akışı bırakıp devam edilsin mi?',
       'You have unsaved changes. Leave this flow and continue?',
     ),
-  );
+    confirmLabel: t('Bırak ve devam et', 'Leave and continue'),
+  });
 }
 
 function showProject(row: ProjectRow) {
@@ -78,8 +80,8 @@ export async function openProject(id: string): Promise<void> {
 
 /** Opens a ?p=<id> link, e.g. one handed out by an AI tool connected over MCP (only the owner can open it). */
 export function openProjectLink(id: string) {
-  requireAuth(t('Bu akışı açmak için giriş yap.', 'Sign in to open this flow.'), () => {
-    if (!confirmDiscard()) return;
+  requireAuth(t('Bu akışı açmak için giriş yap.', 'Sign in to open this flow.'), async () => {
+    if (!(await confirmDiscard())) return;
     openProject(id).catch((err: unknown) => toast(describeError(err), 'error'));
   });
 }

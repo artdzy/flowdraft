@@ -2,6 +2,13 @@ import { create } from 'zustand';
 
 export type Toast = { id: number; text: string; tone: 'default' | 'error' };
 
+export type ConfirmRequest = {
+  title: string;
+  message: string;
+  confirmLabel: string;
+  resolve: (ok: boolean) => void;
+};
+
 type UiState = {
   projectsOpen: boolean;
   newOpen: boolean;
@@ -10,6 +17,8 @@ type UiState = {
   inspectorSheet: boolean;
   /** Node text field being edited in place on the canvas. */
   editing: { id: string; field: string } | null;
+  /** Question shown in the app's own confirm dialog (never the browser's). */
+  confirm: ConfirmRequest | null;
   toasts: Toast[];
 };
 
@@ -20,8 +29,22 @@ export const useUi = create<UiState>()(() => ({
   paletteSheet: false,
   inspectorSheet: false,
   editing: null,
+  confirm: null,
   toasts: [],
 }));
+
+/** Asks in the app's confirm dialog; resolves true only when the user presses the confirm button. */
+export function askConfirm(request: Omit<ConfirmRequest, 'resolve'>): Promise<boolean> {
+  settleConfirm(false);
+  return new Promise((resolve) => useUi.setState({ confirm: { ...request, resolve } }));
+}
+
+export function settleConfirm(ok: boolean) {
+  const pending = useUi.getState().confirm;
+  if (!pending) return;
+  useUi.setState({ confirm: null });
+  pending.resolve(ok);
+}
 
 let toastId = 0;
 

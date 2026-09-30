@@ -28,7 +28,7 @@ import { importFile, requestAutosave, requestExport, requestSave, useSaveState }
 import { deleteAccount, openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
-import { toast, useUi } from '../store/ui';
+import { askConfirm, toast, useUi } from '../store/ui';
 import { THEME_LABEL, useTheme, type ThemePref } from '../store/theme';
 import { Credit } from './Credit';
 import { Segmented, Switch } from './fields';
@@ -144,12 +144,14 @@ function clearCanvas() {
 }
 
 async function confirmDeleteAccount() {
-  const ok = window.confirm(
-    t(
+  const ok = await askConfirm({
+    title: t('Hesabı sil', 'Delete account'),
+    message: t(
       'Hesabın ve kayıtlı tüm projelerin kalıcı olarak silinsin mi? Bu işlem geri alınamaz. Tuvaldeki çizim bu cihazda kalır.',
       'Permanently delete your account and all your saved projects? This can’t be undone. The drawing on your canvas stays on this device.',
     ),
-  );
+    confirmLabel: t('Hesabı sil', 'Delete account'),
+  });
   if (!ok) return;
   try {
     await deleteAccount();

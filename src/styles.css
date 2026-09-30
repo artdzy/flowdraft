@@ -178,7 +178,9 @@ p {
 }
 
 .fd-app.is-mobile {
-  grid-template-rows: var(--topbar-h) minmax(0, 1fr) calc(var(--mobilebar-h) + env(safe-area-inset-bottom));
+  grid-template-rows: calc(var(--topbar-h) + env(safe-area-inset-top)) minmax(0, 1fr) calc(
+      var(--mobilebar-h) + env(safe-area-inset-bottom)
+    );
 }
 
 .fd-main {
@@ -2610,4 +2612,17 @@ ul.fd-promo-features {
   .fd-promo-lead {
     font-size: 16px;
   }
+}
+
+/* ---------- Confirm dialog (replaces window.confirm) ---------- */
+
+.fd-confirm-text {
+  color: var(--text-2);
+  line-height: 1.55;
+}
+
+.fd-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }

@@ -4,7 +4,7 @@ import { AiDialog } from './components/AiDialog';
 import { AuthModal } from './components/AuthModal';
 import { Canvas } from './components/Canvas';
 import { Credit } from './components/Credit';
-import { NewDialog, ProjectsDialog, Toasts } from './components/Dialogs';
+import { ConfirmDialog, NewDialog, ProjectsDialog, Toasts } from './components/Dialogs';
 import { Inspector } from './components/Inspector';
 import { MobileBar } from './components/MobileBar';
 import { Palette } from './components/Palette';
@@ -180,6 +180,7 @@ export default function App() {
         <NewDialog />
         <AiDialog />
         <PromoDialog />
+        <ConfirmDialog />
         <Toasts />
       </div>
     </ReactFlowProvider>

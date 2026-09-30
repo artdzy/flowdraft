@@ -1,5 +1,5 @@
 import { FilePlus2, LoaderCircle, Trash2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { locale, t, UNTITLED } from '../i18n';
 import { confirmDiscard, openProject } from '../lib/actions';
 import { parseDoc } from '../lib/doc';
@@ -7,11 +7,11 @@ import { deleteProject, describeError, listProjects, type ProjectSummary } from 
 import { getIcon } from '../flow/icons';
 import { TEMPLATES, type TemplateId } from '../flow/templates';
 import { useEditor } from '../store/editor';
-import { toast, useUi } from '../store/ui';
+import { askConfirm, settleConfirm, toast, useUi, type ConfirmRequest } from '../store/ui';
 import { Modal } from './Modal';
 
-export function startTemplate(id: TemplateId): boolean {
-  if (!confirmDiscard()) return false;
+export async function startTemplate(id: TemplateId): Promise<boolean> {
+  if (!(await confirmDiscard())) return false;
   const tpl = TEMPLATES.find((x) => x.id === id)!;
   useEditor.getState().loadDoc(parseDoc(tpl.build())!, {
     title: id === 'blank' ? UNTITLED : t(`${tpl.title} akışı`, `${tpl.title} flow`),
@@ -32,7 +32,7 @@ export function TemplateGrid({ onPicked, includeBlank = true }: { onPicked?: () 
             type="button"
             className="fd-template"
             onClick={() => {
-              if (startTemplate(tpl.id)) onPicked?.();
+              void startTemplate(tpl.id).then((started) => started && onPicked?.());
             }}
           >
             <span className="fd-template-icon">{Icon && <Icon size={18} strokeWidth={1.75} aria-hidden />}</span>
@@ -70,7 +70,7 @@ function ProjectList({ onDone }: { onDone: () => void }) {
   }, []);
 
   const open = async (p: ProjectSummary) => {
-    if (p.id !== currentId && !confirmDiscard()) return;
+    if (p.id !== currentId && !(await confirmDiscard())) return;
     setBusyId(p.id);
     try {
       await openProject(p.id);
@@ -83,7 +83,12 @@ function ProjectList({ onDone }: { onDone: () => void }) {
   };
 
   const remove = async (p: ProjectSummary) => {
-    if (!window.confirm(t(`“${p.title}” kalıcı olarak silinsin mi?`, `Delete “${p.title}” permanently?`))) return;
+    const ok = await askConfirm({
+      title: t('Projeyi sil', 'Delete project'),
+      message: t(`“${p.title}” kalıcı olarak silinsin mi? Bu işlem geri alınamaz.`, `Delete “${p.title}” permanently? This can’t be undone.`),
+      confirmLabel: t('Sil', 'Delete'),
+    });
+    if (!ok) return;
     setBusyId(p.id);
     try {
       await deleteProject(p.id);
@@ -156,6 +161,34 @@ export function ProjectsDialog() {
           'flowdraft is free and comes with no warranty; projects on the server may be deleted. Back up important flows with Export → JSON.',
         )}
       </p>
+    </Modal>
+  );
+}
+
+/** The app's own confirm dialog, used for every yes/no question instead of window.confirm. */
+export function ConfirmDialog() {
+  const request = useUi((s) => s.confirm);
+  // Keeps the text on screen while the dialog closes.
+  const last = useRef<ConfirmRequest | null>(null);
+  if (request) last.current = request;
+  const shown = request ?? last.current;
+  return (
+    <Modal
+      open={!!request}
+      onClose={() => settleConfirm(false)}
+      title={shown?.title ?? ''}
+      titleId="fd-confirm-title"
+      className="is-narrow"
+    >
+      <p className="fd-confirm-text">{shown?.message}</p>
+      <div className="fd-confirm-actions">
+        <button type="button" className="fd-btn" onClick={() => settleConfirm(false)}>
+          {t('Vazgeç', 'Cancel')}
+        </button>
+        <button type="button" className="fd-btn is-primary" onClick={() => settleConfirm(true)}>
+          {shown?.confirmLabel}
+        </button>
+      </div>
     </Modal>
   );
 }
