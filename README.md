@@ -30,7 +30,7 @@ Coolify: build pack **Dockerfile**, port **3000**, ortam değişkenleri `SUPABAS
 
 ## Veritabanı
 
-`supabase/migrations/` altındaki dosyaları sırayla (0001 → 0004) Supabase SQL Editor'de çalıştır.
+`supabase/migrations/` altındaki dosyaları sırayla (0001 → 0005) Supabase SQL Editor'de çalıştır.
 Auth → URL Configuration → Site URL: `https://flowdraft.tech`.
 
 ## AI araçları (MCP)
@@ -115,8 +115,8 @@ Supabase Cloud kullanılırsa 1–2 yerine: Dashboard → Authentication → OAu
 - `src/flow/` — düğüm/bağlantı tipleri, bileşenler, palet, şablonlar
 - `src/store/` — editör (geri al/ileri al), oturum, ayarlar, arayüz durumu
 - `src/lib/` — Supabase, proje CRUD, kaydetme, dışa aktarma, belge doğrulama, AI kritiği için canlı bağlantı (`live.ts`)
-- `src/admin/` — yönetim paneli (`/yonetim`): üyeler ve akış başlıkları, salt okunur. Yöneticiler `public.admins`
-  tablosunda durur (`0004_admin.sql`); akış içeriği panele hiç gelmez
+- `src/admin/` — yönetim paneli (`/yonetim`): üyeler, akışları ve salt okunur akış önizlemesi. Yöneticiler
+  `public.admins` tablosunda durur (`0004_admin.sql`, `0005_admin_flow.sql`)
 - `src/profile/` — profil sayfası (`/profil`): hesap bilgisi, çıkış, hesabı silme
 - `src/oauth/` — AI araçları için OAuth onay sayfası (`/oauth/consent`)
 - `src/guide/` — kurulum rehberi (`/mcp`, tarayıcıdan açılınca)

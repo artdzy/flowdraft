@@ -4,9 +4,9 @@ import { Credit } from '../components/Credit';
 import { LangSwitch } from '../components/LangSwitch';
 import { lang, t } from '../i18n';
 
-export const LEGAL_VERSION = '2026-09-25';
-const UPDATED = '25 Eylül 2026';
-const UPDATED_EN = 'September 25, 2026';
+export const LEGAL_VERSION = '2026-09-30';
+const UPDATED = '30 Eylül 2026';
+const UPDATED_EN = 'September 30, 2026';
 const CONTACT_URL = 'https://websiteniyapalim.com/?utm_source=flowdraft&utm_medium=legal';
 
 export type LegalKind = 'terms' | 'privacy' | 'support';
@@ -149,6 +149,11 @@ function PrivacyTr() {
       <p>
         Veriler flowdraft'ın kendi sunucusunda, kendi kurduğumuz bir Supabase veritabanında saklanır. Sunucu, barındırma
         hizmeti sağlayıcısının altyapısında çalışır. Yasal bir zorunluluk olmadıkça verilerin üçüncü kişilerle paylaşılmaz.
+      </p>
+      <p>
+        flowdraft'ı işleten kişi, destek taleplerini yanıtlamak, hataları gidermek ve kötüye kullanımı incelemek için
+        hesap bilgilerini (e-posta, kayıt ve giriş tarihleri) ve kayıtlı akışlarını görüntüleyebilir. Akışların
+        değiştirilmez ve başkalarıyla paylaşılmaz.
       </p>
       <p>
         Kendi isteğinle bir AI aracını (ör. ChatGPT, Claude) flowdraft hesabına bağlarsan, o araç senin adına projelerini
@@ -356,6 +361,11 @@ function PrivacyEn() {
         Your data is stored on flowdraft's own server, in a Supabase database that we set up and run ourselves. The server
         runs on the infrastructure of a hosting provider. Your data is not shared with third parties unless there is a legal
         obligation to do so.
+      </p>
+      <p>
+        The person who runs flowdraft can view your account information (email, sign-up and sign-in dates) and your saved
+        flows in order to answer support requests, fix problems and look into misuse. Your flows are not changed and are
+        not shared with anyone else.
       </p>
       <p>
         If you choose to connect an AI tool (e.g. ChatGPT, Claude) to your flowdraft account, that tool can read, create,

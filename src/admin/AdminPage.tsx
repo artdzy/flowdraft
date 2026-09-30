@@ -8,6 +8,7 @@ import { locale, t } from '../i18n';
 import { ADMIN_PATH, listMemberFlows, listMembers, type Member, type MemberFlow } from '../lib/admin';
 import { describeError } from '../lib/projects';
 import { openAuth, signOut, useAuth } from '../store/auth';
+import { FlowPreview } from './FlowPreview';
 
 export function isAdminPath(pathname: string) {
   return pathname.replace(/\/+$/, '') === ADMIN_PATH;
@@ -25,7 +26,7 @@ const within = (iso: string | null, ms: number) => !!iso && Date.now() - new Dat
 
 type Flows = { status: 'loading' } | { status: 'error'; message: string } | { status: 'ready'; rows: MemberFlow[] };
 
-function FlowList({ flows }: { flows: Flows | undefined }) {
+function FlowList({ flows, onOpen }: { flows: Flows | undefined; onOpen: (flow: MemberFlow) => void }) {
   if (!flows || flows.status === 'loading')
     return (
       <p className="fd-muted fd-loading">
@@ -38,7 +39,9 @@ function FlowList({ flows }: { flows: Flows | undefined }) {
     <ul className="fd-admin-flows">
       {flows.rows.map((f) => (
         <li key={f.id}>
-          <span className="fd-admin-flow-title">{f.title}</span>
+          <button type="button" className="fd-admin-flow-title" onClick={() => onOpen(f)}>
+            {f.title}
+          </button>
           <span className="fd-admin-mono">
             {t(`${numFmt.format(f.node_count)} parça`, `${numFmt.format(f.node_count)} nodes`)}
           </span>
@@ -53,6 +56,7 @@ function Members({ members }: { members: Member[] }) {
   const [query, setQuery] = useState('');
   const [openId, setOpenId] = useState<string | null>(null);
   const [flows, setFlows] = useState<Record<string, Flows>>({});
+  const [preview, setPreview] = useState<MemberFlow | null>(null);
 
   const shown = useMemo(() => {
     const q = query.trim().toLocaleLowerCase(locale);
@@ -123,7 +127,7 @@ function Members({ members }: { members: Member[] }) {
                 open && (
                   <tr key={`${m.id}-flows`} className="fd-admin-detail" id={`fd-admin-flows-${m.id}`}>
                     <td colSpan={5}>
-                      <FlowList flows={flows[m.id]} />
+                      <FlowList flows={flows[m.id]} onOpen={setPreview} />
                     </td>
                   </tr>
                 ),
@@ -133,6 +137,7 @@ function Members({ members }: { members: Member[] }) {
         </table>
         {!shown.length && <p className="fd-muted fd-admin-empty">{t('Eşleşen üye yok.', 'No matching members.')}</p>}
       </div>
+      <FlowPreview flow={preview} onClose={() => setPreview(null)} />
     </>
   );
 }
@@ -191,8 +196,8 @@ function Panel() {
           <Members members={members} />
           <p className="fd-muted fd-small">
             {t(
-              'Bir üyeye tıklayınca akışlarının başlıkları listelenir. Akış içeriği bu panelde gösterilmez.',
-              'Click a member to list the titles of their flows. Flow contents aren’t shown in this panel.',
+              'Bir üyeye tıklayınca akışları listelenir; bir akışa tıklayınca salt okunur önizlemesi açılır.',
+              'Click a member to list their flows; click a flow to open a read-only preview.',
             )}
           </p>
         </>

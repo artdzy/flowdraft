@@ -1,6 +1,6 @@
 import { requireClient } from './supabase';
 
-/** Admin panel: members and the titles of their flows, read-only. */
+/** Admin panel: members and their flows, read-only. */
 export const ADMIN_PATH = '/yonetim';
 /** Profile page (src/profile/ProfilePage.tsx): account details, sign out, delete account. */
 export const PROFILE_PATH = '/profil';
@@ -33,4 +33,13 @@ export async function listMemberFlows(memberId: string): Promise<MemberFlow[]> {
   const { data, error } = await requireClient().rpc('admin_list_member_flows', { member: memberId });
   if (error) throw error;
   return data ?? [];
+}
+
+/** Raw content of one flow for the read-only preview (supabase/migrations/0005_admin_flow.sql). */
+export async function fetchMemberFlow(flowId: string): Promise<unknown> {
+  const { data, error } = await requireClient().rpc('admin_get_flow', { flow: flowId });
+  if (error) throw error;
+  const row = (data as { content: unknown }[] | null)?.[0];
+  if (!row) throw { code: 'PGRST116' };
+  return row.content;
 }

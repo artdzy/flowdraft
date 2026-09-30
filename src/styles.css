@@ -2867,10 +2867,41 @@ ul.fd-promo-features {
 }
 
 .fd-admin-flow-title {
+  padding: 0;
+  border: 0;
+  background: none;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--text);
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-color: var(--line-2);
+  text-underline-offset: 3px;
+}
+
+.fd-admin-flow-title:hover {
+  text-decoration-color: currentColor;
+}
+
+.fd-modal.fd-admin-flow-modal {
+  width: min(1100px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+}
+
+.fd-admin-flow-canvas {
+  display: grid;
+  place-items: center;
+  height: min(640px, calc(100dvh - 170px));
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.fd-admin-flow-canvas .react-flow {
+  width: 100%;
+  height: 100%;
 }
 
 .fd-admin-empty {
