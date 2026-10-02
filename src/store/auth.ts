@@ -1,7 +1,8 @@
 import type { User } from '@supabase/supabase-js';
 import { create } from 'zustand';
-import { t } from '../i18n';
+import { t, UNTITLED } from '../i18n';
 import { checkAdmin } from '../lib/admin';
+import { clearDraft } from '../lib/draft';
 import { supabase } from '../lib/supabase';
 import { useEditor } from './editor';
 import { useSettings } from './settings';
@@ -31,6 +32,8 @@ export function initAuth() {
   useAuth.subscribe((state, prev) => {
     const id = state.user?.id;
     if (id === prev.user?.id) return;
+    // Signed out here, in another tab or by an expired session: the next person must not see this account's flow.
+    if (prev.user && !id) resetWorkspace();
     useAuth.setState({ admin: id ? null : false });
     if (!id) return;
     void checkAdmin()
@@ -71,10 +74,16 @@ export function completeAuth(user: User) {
   if (pending) setTimeout(pending, 0);
 }
 
+/** Empties the canvas and the copy mirrored to this device, so an account's flow never outlives its session. */
+function resetWorkspace() {
+  useSettings.getState().setAutosave(false);
+  useEditor.getState().loadDoc({ version: 1, nodes: [], edges: [] }, { title: UNTITLED, projectId: null, dirty: false });
+  clearDraft();
+}
+
 export async function signOut() {
   await supabase?.auth.signOut();
-  useSettings.getState().setAutosave(false);
-  useEditor.setState({ projectId: null, savedRevision: -1 });
+  resetWorkspace();
 }
 
 /** Permanently deletes the signed-in account and its saved projects (see supabase/migrations/0002_delete_account.sql). */
@@ -84,6 +93,5 @@ export async function deleteAccount() {
   if (error) throw error;
   // The user no longer exists on the server, so only the local session is left to clear.
   await supabase.auth.signOut({ scope: 'local' });
-  useSettings.getState().setAutosave(false);
-  useEditor.setState({ projectId: null, savedRevision: -1 });
+  resetWorkspace();
 }

@@ -25,6 +25,14 @@ export function loadDraft(): Draft | null {
   }
 }
 
+export function clearDraft() {
+  try {
+    localStorage.removeItem(KEY);
+  } catch {
+    // Storage unavailable: there is nothing mirrored to clear.
+  }
+}
+
 export function saveDraft(draft: Draft) {
   try {
     localStorage.setItem(KEY, JSON.stringify(draft));
