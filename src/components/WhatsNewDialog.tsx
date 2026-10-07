@@ -37,9 +37,10 @@ const CHANGES: Change[] = [
   },
 ];
 
-/** Not in a ?p= link someone followed from an AI tool, and not when the choice couldn't be remembered. */
+/** Not in a ?p= link from an AI tool or a ?ornek= guide example, and not when the choice couldn't be remembered. */
 function unseen(): boolean {
-  if (new URLSearchParams(window.location.search).has('p')) return false;
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('p') || params.has('ornek')) return false;
   try {
     return localStorage.getItem(SEEN_KEY) !== version;
   } catch {

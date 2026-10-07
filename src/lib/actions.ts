@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { t, UNTITLED } from '../i18n';
+import { lang, t, UNTITLED } from '../i18n';
 import { requireAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
@@ -84,6 +84,27 @@ export function openProjectLink(id: string) {
     if (!(await confirmDiscard())) return;
     openProject(id).catch((err: unknown) => toast(describeError(err), 'error'));
   });
+}
+
+/**
+ * Opens an example diagram of the guide pages (a ?ornek=<id> link, seo/guides.js) as a new, unsaved flow, the way a
+ * template starts. No account needed.
+ */
+export async function openExampleLink(id: string) {
+  if (!/^[a-z0-9-]{1,100}$/.test(id) || !(await confirmDiscard())) return;
+  try {
+    const res = await fetch(`/ornekler/${lang}/${id}.json`);
+    if (!res.ok) throw new Error(t('Bu örnek bulunamadı.', 'Couldn’t find this example.'));
+    const raw = (await res.json()) as { title?: unknown };
+    const doc = parseDoc(raw);
+    if (!doc) throw new Error(t('Örnek okunamadı.', 'Couldn’t read the example.'));
+    const title = typeof raw.title === 'string' && raw.title.trim() ? raw.title : UNTITLED;
+    useEditor.getState().loadDoc(doc, { title, projectId: null, dirty: false });
+  } catch (err) {
+    const fallback = t('Örnek açılamadı. Bağlantını kontrol et.', 'Couldn’t open the example. Check your connection.');
+    // Network and JSON errors (TypeError, SyntaxError) get the friendly message; our own ones say what went wrong.
+    toast(err instanceof Error && err.name === 'Error' ? err.message : fallback, 'error');
+  }
 }
 
 /** Reloads the open project when it changed in the cloud and nothing here is unsaved. */

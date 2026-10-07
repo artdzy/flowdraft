@@ -12,7 +12,7 @@ import { PromoDialog } from './components/PromoDialog';
 import { TopBar } from './components/TopBar';
 import { WhatsNewDialog } from './components/WhatsNewDialog';
 import { t, UNTITLED } from './i18n';
-import { openProjectLink, refreshFromCloud, requestSave, saveToCloud } from './lib/actions';
+import { openExampleLink, openProjectLink, refreshFromCloud, requestSave, saveToCloud } from './lib/actions';
 import { saveDraft } from './lib/draft';
 import { useLiveLink } from './lib/live';
 import { serializeDoc } from './lib/doc';
@@ -127,6 +127,18 @@ function useProjectLink() {
   }, [ready]);
 }
 
+/** Opens a guide page example from a ?ornek=<id> link as a new draft, then drops the parameter. */
+function useExampleLink() {
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const id = url.searchParams.get('ornek');
+    if (!id) return;
+    url.searchParams.delete('ornek');
+    window.history.replaceState(window.history.state, '', url);
+    void openExampleLink(id);
+  }, []);
+}
+
 /** Picks up edits made elsewhere (an AI tool, another device) on sign-in and whenever the tab comes back into view. */
 function useCloudRefresh() {
   const userId = useAuth((s) => s.user?.id);
@@ -141,13 +153,20 @@ function useCloudRefresh() {
   }, [userId]);
 }
 
-/** Browser tab shows the open diagram, with a dot while there are unsaved cloud changes. */
+// The page title the server wrote for search engines (seo/pages.json).
+const pageTitle = document.title;
+
+/**
+ * Browser tab shows the open diagram, with a dot while there are unsaved cloud changes.
+ * A fresh empty canvas keeps the server's title, which is also what search engines see after rendering.
+ */
 function useDocumentTitle() {
   const title = useEditor((s) => s.title.trim() || UNTITLED);
+  const fresh = useEditor((s) => !s.projectId && !s.nodes.length && (!s.title.trim() || s.title === UNTITLED));
   const unsaved = useEditor((s) => isDirty(s) && !!s.projectId);
   useEffect(() => {
-    document.title = `${unsaved ? '● ' : ''}${title} · flowdraft`;
-  }, [title, unsaved]);
+    document.title = fresh ? pageTitle : `${unsaved ? '● ' : ''}${title} · flowdraft`;
+  }, [title, unsaved, fresh]);
 }
 
 export default function App() {
@@ -157,6 +176,7 @@ export default function App() {
   useAutosave();
   useDraftMirror();
   useProjectLink();
+  useExampleLink();
   useCloudRefresh();
   useLiveLink();
 

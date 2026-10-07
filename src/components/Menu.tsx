@@ -70,3 +70,13 @@ export function MenuItem({
     </button>
   );
 }
+
+/** A menu entry that goes to another page: a real link, so it can be opened in a new tab and followed by crawlers. */
+export function MenuLink({ icon, children, href, onSelect }: { icon?: ReactNode; children: ReactNode; href: string; onSelect?: () => void }) {
+  return (
+    <a role="menuitem" className="fd-menu-item" href={href} onClick={onSelect}>
+      {icon}
+      <span>{children}</span>
+    </a>
+  );
+}

@@ -1,4 +1,5 @@
 import {
+  BookOpen,
   Bot,
   ChevronDown,
   Cloud,
@@ -26,6 +27,7 @@ import { useRef } from 'react';
 import { lang, locale, setLang, t, UNTITLED, type Lang } from '../i18n';
 import { ADMIN_PATH, PROFILE_PATH } from '../lib/admin';
 import { importFile, requestAutosave, requestExport, requestSave, useSaveState } from '../lib/actions';
+import { guideHref } from '../lib/guides';
 import { openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
@@ -34,7 +36,7 @@ import { THEME_LABEL, useTheme, type ThemePref } from '../store/theme';
 import { Credit } from './Credit';
 import { Segmented, Switch } from './fields';
 import { LANGS, LangSwitch } from './LangSwitch';
-import { Menu, MenuItem } from './Menu';
+import { Menu, MenuItem, MenuLink } from './Menu';
 
 export function Logo() {
   return (
@@ -202,6 +204,9 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       <MenuItem icon={<Bot size={16} />} onSelect={() => (close(), useUi.setState({ aiOpen: true }))}>
         {t('AI araçlarına bağla', 'Connect AI tools')}
       </MenuItem>
+      <MenuLink icon={<BookOpen size={16} />} href={guideHref('what')} onSelect={close}>
+        {t('Akış diyagramı rehberi', 'Flowchart guide')}
+      </MenuLink>
       <MenuItem icon={<Eraser size={16} />} onSelect={() => (close(), clearCanvas())} danger>
         {t('Tuvali temizle', 'Clear canvas')}
       </MenuItem>
@@ -254,6 +259,11 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       <header className="fd-topbar is-mobile">
         <Logo />
         {titleInput}
+        {/* Always on screen (unlike the menu), so the phone layout links to the guides too. */}
+        <a className="fd-icon-btn" href={guideHref('what')} title={t('Akış diyagramı rehberi', 'Flowchart guide')}>
+          <BookOpen size={18} aria-hidden />
+          <span className="fd-sr-only">{t('Akış diyagramı rehberi', 'Flowchart guide')}</span>
+        </a>
         <button type="button" className="fd-icon-btn" aria-label={t('Kaydet', 'Save')} onClick={requestSave} disabled={saving}>
           {saving ? <LoaderCircle size={18} className="fd-spin" /> : <Save size={18} />}
         </button>

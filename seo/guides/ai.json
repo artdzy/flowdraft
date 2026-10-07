@@ -1,0 +1,448 @@
+{
+  "id": "ai",
+  "priority": "0.8",
+  "published": "2026-10-07",
+  "updated": "2026-10-07",
+  "tr": {
+    "path": "/yapay-zeka-ile-akis-diyagrami",
+    "title": "Yapay Zekâ ile Akış Diyagramı: ChatGPT ve Claude · flowdraft",
+    "description": "ChatGPT ile akış diyagramı çizmenin 3 yolu ve kurulum. flowdraft’ı ChatGPT ya da Claude’a bağla; yapay zekâ düzenlenebilir akışı doğrudan hesabına çizsin.",
+    "h1": "ChatGPT ile akış diyagramı çizme: yapay zekâ çizsin, sen düzenle",
+    "lead": "ChatGPT ile akış diyagramı yapmanın üç yolu var: Mermaid kodu istemek, resim ürettirmek ya da ChatGPT’yi MCP ile bir diyagram aracına bağlamak. Düzenlenebilir bir sonuç istiyorsan en sağlamı üçüncüsü: flowdraft’ı ChatGPT’ye ya da Claude’a bir kez bağlarsın, süreci anlatırsın, yapay zekâ akışı doğrudan flowdraft hesabına çizer ve görselini sohbete getirir.",
+    "breadcrumb": "Yapay zekâ ile akış",
+    "sections": [
+      {
+        "h2": "ChatGPT ile akış diyagramı yapmanın 3 yolu",
+        "id": "uc-yol",
+        "blocks": [
+          { "p": "ChatGPT ile akış şeması çizme denemelerinin çoğu aynı cümleyle başlar: “Bana şu süreci akış şeması olarak çiz.” ChatGPT ya da Claude buna üç şeyden biriyle cevap verir; hangisini istediğini baştan söylemek, sonradan uğraşacağın işi belirler." },
+          { "h3": "1. Mermaid kodu istemek" },
+          { "p": "Yapay zekâ akışı Mermaid gibi metin tabanlı bir diyagram dilinde yazar, sen de kodu Mermaid destekleyen bir editöre yapıştırırsın. Hızlıdır ve kodla birlikte saklanabilir; ama kutuların yerini çizim motoru belirler, her düzeltmede yeni kodu yeniden yapıştırırsın ve küçük bir söz dizimi hatası çizimin hiç çıkmamasına yol açar." },
+          { "h3": "2. Görsel (resim) istemek" },
+          { "p": "Resim üretebilen bir model akışı doğrudan görsel olarak çizer. Kaba bir sunum taslağı için yeterli olabilir; ama kutulardaki yazılar ve oklar her zaman doğru çıkmaz. Sonuç düz bir resim olduğundan tek bir kutuyu düzeltemezsin, her değişiklikte resim baştan üretilir." },
+          { "h3": "3. MCP ile bir diyagram aracını bağlamak" },
+          { "p": "MCP (Model Context Protocol), yapay zekâ asistanlarını dış araçlara bağlayan açık bir standart. flowdraft’ın MCP sunucusunu ChatGPT’ye ya da Claude’a eklediğinde yapay zekâ kod ya da resim üretmez; flowdraft hesabında **gerçek, düzenlenebilir bir akış** oluşturur: adım kartları, eşkenar dörtgen karar kutuları, kulvarlar ve etiketli bağlantılar. Akışı istediğin an editörde açıp elle değiştirebilirsin." },
+          {
+            "table": {
+              "head": ["", "Mermaid kodu", "Resim", "MCP ile flowdraft"],
+              "rows": [
+                ["Ne elde edersin", "Metin halinde kod", "Düz bir resim", "Hesabında düzenlenebilir bir akış"],
+                ["Elle düzenleme", "Kodu değiştirerek", "Pratikte yok", "Editörde kutuyu taşı, metni değiştir"],
+                ["Değişiklik isteme", "Yeni kodu yeniden yapıştır", "Resim baştan üretilir", "Aynı akış güncellenir, yeni görsel sohbete gelir"],
+                ["Mevcut akışı okuma", "Yalnızca yapıştırılan kod", "Yok", "Kayıtlı ve açık akışlarını okur"],
+                ["Dezavantaj", "Söz dizimi hataları, otomatik yerleşim", "Yanlış yazı ve oklar", "Bir kerelik kurulum; bağlayıcı desteği yapay zekâ aracının planına bağlı"]
+              ]
+            }
+          },
+          { "tip": "Bir kerelik kaba taslak için Mermaid ya da resim yeterli olabilir. Akışı sunacak, dışa aktaracak ya da zamanla güncelleyeceksen MCP en çok zamanı kazandırır." }
+        ]
+      },
+      {
+        "h2": "flowdraft MCP ile yapay zekâ akış şeması nasıl çizer?",
+        "id": "nasil-calisir",
+        "blocks": [
+          { "p": "Kurulumu bir kez yaptıktan sonra işleyiş hep aynı:" },
+          {
+            "ol": [
+              "Süreci anlatırsın: kim neyi yapıyor, nerede karar veriliyor, süreç nerede bitiyor.",
+              "Yapay zekâ flowdraft’ta bir akış oluşturur; adımları kartla, kararları eşkenar dörtgenle, başlangıç ve bitişi ovalle, sorumlu ekipleri kulvarla gösterir.",
+              "Akışın PNG görseli sohbete gelir (Claude ve ChatGPT’de). Yapay zekâ da görseli görür; üst üste binen kutuları ya da kesilen yazıları düzeltebilir.",
+              "Değişiklik istersin (“onay adımını depodan önceye al”); yapay zekâ yeni bir akış açmaz, aynı akışı günceller ve yeni görseli gösterir.",
+              "Verdiği **flowdraft.tech/?p=…** linki akışı editörde açar; orada elle ince ayar yapar, istersen PNG, SVG ya da JSON olarak dışa aktarırsın."
+            ]
+          },
+          { "p": "Ters yönde de çalışır: flowdraft’ta bir akış açıkken “açık olan akışı incele” dersen yapay zekâ onu kaydedilmemiş değişiklikleriyle birlikte okur. Değiştirmeden önce kaydetmeni ister; böylece elle yaptığın düzenlemelerin üzerine yazmaz." },
+          { "cta": "flowdraft’ı ücretsiz aç" }
+        ]
+      },
+      {
+        "h2": "Kurulum: ChatGPT, Claude, Claude Code, Cursor ve VS Code",
+        "id": "kurulum",
+        "blocks": [
+          { "p": "Her araçta mantık aynı: **https://flowdraft.tech/mcp** adresini aracın bağlayıcı (connector) ayarına eklersin, açılan flowdraft sayfasında hesabınla giriş yapıp **İzin ver**’e basarsın. Hesabın yoksa [flowdraft’ı aç](/?lang=tr) ve Giriş yap → Kayıt ol ile ücretsiz bir hesap oluştur. Her adım [MCP kurulum rehberinde](/mcp?lang=tr) ayrıntılı anlatılıyor." },
+          { "h3": "ChatGPT" },
+          {
+            "ol": [
+              "**Ayarlar → Güvenlik ve giriş** altında **Geliştirici modu**’nu (Developer mode) aç. Bazı hesaplarda bu anahtar **Uygulamalar / Bağlayıcılar → Gelişmiş** altındadır.",
+              "**Uygulamalar / Bağlayıcılar** sayfasında **Oluştur**’a bas: ad flowdraft, adres yukarıdaki, kimlik doğrulama **OAuth**. Uygulamaya güvendiğini onayla, ardından giriş yapıp **İzin ver**’e bas.",
+              "Yeni sohbette **+** → **Geliştirici modu** → flowdraft’ı seç. Yazma işlemlerinde ChatGPT senden onay ister."
+            ]
+          },
+          { "h3": "Claude (claude.ai ve masaüstü uygulaması)" },
+          {
+            "ol": [
+              "claude.ai’de **Customize → Connectors** sayfasını aç ve **+** → **Add custom connector**’a bas.",
+              "Ad olarak flowdraft yaz, adresi yapıştır, **Add**’e ve ardından **Connect**’e bas; giriş yapıp **İzin ver**’e bas.",
+              "Sohbette sol alttaki **+** → **Connectors** menüsünden flowdraft’ı aç. Bağlayıcı Claude hesabına eklendiği için masaüstü ve mobil uygulamada da kullanabilirsin."
+            ]
+          },
+          { "h3": "Claude Code" },
+          {
+            "ol": [
+              "Terminalde çalıştır: claude mcp add --transport http flowdraft https://flowdraft.tech/mcp",
+              "Claude Code içinde /mcp yaz, **flowdraft**’ı seçip **Authenticate** de ve tarayıcıda izin ver. Terminal görseli gösteremez; akışı verdiği linkle açarsın."
+            ]
+          },
+          { "h3": "Cursor" },
+          { "p": "~/.cursor/mcp.json dosyasına {\"mcpServers\": {\"flowdraft\": {\"url\": \"https://flowdraft.tech/mcp\"}}} ekle (dosya yoksa oluştur), sonra Cursor ayarlarının **MCP** bölümünde flowdraft’ın yanındaki giriş düğmesine bas." },
+          { "h3": "VS Code (Copilot)" },
+          { "p": "Proje klasöründeki .vscode/mcp.json dosyasına {\"servers\": {\"flowdraft\": {\"type\": \"http\", \"url\": \"https://flowdraft.tech/mcp\"}}} ekle ya da komut paletinden **MCP: Add Server** → HTTP’yi seçip adresi yapıştır. Sunucu başlayınca VS Code giriş ister." },
+          { "p": "Codex ve OAuth destekleyen diğer uzak MCP istemcileri de aynı adresle çalışır." }
+        ]
+      },
+      {
+        "h2": "Kopyalayıp kullanabileceğin prompt örnekleri",
+        "id": "prompt-ornekleri",
+        "blocks": [
+          { "p": "Bağlantıyı kurduktan sonra şunlardan biriyle başla ve köşeli parantezli kısmı kendi bilginle değiştir. README’den söz eden istek, kodunun açık olduğu Claude Code, Cursor ya da VS Code içindir." },
+          {
+            "ul": [
+              "flowdraft ile müşteri iade sürecini kulvarlı bir akış diyagramı olarak çiz: Müşteri, Destek ve Depo için ayrı kulvarlar olsun.",
+              "flowdraft’ta açık olan akışı incele, eksik karar adımlarını ekle ve her dalı Evet/Hayır diye etiketle.",
+              "Şu adımları flowdraft’ta yukarıdan aşağı bir akış şeması olarak çiz, başlangıcı ve bitişi ayrı göster: [adımlar]",
+              "flowdraft’taki “Sipariş akışı”na ödeme reddedilirse ne olacağını gösteren bir dal ekle.",
+              "Yeni çalışanın işe başlama sürecini flowdraft’ta çiz; yöneticinin onayını insan onayı adımı olarak işaretle.",
+              "Bu depodaki README’ye göre kurulum adımlarını flowdraft’ta soldan sağa bir akış olarak çiz.",
+              "flowdraft’taki akışlarımı listele ve en son düzenlediğimi üç cümleyle özetle.",
+              "Son çizdiğin akışta kutular sıkışık; aralarını aç, en kritik adımı vurgula ve yeni görseli göster.",
+              "Açık olan akıştaki bütün metinleri İngilizceye çevir, yerleşimi bozma."
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "Tek bir istekten çıkan örnek: iade talebi süreci",
+        "id": "ornek-akis",
+        "blocks": [
+          { "p": "Aşağıdaki akış, listedeki ilk isteğe yapay zekânın verebileceği tipik bir cevabın flowdraft’taki hali: üç kulvar, iki karar noktası, bir ret yolu ve bir hasar istisnası." },
+          { "example": "ai-iade-talebi" },
+          { "p": "Ayrıntılara dikkat et: kararların her çıkışı **Evet** ya da **Hayır** diye etiketli; ana yol yeşil, istisna yolları turuncu. Para iadesi sürecin en önemli adımı olduğu için vurgulu. Hasarlı ürünlerde destek kısmi iade önerir ya da talebi reddeder. Akışı editörde açıp kendi sürecine göre değiştirebilir ya da [akış diyagramı örnekleri](/akis-diyagrami-ornekleri) sayfasındaki başka hazır akışlara bakabilirsin." }
+        ]
+      },
+      {
+        "h2": "Yapay zekâ neler yapabilir, neler yapamaz?",
+        "id": "yapabilir-yapamaz",
+        "blocks": [
+          { "h3": "Yapabilir" },
+          {
+            "ul": [
+              "Kayıtlı akışlarını listeler, okur ve özetler.",
+              "Yeni akış oluşturur; mevcut bir akışın başlığını ve içeriğini günceller.",
+              "Sen açıkça istersen bir akışı siler. Silme kalıcıdır, geri alınamaz.",
+              "flowdraft’ta o an açık olan akışı, kaydedilmemiş değişiklikleriyle birlikte okur.",
+              "Her sonuçta akışı editörde açan bir link verir; Claude ve ChatGPT’de akışın görselini de sohbette gösterir."
+            ]
+          },
+          { "h3": "Yapamaz" },
+          {
+            "ul": [
+              "Sen giriş yapıp izin vermeden hiçbir akışa erişemez; izin verdikten sonra da yalnızca senin hesabındaki akışları görür.",
+              "Hesabına hiç kaydedilmemiş bir akışı değiştiremez; önce kaydetmen gerekir.",
+              "flowdraft’ta olmayan şekilleri çizemez: ayrı bir paralelkenar (girdi/çıktı) ya da belge şekli yok, bu tür adımlar etiketli adım kartı olur. Standart sembollerin flowdraft’taki karşılıkları [akış diyagramı sembolleri](/akis-diyagrami-sembolleri) rehberinde."
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "Gizlilik ve erişim izni",
+        "id": "gizlilik",
+        "blocks": [
+          {
+            "ul": [
+              "Bağlantı OAuth ile kurulur: giriş flowdraft’ın kendi sayfasında yapılır; yapay zekâ aracı şifreni görmez, yalnızca bir erişim izni alır.",
+              "İzin verdiğin araç yalnızca **senin** akışlarını listeleyebilir, okuyabilir, oluşturabilir, değiştirebilir ve silebilir.",
+              "Bağlı bir araç varken flowdraft’ta açık olan akış, aracın okuyabilmesi için hesabına yazılır. İstemezsen **Dosya → AI araçlarına bağla** altındaki **Açık akışı bağlı AI araçlarıyla paylaş** anahtarını kapat.",
+              "Aracın gördüğü içerik, o aracın (OpenAI, Anthropic vb.) kendi gizlilik kurallarına tabidir.",
+              "İzni istediğin an geri alırsın: **Dosya → AI araçlarına bağla** → **Erişimi kaldır**."
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "Yapay zekâ ile akış diyagramı oluşturma ipuçları",
+        "id": "ipuclari",
+        "blocks": [
+          {
+            "ul": [
+              "**Aracı adıyla an.** İsteğe “flowdraft ile …” diye başlamak, yapay zekânın doğru bağlayıcıyı seçmesini kolaylaştırır.",
+              "**Aktörleri ve kararları say.** İşi kimin yaptığını (müşteri, destek, depo) ve her kararda ne olacağını yaz; aktörler kulvar, sonuçlar etiketli dal olur. “Ürün hasarlıysa kısmi iade, değilse tam iade” gibi tek bir cümle yeter.",
+              "**Yönü belirt.** Uzun süreçler yukarıdan aşağı, kulvarlı süreçler soldan sağa daha rahat okunur.",
+              "**Bir akışta tek süreç.** Büyük süreçleri parçalara böl; tek ekrana sığan akış daha kullanışlıdır.",
+              "**Aynı sohbette düzelt, önce yedekle.** Baştan çizdirmek yerine belirli bir değişiklik iste; büyük bir değişiklikten önce akışı editörde **Dışa aktar → JSON (düzenlenebilir)** ile indir.",
+              "**Son rötuşu elle yap.** Küçük ayarlar editörde çoğu zaman daha hızlıdır; [30 saniyelik tanıtım](/tanitim?lang=tr) editörü kısaca gösterir. Akış diyagramlarına yeniysen önce [akış diyagramı nedir](/akis-diyagrami) rehberine göz at."
+            ]
+          },
+          { "cta": "Akışını flowdraft’ta çiz" }
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "q": "ChatGPT ile akış diyagramı çizmek ücretsiz mi?",
+        "a": "flowdraft ücretsiz; MCP bağlantısı için ücretsiz bir flowdraft hesabı yeterli. Ücret konusu, kullandığın yapay zekâ aracının planına bağlı."
+      },
+      {
+        "q": "ChatGPT Plus gerekiyor mu?",
+        "a": "ChatGPT’de özel MCP bağlayıcısı Geliştirici modu ile eklenir; kurulum rehberimizi hazırladığımızda bu mod web’de ücretli planlarda (Plus, Pro, Business, Enterprise, Edu) vardı. Claude’un ücretsiz planında ise bir özel bağlayıcı eklenebiliyordu. Planlar değişebildiği için güncel durumu aracın ayarlarından kontrol et."
+      },
+      {
+        "q": "flowdraft hesabı açmam şart mı?",
+        "a": "Editör için değil: hesapsız çizdiğin akış bu cihazda taslak olarak kalır. Yapay zekâ bağlantısı, buluta kaydetme ve dışa aktarma için ücretsiz bir hesapla giriş yapman gerekir."
+      },
+      {
+        "q": "Yapay zekâ başkalarının akışlarını görebilir mi?",
+        "a": "Hayır. Bağlantı yalnızca izin verdiğin hesabın akışlarına erişir, başka kimsenin verisine ulaşamaz. İzni Dosya → AI araçlarına bağla → Erişimi kaldır yoluyla istediğin an geri alırsın."
+      },
+      {
+        "q": "Mermaid kodumu flowdraft’a aktarabilir miyim?",
+        "a": "Doğrudan değil; flowdraft yalnızca kendi JSON biçimini içe aktarır. Ama Mermaid kodunu sohbete yapıştırıp “bunu flowdraft’ta çiz” dersen yapay zekâ kodu okuyup akışı MCP ile flowdraft’ta oluşturabilir."
+      },
+      {
+        "q": "Claude ile diyagram çizmek ChatGPT’den farklı mı?",
+        "a": "flowdraft tarafında fark yok: ikisi de aynı sunucuyu ve aynı araçları kullanır, ikisi de görseli sohbette gösterir. Yalnızca kurulum farklı: Claude’da bağlayıcıyı Customize → Connectors’tan, ChatGPT’de Geliştirici modundan eklersin."
+      }
+    ]
+  },
+  "en": {
+    "path": "/chatgpt-flowchart",
+    "title": "How to make a flowchart with ChatGPT or Claude · flowdraft",
+    "description": "Three ways to make a flowchart with ChatGPT or Claude, compared. Connect the flowdraft MCP server and the AI draws an editable flowchart in your account.",
+    "h1": "ChatGPT flowchart: let AI draw it, then edit it yourself",
+    "lead": "You can make a flowchart with ChatGPT in three ways: ask for Mermaid code, ask for an image, or connect ChatGPT to a diagram tool through MCP. For a flowchart you can keep editing, the third works best: connect flowdraft to ChatGPT or Claude once, describe your process, and the AI draws a real flowchart in your flowdraft account and shows you a picture of it in the chat.",
+    "breadcrumb": "ChatGPT flowcharts",
+    "sections": [
+      {
+        "h2": "3 ways to make a flowchart with ChatGPT",
+        "id": "three-ways",
+        "blocks": [
+          { "p": "Ask ChatGPT or Claude to “turn this process into a flowchart” and you’ll get one of three things back." },
+          { "h3": "1. Ask for Mermaid code" },
+          { "p": "The AI writes the flowchart in a text-based diagram language such as Mermaid, which you paste into a Mermaid-compatible editor. It’s fast and can live next to your code, but the layout engine decides where boxes go, every fix means pasting new code, and one syntax error means nothing renders." },
+          { "h3": "2. Ask for an image" },
+          { "p": "An image-capable model draws the flowchart as a picture. That can do for a rough slide sketch, but box text and arrows don’t always come out right, and since it’s a flat image, every change regenerates the whole picture." },
+          { "h3": "3. Connect a diagram tool through MCP" },
+          { "p": "MCP (Model Context Protocol) is an open standard for connecting AI assistants to outside tools. Add the flowdraft MCP server to ChatGPT or Claude and the AI builds a **real, editable flowchart** in your flowdraft account (step cards, decision diamonds, swimlanes, labeled connections) that you can change in the editor." },
+          {
+            "table": {
+              "head": ["", "Mermaid code", "Image", "flowdraft via MCP"],
+              "rows": [
+                ["What you get", "Code as text", "A flat picture", "An editable flowchart in your account"],
+                ["Editing by hand", "Change the code", "Not really", "Move boxes, edit text in the editor"],
+                ["Asking for changes", "Paste new code again", "Whole image redrawn", "Same flowchart updated, new picture in the chat"],
+                ["Reading existing flowcharts", "Only pasted code", "No", "Your saved flowcharts and the open one"],
+                ["Catch", "Syntax errors, automatic layout", "Wrong text and arrows", "One-time setup; connector support depends on your AI plan"]
+              ]
+            }
+          },
+          { "tip": "For a throwaway sketch, Mermaid or an image may be enough. If you’ll present, export or keep updating the flowchart, MCP saves the most time." }
+        ]
+      },
+      {
+        "h2": "How the flowdraft flowchart MCP server works",
+        "id": "how-it-works",
+        "blocks": [
+          { "p": "Once it’s set up, the loop is always the same:" },
+          {
+            "ol": [
+              "You describe the process: who does what, where decisions happen, where it ends.",
+              "The AI creates a flowchart in flowdraft: steps as cards, decisions as diamonds, start and end as pills, teams as swimlanes.",
+              "A PNG of it appears in the chat (in Claude and ChatGPT). The AI sees it too and can fix overlapping boxes or cut-off text.",
+              "You ask for changes (“move the approval step before the warehouse”), and the AI updates the same flowchart and shows the new picture.",
+              "The **flowdraft.tech/?p=…** link opens it in the editor for fine-tuning by hand and PNG, SVG or JSON export."
+            ]
+          },
+          { "p": "It works the other way too: say “review the flowchart I have open” and the AI reads what’s open in flowdraft, unsaved changes included. It asks you to save before changing it, so your manual edits aren’t overwritten." },
+          { "cta": "Open flowdraft for free" }
+        ]
+      },
+      {
+        "h2": "Setup for ChatGPT, Claude, Claude Code, Cursor and VS Code",
+        "id": "setup",
+        "blocks": [
+          { "p": "Every tool works the same way: add **https://flowdraft.tech/mcp** to its connector settings, sign in with your flowdraft account on the page that opens and click **Allow**. No account yet? [Open flowdraft](/?lang=en) and choose Sign in → Sign up; it’s free. The [MCP setup guide](/mcp?lang=en) has every step in detail." },
+          { "h3": "ChatGPT" },
+          {
+            "ol": [
+              "Turn on **Developer mode** in **Settings → Security and login** (on some accounts it’s under **Apps & Connectors → Advanced settings**).",
+              "On **Apps & Connectors**, click **Create**: name flowdraft, the URL above, authentication **OAuth**. Confirm you trust the app, then sign in and click **Allow**.",
+              "In a new chat, pick **+** → **Developer mode** → flowdraft. ChatGPT asks you to confirm write actions."
+            ]
+          },
+          { "h3": "Claude (claude.ai and the desktop app)" },
+          {
+            "ol": [
+              "On claude.ai, open **Customize → Connectors** and click **+** → **Add custom connector**.",
+              "Name it flowdraft, paste the URL, click **Add** and then **Connect**; sign in and click **Allow**.",
+              "In a chat, turn flowdraft on under **+** → **Connectors**. The connector belongs to your Claude account, so it works in the desktop and mobile apps too."
+            ]
+          },
+          { "h3": "Claude Code" },
+          {
+            "ol": [
+              "Run this in your terminal: claude mcp add --transport http flowdraft https://flowdraft.tech/mcp",
+              "Type /mcp, select **flowdraft**, choose **Authenticate** and allow access in your browser. The terminal can’t show the picture, so open the flowchart with the link."
+            ]
+          },
+          { "h3": "Cursor" },
+          { "p": "Add {\"mcpServers\": {\"flowdraft\": {\"url\": \"https://flowdraft.tech/mcp\"}}} to ~/.cursor/mcp.json, then click the sign-in button next to flowdraft in the **MCP** section of Cursor’s settings." },
+          { "h3": "VS Code (Copilot)" },
+          { "p": "Add {\"servers\": {\"flowdraft\": {\"type\": \"http\", \"url\": \"https://flowdraft.tech/mcp\"}}} to .vscode/mcp.json, or run **MCP: Add Server** → HTTP from the Command Palette. VS Code asks you to sign in when the server starts." },
+          { "p": "Codex and other tools that support remote MCP servers with OAuth use the same URL." }
+        ]
+      },
+      {
+        "h2": "Ready-to-copy prompts for ChatGPT and Claude",
+        "id": "prompts",
+        "blocks": [
+          { "p": "Once connected, try one of these. The README prompt is for Claude Code, Cursor or VS Code." },
+          {
+            "ul": [
+              "Use flowdraft to draw our customer return process as a swimlane flowchart with lanes for Customer, Support and Warehouse.",
+              "Review the flowchart I have open in flowdraft, add any missing decision steps and label every branch Yes or No.",
+              "Draw these steps as a top-to-bottom flowchart in flowdraft with a clear start and end: [your steps]",
+              "Use flowdraft to map our new-hire onboarding and mark the manager’s sign-off as a human approval step.",
+              "Draw the setup steps from this repo’s README as a left-to-right flowchart in flowdraft.",
+              "The boxes in the flowchart you just drew look cramped. Space them out, highlight the key step and show me the new picture.",
+              "Translate every label in the flowchart I have open into Turkish without changing the layout."
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "Example: what a single prompt produces",
+        "id": "example",
+        "blocks": [
+          { "p": "Here’s what a typical answer to the first prompt looks like in flowdraft: three swimlanes, two decisions, a rejection path and a damaged-item exception." },
+          { "example": "ai-iade-talebi" },
+          { "p": "Every decision exit is labeled **Yes** or **No**, the main path is green, the exceptions orange, and the refund is highlighted as the key step. For a damaged item, support offers a partial refund or declines the return. Open it in the editor to adapt it, or browse more [flowchart examples](/flowchart-examples)." }
+        ]
+      },
+      {
+        "h2": "What the AI can and can’t do",
+        "id": "can-and-cant",
+        "blocks": [
+          { "h3": "It can" },
+          {
+            "ul": [
+              "List, read and summarize your saved flowcharts.",
+              "Create flowcharts and update existing ones.",
+              "Delete a flowchart when you clearly ask. Deleting is permanent.",
+              "Read the flowchart open in flowdraft, unsaved changes included.",
+              "Give you a link to the editor with each result, plus a picture of it in the chat in Claude and ChatGPT."
+            ]
+          },
+          { "h3": "It can’t" },
+          {
+            "ul": [
+              "Access anything before you sign in and click Allow, and even then it reaches only your own flowcharts.",
+              "Change a flowchart that was never saved to your account; save it first.",
+              "Draw shapes flowdraft lacks, such as a separate parallelogram (input/output) or document shape; those become labeled step cards. The [flowchart symbols guide](/flowchart-symbols) shows how standard symbols map to flowdraft."
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "Privacy and access",
+        "id": "privacy",
+        "blocks": [
+          {
+            "ul": [
+              "The connection uses OAuth: you sign in on flowdraft’s own page, and the AI tool gets an access grant, never your password.",
+              "The tool you approve can list, read, create, change and delete **your** flowcharts, nothing else.",
+              "While a tool is connected, the flowchart open in flowdraft is written to your account so the tool can read it. Turn this off with **Share the open flow with connected AI tools** under **File → Connect AI tools**.",
+              "What the tool sees falls under its own privacy terms (OpenAI, Anthropic and so on).",
+              "Revoke access any time: **File → Connect AI tools** → **Remove access**."
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "Tips for better results from an AI flowchart generator",
+        "id": "tips",
+        "blocks": [
+          {
+            "ul": [
+              "**Name the tool.** Starting with “use flowdraft to …” helps the AI pick the right connector.",
+              "**List the actors and decisions.** Say who does the work and what happens at each decision; actors become swimlanes and outcomes become labeled branches.",
+              "**Pick a direction.** Long processes read best top to bottom; swimlane processes, left to right.",
+              "**Keep it to one process.** Split big processes so each flowchart fits on one screen.",
+              "**Fix in the same chat, back up first.** Ask for a specific change rather than a redraw, and before a big change, save a copy with **Export → JSON (editable)**.",
+              "**Finish by hand.** Small tweaks are often quicker in the editor; the [30-second tour](/tanitim?lang=en) shows how it works. New to flowcharts? Read [what a flowchart is](/what-is-a-flowchart) first."
+            ]
+          },
+          { "cta": "Draw your flowchart in flowdraft" }
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "q": "Is it free to make a flowchart with ChatGPT and flowdraft?",
+        "a": "flowdraft is free, and the MCP connection only needs a free flowdraft account. Any cost depends on your AI tool’s plan."
+      },
+      {
+        "q": "Do I need ChatGPT Plus?",
+        "a": "Custom MCP connectors in ChatGPT go through Developer mode, which was offered on paid web plans (Plus, Pro, Business, Enterprise, Edu) when we wrote our setup guide; Claude’s free plan allowed one custom connector. Plans change, so check your AI tool’s settings."
+      },
+      {
+        "q": "Do I need a flowdraft account?",
+        "a": "Not for the editor: without one, your drawing stays on your device as a draft. Connecting an AI tool, saving to the cloud and exporting need a free account."
+      },
+      {
+        "q": "Can the AI see other people’s flowcharts?",
+        "a": "No. It only reaches the flowcharts in the account you approved. You can revoke access any time under File → Connect AI tools → Remove access."
+      },
+      {
+        "q": "Can I import Mermaid code into flowdraft?",
+        "a": "Not directly; flowdraft only imports its own JSON format. But paste the Mermaid code into the chat, say “draw this in flowdraft,” and the AI can rebuild it as a flowdraft flowchart through MCP."
+      },
+      {
+        "q": "Is a Claude flowchart different from a ChatGPT one?",
+        "a": "Not on the flowdraft side: both use the same server and show the picture in the chat. Only the setup differs: Customize → Connectors in Claude, Developer mode in ChatGPT."
+      }
+    ]
+  },
+  "examples": {
+    "ai-iade-talebi": {
+      "tr": {
+        "title": "Kulvarlı iade talebi süreci",
+        "caption": "Müşteri, Destek ve Depo kulvarlarıyla bir iade akışı: iki karar noktası, bir ret yolu ve bir hasar istisnası. Yapay zekâdan böyle bir akışı tek cümlelik bir istekle alabilirsin.",
+        "slug": "iade-talebi-kulvarli-akis-diyagrami"
+      },
+      "en": {
+        "title": "Return request swimlane flowchart",
+        "caption": "Customer, Support and Warehouse lanes, two decisions, a rejection path and a damaged-item exception: the kind of flow a one-sentence prompt gets you.",
+        "slug": "return-request-swimlane-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "l1", "type": "lane", "position": { "x": 0, "y": 0 }, "width": 1300, "height": 150, "data": { "label": { "tr": "MÜŞTERİ", "en": "CUSTOMER" }, "icon": "User" } },
+          { "id": "l2", "type": "lane", "position": { "x": 0, "y": 150 }, "width": 1300, "height": 150, "data": { "label": { "tr": "DESTEK", "en": "SUPPORT" }, "icon": "Headphones" } },
+          { "id": "l3", "type": "lane", "position": { "x": 0, "y": 300 }, "width": 1300, "height": 290, "data": { "label": { "tr": "DEPO", "en": "WAREHOUSE" }, "icon": "Package" } },
+          { "id": "start", "type": "terminal", "position": { "x": 150, "y": 53 }, "width": 140, "data": { "title": { "tr": "İade talebi", "en": "Return request" } } },
+          { "id": "form", "type": "card", "position": { "x": 380, "y": 28 }, "width": 190, "data": { "tag": "FORM", "title": { "tr": "İade formu", "en": "Return form" }, "subtitle": { "tr": "sipariş no + neden", "en": "order no. + reason" }, "icon": "ClipboardList" } },
+          { "id": "check", "type": "decision", "position": { "x": 400, "y": 170 }, "data": { "title": { "tr": "30 gün içinde mi?", "en": "Within 30 days?" } } },
+          { "id": "declined", "type": "terminal", "position": { "x": 150, "y": 203 }, "width": 160, "data": { "title": { "tr": "Talep reddedildi", "en": "Request declined" }, "tone": "muted" } },
+          { "id": "label", "type": "card", "position": { "x": 640, "y": 178 }, "width": 190, "data": { "tag": { "tr": "E-POSTA", "en": "EMAIL" }, "title": { "tr": "Kargo kodu gönder", "en": "Send return label" }, "subtitle": { "tr": "müşteriye e-postayla", "en": "to the customer" }, "icon": "Mail" } },
+          { "id": "ship", "type": "card", "position": { "x": 640, "y": 28 }, "width": 190, "data": { "tag": { "tr": "KARGO", "en": "SHIPPING" }, "title": { "tr": "Ürünü gönder", "en": "Ship the item" }, "subtitle": { "tr": "7 gün içinde", "en": "within 7 days" }, "icon": "Truck" } },
+          { "id": "inspect", "type": "card", "position": { "x": 860, "y": 332 }, "width": 180, "data": { "tag": { "tr": "KONTROL", "en": "CHECK" }, "title": { "tr": "Ürünü incele", "en": "Inspect the item" }, "subtitle": { "tr": "hasar, eksik parça", "en": "damage, missing parts" }, "icon": "ScanSearch" } },
+          { "id": "intact", "type": "decision", "position": { "x": 1090, "y": 325 }, "data": { "title": { "tr": "Ürün sağlam mı?", "en": "Item undamaged?" } } },
+          { "id": "refund", "type": "card", "position": { "x": 1070, "y": 160 }, "width": 190, "data": { "tag": { "tr": "ÖDEME", "en": "PAYMENT" }, "title": { "tr": "Parayı iade et", "en": "Issue the refund" }, "subtitle": { "tr": "aynı ödeme yöntemine", "en": "to original payment" }, "icon": "Wallet", "tone": "accent", "highlight": true } },
+          { "id": "end", "type": "terminal", "position": { "x": 1085, "y": 53 }, "width": 160, "data": { "title": { "tr": "İade tamamlandı", "en": "Return complete" } } },
+          { "id": "damaged", "type": "terminal", "position": { "x": 1055, "y": 520 }, "width": 220, "data": { "title": { "tr": "Kısmi iade ya da ret", "en": "Partial refund or declined" }, "tone": "muted" } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "form", "sourceHandle": "r", "targetHandle": "l", "data": {  } },
+          { "id": "e2", "source": "form", "target": "check", "sourceHandle": "b", "targetHandle": "t", "data": {  } },
+          { "id": "e3", "source": "check", "target": "label", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e4", "source": "check", "target": "declined", "sourceHandle": "l", "targetHandle": "r", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber", "line": "dashed" } },
+          { "id": "e5", "source": "label", "target": "ship", "sourceHandle": "t", "targetHandle": "b", "data": {  } },
+          { "id": "e6", "source": "ship", "target": "inspect", "sourceHandle": "r", "targetHandle": "t", "data": {  } },
+          { "id": "e7", "source": "inspect", "target": "intact", "sourceHandle": "r", "targetHandle": "l", "data": {  } },
+          { "id": "e8", "source": "intact", "target": "refund", "sourceHandle": "t", "targetHandle": "b", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e9", "source": "refund", "target": "end", "sourceHandle": "t", "targetHandle": "b", "data": {  } },
+          { "id": "e10", "source": "intact", "target": "damaged", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber", "line": "dashed" } }
+        ]
+      }
+    }
+  }
+}

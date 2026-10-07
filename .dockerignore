@@ -7,3 +7,4 @@ dist-server
 *.log
 .DS_Store
 ios
+tmp-guides-out

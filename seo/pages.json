@@ -4,17 +4,19 @@
   "pages": {
     "/": {
       "priority": "1.0",
+      "updated": "2026-10-07",
       "tr": {
-        "title": "flowdraft · Ücretsiz online akış diyagramı editörü",
+        "title": "Online Akış Diyagramı Çizme Programı (Ücretsiz) · flowdraft",
         "description": "Tarayıcıda ve telefonda çalışan ücretsiz akış diyagramı editörü. Hesap açmadan çiz; süreç, otomasyon ve konuşma akışlarını PNG, SVG ya da JSON olarak dışa aktar."
       },
       "en": {
-        "title": "flowdraft · Free online flowchart maker",
+        "title": "Free Online Flowchart Maker in Your Browser · flowdraft",
         "description": "Free flowchart editor for your browser and phone. Start drawing without an account; map processes, automations and chat flows, then export PNG, SVG or JSON."
       }
     },
     "/tanitim": {
       "priority": "0.8",
+      "updated": "2026-10-07",
       "tr": {
         "title": "flowdraft tanıtımı · 30 saniyede akış diyagramı editörü",
         "description": "flowdraft'ı 30 saniyelik videoda gör: hazır parçalar, stilli bağlantılar, dışa aktarma ve yapay zekâ (MCP) desteğiyle ücretsiz akış diyagramı editörü."
@@ -26,6 +28,7 @@
     },
     "/mcp": {
       "priority": "0.8",
+      "updated": "2026-10-07",
       "tr": {
         "title": "flowdraft'ı ChatGPT, Claude ve Cursor'a bağla (MCP)",
         "description": "flowdraft MCP sunucusunu ChatGPT, Claude, Claude Code, Cursor ya da VS Code'a ekle; yapay zekâ akış diyagramlarını senin hesabında çizsin ve düzenlesin."
@@ -37,6 +40,7 @@
     },
     "/destek": {
       "priority": "0.4",
+      "updated": "2026-10-07",
       "tr": {
         "title": "Destek · flowdraft",
         "description": "flowdraft için yardım ve iletişim: sık sorulan sorular, hesap silme ve bize ulaşma yolları."
@@ -48,6 +52,7 @@
     },
     "/gizlilik": {
       "priority": "0.3",
+      "updated": "2026-10-07",
       "tr": {
         "title": "Gizlilik Politikası · flowdraft",
         "description": "flowdraft hangi verileri saklar, nasıl kullanır ve nasıl silebilirsin."
@@ -59,6 +64,7 @@
     },
     "/kullanim-sartlari": {
       "priority": "0.3",
+      "updated": "2026-10-07",
       "tr": {
         "title": "Kullanım Şartları · flowdraft",
         "description": "flowdraft akış diyagramı editörünü kullanma şartları."

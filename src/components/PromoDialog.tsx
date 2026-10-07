@@ -10,10 +10,12 @@ const SEEN_KEY = 'flowdraft:promo:seen';
 
 /**
  * Shown once per browser session until the viewer ticks "don't show again". Skipped in the iPad app (the videos
- * are web-only), for ?p= project links and when storage is blocked, since the choice couldn't be remembered.
+ * are web-only), for ?p= project links and ?ornek= guide examples, and when storage is blocked, since the choice
+ * couldn't be remembered.
  */
 function shouldShow(): boolean {
-  if (nativeApp || new URLSearchParams(window.location.search).has('p')) return false;
+  const params = new URLSearchParams(window.location.search);
+  if (nativeApp || params.has('p') || params.has('ornek')) return false;
   try {
     return !localStorage.getItem(HIDE_KEY) && !sessionStorage.getItem(SEEN_KEY);
   } catch {

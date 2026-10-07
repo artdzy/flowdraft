@@ -3,7 +3,8 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
-RUN npm run build && npm prune --omit=dev
+# The guide pages are checked and every example drawn here, so a mistake fails the build, not the new container.
+RUN npm run build && node scripts/check-guides.mjs /tmp/guides-check && npm prune --omit=dev
 
 FROM node:22-slim
 WORKDIR /app

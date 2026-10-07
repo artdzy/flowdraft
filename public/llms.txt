@@ -24,6 +24,19 @@ Good for: process maps, business workflows, automation and integration flows, ch
 
 Each page is available in Turkish (`?lang=tr`) and English (`?lang=en`).
 
+## Guides
+
+Plain HTML articles (no JavaScript needed) with example diagrams that open in the editor. Each Turkish page has an English counterpart.
+
+- [What is a flowchart?](https://flowdraft.tech/what-is-a-flowchart): what a flowchart is, when to use one and how to draw it step by step
+- [Akış diyagramı nedir?](https://flowdraft.tech/akis-diyagrami): the same guide in Turkish
+- [Flowchart symbols](https://flowdraft.tech/flowchart-symbols): the standard flowchart shapes, what each one means and how to draw it in flowdraft
+- [Akış diyagramı sembolleri](https://flowdraft.tech/akis-diyagrami-sembolleri): flowchart symbols in Turkish
+- [Flowchart examples](https://flowdraft.tech/flowchart-examples): ready-made flowchart examples for algorithms, business processes and daily tasks, each one editable
+- [Akış diyagramı örnekleri](https://flowdraft.tech/akis-diyagrami-ornekleri): flowchart examples in Turkish
+- [Make a flowchart with ChatGPT or Claude](https://flowdraft.tech/chatgpt-flowchart): drawing and editing flowcharts with AI assistants over MCP
+- [Yapay zekâ ile akış diyagramı](https://flowdraft.tech/yapay-zeka-ile-akis-diyagrami): AI flowcharts with ChatGPT and Claude, in Turkish
+
 ## MCP server (for AI assistants)
 
 - Endpoint: `https://flowdraft.tech/mcp` (Streamable HTTP). Opening it in a browser shows the setup guide.

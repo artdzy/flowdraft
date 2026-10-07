@@ -1,0 +1,1066 @@
+{
+  "id": "examples",
+  "priority": "0.8",
+  "published": "2026-10-07",
+  "updated": "2026-10-07",
+  "tr": {
+    "path": "/akis-diyagrami-ornekleri",
+    "title": "Akış diyagramı örnekleri: 8 algoritma ve süreç · flowdraft",
+    "description": "Akış diyagramı örnekleri: tek-çift sayı, not ortalaması, faktöriyel, sipariş ve giriş akışı. Algoritma adımlarıyla açıklamalı, tek tıkla ücretsiz düzenle.",
+    "h1": "Akış diyagramı örnekleri: algoritmalar ve iş süreçleri",
+    "lead": "Akış diyagramı örnekleri, bir algoritmanın ya da iş sürecinin adımlarını standart sembollerle gösterir: oval başla/bitir, dikdörtgen işlem, paralelkenar girdi/çıktı, eşkenar dörtgen karar. Aşağıda derslerde sık sorulan 5 algoritma ve gerçek hayattan 3 iş süreci var; her birinin adımları açıklanmış ve hepsi tek tıkla flowdraft'ta açılıp düzenlenebilir.",
+    "breadcrumb": "Akış diyagramı örnekleri",
+    "sections": [
+      {
+        "h2": "Algoritma ve akış diyagramı örneklerini nasıl kullanırsın?",
+        "id": "nasil-kullanilir",
+        "blocks": [
+          {
+            "p": "Her örnekte diyagram, kısa bir açıklama ve algoritma örneklerinde çizmeden önce yazılan numaralı adımlar var. Diyagramın altındaki **Bu örneği flowdraft'ta aç** düğmesi örneği editöre yükler; adımların adını değiştirebilir, kutu ekleyebilir, renkleri düzenleyebilirsin. Düzenlemek için hesap gerekmez, çizimin bu cihazda taslak olarak saklanır. PNG, SVG ya da JSON olarak dışa aktarmak için ücretsiz bir hesapla giriş yapman gerekir."
+          },
+          {
+            "p": "İlk beş örnek, programlama derslerinde sık sorulan algoritma akış şeması örnekleri. Son üçü e-ticaret, müşteri desteği ve yazılım ekiplerinin sık çizdiği süreçler. Akış diyagramına yeni başlıyorsan önce [akış diyagramı nedir](/akis-diyagrami) rehberine göz at."
+          }
+        ]
+      },
+      {
+        "h2": "Akış diyagramı örneklerinde kullanılan semboller",
+        "id": "semboller",
+        "blocks": [
+          {
+            "p": "Bu sayfadaki örneklerin hepsi aynı beş temel sembolle çizildi; birkaçında ayrıca mavi bir açıklama notu var. Belge, veritabanı, alt süreç ve bağlayıcı gibi diğer semboller [akış diyagramı sembolleri](/akis-diyagrami-sembolleri) sayfasında."
+          },
+          {
+            "symbols": [
+              {
+                "shape": "terminal",
+                "name": "Başla / Bitir",
+                "meaning": "Akışın başladığı ve bittiği yer. Her diyagramda bir başlangıç ve en az bir bitiş olur.",
+                "flowdraft": "Paletteki **Başla / Bitir** parçası. Yazısını değiştirmek için çift tıkla."
+              },
+              {
+                "shape": "process",
+                "name": "İşlem",
+                "meaning": "Hesaplama, atama ya da yapılan bir iş, örneğin TOPLAM = TOPLAM + i.",
+                "flowdraft": "**Adım** kartı. Başlığa işin adını, alt yazıya formülü yaz."
+              },
+              {
+                "shape": "io",
+                "name": "Girdi / Çıktı",
+                "meaning": "Kullanıcıdan veri almak (oku, al) ya da sonucu ekrana yazmak.",
+                "flowdraft": "Ayrı bir paralelkenar şekli yok. **Adım** kartının etiketini GİRDİ ya da ÇIKTI yap; ikon olarak kalem ya da ekran seç."
+              },
+              {
+                "shape": "decision",
+                "name": "Karar",
+                "meaning": "Evet/hayır ile cevaplanan bir soru. İçinden genellikle iki ok çıkar.",
+                "flowdraft": "**Karar** parçası. Soruyu yaz, çıkan oklara tıklayıp Evet ve Hayır etiketlerini ver."
+              },
+              {
+                "shape": "flowline",
+                "name": "Akış çizgisi",
+                "meaning": "Adımların sırasını gösterir. Döngülerde geriye, karar kutusuna döner.",
+                "flowdraft": "Kutunun kenarındaki noktadan sürükleyerek bağla. Çizgiye tıklayıp renk, stil ve etiket seç."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "Örnek 1: Girilen sayının tek mi çift mi olduğunu bulan algoritma",
+        "id": "tek-mi-cift-mi",
+        "blocks": [
+          {
+            "p": "Algoritma derslerinin klasik ilk sorusu. Bir sayının 2'ye bölümünden kalan (mod) 0 ise sayı çifttir, 1 ise tektir. Akışta tek bir karar var ve iki kol da aynı Bitir sembolüne bağlanıyor."
+          },
+          {
+            "example": "examples-even-odd"
+          },
+          {
+            "h3": "Algoritması"
+          },
+          {
+            "ul": [
+              "Adım 1: Başla",
+              "Adım 2: Sayıyı oku (N)",
+              "Adım 3: K = N mod 2 hesapla",
+              "Adım 4: K = 0 ise ekrana “N çifttir” yaz, değilse “N tektir” yaz",
+              "Adım 5: Bitir"
+            ]
+          },
+          {
+            "h3": "N = 7 ile adım adım"
+          },
+          {
+            "ol": [
+              "Kullanıcı 7 girer. 7'nin 2'ye bölümünden kalan 1 olduğu için K = 1 olur.",
+              "Karar kutusu sorar: K = 0 mı? Cevap Hayır, akış sağdaki kola geçer.",
+              "Ekrana “7 tektir” yazılır ve akış Bitir'de sona erer."
+            ]
+          },
+          {
+            "tip": "Kodlarken K = 0 mı sorusunu kullan, K = 1 mi sorusunu değil. C, Java ve JavaScript gibi dillerde negatif tek sayılarda kalan −1 çıkar; K = 1 kontrolü −7'yi çift sanır."
+          }
+        ]
+      },
+      {
+        "h2": "Örnek 2: İki sayıdan büyüğünü bulma",
+        "id": "iki-sayidan-buyugu",
+        "blocks": [
+          {
+            "p": "İki girdi, bir karşılaştırma ve iki çıktı. Dikkat edilecek yer eşitlik durumu: A = B olduğunda “A > B mi?” sorusunun cevabı Hayır olur ve B yazılır. Sayılar eşit olduğu için sonuç yine doğrudur; “sayılar eşit” yazdırmak istiyorsan ikinci bir karar eklemen gerekir."
+          },
+          {
+            "example": "examples-max-of-two"
+          },
+          {
+            "h3": "Algoritması"
+          },
+          {
+            "ul": [
+              "Adım 1: Başla",
+              "Adım 2: A ve B sayılarını oku",
+              "Adım 3: A > B ise A'yı yaz, değilse B'yi yaz",
+              "Adım 4: Bitir"
+            ]
+          },
+          {
+            "h3": "A = 4, B = 9 ile adım adım"
+          },
+          {
+            "ol": [
+              "Karar kutusu sorar: 4 > 9 mu? Cevap Hayır.",
+              "Akış sağdaki kola geçer ve ekrana 9 yazılır.",
+              "Akış Bitir'de sona erer."
+            ]
+          },
+          {
+            "tip": "**Üç sayıdan en büyüğünü** bulmak için aynı fikri iki kez kullan: önce A ile B'yi karşılaştırıp büyüğünü EB'ye ata, sonra “EB > C mi?” diye sor. İç içe kararlar yerine art arda iki karar olur ve diyagram sade kalır."
+          }
+        ]
+      },
+      {
+        "h2": "Örnek 3: Sınav notu ortalaması ile geçti/kaldı",
+        "id": "not-ortalamasi",
+        "blocks": [
+          {
+            "p": "Üç sınav notunun ortalaması 50 ya da üzerindeyse öğrenci geçer, altındaysa kalır. Hesaplama bir işlem kutusunda, karşılaştırma ayrı bir karar kutusunda yapılır; her kutu tek bir iş yapar."
+          },
+          {
+            "example": "examples-grade-average"
+          },
+          {
+            "h3": "Algoritması"
+          },
+          {
+            "ul": [
+              "Adım 1: Başla",
+              "Adım 2: N1, N2 ve N3 notlarını oku",
+              "Adım 3: ORT = (N1 + N2 + N3) / 3 hesapla",
+              "Adım 4: ORT ≥ 50 ise “Geçti” yaz, değilse “Kaldı” yaz",
+              "Adım 5: Bitir"
+            ]
+          },
+          {
+            "h3": "40, 55 ve 70 notlarıyla adım adım"
+          },
+          {
+            "ol": [
+              "Notlar okunur: N1 = 40, N2 = 55, N3 = 70.",
+              "ORT = 165 / 3 = 55 hesaplanır.",
+              "55 ≥ 50 mi? Cevap Evet, ekrana “Geçti” yazılır."
+            ]
+          },
+          {
+            "tip": "Okulun vizeyi %40, finali %60 sayıyorsa girdi kutusunda V ve F notlarını oku, işlem kutusunu ORT = V × 0,4 + F × 0,6 yap. Karar ve çıktılar aynı kalır."
+          }
+        ]
+      },
+      {
+        "h2": "Örnek 4: 1'den N'ye kadar sayıların toplamı (döngülü akış şeması)",
+        "id": "toplam-1den-nye",
+        "blocks": [
+          {
+            "p": "Döngü içeren akış diyagramlarının temel örneği. Sayaç (i) 1'den başlar; her turda toplama eklenir ve 1 artar. “i ≤ N mi?” sorusunun cevabı Hayır olduğunda döngü biter ve toplam yazılır. Sayacı artıran adımdan çıkan ok, soldan dolaşıp karar kutusuna geri bağlanır."
+          },
+          {
+            "example": "examples-sum-1-to-n"
+          },
+          {
+            "h3": "Algoritması"
+          },
+          {
+            "ul": [
+              "Adım 1: Başla",
+              "Adım 2: N'yi oku",
+              "Adım 3: TOPLAM = 0, i = 1 al",
+              "Adım 4: i ≤ N değilse Adım 7'ye git",
+              "Adım 5: TOPLAM = TOPLAM + i",
+              "Adım 6: i = i + 1 yap ve Adım 4'e dön",
+              "Adım 7: TOPLAM'ı yaz",
+              "Adım 8: Bitir"
+            ]
+          },
+          {
+            "h3": "N = 4 için izleme tablosu"
+          },
+          {
+            "table": {
+              "head": ["Tur", "i", "i ≤ 4 mü?", "TOPLAM"],
+              "rows": [
+                ["1", "1", "Evet", "0 + 1 = 1"],
+                ["2", "2", "Evet", "1 + 2 = 3"],
+                ["3", "3", "Evet", "3 + 3 = 6"],
+                ["4", "4", "Evet", "6 + 4 = 10"],
+                ["–", "5", "Hayır", "10 yazılır"]
+              ]
+            }
+          },
+          {
+            "p": "Sonucu formülle kontrol edebilirsin: N × (N + 1) / 2 = 4 × 5 / 2 = 10. Formül daha kısa, ama bu örneğin amacı sayaç ve tekrar mantığını göstermek."
+          }
+        ]
+      },
+      {
+        "h2": "Örnek 5: Faktöriyel hesaplama akış diyagramı",
+        "id": "faktoriyel",
+        "blocks": [
+          {
+            "p": "N! = 1 × 2 × … × N. Yapı toplam örneğiyle aynı, iki fark var: başlangıç değeri 0 değil 1'dir (0 ile çarpılan her şey 0 olur) ve her turda toplama yerine çarpma yapılır."
+          },
+          {
+            "example": "examples-factorial"
+          },
+          {
+            "h3": "Algoritması"
+          },
+          {
+            "ul": [
+              "Adım 1: Başla",
+              "Adım 2: N'yi oku",
+              "Adım 3: F = 1, i = 1 al",
+              "Adım 4: i ≤ N değilse Adım 7'ye git",
+              "Adım 5: F = F × i",
+              "Adım 6: i = i + 1 yap ve Adım 4'e dön",
+              "Adım 7: F'yi yaz",
+              "Adım 8: Bitir"
+            ]
+          },
+          {
+            "h3": "N = 4 için izleme tablosu"
+          },
+          {
+            "table": {
+              "head": ["Tur", "i", "i ≤ 4 mü?", "F"],
+              "rows": [
+                ["1", "1", "Evet", "1 × 1 = 1"],
+                ["2", "2", "Evet", "1 × 2 = 2"],
+                ["3", "3", "Evet", "2 × 3 = 6"],
+                ["4", "4", "Evet", "6 × 4 = 24"],
+                ["–", "5", "Hayır", "24 yazılır"]
+              ]
+            }
+          },
+          {
+            "tip": "N = 0 girilirse karar ilk turda Hayır der ve F = 1 yazılır; 0! = 1 olduğu için sonuç doğrudur. Negatif sayıları elemek için girdiden hemen sonra “N < 0 mı?” diye ayrı bir karar ekleyebilirsin."
+          },
+          {
+            "cta": "Kendi akış diyagramını çiz"
+          }
+        ]
+      },
+      {
+        "h2": "Örnek 6: E-ticaret sipariş ve kargo süreci (iş akış şeması örneği)",
+        "id": "e-ticaret-siparis-sureci",
+        "blocks": [
+          {
+            "p": "Algoritmalardan farkı, adımları farklı tarafların yapması: müşteri, ödeme sistemi, depo ve kargo. Kartların üstündeki etiketler kimin ne yaptığını gösterir. İki karar, siparişin sorunsuz yoldan çıkabileceği iki noktayı işaretler."
+          },
+          {
+            "example": "examples-ecommerce-order"
+          },
+          {
+            "ol": [
+              "Müşteri sepeti onaylar; teslimat adresi ve ödeme bilgisi alınır.",
+              "Ödeme alınır. Onaylanmazsa müşteriye bildirim gider ve kesikli ok ödeme adımına geri döner; üçüncü retten sonra sipariş iptal edilir.",
+              "Ödeme onaylandıysa stok kontrol edilir. Ürün stokta yoksa ücret iade edilir ve sipariş iptal olur.",
+              "Ürün stoktaysa depo paketler, kargo firması teslim alır ve takip numarası müşteriye gönderilir.",
+              "Sipariş teslim edildiğinde süreç biter."
+            ]
+          },
+          {
+            "p": "Süreç büyüdükçe her tarafı ayrı bir kulvara (swimlane) koymak okumayı kolaylaştırır. flowdraft'ta paletin Düzen bölümündeki **Kulvar** parçasını tuvale ekleyip kartları üstüne yerleştirmen yeterli."
+          }
+        ]
+      },
+      {
+        "h2": "Örnek 7: Chatbot'tan temsilciye müşteri destek talebi",
+        "id": "musteri-destek-talebi",
+        "blocks": [
+          {
+            "p": "Bu süreç akış diyagramı örneği iki katmanlı bir destek yapısını gösterir: önce bot cevap vermeye çalışır; konuyu tanımazsa ya da müşteri sorunun çözülmediğini söylerse talep bir insana geçer. İki Hayır kolu aynı “Temsilciye aktar” kutusunda birleşir."
+          },
+          {
+            "example": "examples-support-ticket"
+          },
+          {
+            "ol": [
+              "Talep gelir; bot mesajdan konuyu anlamaya çalışır (sipariş durumu, iade, şifre gibi).",
+              "Bot bu konuyu çözebiliyorsa SSS'den ya da sipariş sisteminden cevap verir.",
+              "Müşteriye sorunun çözülüp çözülmediği sorulur. Cevap Evet ise talep kapanır.",
+              "Bot konuyu tanımıyorsa ya da müşteri Hayır derse talep, konuşma geçmişiyle birlikte temsilciye aktarılır; müşteri derdini baştan anlatmak zorunda kalmaz.",
+              "Temsilci sorunu çözer ve talep kapanır."
+            ]
+          },
+          {
+            "tip": "Aynı akışı bir konuşma olarak göstermek istersen paletteki **Mesaj (sol)** ve **Mesaj (sağ)** balonlarıyla müşteri ve bot repliklerini alt alta dizebilirsin."
+          }
+        ]
+      },
+      {
+        "h2": "Örnek 8: Kullanıcı girişi ve şifre sıfırlama akışı",
+        "id": "giris-ve-sifre-sifirlama",
+        "blocks": [
+          {
+            "p": "Yazılım ekiplerinin sık çizdiği akışlardan biri. Hatalı denemeler sayılır; üçüncü hatada hesap geçici olarak kilitlenir ve kullanıcı şifre sıfırlama yoluna yönlendirilir. Deneme sayısı ve kilit süresi burada örnek değerlerdir."
+          },
+          {
+            "example": "examples-login-reset"
+          },
+          {
+            "ol": [
+              "Kullanıcı e-posta adresini ve şifresini girer.",
+              "Şifre doğruysa oturum başlar, hatalı deneme sayacı sıfırlanır ve panel açılır.",
+              "Şifre yanlışsa sayaç 1 artar. Bu üçüncü hata değilse kalan hak gösterilir ve kesikli ok kullanıcıyı giriş adımına döndürür.",
+              "Üçüncü hatada hesap 15 dakika kilitlenir.",
+              "Kullanıcı e-postasına gelen linkle şifresini sıfırlar ve sayaç sıfırlanır; soldaki ok onu tekrar giriş adımına götürür."
+            ]
+          },
+          {
+            "p": "Bu tür bir akışı ekibinle konuşmak için diyagramı PNG ya da SVG olarak dışa aktarıp bir dokümana ekleyebilirsin. Dışa aktarmak için ücretsiz bir hesapla giriş yapman yeterli."
+          }
+        ]
+      },
+      {
+        "h2": "Kendi algoritma akış şemanı nasıl yazarsın?",
+        "id": "kendi-akis-semani",
+        "blocks": [
+          {
+            "ol": [
+              "**Önce algoritmayı yaz:** “Adım 1: Başla” ile açılan, “Bitir” ile kapanan ve her satırında tek iş olan numaralı bir liste.",
+              "**Girdileri ve çıktıları ayır:** Kullanıcıdan ne alınıyor, ekrana ne yazılıyor?",
+              "**Her satırı bir sembole çevir:** hesaplama işlem kutusu, “ise / değilse” karar, “oku / yaz” girdi/çıktı olur.",
+              "**Kararların iki çıkışını da etiketle:** Evet ve Hayır kollarının her birinin bir yere bağlandığını kontrol et.",
+              "**Döngüyü kapat:** Geri dönen oku karar kutusuna bağla ve sayacın her turda değiştiğinden emin ol; yoksa döngü hiç bitmez.",
+              "**Küçük bir sayıyla dene:** Yukarıdaki tablolar gibi bir izleme yap ve sonucu elle doğrula."
+            ]
+          },
+          {
+            "p": "flowdraft'ta [editörü aç](/?lang=tr), parçaları paletten tuvale sürükle ya da üstlerine tıkla, kutuları kenarlarındaki noktalardan sürükleyerek bağla. Hesap açmadan çizebilirsin; ücretsiz hesapla buluta kaydetme, otomatik kaydetme ve dışa aktarma açılır. Editörün tamamını 30 saniyelik [tanıtım videosunda](/tanitim?lang=tr) görebilirsin."
+          },
+          {
+            "p": "Adımları yazdın ama çizmeye vaktin yok mu? flowdraft'ı ChatGPT ya da Claude'a bağlarsan yapay zekâ akış diyagramını senin hesabında çizer. Kurulum ve örnek istekler [yapay zekâ ile akış diyagramı](/yapay-zeka-ile-akis-diyagrami) rehberinde."
+          },
+          {
+            "cta": "flowdraft'ı ücretsiz aç"
+          }
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "q": "Algoritma ile akış diyagramı arasındaki fark nedir?",
+        "a": "Algoritma, problemi çözen adımların yazılı listesidir (Adım 1: Başla, Adım 2: …). Akış diyagramı aynı adımları sembollerle ve oklarla çizer. Önce algoritmayı yazıp sonra diyagrama çevirmek hataları görmeyi kolaylaştırır."
+      },
+      {
+        "q": "İzleme tablosu nedir?",
+        "a": "Bir döngünün her turundan sonra değişkenlerin değerini gösteren tablodur; yukarıdaki N = 4 tabloları gibi. Bir akış diyagramını elle kontrol etmenin en hızlı yoludur."
+      },
+      {
+        "q": "Bir sayının çift olup olmadığı akış diyagramında nasıl kontrol edilir?",
+        "a": "Sayının 2'ye bölümünden kalanı bulup “K = 0 mı?” diye soran bir karar kutusu kullan: Evet ise sayı çift, Hayır ise tektir."
+      },
+      {
+        "q": "Faktöriyel akış diyagramında F neden 1'den başlar?",
+        "a": "1, çarpmada etkisiz elemandır: ilk tur F = 1 × 1 verir ve N = 0 girilirse sonuç doğru şekilde 1 çıkar (0! = 1)."
+      },
+      {
+        "q": "Bu örnekleri düzenleyip indirebilir miyim?",
+        "a": "Evet. Örneğin altındaki düğmeyle flowdraft'ta aç ve istediğin gibi değiştir. PNG, SVG ya da JSON olarak indirmek için ücretsiz bir hesapla giriş yapman gerekir."
+      },
+      {
+        "q": "Akış diyagramını yapay zekâya çizdirebilir miyim?",
+        "a": "Evet. flowdraft'ın MCP sunucusunu (https://flowdraft.tech/mcp) ChatGPT, Claude, Claude Code, Cursor ya da VS Code'a ekleyip giriş yaparak izin verirsen yapay zekâ akışı senin hesabında çizer. Claude ve ChatGPT diyagramın resmini sohbette de gösterir."
+      }
+    ]
+  },
+  "en": {
+    "path": "/flowchart-examples",
+    "title": "Flowchart examples: 8 algorithms and processes · flowdraft",
+    "description": "Flowchart examples with step-by-step algorithms: even or odd, larger number, grade average, factorial, an order process and login. Edit any of them free.",
+    "h1": "Flowchart examples: algorithms and business processes",
+    "lead": "Flowchart examples show the steps of an algorithm or process with standard symbols: an oval for start and end, a rectangle for each step, a parallelogram for input and output and a diamond for decisions. Here are five classic algorithms and three real-world processes, each explained step by step and ready to open in flowdraft.",
+    "breadcrumb": "Flowchart examples",
+    "sections": [
+      {
+        "h2": "How to use these flowchart examples",
+        "id": "how-to-use",
+        "blocks": [
+          {
+            "p": "Each example has the diagram, a short explanation and, for algorithms, the numbered steps written before drawing. The **Open this example in flowdraft** button under each diagram loads it into the editor, where you can change anything. Editing needs no account; your drawing stays on your device as a draft. Exporting it as PNG, SVG or JSON requires a free account."
+          },
+          {
+            "p": "Examples 1 to 5 are the algorithm flowchart examples commonly set in programming classes; 6 to 8 are the kind of process flowcharts online shops, support teams and software teams draw. New to flowcharts? Start with [what a flowchart is](/what-is-a-flowchart)."
+          }
+        ]
+      },
+      {
+        "h2": "Symbols used in these flowchart examples",
+        "id": "symbols",
+        "blocks": [
+          {
+            "p": "All examples here use five basic symbols, and a few add a blue annotation note; document, database, connector and the rest are in [flowchart symbols](/flowchart-symbols)."
+          },
+          {
+            "symbols": [
+              {
+                "shape": "terminal",
+                "name": "Start / End",
+                "meaning": "Where the flow begins and ends.",
+                "flowdraft": "The **Start / End** part in the palette; double-click it to edit the text."
+              },
+              {
+                "shape": "process",
+                "name": "Process",
+                "meaning": "A calculation or task, such as SUM = SUM + i.",
+                "flowdraft": "A **Step** card: the action in the title, the formula in the subtitle."
+              },
+              {
+                "shape": "io",
+                "name": "Input / Output",
+                "meaning": "Reading data from the user or printing a result.",
+                "flowdraft": "There is no parallelogram shape: use a **Step** card tagged INPUT or OUTPUT with a pen or screen icon."
+              },
+              {
+                "shape": "decision",
+                "name": "Decision",
+                "meaning": "A yes/no question, usually with two exits.",
+                "flowdraft": "The **Decision** part. Type the question, then click each outgoing line and label it Yes or No."
+              },
+              {
+                "shape": "flowline",
+                "name": "Flow line",
+                "meaning": "The order of the steps; in a loop it points back to the decision.",
+                "flowdraft": "Drag from a dot on a box's edge to another box; click the line to set its color, style and label."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "Example 1: Even or odd number (algorithm flowchart)",
+        "id": "even-or-odd",
+        "blocks": [
+          {
+            "p": "The first exercise in most algorithm classes. A number is even if dividing it by 2 leaves a remainder (mod) of 0, and odd if it leaves 1."
+          },
+          {
+            "example": "examples-even-odd"
+          },
+          {
+            "h3": "Algorithm"
+          },
+          {
+            "ul": [
+              "Step 1: Start",
+              "Step 2: Read N",
+              "Step 3: R = N mod 2",
+              "Step 4: If R = 0, print “N is even”, otherwise print “N is odd”",
+              "Step 5: End"
+            ]
+          },
+          {
+            "h3": "Walkthrough with N = 7"
+          },
+          {
+            "ol": [
+              "7 mod 2 = 1, so R = 1.",
+              "R = 0? No, so the flow takes the right-hand branch.",
+              "“7 is odd” is printed and the flow ends."
+            ]
+          },
+          {
+            "tip": "In code, test R = 0, not R = 1: in C, Java and JavaScript a negative odd number leaves −1, so an R = 1 check would call −7 even."
+          }
+        ]
+      },
+      {
+        "h2": "Example 2: Find the larger of two numbers",
+        "id": "larger-of-two",
+        "blocks": [
+          {
+            "p": "Two inputs, one comparison, two outputs. Watch the tie: when A = B, “A > B?” is answered No and B is printed. That is still correct; to print “equal” instead, add a second decision."
+          },
+          {
+            "example": "examples-max-of-two"
+          },
+          {
+            "h3": "Algorithm"
+          },
+          {
+            "ul": [
+              "Step 1: Start",
+              "Step 2: Read A and B",
+              "Step 3: If A > B, print A, otherwise print B",
+              "Step 4: End"
+            ]
+          },
+          {
+            "h3": "Walkthrough with A = 4, B = 9"
+          },
+          {
+            "ol": [
+              "4 > 9? No.",
+              "The right-hand branch prints 9.",
+              "The flow ends."
+            ]
+          },
+          {
+            "tip": "For **the largest of three numbers**, store the larger of A and B in MAX, then ask “MAX > C?”. Two decisions in a row read more easily than nested ones."
+          }
+        ]
+      },
+      {
+        "h2": "Example 3: Grade average, pass or fail",
+        "id": "grade-average",
+        "blocks": [
+          {
+            "p": "A student whose average across three exams is 50 or more passes; below 50, they fail. The calculation and the comparison sit in separate boxes, so each box does one job."
+          },
+          {
+            "example": "examples-grade-average"
+          },
+          {
+            "h3": "Algorithm"
+          },
+          {
+            "ul": [
+              "Step 1: Start",
+              "Step 2: Read G1, G2 and G3",
+              "Step 3: AVG = (G1 + G2 + G3) / 3",
+              "Step 4: If AVG ≥ 50, print “Pass”, otherwise print “Fail”",
+              "Step 5: End"
+            ]
+          },
+          {
+            "h3": "Walkthrough with 40, 55 and 70"
+          },
+          {
+            "ol": [
+              "AVG = (40 + 55 + 70) / 3 = 55.",
+              "55 ≥ 50? Yes, so “Pass” is printed."
+            ]
+          },
+          {
+            "tip": "If the midterm counts 40% and the final 60%, read M and F in the input box and change the process box to AVG = M × 0.4 + F × 0.6; the decision and outputs stay the same."
+          }
+        ]
+      },
+      {
+        "h2": "Example 4: Sum of the numbers from 1 to N (loop)",
+        "id": "sum-1-to-n",
+        "blocks": [
+          {
+            "p": "The basic loop flowchart. Counter i starts at 1; each pass adds it to the sum and increases it by 1. When “i ≤ N?” turns No, the loop ends and the sum is printed."
+          },
+          {
+            "example": "examples-sum-1-to-n"
+          },
+          {
+            "h3": "Algorithm"
+          },
+          {
+            "ul": [
+              "Step 1: Start",
+              "Step 2: Read N",
+              "Step 3: SUM = 0, i = 1",
+              "Step 4: If i > N, go to Step 7",
+              "Step 5: SUM = SUM + i",
+              "Step 6: i = i + 1, go to Step 4",
+              "Step 7: Print SUM",
+              "Step 8: End"
+            ]
+          },
+          {
+            "h3": "Trace table for N = 4"
+          },
+          {
+            "table": {
+              "head": ["Pass", "i", "i ≤ 4?", "SUM"],
+              "rows": [
+                ["1", "1", "Yes", "0 + 1 = 1"],
+                ["2", "2", "Yes", "1 + 2 = 3"],
+                ["3", "3", "Yes", "3 + 3 = 6"],
+                ["4", "4", "Yes", "6 + 4 = 10"],
+                ["–", "5", "No", "10 is printed"]
+              ]
+            }
+          },
+          {
+            "p": "Check: N × (N + 1) / 2 = 4 × 5 / 2 = 10. The formula is quicker, but this example is about the counter and the loop."
+          }
+        ]
+      },
+      {
+        "h2": "Example 5: Factorial flowchart",
+        "id": "factorial",
+        "blocks": [
+          {
+            "p": "N! = 1 × 2 × … × N. It is the sum loop with two changes: F starts at 1, not 0 (anything times 0 is 0), and each pass multiplies instead of adding."
+          },
+          {
+            "example": "examples-factorial"
+          },
+          {
+            "h3": "Algorithm"
+          },
+          {
+            "ul": [
+              "Step 1: Start",
+              "Step 2: Read N",
+              "Step 3: F = 1, i = 1",
+              "Step 4: If i > N, go to Step 7",
+              "Step 5: F = F × i",
+              "Step 6: i = i + 1, go to Step 4",
+              "Step 7: Print F",
+              "Step 8: End"
+            ]
+          },
+          {
+            "h3": "Trace table for N = 4"
+          },
+          {
+            "table": {
+              "head": ["Pass", "i", "i ≤ 4?", "F"],
+              "rows": [
+                ["1", "1", "Yes", "1 × 1 = 1"],
+                ["2", "2", "Yes", "1 × 2 = 2"],
+                ["3", "3", "Yes", "2 × 3 = 6"],
+                ["4", "4", "Yes", "6 × 4 = 24"],
+                ["–", "5", "No", "24 is printed"]
+              ]
+            }
+          },
+          {
+            "tip": "For N = 0 the decision says No at once and F = 1 is printed, which is right because 0! = 1. To reject negative input, add an “N < 0?” decision after reading N."
+          },
+          {
+            "cta": "Draw your own flowchart"
+          }
+        ]
+      },
+      {
+        "h2": "Example 6: E-commerce order and shipping (process flowchart example)",
+        "id": "ecommerce-order",
+        "blocks": [
+          {
+            "p": "Here the steps belong to different parties: the customer, the payment system, the warehouse and the carrier. The card tags show who does what, and the two decisions mark where an order can leave the happy path."
+          },
+          {
+            "example": "examples-ecommerce-order"
+          },
+          {
+            "ol": [
+              "The customer checks out with an address and payment details.",
+              "The card is charged. If it is declined, the customer is notified and the dashed arrow returns to payment; after the third decline the order is cancelled.",
+              "If the payment is approved, stock is checked; if the item is out of stock, the money is refunded and the order cancelled.",
+              "Otherwise the warehouse packs the order, the carrier picks it up and the customer gets a tracking number.",
+              "The process ends on delivery."
+            ]
+          },
+          {
+            "p": "For bigger processes, give each party its own swimlane: add a **Lane** from the Layout group of the palette and place the cards on it."
+          }
+        ]
+      },
+      {
+        "h2": "Example 7: Support ticket from chatbot to human (workflow diagram example)",
+        "id": "support-ticket",
+        "blocks": [
+          {
+            "p": "This workflow diagram example shows two-tier support: the bot answers first, and if it doesn't know the topic or the customer says the problem isn't solved, a person takes over."
+          },
+          {
+            "example": "examples-support-ticket"
+          },
+          {
+            "ol": [
+              "A ticket arrives and the bot works out the topic, such as order status, returns or passwords.",
+              "If the bot can handle it, it answers from the FAQ or the order system.",
+              "The customer is asked whether the problem is solved; if yes, the ticket closes.",
+              "Otherwise the ticket goes to an agent with the chat history, so the customer doesn't have to repeat everything.",
+              "The agent resolves it and the ticket closes."
+            ]
+          },
+          {
+            "tip": "To show it as a conversation instead, line up the messages with the **Message (left)** and **Message (right)** bubbles in the palette."
+          }
+        ]
+      },
+      {
+        "h2": "Example 8: Login and password reset flow",
+        "id": "login-password-reset",
+        "blocks": [
+          {
+            "p": "A flow that almost every software product needs. Failed attempts are counted; the third one locks the account and sends the user to a password reset. The limit and the lock time are example values."
+          },
+          {
+            "example": "examples-login-reset"
+          },
+          {
+            "ol": [
+              "The user enters an email and password.",
+              "If the password is right, a session starts, the counter resets and the dashboard opens.",
+              "If it is wrong, the counter goes up by 1; before the third failure, the user sees the attempts left and goes back to sign in.",
+              "The third failure locks the account for 15 minutes.",
+              "The user resets the password with the emailed link, the counter goes back to 0 and the flow returns to the sign-in step."
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "How to write your own algorithm flowchart",
+        "id": "write-your-own",
+        "blocks": [
+          {
+            "ol": [
+              "**Write the algorithm first:** numbered lines from “Step 1: Start” to “End”, one action per line.",
+              "**Separate inputs and outputs:** what does the user enter, and what gets printed?",
+              "**Map lines to symbols:** a calculation becomes a process box, “if … otherwise” a decision, read and print become input/output.",
+              "**Label both exits of every decision** and check that each branch leads somewhere.",
+              "**Close the loop:** connect the arrow back to the decision and make sure the counter changes on every pass, or the loop never ends.",
+              "**Test with a small number:** trace it like the tables above and check the result by hand."
+            ]
+          },
+          {
+            "p": "In flowdraft, [open the editor](/?lang=en), drag parts from the palette onto the canvas and connect boxes by dragging from the dots on their edges. Drawing needs no account; a free account adds cloud save, auto-save and export. The [30-second tour](/tanitim?lang=en) shows the rest."
+          },
+          {
+            "p": "Steps written but no time to draw? Connect flowdraft to ChatGPT or Claude and the AI draws the flowchart in your account; see the [ChatGPT flowchart](/chatgpt-flowchart) guide."
+          },
+          {
+            "cta": "Open flowdraft for free"
+          }
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "q": "What is the difference between an algorithm and a flowchart?",
+        "a": "An algorithm is the written list of steps that solves a problem; a flowchart draws the same steps with symbols and arrows. Writing the algorithm first makes the flowchart easier to get right."
+      },
+      {
+        "q": "What is a trace table in a flowchart?",
+        "a": "A table that lists each variable's value after every pass of a loop, like the N = 4 tables above; it is the quickest way to check a flowchart by hand."
+      },
+      {
+        "q": "How do you check if a number is even in a flowchart?",
+        "a": "Use a decision such as “N mod 2 = 0?”: Yes means even, No means odd."
+      },
+      {
+        "q": "Why does the factorial flowchart start F at 1?",
+        "a": "1 is the neutral value for multiplication, so the first pass gives F = 1 × 1 and 0! also comes out as 1."
+      },
+      {
+        "q": "Can I edit these flowchart examples and download them?",
+        "a": "Yes. Open any example with the button under it and change what you like; downloading it as PNG, SVG or JSON requires a free account."
+      },
+      {
+        "q": "Can AI draw a flowchart for me?",
+        "a": "Yes. Add the flowdraft MCP server (https://flowdraft.tech/mcp) to ChatGPT, Claude, Claude Code, Cursor or VS Code, sign in and approve access, and the AI draws flowcharts in your account. Claude and ChatGPT also show a picture of the result in the chat."
+      }
+    ]
+  },
+  "examples": {
+    "examples-even-odd": {
+      "tr": {
+        "title": "Tek mi çift mi akış diyagramı",
+        "caption": "Tek bir karar, iki çıktı: kalan 0 ise Evet koluna, değilse Hayır koluna gidilir.",
+        "slug": "tek-cift-sayi-akis-diyagrami"
+      },
+      "en": {
+        "title": "Even or odd number flowchart",
+        "caption": "One decision, two outputs: a remainder of 0 means the number is even.",
+        "slug": "even-or-odd-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 40, "y": 0 }, "width": 120, "height": 44, "data": { "title": { "tr": "Başla", "en": "Start" }, "tone": "default" } },
+          { "id": "read", "type": "card", "position": { "x": 0, "y": 84 }, "width": 200, "data": { "tag": { "tr": "GİRDİ", "en": "INPUT" }, "title": { "tr": "Sayıyı oku", "en": "Read the number" }, "subtitle": "N", "icon": "PenLine", "tone": "default", "highlight": false } },
+          { "id": "mod", "type": "card", "position": { "x": 0, "y": 224 }, "width": 200, "data": { "tag": { "tr": "İŞLEM", "en": "PROCESS" }, "title": { "tr": "Kalanı bul", "en": "Find the remainder" }, "subtitle": { "tr": "K = N mod 2", "en": "R = N mod 2" }, "icon": "Hash", "tone": "default", "highlight": false } },
+          { "id": "check", "type": "decision", "position": { "x": 25, "y": 364 }, "width": 150, "height": 110, "data": { "title": { "tr": "K = 0 mı?", "en": "R = 0?" }, "tone": "default" } },
+          { "id": "even", "type": "card", "position": { "x": 0, "y": 524 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "Çift yaz", "en": "Print even" }, "subtitle": { "tr": "“N çifttir”", "en": "“N is even”" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "odd", "type": "card", "position": { "x": 280, "y": 372 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "Tek yaz", "en": "Print odd" }, "subtitle": { "tr": "“N tektir”", "en": "“N is odd”" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "end", "type": "terminal", "position": { "x": 40, "y": 664 }, "width": 120, "height": 44, "data": { "title": { "tr": "Bitir", "en": "End" }, "tone": "default" } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "read", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e2", "source": "read", "target": "mod", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "mod", "target": "check", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e4", "source": "check", "target": "even", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e5", "source": "check", "target": "odd", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e6", "source": "even", "target": "end", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e7", "source": "odd", "target": "end", "sourceHandle": "b", "targetHandle": "r", "data": {} }
+        ]
+      }
+    },
+    "examples-max-of-two": {
+      "tr": {
+        "title": "İki sayıdan büyüğünü bulan akış diyagramı",
+        "caption": "A > B sorusu akışı ikiye ayırır; sayılar eşitse Hayır kolundan B yazılır.",
+        "slug": "iki-sayidan-buyugu-akis-diyagrami"
+      },
+      "en": {
+        "title": "Larger of two numbers flowchart",
+        "caption": "When the numbers are equal, the No branch prints B.",
+        "slug": "larger-of-two-numbers-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 40, "y": 0 }, "width": 120, "height": 44, "data": { "title": { "tr": "Başla", "en": "Start" }, "tone": "default" } },
+          { "id": "read", "type": "card", "position": { "x": 0, "y": 84 }, "width": 200, "data": { "tag": { "tr": "GİRDİ", "en": "INPUT" }, "title": { "tr": "A ve B'yi oku", "en": "Read A and B" }, "subtitle": { "tr": "iki sayı", "en": "two numbers" }, "icon": "PenLine", "tone": "default", "highlight": false } },
+          { "id": "check", "type": "decision", "position": { "x": 25, "y": 224 }, "width": 150, "height": 110, "data": { "title": { "tr": "A > B mi?", "en": "A > B?" }, "tone": "default" } },
+          { "id": "a", "type": "card", "position": { "x": 0, "y": 384 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "A'yı yaz", "en": "Print A" }, "subtitle": { "tr": "A daha büyük", "en": "A is larger" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "b", "type": "card", "position": { "x": 280, "y": 232 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "B'yi yaz", "en": "Print B" }, "subtitle": { "tr": "B büyük ya da eşit", "en": "B is larger or equal" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "equal", "type": "note", "position": { "x": 440, "y": 384 }, "width": 240, "data": { "kind": "info", "title": { "tr": "Eşitlik", "en": "Equal numbers" }, "text": { "tr": "A = B ise Hayır koluna gidilir ve B yazılır.", "en": "If A = B, the No branch runs and B is printed." } } },
+          { "id": "end", "type": "terminal", "position": { "x": 40, "y": 524 }, "width": 120, "height": 44, "data": { "title": { "tr": "Bitir", "en": "End" }, "tone": "default" } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "read", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e2", "source": "read", "target": "check", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "check", "target": "a", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e4", "source": "check", "target": "b", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e5", "source": "a", "target": "end", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e6", "source": "b", "target": "end", "sourceHandle": "b", "targetHandle": "r", "data": {} }
+        ]
+      }
+    },
+    "examples-grade-average": {
+      "tr": {
+        "title": "Not ortalaması geçti/kaldı akış diyagramı",
+        "caption": "Ortalama işlem kutusunda hesaplanır, 50 sınırı karar kutusunda kontrol edilir.",
+        "slug": "not-ortalamasi-akis-diyagrami"
+      },
+      "en": {
+        "title": "Grade average pass/fail flowchart",
+        "caption": "Compute the average first, then compare it with 50.",
+        "slug": "grade-average-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 40, "y": 0 }, "width": 120, "height": 44, "data": { "title": { "tr": "Başla", "en": "Start" }, "tone": "default" } },
+          { "id": "read", "type": "card", "position": { "x": 0, "y": 84 }, "width": 200, "data": { "tag": { "tr": "GİRDİ", "en": "INPUT" }, "title": { "tr": "Notları oku", "en": "Read the grades" }, "subtitle": { "tr": "N1, N2, N3", "en": "G1, G2, G3" }, "icon": "PenLine", "tone": "default", "highlight": false } },
+          { "id": "avg", "type": "card", "position": { "x": 0, "y": 224 }, "width": 200, "data": { "tag": { "tr": "İŞLEM", "en": "PROCESS" }, "title": { "tr": "Ortalamayı bul", "en": "Find the average" }, "subtitle": { "tr": "ORT = (N1+N2+N3) / 3", "en": "AVG = (G1+G2+G3) / 3" }, "icon": "Hash", "tone": "default", "highlight": false } },
+          { "id": "check", "type": "decision", "position": { "x": 25, "y": 364 }, "width": 150, "height": 110, "data": { "title": { "tr": "ORT ≥ 50 mi?", "en": "AVG ≥ 50?" }, "tone": "default" } },
+          { "id": "pass", "type": "card", "position": { "x": 0, "y": 524 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "Geçti yaz", "en": "Print pass" }, "subtitle": { "tr": "ortalama yeterli", "en": "average is enough" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "fail", "type": "card", "position": { "x": 280, "y": 372 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "Kaldı yaz", "en": "Print fail" }, "subtitle": { "tr": "ortalama 50'nin altında", "en": "average below 50" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "end", "type": "terminal", "position": { "x": 40, "y": 664 }, "width": 120, "height": 44, "data": { "title": { "tr": "Bitir", "en": "End" }, "tone": "default" } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "read", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e2", "source": "read", "target": "avg", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "avg", "target": "check", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e4", "source": "check", "target": "pass", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e5", "source": "check", "target": "fail", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e6", "source": "pass", "target": "end", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e7", "source": "fail", "target": "end", "sourceHandle": "b", "targetHandle": "r", "data": {} }
+        ]
+      }
+    },
+    "examples-sum-1-to-n": {
+      "tr": {
+        "title": "1'den N'ye kadar toplam akış diyagramı",
+        "caption": "Soldaki ok döngüyü kapatır: i, N'yi geçene kadar her turda toplama eklenir.",
+        "slug": "1den-nye-kadar-toplam-akis-diyagrami"
+      },
+      "en": {
+        "title": "Sum of 1 to N flowchart",
+        "caption": "The arrow on the left repeats the loop until i goes past N.",
+        "slug": "sum-of-1-to-n-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 40, "y": 0 }, "width": 120, "height": 44, "data": { "title": { "tr": "Başla", "en": "Start" }, "tone": "default" } },
+          { "id": "read", "type": "card", "position": { "x": 0, "y": 84 }, "width": 200, "data": { "tag": { "tr": "GİRDİ", "en": "INPUT" }, "title": { "tr": "N'yi oku", "en": "Read N" }, "subtitle": { "tr": "pozitif tam sayı", "en": "a positive integer" }, "icon": "PenLine", "tone": "default", "highlight": false } },
+          { "id": "init", "type": "card", "position": { "x": 0, "y": 224 }, "width": 200, "data": { "tag": { "tr": "İŞLEM", "en": "PROCESS" }, "title": { "tr": "Başlangıç değerleri", "en": "Set start values" }, "subtitle": { "tr": "TOPLAM = 0, i = 1", "en": "SUM = 0, i = 1" }, "icon": "Settings", "tone": "default", "highlight": false } },
+          { "id": "check", "type": "decision", "position": { "x": 25, "y": 364 }, "width": 150, "height": 110, "data": { "title": { "tr": "i ≤ N mi?", "en": "i ≤ N?" }, "tone": "default" } },
+          { "id": "add", "type": "card", "position": { "x": 0, "y": 524 }, "width": 200, "data": { "tag": { "tr": "İŞLEM", "en": "PROCESS" }, "title": { "tr": "Toplama ekle", "en": "Add to the sum" }, "subtitle": { "tr": "TOPLAM = TOPLAM + i", "en": "SUM = SUM + i" }, "icon": "Hash", "tone": "default", "highlight": false } },
+          { "id": "inc", "type": "card", "position": { "x": 0, "y": 664 }, "width": 200, "data": { "tag": { "tr": "İŞLEM", "en": "PROCESS" }, "title": { "tr": "Sayacı artır", "en": "Increase i" }, "subtitle": "i = i + 1", "icon": "Repeat", "tone": "default", "highlight": false } },
+          { "id": "print", "type": "card", "position": { "x": 280, "y": 372 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "Toplamı yaz", "en": "Print the sum" }, "subtitle": { "tr": "TOPLAM", "en": "SUM" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "end", "type": "terminal", "position": { "x": 320, "y": 512 }, "width": 120, "height": 44, "data": { "title": { "tr": "Bitir", "en": "End" }, "tone": "default" } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "read", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e2", "source": "read", "target": "init", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "init", "target": "check", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e4", "source": "check", "target": "add", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e5", "source": "add", "target": "inc", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e6", "source": "inc", "target": "check", "sourceHandle": "l", "targetHandle": "l", "data": {} },
+          { "id": "e7", "source": "check", "target": "print", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e8", "source": "print", "target": "end", "sourceHandle": "b", "targetHandle": "t", "data": {} }
+        ]
+      }
+    },
+    "examples-factorial": {
+      "tr": {
+        "title": "Faktöriyel hesaplama akış diyagramı",
+        "caption": "Toplam örneğiyle aynı döngü; başlangıç değeri 1 ve her turda çarpma yapılır.",
+        "slug": "faktoriyel-akis-diyagrami"
+      },
+      "en": {
+        "title": "Factorial flowchart",
+        "caption": "The sum loop again, starting at 1 and multiplying.",
+        "slug": "factorial-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 40, "y": 0 }, "width": 120, "height": 44, "data": { "title": { "tr": "Başla", "en": "Start" }, "tone": "default" } },
+          { "id": "read", "type": "card", "position": { "x": 0, "y": 84 }, "width": 200, "data": { "tag": { "tr": "GİRDİ", "en": "INPUT" }, "title": { "tr": "N'yi oku", "en": "Read N" }, "subtitle": "N ≥ 0", "icon": "PenLine", "tone": "default", "highlight": false } },
+          { "id": "init", "type": "card", "position": { "x": 0, "y": 224 }, "width": 200, "data": { "tag": { "tr": "İŞLEM", "en": "PROCESS" }, "title": { "tr": "Başlangıç değerleri", "en": "Set start values" }, "subtitle": "F = 1, i = 1", "icon": "Settings", "tone": "default", "highlight": false } },
+          { "id": "check", "type": "decision", "position": { "x": 25, "y": 364 }, "width": 150, "height": 110, "data": { "title": { "tr": "i ≤ N mi?", "en": "i ≤ N?" }, "tone": "default" } },
+          { "id": "mul", "type": "card", "position": { "x": 0, "y": 524 }, "width": 200, "data": { "tag": { "tr": "İŞLEM", "en": "PROCESS" }, "title": { "tr": "Çarp", "en": "Multiply" }, "subtitle": "F = F × i", "icon": "Hash", "tone": "default", "highlight": false } },
+          { "id": "inc", "type": "card", "position": { "x": 0, "y": 664 }, "width": 200, "data": { "tag": { "tr": "İŞLEM", "en": "PROCESS" }, "title": { "tr": "Sayacı artır", "en": "Increase i" }, "subtitle": "i = i + 1", "icon": "Repeat", "tone": "default", "highlight": false } },
+          { "id": "print", "type": "card", "position": { "x": 280, "y": 372 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "F'yi yaz", "en": "Print F" }, "subtitle": "N! = F", "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "end", "type": "terminal", "position": { "x": 320, "y": 512 }, "width": 120, "height": 44, "data": { "title": { "tr": "Bitir", "en": "End" }, "tone": "default" } },
+          { "id": "zero", "type": "note", "position": { "x": 280, "y": 664 }, "width": 240, "data": { "kind": "info", "title": "0! = 1", "text": { "tr": "N = 0 ise döngü hiç dönmez ve F = 1 yazılır.", "en": "If N = 0 the loop never runs and F = 1 is printed." } } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "read", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e2", "source": "read", "target": "init", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "init", "target": "check", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e4", "source": "check", "target": "mul", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e5", "source": "mul", "target": "inc", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e6", "source": "inc", "target": "check", "sourceHandle": "l", "targetHandle": "l", "data": {} },
+          { "id": "e7", "source": "check", "target": "print", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e8", "source": "print", "target": "end", "sourceHandle": "b", "targetHandle": "t", "data": {} }
+        ]
+      }
+    },
+    "examples-ecommerce-order": {
+      "tr": {
+        "title": "E-ticaret sipariş ve kargo süreci",
+        "caption": "Ödeme ve stok kararları siparişi tekrar denemeye ya da iadeye yönlendirir.",
+        "slug": "e-ticaret-siparis-sureci-akis-diyagrami"
+      },
+      "en": {
+        "title": "E-commerce order and shipping process",
+        "caption": "The payment and stock decisions lead to a retry or a refund.",
+        "slug": "ecommerce-order-process-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 20, "y": 0 }, "width": 160, "height": 44, "data": { "title": { "tr": "Sepet hazır", "en": "Cart ready" }, "tone": "default" } },
+          { "id": "checkout", "type": "card", "position": { "x": 0, "y": 84 }, "width": 200, "data": { "tag": { "tr": "MÜŞTERİ", "en": "CUSTOMER" }, "title": { "tr": "Sepeti onayla", "en": "Check out" }, "subtitle": { "tr": "adres ve ödeme", "en": "address and payment" }, "icon": "ShoppingCart", "tone": "default", "highlight": false } },
+          { "id": "pay", "type": "card", "position": { "x": 0, "y": 224 }, "width": 200, "data": { "tag": { "tr": "ÖDEME", "en": "PAYMENT" }, "title": { "tr": "Ödemeyi al", "en": "Charge the card" }, "subtitle": { "tr": "ödeme sağlayıcısı", "en": "payment provider" }, "icon": "CreditCard", "tone": "default", "highlight": false } },
+          { "id": "paid", "type": "decision", "position": { "x": 15, "y": 364 }, "width": 170, "height": 120, "data": { "title": { "tr": "Ödeme onaylandı mı?", "en": "Payment approved?" }, "tone": "default" } },
+          { "id": "notify", "type": "card", "position": { "x": 300, "y": 377 }, "width": 200, "data": { "tag": { "tr": "SİSTEM", "en": "SYSTEM" }, "title": { "tr": "Müşteriye bildir", "en": "Notify the customer" }, "subtitle": { "tr": "en fazla 3 deneme", "en": "up to 3 attempts" }, "icon": "Mail", "tone": "default", "highlight": false } },
+          { "id": "stock", "type": "decision", "position": { "x": 15, "y": 534 }, "width": 170, "height": 120, "data": { "title": { "tr": "Stokta var mı?", "en": "In stock?" }, "tone": "default" } },
+          { "id": "refund", "type": "card", "position": { "x": 300, "y": 547 }, "width": 200, "data": { "tag": { "tr": "ÖDEME", "en": "PAYMENT" }, "title": { "tr": "Ücreti iade et", "en": "Refund" }, "subtitle": { "tr": "sipariş iptal", "en": "order cancelled" }, "icon": "Wallet", "tone": "default", "highlight": false } },
+          { "id": "cancelled", "type": "terminal", "position": { "x": 330, "y": 687 }, "width": 140, "height": 44, "data": { "title": { "tr": "İptal edildi", "en": "Cancelled" }, "tone": "muted" } },
+          { "id": "pack", "type": "card", "position": { "x": 0, "y": 704 }, "width": 200, "data": { "tag": { "tr": "DEPO", "en": "WAREHOUSE" }, "title": { "tr": "Paketle", "en": "Pack" }, "subtitle": { "tr": "fatura ve etiket", "en": "invoice and label" }, "icon": "Package", "tone": "default", "highlight": false } },
+          { "id": "ship", "type": "card", "position": { "x": 0, "y": 844 }, "width": 200, "data": { "tag": { "tr": "KARGO", "en": "SHIPPING" }, "title": { "tr": "Kargoya ver", "en": "Hand to carrier" }, "subtitle": { "tr": "takip no. gönderilir", "en": "tracking number sent" }, "icon": "Truck", "tone": "default", "highlight": false } },
+          { "id": "delivered", "type": "terminal", "position": { "x": 20, "y": 984 }, "width": 160, "height": 44, "data": { "title": { "tr": "Teslim edildi", "en": "Delivered" }, "tone": "default" } },
+          { "id": "payfail", "type": "terminal", "position": { "x": 630, "y": 402 }, "width": 160, "height": 44, "data": { "title": { "tr": "İptal edildi", "en": "Cancelled" }, "tone": "muted" } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "checkout", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e2", "source": "checkout", "target": "pay", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "pay", "target": "paid", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e4", "source": "paid", "target": "stock", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e5", "source": "paid", "target": "notify", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e6", "source": "notify", "target": "pay", "sourceHandle": "t", "targetHandle": "r", "data": { "label": { "tr": "tekrar dene", "en": "retry" }, "line": "dashed", "color": "muted" } },
+          { "id": "e7", "source": "stock", "target": "pack", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e8", "source": "stock", "target": "refund", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e9", "source": "refund", "target": "cancelled", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e10", "source": "pack", "target": "ship", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e11", "source": "ship", "target": "delivered", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e12", "source": "notify", "target": "payfail", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "3. ret", "en": "3rd decline" }, "color": "amber" } }
+        ]
+      }
+    },
+    "examples-support-ticket": {
+      "tr": {
+        "title": "Müşteri destek talebi akışı",
+        "caption": "Bot çözemezse ya da müşteri memnun kalmazsa iki Hayır kolu da talebi temsilciye aktarır.",
+        "slug": "musteri-destek-talebi-akis-diyagrami"
+      },
+      "en": {
+        "title": "Customer support ticket workflow",
+        "caption": "Both No branches hand the ticket to a human agent.",
+        "slug": "customer-support-ticket-workflow"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 20, "y": 0 }, "width": 160, "height": 44, "data": { "title": { "tr": "Talep geldi", "en": "New ticket" }, "tone": "default" } },
+          { "id": "bot", "type": "card", "position": { "x": 0, "y": 84 }, "width": 200, "data": { "tag": "BOT", "title": { "tr": "Bot karşılar", "en": "Bot replies" }, "subtitle": { "tr": "konuyu anlar", "en": "detects the topic" }, "icon": "Bot", "tone": "default", "highlight": false } },
+          { "id": "canBot", "type": "decision", "position": { "x": 15, "y": 224 }, "width": 170, "height": 120, "data": { "title": { "tr": "Bot çözebilir mi?", "en": "Can the bot solve it?" }, "tone": "default" } },
+          { "id": "answer", "type": "card", "position": { "x": 0, "y": 394 }, "width": 200, "data": { "tag": "BOT", "title": { "tr": "Yanıt verir", "en": "Sends the answer" }, "subtitle": { "tr": "SSS, kargo takibi", "en": "FAQ, order status" }, "icon": "MessageSquare", "tone": "default", "highlight": false } },
+          { "id": "solved", "type": "decision", "position": { "x": 15, "y": 534 }, "width": 170, "height": 120, "data": { "title": { "tr": "Sorun çözüldü mü?", "en": "Problem solved?" }, "tone": "default" } },
+          { "id": "closed", "type": "terminal", "position": { "x": 20, "y": 704 }, "width": 160, "height": 44, "data": { "title": { "tr": "Talep kapandı", "en": "Ticket closed" }, "tone": "default" } },
+          { "id": "handoff", "type": "card", "position": { "x": 300, "y": 392 }, "width": 200, "data": { "tag": { "tr": "AKTARIM", "en": "HANDOFF" }, "title": { "tr": "Temsilciye aktar", "en": "Hand off to a human" }, "subtitle": { "tr": "konuşma geçmişiyle", "en": "with the chat history" }, "icon": "Users", "tone": "accent", "highlight": true } },
+          { "id": "agent", "type": "card", "position": { "x": 300, "y": 532 }, "width": 200, "data": { "tag": { "tr": "TEMSİLCİ", "en": "AGENT" }, "title": { "tr": "Temsilci çözer", "en": "Agent resolves it" }, "subtitle": { "tr": "gerekirse ekibe sorar", "en": "asks the team if needed" }, "icon": "Headphones", "tone": "default", "highlight": false } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "bot", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e2", "source": "bot", "target": "canBot", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "canBot", "target": "answer", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e4", "source": "answer", "target": "solved", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e5", "source": "solved", "target": "closed", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e6", "source": "canBot", "target": "handoff", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e7", "source": "solved", "target": "handoff", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e8", "source": "handoff", "target": "agent", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e9", "source": "agent", "target": "closed", "sourceHandle": "b", "targetHandle": "r", "data": {} }
+        ]
+      }
+    },
+    "examples-login-reset": {
+      "tr": {
+        "title": "Kullanıcı girişi ve şifre sıfırlama akışı",
+        "caption": "Her hatalı deneme sayılır; üçüncü hatada hesap kilitlenir ve şifre sıfırlama başlar.",
+        "slug": "giris-ve-sifre-sifirlama-akis-diyagrami"
+      },
+      "en": {
+        "title": "Login and password reset flow",
+        "caption": "The third failed attempt locks the account and starts a password reset.",
+        "slug": "login-and-password-reset-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 20, "y": 0 }, "width": 160, "height": 44, "data": { "title": { "tr": "Giriş ekranı", "en": "Sign-in screen" }, "tone": "default" } },
+          { "id": "enter", "type": "card", "position": { "x": 0, "y": 84 }, "width": 200, "data": { "tag": { "tr": "GİRDİ", "en": "INPUT" }, "title": { "tr": "Bilgileri gir", "en": "Enter credentials" }, "subtitle": { "tr": "e-posta + şifre", "en": "email + password" }, "icon": "PenLine", "tone": "default", "highlight": false } },
+          { "id": "valid", "type": "decision", "position": { "x": 15, "y": 224 }, "width": 170, "height": 120, "data": { "title": { "tr": "Şifre doğru mu?", "en": "Password correct?" }, "tone": "default" } },
+          { "id": "session", "type": "card", "position": { "x": 0, "y": 394 }, "width": 200, "data": { "tag": { "tr": "SİSTEM", "en": "SYSTEM" }, "title": { "tr": "Oturum aç", "en": "Start the session" }, "subtitle": { "tr": "sayaç = 0", "en": "attempts = 0" }, "icon": "Key", "tone": "default", "highlight": false } },
+          { "id": "panel", "type": "terminal", "position": { "x": 20, "y": 534 }, "width": 160, "height": 44, "data": { "title": { "tr": "Panel açılır", "en": "Dashboard opens" }, "tone": "default" } },
+          { "id": "count", "type": "card", "position": { "x": 300, "y": 237 }, "width": 200, "data": { "tag": { "tr": "İŞLEM", "en": "PROCESS" }, "title": { "tr": "Deneme + 1", "en": "Attempts + 1" }, "subtitle": { "tr": "hatalı giriş sayılır", "en": "failed sign-in counted" }, "icon": "Hash", "tone": "default", "highlight": false } },
+          { "id": "third", "type": "decision", "position": { "x": 315, "y": 382 }, "width": 170, "height": 120, "data": { "title": { "tr": "3. hata mı?", "en": "Third failure?" }, "tone": "default" } },
+          { "id": "error", "type": "card", "position": { "x": 580, "y": 395 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "Hata göster", "en": "Show an error" }, "subtitle": { "tr": "kalan hak: 3 − deneme", "en": "attempts left: 3 − n" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "lock", "type": "card", "position": { "x": 300, "y": 552 }, "width": 200, "data": { "tag": { "tr": "SİSTEM", "en": "SYSTEM" }, "title": { "tr": "Hesabı kilitle", "en": "Lock the account" }, "subtitle": { "tr": "15 dakika", "en": "for 15 minutes" }, "icon": "Lock", "tone": "accent", "highlight": false } },
+          { "id": "reset", "type": "card", "position": { "x": 300, "y": 692 }, "width": 200, "data": { "tag": { "tr": "KULLANICI", "en": "USER" }, "title": { "tr": "Şifreyi sıfırla", "en": "Reset the password" }, "subtitle": { "tr": "e-posta linki, sayaç = 0", "en": "email link, attempts = 0" }, "icon": "Mail", "tone": "default", "highlight": false } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "enter", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e2", "source": "enter", "target": "valid", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "valid", "target": "session", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e4", "source": "session", "target": "panel", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e5", "source": "valid", "target": "count", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e6", "source": "count", "target": "third", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e7", "source": "third", "target": "error", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e8", "source": "error", "target": "enter", "sourceHandle": "t", "targetHandle": "r", "data": { "line": "dashed" } },
+          { "id": "e9", "source": "third", "target": "lock", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "accent" } },
+          { "id": "e10", "source": "lock", "target": "reset", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e11", "source": "reset", "target": "enter", "sourceHandle": "l", "targetHandle": "l", "data": {} }
+        ]
+      }
+    }
+  }
+}

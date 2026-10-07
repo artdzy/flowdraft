@@ -7,6 +7,7 @@ import { Toasts } from '../components/Dialogs';
 import { Logo } from '../components/TopBar';
 import { lang, t } from '../i18n';
 import { LEGAL_PATHS } from '../legal/LegalPage';
+import { guideHref } from '../lib/guides';
 
 /** Public setup guide. Served at the MCP address itself when opened in a browser (see server/mcp.ts). */
 export const GUIDE_PATH = '/mcp';
@@ -133,6 +134,16 @@ export function McpGuidePage() {
             {t(
               'ChatGPT, Claude ya da MCP destekleyen başka bir araçta “bana şu süreci akış olarak çiz” de. Akış flowdraft hesabına kaydedilir; verdiği linke tıklayıp açar, istediğin gibi düzenlersin.',
               'In ChatGPT, Claude or any other tool that supports MCP, just say “draw this process as a flow.” The flow is saved to your flowdraft account; click the link it gives you to open it and edit it however you like.',
+            )}{' '}
+            {lang === 'tr' ? (
+              <>
+                Örnek bir akış ve ipuçları için{' '}
+                <a href={guideHref('ai')}>yapay zekâ ile akış diyagramı</a> rehberine bak.
+              </>
+            ) : (
+              <>
+                For an example flow and tips, see the <a href={guideHref('ai')}>ChatGPT flowchart guide</a>.
+              </>
             )}
           </p>
           <div className="fd-guide-url">

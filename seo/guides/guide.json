@@ -1,0 +1,487 @@
+{
+  "id": "guide",
+  "priority": "0.8",
+  "published": "2026-10-07",
+  "updated": "2026-10-07",
+  "tr": {
+    "path": "/akis-diyagrami",
+    "title": "Akış Diyagramı (Akış Şeması) Nedir, Nasıl Çizilir? · flowdraft",
+    "description": "Akış diyagramı nedir, ne işe yarar, nasıl çizilir? Temel semboller, türler, adım adım çizim ve iki örnek; ücretsiz online editörde hemen kendin dene.",
+    "h1": "Akış diyagramı nedir ve nasıl çizilir?",
+    "lead": "Akış diyagramı (akış şeması), bir sürecin adımlarını, kararlarını ve sırasını standart şekiller ve oklarla gösteren çizimdir. Oval başlangıcı ve bitişi, dikdörtgen yapılan işi, eşkenar dörtgen evet/hayır sorusunu gösterir; oklar da hangi adımın hangisinden sonra geldiğini söyler.",
+    "breadcrumb": "Akış diyagramı",
+    "sections": [
+      {
+        "h2": "Akış diyagramı nedir?",
+        "id": "akis-diyagrami-nedir",
+        "blocks": [
+          { "p": "Akış diyagramı, bir işin başından sonuna nasıl ilerlediğini tek bakışta gösteren görsel bir haritadır. Her kutu bir adımı, her ok bir geçişi anlatır; karar noktalarında yol ikiye ayrılır. Aynı mantıkla bir sipariş sürecini, bir algoritmayı ya da bir müşteri görüşmesini çizebilirsin. Türkçede **akış şeması**, **iş akış şeması** ve **süreç haritası** da denir." },
+          { "p": "Yöntemin kökü, mühendisler Frank ve Lillian Gilbreth'in 1921'de sunduğu süreç şemalarına dayanır. Bilgisayar programlarını planlamak için yaygınlaşınca semboller de standart hâle geldi; bugün en çok başvurulan kaynak **ISO 5807** standardıdır." },
+          { "p": "Aşağıdaki örnek, bir online mağazanın sipariş sürecini gösteriyor. Yukarıdan aşağıya oku: her soru bir karar kutusunda duruyor ve kararlardan çıkan her kolun bir etiketi var." },
+          { "example": "guide-online-order" }
+        ]
+      },
+      {
+        "h2": "Akış diyagramı ne işe yarar?",
+        "id": "ne-ise-yarar",
+        "blocks": [
+          { "p": "Bir süreci yazıyla anlatmak kolaydır, ama istisnaları atlamak da o kadar kolaydır. Akış diyagramı seni her adımda “sonra ne olur?” ve “olmazsa ne olur?” sorularını sormaya zorlar. Ortaya çıkan çizim de süreçte çalışan herkesin aynı resme bakmasını sağlar." },
+          { "h3": "Nerelerde kullanılır?" },
+          {
+            "ul": [
+              "**İş süreçleri:** satın alma onayı, işe alım, iade ya da fatura onayı gibi işlerde kimin neyi hangi sırayla yaptığını netleştirmek.",
+              "**Eğitim:** algoritma derslerinde bir problemi kodlamadan önce adım adım çözmek; örneğin bir sayının tek mi çift mi olduğunu bulan akış şeması.",
+              "**Yazılım geliştirme:** giriş, ödeme ya da hata yönetimi akışlarını geliştirici, tasarımcı ve ürün ekibi için ortak bir dile çevirmek.",
+              "**Müşteri hizmetleri ve chatbotlar:** bir destek görüşmesinin ya da botun, gelen cevaba göre hangi yola gideceğini planlamak.",
+              "**Süreç iyileştirme:** darboğazları, gereksiz onay adımlarını ve aynı işin iki kez yapıldığı yerleri görmek.",
+              "**Yeni çalışanlara iş anlatmak:** sayfalarca prosedür metni yerine tek sayfalık bir çizimle başlamak."
+            ]
+          },
+          { "p": "Her iş için gerekmez: sırası önemli olmayan fikirler için zihin haritası, tek adımlık ya da hiç dallanmayan işler için basit bir yapılacaklar listesi daha uygundur." }
+        ]
+      },
+      {
+        "h2": "Akış diyagramı türleri",
+        "id": "akis-diyagrami-turleri",
+        "blocks": [
+          { "p": "Türlerin çoğu aynı temel sembolleri kullanır; fark, neyi göstermek istediğindedir." },
+          {
+            "table": {
+              "head": ["Tür", "Ne gösterir?", "Örnek"],
+              "rows": [
+                ["**Süreç akış diyagramı**", "Bir işin adımlarını ve kararlarını sırayla", "Online sipariş, iade"],
+                ["**Kulvarlı (çapraz fonksiyonel) akış diyagramı**", "Aynı süreci kişi, ekip ya da sisteme göre şeritlere bölerek", "İzin onayı, satın alma"],
+                ["**İş akış diyagramı (workflow)**", "Görevlerin, onayların ve devirlerin kimden kime geçtiğini", "Belge onayı, otomasyon"],
+                ["**Veri akış diyagramı (DFD)**", "Verinin sistemler, kişiler ve veri depoları arasında nasıl taşındığını", "Form → sunucu → veritabanı"],
+                ["**Algoritma / program akış şeması**", "Bir problemin çözüm adımlarını, koşulları ve döngüleri", "Tek-çift sayı, en büyük sayıyı bulma"],
+                ["**Kullanıcı ve konuşma akışı**", "Kullanıcının ekranlar ya da mesajlar arasındaki yolunu", "Kayıt akışı, chatbot senaryosu"]
+              ]
+            }
+          },
+          { "p": "Veri akış diyagramının kendi gösterimi vardır (süreç, veri deposu, dış varlık); onu klasik akış şeması sembolleriyle karıştırma. Diğer türlerin hepsi bir sonraki bölümdeki şekillerle çizilir." },
+          { "tip": "Hangisiyle başlayacağından emin değilsen düz bir süreç akış diyagramı çiz. Sürece birden fazla kişi ya da ekip giriyorsa sonradan kulvar ekleyip çapraz fonksiyonel diyagrama çevirmek kolaydır." }
+        ]
+      },
+      {
+        "h2": "Bir akışı okumak için gereken 6 şekil",
+        "id": "temel-semboller",
+        "blocks": [
+          { "p": "ISO 5807 yirmiden fazla sembol tanımlar, ama günlük akış diyagramlarının çoğu bu altı şekille çizilir. Her birinin yanında flowdraft'ta nasıl çizildiği de var:" },
+          {
+            "symbols": [
+              {
+                "shape": "terminal",
+                "name": "Başla / Bitir (terminal)",
+                "meaning": "Akışın nerede başlayıp nerede bittiğini gösteren oval. Her diyagramda bir başlangıç ve en az bir bitiş olur.",
+                "flowdraft": "Soldaki paneldeki **Başla / Bitir** parçası. Metnini “Başla”, “Bitir” ya da “Sipariş iptal” gibi değiştir."
+              },
+              {
+                "shape": "process",
+                "name": "İşlem (adım)",
+                "meaning": "Yapılan bir iş: “Ödemeyi al”, “Faturayı gönder”. Dikdörtgenle çizilir.",
+                "flowdraft": "**Adım** kartı. Başlığı kısa tut; ayrıntıyı alt yazıya, işi kimin yaptığını etikete yaz."
+              },
+              {
+                "shape": "decision",
+                "name": "Karar",
+                "meaning": "Cevabı evet ya da hayır olan bir soru. Eşkenar dörtgenden en az iki ok çıkar ve her ok etiketlenir.",
+                "flowdraft": "**Karar** parçası. Soruyu içine yaz, çıkan oklara “Evet” ve “Hayır” etiketi ver."
+              },
+              {
+                "shape": "io",
+                "name": "Girdi / çıktı",
+                "meaning": "Sürece giren ya da süreçten çıkan veri: kullanıcıdan sayı almak, sonucu ekrana yazmak. Paralelkenarla gösterilir.",
+                "flowdraft": "Ayrı bir paralelkenar şekli yok. Etiketi GİRDİ ya da ÇIKTI olan bir **Adım** kartı kullan; ikon olarak kalem ya da ekran seçebilirsin."
+              },
+              {
+                "shape": "flowline",
+                "name": "Akış oku",
+                "meaning": "Adımların sırasını ve yönünü gösterir. Akış genelde yukarıdan aşağıya ya da soldan sağa okunur.",
+                "flowdraft": "Kutunun kenarındaki noktadan sürükleyip diğer kutuya bırak. Oku seçince düz, kesikli ya da noktalı yapabilir, renk ve etiket verebilirsin."
+              },
+              {
+                "shape": "connector",
+                "name": "Bağlayıcı (bağlantı dairesi)",
+                "meaning": "Uzun ve kesişen oklar yerine akışı aynı sayfadaki başka bir noktaya bağlayan küçük daire. İçine bir harf ya da sayı yazılır.",
+                "flowdraft": "Ayrı bir daire şekli yok. İki uca da aynı harfi taşıyan birer **Çip** (ör. “A”) koy ya da oku doğrudan uzat."
+              }
+            ]
+          },
+          { "p": "Belge, veritabanı, hazırlık, gecikme ve sayfa dışı bağlayıcı gibi diğer şekillerin anlamını [akış diyagramı sembolleri](/akis-diyagrami-sembolleri) rehberinde tek tek anlattık." }
+        ]
+      },
+      {
+        "h2": "Akış diyagramı nasıl çizilir?",
+        "id": "nasil-cizilir",
+        "blocks": [
+          { "p": "“Akış şeması nasıl yapılır?” sorusunun cevabı iki aşamalı: önce süreci netleştirir, sonra çizersin. Beş dakikalık bir hazırlık, seni sonradan kutuların yerini defalarca değiştirmekten kurtarır." },
+          { "h3": "1. Önce süreci netleştir" },
+          {
+            "ol": [
+              "**Sınırı belirle:** Süreç tam olarak hangi olayla başlıyor, hangi sonuçla bitiyor? Örneğin “sipariş gelir” ile “kargoya verilir” arası.",
+              "**Adımları fiille yaz:** Her adımı “Ödemeyi al”, “Stoku kontrol et” gibi kısa bir eylem olarak listele.",
+              "**Kararları ve istisnaları bul:** Her adımda “ya olmazsa?” diye sor. Stok yoksa, kart reddedilirse, yönetici hiç cevap vermezse ne oluyor?",
+              "**Kimin yaptığını not et:** İşe birden fazla kişi ya da ekip giriyorsa kulvar kullanacaksın."
+            ]
+          },
+          { "h3": "2. Online akış diyagramı çizme: flowdraft'ta adım adım" },
+          {
+            "ol": [
+              "[Ücretsiz online akış diyagramı çizme programını](/?lang=tr) aç. Hesap açman gerekmez; çizimin bu cihazda taslak olarak saklanır. Hazır bir yapıyla başlamak istersen **Dosya → Yeni akış** menüsünden bir şablon seç.",
+              "Soldaki panelden **Başla / Bitir** parçasını tuvale sürükle ya da üzerine tıkla. Telefonda ve dar ekranlarda (ör. dikey tutulan tablette) aynı paneli alttaki **Ekle** düğmesi açar.",
+              "Her iş için bir **Adım**, her soru için bir **Karar** ekle. Metni değiştirmek için kutuya çift tıkla ya da kutuyu seçip Enter'a bas; başlık, alt yazı, etiket ve ikon sağdaki panelden de düzenlenir.",
+              "Bağlamak için kutunun kenarındaki noktalardan birini tut ve diğer kutunun kenarındaki noktaya sürükle. Bıraktığın anda ok çizilir.",
+              "Karardan çıkan her oku seç ve sağdaki panelde **Etiket** alanına “Evet” ya da “Hayır” yaz. Ana yolu yeşil, istisnayı turuncu yapmak okumayı hızlandırır; isteğe bağlı adımlar için kesikli çizgi kullanabilirsin.",
+              "Süreçte birden fazla rol varsa **Düzen** grubundan **Kulvar** ekle, adını “YÖNETİCİ” gibi yaz ve kartları ilgili şeride taşı. Kulvarlar her zaman kutuların arkasında durur.",
+              "Bitince **Kaydet** ile ücretsiz hesabına kaydet, **Dışa aktar** menüsünden PNG görsel, SVG vektör ya da düzenlenebilir JSON indir. Kaydetmek ve dışa aktarmak için giriş yapman gerekir."
+            ]
+          },
+          { "tip": "Kısayollar işi hızlandırır: ⌘Z / Ctrl+Z geri alır, ⌘D / Ctrl+D seçili kutuyu çoğaltır, ⌘S / Ctrl+S kaydeder; Shift basılıyken sürükleyerek birden çok kutu seçersin." },
+          { "cta": "Ücretsiz akış diyagramı çiz" },
+          { "h3": "Örnek: kulvarlı izin onayı akışı" },
+          { "p": "Aşağıdaki diyagram aynı kuralları üç rol için uyguluyor. Her kulvar bir rolü temsil ediyor; bir ok başka bir kulvara geçtiğinde iş de başka birine geçiyor demektir. Yöneticinin inceleme adımı, flowdraft'ta insan onayı için kullanılan **Kapı** görünümündeki kartla çizildi." },
+          { "example": "guide-leave-approval" },
+          { "p": "Dikkat et: talep iki farklı yerde reddedilebiliyor ama iki kol da aynı bitişe bağlanıyor. Böylece okuyan, sürecin kaç farklı sonucu olduğunu tek bakışta görüyor." }
+        ]
+      },
+      {
+        "h2": "İyi bir akış diyagramı için kurallar ve sık yapılan hatalar",
+        "id": "ipuclari-ve-hatalar",
+        "blocks": [
+          {
+            "ul": [
+              "**Tek yön seç.** Akış yukarıdan aşağıya ya da soldan sağa aksın; geriye yalnızca döngüler dönsün.",
+              "**Bir kutu, bir iş.** “Faturayı kes ve gönder” iki adımdır; ikiye böl.",
+              "**Fiille başla.** “Ödeme” yerine “Ödemeyi al” yaz; kutu ne yapıldığını söylesin.",
+              "**Her karar kolunu etiketle.** Etiketsiz bir kol, okuyanı tahmin yürütmeye zorlar.",
+              "**Çıkmaz sokak bırakma.** İptal, hata ve zaman aşımı kolları dahil her yol bir bitişe ya da başka bir adıma varmalı.",
+              "**Döngüye sınır koy.** “Tekrar dene” kolu sonsuza kadar dönmesin; deneme sayısını ya da süre sınırını yaz.",
+              "**Çizgileri kesiştirme.** Önce kutuların yerini değiştir; olmuyorsa bağlayıcı kullan.",
+              "**Büyük diyagramı böl.** 15–20 kutuyu aşan bir diyagramı alt süreçlere ayır ve her birini ayrı çiz."
+            ]
+          },
+          { "tip": "Bitmiş diyagramı o işi gerçekten yapan birine göster ve “burada başka ne olabilir?” diye sor. Eksik kollar çoğu zaman bu soruyla ortaya çıkar." }
+        ]
+      },
+      {
+        "h2": "Akış diyagramı çizme programı: hangi araç ne zaman?",
+        "id": "akis-diyagrami-programlari",
+        "blocks": [
+          { "p": "Akış diyagramını kâğıtta da, ofis programlarında da, bu iş için yapılmış editörlerde de çizebilirsin. Her yolun güçlü ve zayıf yanı var:" },
+          {
+            "table": {
+              "head": ["Yöntem", "Güçlü yanı", "Dikkat"],
+              "rows": [
+                ["Kâğıt ve kalem", "En hızlı ilk taslak; toplantıda birlikte düşünmek için ideal", "Değiştirmesi ve paylaşması zor"],
+                ["Word / PowerPoint", "Çoğu bilgisayarda zaten var; belgeye ve sunuma doğrudan girer", "Şekiller ve oklar elle hizalanır; diyagram büyüdükçe düzenlemek yorar"],
+                ["Visio / draw.io", "Tam sembol kütüphanesi, ayrıntılı teknik diyagramlar", "Visio ücretli; ikisinde de seçenek çok, alışmak zaman alır"],
+                ["Canva / Miro", "Hazır şablonlar, ekipçe aynı panoda canlı çalışma", "Akış diyagramı, genel amaçlı bir tasarım ya da beyaz tahta aracının bir parçası; bazı özellikler ücretli planlarda"],
+                ["flowdraft", "Ücretsiz; hesap açmadan tarayıcıda ve telefonda çizim; hazır adım, karar, kulvar ve not parçaları; MCP ile yapay zekâ bağlantısı", "Her ISO sembolü yok (ör. paralelkenar); gerçek zamanlı ortak düzenleme yok"]
+              ]
+            }
+          },
+          { "p": "Seçimi işin belirlesin: ekipçe beyin fırtınası için beyaz tahta, ayrıntılı mühendislik çizimleri için Visio ya da draw.io, temiz bir süreç ya da otomasyon akışını hızlıca çizip paylaşmak için flowdraft." }
+        ]
+      },
+      {
+        "h2": "Yapay zekâyla akış diyagramı çizmek",
+        "id": "yapay-zeka",
+        "blocks": [
+          { "p": "flowdraft'ın MCP sunucusunu ChatGPT, Claude, Claude Code, Cursor ya da VS Code'a ekleyip giriş yaptığında ve izin verdiğinde, yapay zekâ hesabındaki akışları okuyabilir, yeni diyagram çizebilir ve var olanları düzenleyebilir. Claude ve ChatGPT'de çizilen diyagramın görseli sohbette görünür; yanındaki bağlantı onu editörde açar. Kurulum adımları için [yapay zekâ ile akış diyagramı](/yapay-zeka-ile-akis-diyagrami) rehberine ya da [MCP kurulum sayfasına](/mcp?lang=tr) bak." }
+        ]
+      },
+      {
+        "h2": "Hemen başla",
+        "id": "hemen-basla",
+        "blocks": [
+          { "p": "Farklı türlerde hazır örnekler için [akış diyagramı örnekleri](/akis-diyagrami-ornekleri) sayfasına göz at; editörü 30 saniyede görmek istersen [tanıtım videosunu](/tanitim?lang=tr) izle. İlk akışını çizmek için hesap bile gerekmiyor." },
+          { "cta": "flowdraft'ı aç, çizmeye başla" }
+        ]
+      }
+    ],
+    "faq": [
+      { "q": "Akış diyagramı ile akış şeması aynı şey mi?", "a": "Evet. İkisi de bir sürecin adımlarını şekil ve oklarla gösteren çizimi anlatır; “akış şeması” daha çok okullarda ve algoritma derslerinde kullanılır." },
+      { "q": "Karar sembolünden kaç ok çıkar?", "a": "En az iki; çoğu zaman “Evet” ve “Hayır”. Daha fazla seçenek varsa ya her çıkışı ayrı ayrı etiketle ya da kararları art arda bağla; böylece her karar tek bir soru sorar." },
+      { "q": "Ücretsiz bir akış diyagramı çizme programı var mı?", "a": "Var. flowdraft, ücretsiz bir online akış diyagramı çizme programıdır ve hesap açmadan tarayıcıda çalışır. Buluta kaydetmek ve PNG, SVG ya da JSON olarak dışa aktarmak için ücretsiz bir hesapla giriş yapman yeterli." },
+      { "q": "Telefonda akış diyagramı çizebilir miyim?", "a": "Evet. flowdraft telefonda ve tablette tarayıcıdan açılır; telefonda parçaları alttaki Ekle düğmesiyle eklersin. İstersen ana ekrana uygulama gibi de ekleyebilirsin." },
+      { "q": "Akış diyagramını Word'e nasıl eklerim?", "a": "Diyagramı PNG ya da SVG olarak dışa aktar (bunun için ücretsiz hesapla giriş yapman gerekir) ve Word'e resim olarak ekle. PNG her yerde açılır; SVG vektör olduğu için, destekleyen programlarda büyütünce bulanıklaşmaz." }
+    ]
+  },
+  "en": {
+    "path": "/what-is-a-flowchart",
+    "title": "What Is a Flowchart? Types and How to Make One · flowdraft",
+    "description": "What is a flowchart? Learn the main types, then make a flowchart step by step with two worked examples you can open and edit for free.",
+    "h1": "What is a flowchart, and how do you make one?",
+    "lead": "A flowchart is a diagram that shows the steps, decisions and order of a process with standard shapes joined by arrows. Ovals mark the start and end, rectangles are actions, diamonds are yes/no questions, and arrows show what happens next.",
+    "breadcrumb": "What is a flowchart",
+    "sections": [
+      {
+        "h2": "What is a flowchart?",
+        "id": "what-is-a-flowchart",
+        "blocks": [
+          { "p": "A flowchart maps how a piece of work moves from start to finish. Each box is a step, each arrow leads to the next one, and the path splits at every decision. It works the same for an order process, an algorithm or a support chat. You'll also see it called a **process map** or **workflow diagram**." },
+          { "p": "The idea dates back to 1921, when Frank and Lillian Gilbreth presented their process charts. The symbols were standardized later, and **ISO 5807** is still the usual reference." },
+          { "p": "Here's a typical example, an online shop's order process, read from top to bottom:" },
+          { "example": "guide-online-order" }
+        ]
+      },
+      {
+        "h2": "What are flowcharts used for?",
+        "id": "uses",
+        "blocks": [
+          { "p": "A flowchart makes you ask “what happens next?” and “what if it doesn't?” at every step, and it gives everyone involved the same picture." },
+          {
+            "ul": [
+              "**Business processes:** approvals, hiring, refunds: who does what, in which order.",
+              "**Teaching:** working out an algorithm before writing code, like checking whether a number is odd or even.",
+              "**Software:** sign-in, checkout or error-handling logic that developers, designers and product managers can all read.",
+              "**Support and chatbots:** where a conversation or a bot goes after each answer.",
+              "**Process improvement:** spotting bottlenecks, extra approvals and duplicated work."
+            ]
+          },
+          { "p": "Skip it when the order doesn't matter (a mind map fits better) or when the task never branches (a checklist will do)." }
+        ]
+      },
+      {
+        "h2": "Types of flowcharts",
+        "id": "types-of-flowcharts",
+        "blocks": [
+          {
+            "table": {
+              "head": ["Type", "What it shows", "Example"],
+              "rows": [
+                ["**Process flowchart**", "One process's steps and decisions, in order", "Online order, refund"],
+                ["**Swimlane (cross-functional) flowchart**", "A process split into lanes by person, team or system", "Leave approval, purchasing"],
+                ["**Workflow diagram**", "Tasks, approvals and handoffs between people or tools", "Document approval, automation"],
+                ["**Data flow diagram (DFD)**", "How data moves between systems and data stores", "Form → server → database"],
+                ["**Program flowchart (algorithm)**", "Program logic: conditions, loops, input and output", "Odd or even, largest of three numbers"],
+                ["**User flow / conversation flow**", "A user's path through screens or messages", "Sign-up flow, chatbot script"]
+              ]
+            }
+          },
+          { "p": "Data flow diagrams have their own notation (processes, data stores, external entities). All the other types use the symbols below." },
+          { "tip": "Not sure which you need? Start with a process flowchart; add swimlanes once several people or teams are involved." }
+        ]
+      },
+      {
+        "h2": "The 6 shapes you need to read a flowchart",
+        "id": "basic-symbols",
+        "blocks": [
+          { "p": "ISO 5807 defines more than 20 shapes, but most flowcharts need only these six:" },
+          {
+            "symbols": [
+              {
+                "shape": "terminal",
+                "name": "Start / End (terminal)",
+                "meaning": "An oval marking where the flow starts and where it ends.",
+                "flowdraft": "The **Start / End** part. Rename it “Start”, “End” or “Order cancelled”."
+              },
+              {
+                "shape": "process",
+                "name": "Process (step)",
+                "meaning": "An action, such as “Take payment”. Drawn as a rectangle.",
+                "flowdraft": "A **Step** card: a short title, details in the subtitle, the actor in the tag."
+              },
+              {
+                "shape": "decision",
+                "name": "Decision",
+                "meaning": "A yes/no question. Two or more labeled arrows leave the diamond.",
+                "flowdraft": "The **Decision** part. Type the question and label its arrows “Yes” and “No”."
+              },
+              {
+                "shape": "io",
+                "name": "Input / output",
+                "meaning": "Data coming in or going out, like reading user input or showing a result. Drawn as a parallelogram.",
+                "flowdraft": "There's no parallelogram shape. Use a **Step** card tagged INPUT or OUTPUT, with a pen or screen icon."
+              },
+              {
+                "shape": "flowline",
+                "name": "Flowline (arrow)",
+                "meaning": "Shows the order and direction of the steps, usually top to bottom or left to right.",
+                "flowdraft": "Drag from a dot on a box's edge to another box. Select the arrow to change its line, color or label."
+              },
+              {
+                "shape": "connector",
+                "name": "Connector",
+                "meaning": "A small lettered circle that links to another point on the same page instead of a long, crossing arrow.",
+                "flowdraft": "There's no circle shape. Put a **Chip** with the same letter (say, “A”) at both ends."
+              }
+            ]
+          },
+          { "p": "For document, database, delay and the other shapes, see the full guide to [flowchart symbols](/flowchart-symbols)." }
+        ]
+      },
+      {
+        "h2": "How to make a flowchart",
+        "id": "how-to-make-a-flowchart",
+        "blocks": [
+          { "p": "A good flowchart starts before you draw. A few minutes of planning saves a lot of box shuffling later." },
+          { "h3": "1. Plan the process first" },
+          {
+            "ol": [
+              "**Set the boundaries:** what starts the process and what ends it? Say, from “order comes in” to “parcel shipped”.",
+              "**Write steps as verbs:** “Take payment”, “Check stock”.",
+              "**Find the exceptions:** at each step, ask “what if not?” Out of stock? Card declined? No reply from the manager?",
+              "**Note who does what:** several people or teams means you'll want swimlanes."
+            ]
+          },
+          { "h3": "2. Draw a flowchart online in flowdraft" },
+          {
+            "ol": [
+              "Open the [free online flowchart maker](/?lang=en). No account needed: your drawing is kept on your device as a draft. For a head start, pick a template under **File → New flow**.",
+              "Drag **Start / End** from the left panel onto the canvas, or click it. On phones and narrow screens (such as a tablet in portrait), tap **Add** at the bottom.",
+              "Add a **Step** for each action and a **Decision** for each question. Double-click a box (or select it and press Enter) to edit its text, or use the panel on the right.",
+              "Connect two boxes by dragging from a dot on one box's edge to a dot on the other.",
+              "Select each arrow leaving a decision and type “Yes” or “No” in the **Label** field. A green main path and orange exceptions make the chart quicker to read.",
+              "For several roles, add a **Lane** from the **Layout** group, name it (say, “MANAGER”) and move the cards into it. Lanes always stay behind your boxes.",
+              "**Save** to your free account, then use **Export** to download a PNG image, an SVG vector or editable JSON. Saving and exporting require signing in."
+            ]
+          },
+          { "tip": "Shortcuts: ⌘Z / Ctrl+Z to undo, ⌘D / Ctrl+D to duplicate, ⌘S / Ctrl+S to save, Shift + drag to select several boxes." },
+          { "cta": "Make a free flowchart" },
+          { "h3": "Example: a swimlane flowchart for leave approval" },
+          { "p": "Each lane is a role, so an arrow crossing into another lane means the work changes hands. The manager's review uses the **Gate** card style, which marks human approval steps." },
+          { "example": "guide-leave-approval" }
+        ]
+      },
+      {
+        "h2": "Flowchart best practices and common mistakes",
+        "id": "best-practices",
+        "blocks": [
+          {
+            "ul": [
+              "**Pick one direction.** Top to bottom or left to right; only loops go backwards.",
+              "**One box, one action.** “Create and send the invoice” is two steps.",
+              "**Label every branch** that leaves a decision; unlabeled branches leave readers guessing.",
+              "**Leave no dead ends.** Cancel, error and timeout paths need an end too.",
+              "**Limit loops.** Note how many retries are allowed, or for how long.",
+              "**Avoid crossing lines.** Rearrange the boxes first; use a connector if that fails.",
+              "**Split big diagrams.** Past 15–20 boxes, break the process into sub-processes."
+            ]
+          },
+          { "tip": "Show the finished chart to someone who does the work and ask, “What else can happen here?” Missing branches tend to show up right away." }
+        ]
+      },
+      {
+        "h2": "Choosing a flowchart maker",
+        "id": "flowchart-makers",
+        "blocks": [
+          { "p": "You can draw a flowchart on paper, in office software or in a dedicated editor. Each has its place:" },
+          {
+            "table": {
+              "head": ["Tool", "Good for", "Keep in mind"],
+              "rows": [
+                ["Pen and paper", "The fastest first draft", "Hard to edit and share"],
+                ["Word / PowerPoint", "Already installed; goes straight into documents and slides", "Shapes are aligned by hand, which gets tedious as charts grow"],
+                ["Visio / draw.io", "Full symbol libraries, detailed technical diagrams", "Visio is paid; both take time to learn"],
+                ["Canva / Miro", "Templates and live team collaboration on a shared board", "Flowcharts are one feature of a larger tool; some features need a paid plan"],
+                ["flowdraft", "Free, no account needed, works on phones; ready-made parts; AI over MCP", "Not every ISO shape (no parallelogram); no real-time co-editing"]
+              ]
+            }
+          },
+          { "p": "Pick by the job: a whiteboard for brainstorming, Visio or draw.io for engineering detail, flowdraft for a clean process flow drawn and shared quickly." }
+        ]
+      },
+      {
+        "h2": "Make a flowchart with AI",
+        "id": "ai",
+        "blocks": [
+          { "p": "Add the flowdraft MCP server to ChatGPT, Claude, Claude Code, Cursor or VS Code, sign in and approve access, and your assistant can read, create and edit the diagrams in your account. Claude and ChatGPT show a picture of the result in the chat, with a link that opens it in the editor. See the [ChatGPT flowchart guide](/chatgpt-flowchart) or the [MCP setup page](/mcp?lang=en) for setup." }
+        ]
+      },
+      {
+        "h2": "Start drawing",
+        "id": "start-drawing",
+        "blocks": [
+          { "p": "Browse more [flowchart examples](/flowchart-examples) or watch the [30-second tour](/tanitim?lang=en). Your first flowchart doesn't even need an account." },
+          { "cta": "Open flowdraft and start drawing" }
+        ]
+      }
+    ],
+    "faq": [
+      { "q": "How many arrows can leave a decision?", "a": "At least two, usually Yes and No; for more options either label each exit or chain decisions so each asks one question." },
+      { "q": "Is there a free flowchart maker?", "a": "Yes. flowdraft is free and runs in your browser without an account; signing in with a free account adds cloud saving and PNG, SVG and JSON export." },
+      { "q": "Can I make a flowchart on my phone?", "a": "Yes. flowdraft works in phone and tablet browsers, and you can add it to your home screen like an app." },
+      { "q": "How do I put a flowchart into Word or Google Docs?", "a": "Export a PNG (sign in with a free account first) and insert it as an image; that works in Word and Google Docs. Word also accepts SVG, which stays sharp at any size." }
+    ]
+  },
+  "examples": {
+    "guide-online-order": {
+      "tr": {
+        "title": "Online sipariş süreci akış diyagramı",
+        "caption": "Stok ve ödeme kontrolü olan basit bir süreç: her karar iki etiketli kola ayrılıyor, reddedilen ödeme en fazla üç kez deneniyor ve üçüncü retten sonra sipariş iptal ediliyor.",
+        "slug": "online-siparis-sureci-akis-diyagrami"
+      },
+      "en": {
+        "title": "Online order process flowchart",
+        "caption": "A simple process with stock and payment checks. Each decision has two labeled branches, and after a third declined payment the order is cancelled.",
+        "slug": "online-order-process-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 40, "y": 0 }, "width": 120, "data": { "title": { "tr": "Başla", "en": "Start" } } },
+          { "id": "order", "type": "card", "position": { "x": 0, "y": 84 }, "data": { "tag": { "tr": "GİRDİ", "en": "INPUT" }, "title": { "tr": "Sipariş gelir", "en": "Order comes in" }, "subtitle": { "tr": "sepet + teslimat adresi", "en": "cart + delivery address" }, "icon": "ShoppingCart" } },
+          { "id": "stock", "type": "decision", "position": { "x": 25, "y": 220 }, "data": { "title": { "tr": "Stokta var mı?", "en": "In stock?" } } },
+          { "id": "notify", "type": "card", "position": { "x": 290, "y": 228 }, "data": { "tag": { "tr": "E-POSTA", "en": "EMAIL" }, "title": { "tr": "Müşteriye bildir", "en": "Notify customer" }, "subtitle": { "tr": "stok gelince haber ver", "en": "back-in-stock alert" }, "icon": "Mail" } },
+          { "id": "cancel", "type": "terminal", "position": { "x": 310, "y": 400 }, "width": 160, "data": { "title": { "tr": "Sipariş iptal", "en": "Order cancelled" }, "tone": "muted" } },
+          { "id": "pay", "type": "card", "position": { "x": 0, "y": 380 }, "data": { "tag": { "tr": "ÖDEME", "en": "PAYMENT" }, "title": { "tr": "Ödemeyi al", "en": "Take payment" }, "subtitle": { "tr": "kart ya da havale", "en": "card or bank transfer" }, "icon": "CreditCard" } },
+          { "id": "paid", "type": "decision", "position": { "x": 25, "y": 516 }, "data": { "title": { "tr": "Ödeme onaylı mı?", "en": "Payment OK?" } } },
+          { "id": "retry", "type": "card", "position": { "x": -270, "y": 524 }, "data": { "tag": { "tr": "MÜŞTERİ", "en": "CUSTOMER" }, "title": { "tr": "Tekrar dene", "en": "Retry payment" }, "subtitle": { "tr": "en fazla 3 deneme", "en": "up to 3 attempts" }, "icon": "RefreshCw" } },
+          { "id": "ship", "type": "card", "position": { "x": 0, "y": 676 }, "data": { "tag": { "tr": "DEPO", "en": "WAREHOUSE" }, "title": { "tr": "Paketle, kargola", "en": "Pack and ship" }, "subtitle": { "tr": "takip kodu e-postayla", "en": "tracking code by email" }, "icon": "Truck" } },
+          { "id": "done", "type": "terminal", "position": { "x": 40, "y": 812 }, "width": 120, "data": { "title": { "tr": "Bitir", "en": "End" } } },
+          { "id": "giveup", "type": "terminal", "position": { "x": -250, "y": 700 }, "width": 160, "data": { "title": { "tr": "Sipariş iptal", "en": "Order cancelled" }, "tone": "muted" } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "order", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e2", "source": "order", "target": "stock", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "stock", "target": "pay", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e4", "source": "stock", "target": "notify", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e5", "source": "notify", "target": "cancel", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e6", "source": "pay", "target": "paid", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e7", "source": "paid", "target": "ship", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e8", "source": "paid", "target": "retry", "sourceHandle": "l", "targetHandle": "r", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e9", "source": "retry", "target": "pay", "sourceHandle": "t", "targetHandle": "l", "data": { "label": { "tr": "tekrar dene", "en": "retry" }, "line": "dashed", "color": "amber" } },
+          { "id": "e10", "source": "ship", "target": "done", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e11", "source": "retry", "target": "giveup", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "3. ret", "en": "3rd decline" }, "color": "amber" } }
+        ]
+      }
+    },
+    "guide-leave-approval": {
+      "tr": {
+        "title": "İzin talebi onayı (kulvarlı akış diyagramı)",
+        "caption": "Çalışan, yönetici ve İK kulvarları kimin hangi adımı yaptığını gösteriyor; talep iki farklı kararda reddedilebiliyor ve iki ret kolu aynı bitişte buluşuyor.",
+        "slug": "izin-onayi-kulvarli-akis-diyagrami"
+      },
+      "en": {
+        "title": "Leave request approval (swimlane flowchart)",
+        "caption": "Employee, manager and HR lanes show who does each step. The request can be rejected at two decisions, and both branches meet at one end.",
+        "slug": "leave-approval-swimlane-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "lane-employee", "type": "lane", "position": { "x": 0, "y": 0 }, "width": 1160, "height": 140, "data": { "label": { "tr": "ÇALIŞAN", "en": "EMPLOYEE" }, "icon": "User" } },
+          { "id": "lane-manager", "type": "lane", "position": { "x": 0, "y": 140 }, "width": 1160, "height": 140, "data": { "label": { "tr": "YÖNETİCİ", "en": "MANAGER" }, "icon": "UserCheck" } },
+          { "id": "lane-hr", "type": "lane", "position": { "x": 0, "y": 280 }, "width": 1160, "height": 140, "data": { "label": { "tr": "İK", "en": "HR" }, "icon": "Building2" } },
+          { "id": "start", "type": "terminal", "position": { "x": 160, "y": 48 }, "width": 120, "data": { "title": { "tr": "Başla", "en": "Start" } } },
+          { "id": "request", "type": "card", "position": { "x": 310, "y": 23 }, "width": 180, "data": { "tag": "FORM", "title": { "tr": "İzin talebi aç", "en": "Submit request" }, "subtitle": { "tr": "tarih + gerekçe", "en": "dates + reason" }, "icon": "CalendarClock" } },
+          { "id": "review", "type": "card", "position": { "x": 310, "y": 163 }, "width": 180, "data": { "tag": { "tr": "ONAY", "en": "APPROVAL" }, "title": { "tr": "Talebi incele", "en": "Review request" }, "subtitle": { "tr": "ekip planına bakar", "en": "checks team plans" }, "icon": "Eye", "tone": "gate" } },
+          { "id": "approved", "type": "decision", "position": { "x": 530, "y": 155 }, "data": { "title": { "tr": "Onaylıyor mu?", "en": "Approved?" } } },
+          { "id": "rejected", "type": "terminal", "position": { "x": 705, "y": 48 }, "width": 170, "data": { "title": { "tr": "Talep reddedildi", "en": "Request rejected" }, "tone": "muted" } },
+          { "id": "balance", "type": "decision", "position": { "x": 715, "y": 295 }, "data": { "title": { "tr": "Bakiye yeterli mi?", "en": "Enough days left?" } } },
+          { "id": "record", "type": "card", "position": { "x": 955, "y": 303 }, "width": 180, "data": { "tag": { "tr": "SİSTEM", "en": "SYSTEM" }, "title": { "tr": "İzni kaydet", "en": "Record leave" }, "subtitle": { "tr": "bakiyeden düşülür", "en": "days deducted" }, "icon": "Database" } },
+          { "id": "granted", "type": "terminal", "position": { "x": 965, "y": 48 }, "width": 160, "data": { "title": { "tr": "İzin onaylandı", "en": "Leave approved" } } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "request", "sourceHandle": "r", "targetHandle": "l", "data": {} },
+          { "id": "e2", "source": "request", "target": "review", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "review", "target": "approved", "sourceHandle": "r", "targetHandle": "l", "data": {} },
+          { "id": "e4", "source": "approved", "target": "rejected", "sourceHandle": "t", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e5", "source": "approved", "target": "balance", "sourceHandle": "b", "targetHandle": "l", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e6", "source": "balance", "target": "rejected", "sourceHandle": "t", "targetHandle": "b", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e7", "source": "balance", "target": "record", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e8", "source": "record", "target": "granted", "sourceHandle": "t", "targetHandle": "b", "data": {} }
+        ]
+      }
+    }
+  }
+}

@@ -19,6 +19,11 @@ import { VIEW_HTML, VIEW_MIME, VIEW_URI } from './view';
 
 export type McpConfig = { supabaseUrl: string; supabaseAnonKey: string };
 
+// server.js draws the example diagrams of the guide pages (seo/guides.js) with the same code and checks them
+// against the same node fields, enums and icon names.
+export { ENUMS, ICON_OPTIONS, NODE_DEFAULTS, NODE_SIZE, parseDoc, renderDiagramPng };
+export { renderDiagramSvg } from './render';
+
 type Handle = (typeof HANDLE_IDS)[number];
 
 const MCP_PATH = '/mcp';
@@ -582,10 +587,13 @@ export function createMcpRouter({ supabaseUrl, supabaseAnonKey }: McpConfig) {
     next();
   };
 
-  // A person opening the address in a browser gets the setup guide (a page of the SPA); MCP clients never ask for HTML.
+  // A person or a search crawler opening the address gets the setup guide (a page of the SPA). MCP clients
+  // always ask for an event stream or JSON on GET; crawlers often send "*/*" or no Accept at all. Media types are
+  // case-insensitive (RFC 9110).
   router.get(MCP_PATH, (req, _res, next) => {
-    const browser = !req.get('authorization') && (req.get('accept') ?? '').includes('text/html');
-    next(browser ? 'router' : undefined);
+    const accept = req.get('accept') ?? '';
+    const client = !!req.get('authorization') || /text\/event-stream|application\/json/i.test(accept);
+    next(client ? undefined : 'router');
   });
 
   router.post(MCP_PATH, allowCors, authenticate, express.json({ limit: '2mb' }), async (req, res) => {

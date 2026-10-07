@@ -505,7 +505,12 @@ function layEdge(e: FlowEdge, boxes: Map<string, Box>): LaidEdge | null {
   const th = e.targetHandle && SIDE[e.targetHandle] ? e.targetHandle : ft;
   const s = handlePoint(a, sh);
   const t = handlePoint(b, th);
-  const geo = { sourceX: s.x, sourceY: s.y, targetX: t.x, targetY: t.y, sourcePosition: SIDE[sh], targetPosition: SIDE[th] };
+  // Nodes with an odd height (a card is 95 px) put their handle on a half pixel; a connection that is meant to be
+  // straight would then be drawn with a one-pixel step in the middle. Line such ends up exactly.
+  const across = (h: string) => h === 'l' || h === 'r';
+  if (across(sh) && across(th) && Math.abs(s.y - t.y) < 1) t.y = s.y;
+  if (!across(sh) && !across(th) && Math.abs(s.x - t.x) < 1) t.x = s.x;
+  const geo ={ sourceX: s.x, sourceY: s.y, targetX: t.x, targetY: t.y, sourcePosition: SIDE[sh], targetPosition: SIDE[th] };
   const [path, lx, ly] =
     d.path === 'bezier'
       ? getBezierPath(geo)
@@ -569,8 +574,9 @@ const WATERMARK = 'flowdraft.tech';
 /**
  * Pictures that leave flowdraft (the chat) carry the brand: a faint diagonal pattern over the whole image, so it can't
  * simply be cropped away, and a clearer mark in the bottom-right corner. Light enough to keep the diagram readable.
+ * Pictures on flowdraft's own pages (the guides) get only the corner mark, so nothing runs across the labels.
  */
-function watermark(minX: number, minY: number, width: number, height: number) {
+function watermark(minX: number, minY: number, width: number, height: number, tiled: boolean) {
   const cx = minX + width / 2;
   const cy = minY + height / 2;
   // The rotated pattern must still cover the corners, so it is laid out over the diagonal in both directions.
@@ -579,14 +585,15 @@ function watermark(minX: number, minY: number, width: number, height: number) {
   const stepY = 140;
   const size = 20;
   let tiles = '';
-  for (let row = 0, y = cy - reach; y <= cy + reach; y += stepY, row++) {
+  for (let row = 0, y = cy - reach; tiled && y <= cy + reach; y += stepY, row++) {
     for (let x = cx - reach + (row % 2) * (stepX / 2); x <= cx + reach; x += stepX) {
       tiles += `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}">${WATERMARK}</text>`;
     }
   }
-  const pattern =
-    `<g transform="rotate(-24 ${cx} ${cy})" font-family="${FAMILY.bold}" font-weight="${WEIGHT.bold}" font-size="${size}" ` +
-    `fill="${C.text}" fill-opacity="0.06" text-anchor="middle">${tiles}</g>`;
+  const pattern = tiled
+    ? `<g transform="rotate(-24 ${cx} ${cy})" font-family="${FAMILY.bold}" font-weight="${WEIGHT.bold}" font-size="${size}" ` +
+      `fill="${C.text}" fill-opacity="0.06" text-anchor="middle">${tiles}</g>`
+    : '';
   const badgeSize = 15;
   const badgeW = measure(WATERMARK, 'bold', badgeSize) + 24;
   const bx = minX + width - badgeW - 14;
@@ -603,7 +610,14 @@ const PADDING = 48;
 const MAX_SIDE = 2400;
 const MAX_SCALE = 2;
 
-export function renderDiagramSvg(doc: { nodes: FlowNode[]; edges: FlowEdge[] }, opts: { watermark?: boolean } = {}) {
+export type RenderOptions = {
+  /** true: the tiled pattern and the corner mark (pictures for the chat); 'badge': the corner mark only. */
+  watermark?: boolean | 'badge';
+  /** Pixels per diagram unit in the PNG, at most; 2 by default, so the picture stays sharp on high-density screens. */
+  maxScale?: number;
+};
+
+export function renderDiagramSvg(doc: { nodes: FlowNode[]; edges: FlowEdge[] }, opts: RenderOptions = {}) {
   if (!doc.nodes.length) return null;
   const laid = new Map<string, Laid>();
   for (const n of doc.nodes) laid.set(n.id, layNode(n));
@@ -628,16 +642,16 @@ export function renderDiagramSvg(doc: { nodes: FlowNode[]; edges: FlowEdge[] }, 
     edges.map((e) => e.line).join('') +
     edges.map((e) => e.label?.draw() ?? '').join('') +
     others.map((n) => laid.get(n.id)!.draw()).join('') +
-    (opts.watermark ? watermark(minX, minY, width, height) : '') +
+    (opts.watermark ? watermark(minX, minY, width, height, opts.watermark === true) : '') +
     '</svg>';
   return { svg, width, height };
 }
 
 /** PNG of the whole diagram on an opaque background, or null for an empty one. */
-export function renderDiagramPng(doc: { nodes: FlowNode[]; edges: FlowEdge[] }, opts: { watermark?: boolean } = {}) {
+export function renderDiagramPng(doc: { nodes: FlowNode[]; edges: FlowEdge[] }, opts: RenderOptions = {}) {
   const out = renderDiagramSvg(doc, opts);
   if (!out) return null;
-  const scale = Math.min(MAX_SCALE, MAX_SIDE / Math.max(out.width, out.height));
+  const scale = Math.min(opts.maxScale ?? MAX_SCALE, MAX_SIDE / Math.max(out.width, out.height));
   const resvg = new Resvg(out.svg, {
     background: C.bg,
     fitTo: { mode: 'width', value: Math.max(1, Math.round(out.width * scale)) },

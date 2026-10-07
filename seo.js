@@ -1,20 +1,28 @@
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import path from 'node:path';
 
 /**
  * Search engine and AI crawler support for the SPA shell: per-page title, description, canonical, hreflang,
  * Open Graph and JSON-LD in <head>, a <noscript> text version of the page for crawlers that don't run
  * JavaScript, and the sitemap. Page texts live in seo/pages.json (the promo page's FAQ reads it too).
+ * The server-rendered guide pages (seo/guides.js) add their own entries to the sitemap and the <noscript> links.
+ * Each page's "updated" date is its sitemap <lastmod>: change it only when the page's own text or links change, so
+ * search engines can keep trusting it.
  */
-export function createSeo({ root, dist }) {
+export function createSeo({ root, dist, guides }) {
   const data = JSON.parse(readFileSync(path.join(root, 'seo/pages.json'), 'utf8'));
-  const indexPath = path.join(dist, 'index.html');
-  const shell = readFileSync(indexPath, 'utf8');
-  const updated = statSync(indexPath).mtime.toISOString().slice(0, 10);
+  const shell = readFileSync(path.join(dist, 'index.html'), 'utf8');
   const { origin, pages, features, faq } = data;
+  const bad = Object.entries(pages)
+    .filter(([, page]) => !/^\d{4}-\d{2}-\d{2}$/.test(page.updated ?? '') || Number.isNaN(Date.parse(page.updated)))
+    .map(([pagePath]) => pagePath);
+  if (bad.length) throw new Error(`seo/pages.json: "updated" must be a date like "2026-10-01" on ${bad.join(', ')}`);
   const image = origin + data.image;
 
   const url = (pagePath, lang) => origin + pagePath + (lang ? `?lang=${lang}` : '');
+  // Google crawls without Accept-Language, so the plain URL is the English page to it; ?lang=en is the same page.
+  // English is therefore canonical on the plain URL and only Turkish gets its own (?lang=tr).
+  const canonical = (pagePath, lang) => url(pagePath, lang === 'tr' ? 'tr' : undefined);
 
   // Same rule as src/i18n.ts: an explicit ?lang= wins, else Turkish for Turkish browsers and English otherwise.
   function pickLang(req) {
@@ -31,6 +39,7 @@ export function createSeo({ root, dist }) {
         '@type': 'Organization',
         '@id': `${origin}/#org`,
         name: 'flowdraft',
+        alternateName: ['flowdraft.tech'],
         url: `${origin}/`,
         logo: `${origin}/icon-512.png`,
       },
@@ -38,6 +47,7 @@ export function createSeo({ root, dist }) {
         '@type': 'WebSite',
         '@id': `${origin}/#website`,
         name: 'flowdraft',
+        alternateName: ['flowdraft.tech'],
         url: `${origin}/`,
         inLanguage: ['tr', 'en'],
         publisher: { '@id': `${origin}/#org` },
@@ -80,7 +90,8 @@ export function createSeo({ root, dist }) {
           description: meta.description,
           thumbnailUrl: image,
           contentUrl: `${origin}/promo/flowdraft-16x9.mp4`,
-          uploadDate: '2026-09-25',
+          // Google wants a full datetime with a time zone here.
+          uploadDate: '2026-09-25T12:00:00+03:00',
           duration: 'PT30S',
           inLanguage: 'en',
         },
@@ -100,7 +111,7 @@ export function createSeo({ root, dist }) {
 
   function head(pagePath, lang, explicit, indexable) {
     const meta = (pages[pagePath] ?? pages['/'])[lang];
-    const pageUrl = url(pagePath, explicit ? lang : undefined);
+    const pageUrl = explicit ? canonical(pagePath, lang) : url(pagePath);
     const tags = [
       `<title>${esc(meta.title)}</title>`,
       `<meta name="description" content="${esc(meta.description)}" />`,
@@ -114,7 +125,7 @@ export function createSeo({ root, dist }) {
       '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />',
       `<link rel="canonical" href="${pageUrl}" />`,
       `<link rel="alternate" hreflang="tr" href="${url(pagePath, 'tr')}" />`,
-      `<link rel="alternate" hreflang="en" href="${url(pagePath, 'en')}" />`,
+      `<link rel="alternate" hreflang="en" href="${canonical(pagePath, 'en')}" />`,
       `<link rel="alternate" hreflang="x-default" href="${url(pagePath)}" />`,
       '<meta property="og:type" content="website" />',
       '<meta property="og:site_name" content="flowdraft" />',
@@ -157,8 +168,18 @@ export function createSeo({ root, dist }) {
       .filter((p) => p !== pagePath)
       .map((p) => `<li><a href="${p}">${esc(pages[p][lang].title)}</a></li>`)
       .join('');
-    parts.push(`<nav><ul>${links}</ul></nav>`);
+    const guideLinks = (guides?.nav(lang) ?? []).map((g) => `<li><a href="${g.path}">${esc(g.title)}</a></li>`).join('');
+    parts.push(`<nav><ul>${links}${guideLinks}</ul></nav>`);
     return `<noscript>\n      <main class="fd-noscript">${parts.join('')}</main>\n    </noscript>`;
+  }
+
+  // Sitemap entries: each SPA page's canonical URLs (plain = English, ?lang=tr), then each guide page once per language.
+  function entries() {
+    const own = Object.entries(pages).flatMap(([pagePath, page]) => {
+      const alternates = { tr: canonical(pagePath, 'tr'), en: canonical(pagePath, 'en'), 'x-default': url(pagePath) };
+      return ['en', 'tr'].map((lang) => ({ loc: canonical(pagePath, lang), alternates, lastmod: page.updated, priority: page.priority }));
+    });
+    return [...own, ...(guides?.sitemapEntries() ?? [])];
   }
 
   return {
@@ -175,25 +196,22 @@ export function createSeo({ root, dist }) {
     },
 
     sitemap() {
-      const entries = Object.entries(pages).flatMap(([pagePath, page]) => {
-        const alternates = [
-          `<xhtml:link rel="alternate" hreflang="tr" href="${url(pagePath, 'tr')}"/>`,
-          `<xhtml:link rel="alternate" hreflang="en" href="${url(pagePath, 'en')}"/>`,
-          `<xhtml:link rel="alternate" hreflang="x-default" href="${url(pagePath)}"/>`,
-        ].join('');
-        return [undefined, 'tr', 'en'].map(
-          (lang) =>
-            `<url><loc>${esc(url(pagePath, lang))}</loc>${alternates}` +
-            `<lastmod>${updated}</lastmod><priority>${page.priority}</priority></url>`,
-        );
+      const lines = entries().map(({ loc, alternates, lastmod, priority }) => {
+        const links = Object.entries(alternates)
+          .map(([lang, href]) => `<xhtml:link rel="alternate" hreflang="${lang}" href="${esc(href)}"/>`)
+          .join('');
+        return `<url><loc>${esc(loc)}</loc>${links}<lastmod>${lastmod}</lastmod><priority>${priority}</priority></url>`;
       });
       return (
         '<?xml version="1.0" encoding="UTF-8"?>\n' +
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' +
-        entries.join('\n') +
+        lines.join('\n') +
         '\n</urlset>\n'
       );
     },
+
+    /** Every sitemap entry: { loc, alternates, lastmod, priority } (IndexNow submissions pick the recent ones). */
+    entries,
   };
 }
 

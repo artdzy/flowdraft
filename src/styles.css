@@ -281,6 +281,23 @@ a.fd-btn {
   transition: background-color 0.12s, color 0.12s;
 }
 
+a.fd-icon-btn {
+  text-decoration: none;
+}
+
+/* Read by screen readers and crawlers, not shown. */
+.fd-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .fd-icon-btn:hover:not(:disabled) {
   background: var(--panel-2);
   color: var(--text);
@@ -667,6 +684,11 @@ a.fd-btn {
 
 .fd-menu-item.is-danger {
   color: var(--danger-text);
+}
+
+a.fd-menu-item {
+  color: inherit;
+  text-decoration: none;
 }
 
 .fd-menu-caption {
@@ -1889,6 +1911,19 @@ span.fd-editing:not(.fd-tag) {
 .fd-legal a:hover,
 .wsy-credit__copy a:hover {
   color: var(--text);
+}
+
+/* The footer's links wrap beside the credit badge instead of pushing it onto a line of its own. */
+@media (min-width: 641px) {
+  .wsy-credit__copy {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* In the narrow phone menu the badge goes below, as usual. */
+  .fd-menu-credit .wsy-credit__copy {
+    flex: 0 1 auto;
+  }
 }
 
 .fd-legal-page {

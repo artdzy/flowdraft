@@ -1,0 +1,581 @@
+{
+  "id": "symbols",
+  "priority": "0.8",
+  "published": "2026-10-07",
+  "updated": "2026-10-07",
+  "tr": {
+    "path": "/akis-diyagrami-sembolleri",
+    "title": "Akış Diyagramı Sembolleri ve Anlamları (19 Şekil) · flowdraft",
+    "description": "Akış diyagramı sembolleri ve anlamları tek sayfada: 19 şeklin ne işe yaradığı, en çok kullanılan 5 sembol, doğru kullanım kuralları ve çözümlü örnek.",
+    "h1": "Akış diyagramı sembolleri ve anlamları",
+    "lead": "Akış diyagramı sembolleri, bir süreçteki her adımın türünü şekliyle anlatır: oval başla/bitir, dikdörtgen işlem, eşkenar dörtgen karar, paralelkenar girdi/çıktı (giriş/çıkış), ok ise akışın yönüdür. Çoğu akış şeması bu beş sembolle çizilir. Aşağıda ISO 5807 standardından ve yaygın kullanımdan gelen 19 şeklin hepsini anlamlarıyla, kurallarıyla ve birçok sembolün bir arada kullanıldığı çözümlü bir örnekle bulacaksın.",
+    "breadcrumb": "Akış diyagramı sembolleri",
+    "sections": [
+      {
+        "h2": "Akış diyagramı sembolleri nereden gelir?",
+        "id": "standart",
+        "blocks": [
+          { "p": "Bu şekiller 1960'larda bilgisayar programlarını belgelemek için ABD'de standartlaştırıldı (ANSI X3.5). Bugünkü uluslararası karşılığı 1985 tarihli **ISO 5807** standardıdır. Ders kitaplarında, yazılım belgelerinde ve iş süreci çizimlerinde gördüğün akış diyagramı şekillerinin çoğu bu iki kaynaktan gelir." },
+          { "p": "Araçlar ve okullar arasında yine de küçük farklar var. Gecikme, birleştirme ve sayfa dışı bağlayıcı gibi bazı şekiller ISO 5807'de ayrı bir sembol olarak yer almaz; eski ANSI ve IBM çizim şablonlarından gelir, Visio gibi araçlarla yaygınlaşmıştır. Asıl önemli olan tutarlılık: bir diyagramda aynı anlam için hep aynı şekli kullan. Akış diyagramının ne olduğunu ve ne zaman işe yaradığını [akış diyagramı nedir](/akis-diyagrami) rehberinde anlattık." },
+          { "h3": "Ders kitaplarındaki algoritma akış şeması sembolleri" },
+          { "p": "Lise ve üniversitedeki algoritma derslerinde aynı şekiller biraz daha ayrıntılı kullanılır. Paralelkenar genel girdi/çıktı sembolüdür, ama bazı kaynaklar klavyeden girişi **elle giriş**, ekrana yazdırmayı **ekran**, yazıcı çıktısını **belge** sembolüyle ayrıca gösterir; döngüler için de **altıgen** (hazırlık) kullanılır. Ödev ya da sınav için çiziyorsan öğretmeninin kullandığı gösterimi izle." }
+        ]
+      },
+      {
+        "h2": "19 akış diyagramı sembolü ve anlamları",
+        "id": "semboller",
+        "blocks": [
+          { "p": "Her satırda şeklin adı, anlamı ve flowdraft'ta nasıl çizileceği var. İlk beşi temel sembollerdir; geri kalanlar belge, veri ve elle yapılan işler gibi ayrıntıları gösterir." },
+          { "tip": "flowdraft'ta başla/bitir, işlem ve karar için hazır şekiller var. Paralelkenar, belge, silindir, altıgen ya da daire gibi şekiller ayrı olarak yok; bunları kartın **etiketi** ve **ikonu** ile gösterirsin. Her satırda nasıl yapacağın yazıyor." },
+          {
+            "symbols": [
+              {
+                "shape": "terminal",
+                "name": "Başla / Bitir (Terminal)",
+                "meaning": "Akışın başladığı ve bittiği yeri gösterir. Oval ya da hap biçimindedir, içine “Başla” veya “Bitir” yazılır. Başlangıç tek olur; bitişleri de tek noktada toplamak okumayı kolaylaştırır.",
+                "flowdraft": "Paletteki “Başla / Bitir” öğesi: hap biçimli başlangıç/bitiş şekli."
+              },
+              {
+                "shape": "process",
+                "name": "İşlem",
+                "meaning": "Bir hesaplama, atama ya da eylem: “toplam = a + b”, “Faturayı oluştur”. Akış şemalarında en sık kullanılan şekildir, dikdörtgen çizilir.",
+                "flowdraft": "“Adım” kartı. Eylemi başlığa, ayrıntıyı alt yazıya yaz."
+              },
+              {
+                "shape": "decision",
+                "name": "Karar",
+                "meaning": "Cevabı evet/hayır ya da doğru/yanlış olan bir soru; eşkenar dörtgen (baklava) biçimindedir. En az iki çıkışı olur ve her çıkış oku cevabıyla etiketlenir.",
+                "flowdraft": "“Karar” öğesi. Soruyu “Soru” alanına, cevapları okların “Etiket” alanına yaz."
+              },
+              {
+                "shape": "io",
+                "name": "Girdi / Çıktı (Giriş / Çıkış)",
+                "meaning": "Akışa giren veriyi (kullanıcıdan sayı okumak) ya da akıştan çıkan sonucu (ekrana yazdırmak) gösterir. Paralelkenar çizilir.",
+                "flowdraft": "Paralelkenar yok: bir “Adım” kartının etiketini GİRDİ ya da ÇIKTI yap; ikon olarak PenLine (kalem) ya da Monitor (ekran) seç."
+              },
+              {
+                "shape": "flowline",
+                "name": "Akış Çizgisi (Ok)",
+                "meaning": "Adımların hangi sırayla izlendiğini gösterir. Akış yukarıdan aşağıya ve soldan sağa okunur; ok başı yönü netleştirir.",
+                "flowdraft": "Kutunun kenarındaki noktadan sürükleyerek çiz; stilini sağdaki panelden değiştir."
+              },
+              {
+                "shape": "predefined",
+                "name": "Önceden Tanımlı İşlem / Alt Program",
+                "meaning": "Başka yerde ayrıntılı anlatılan bir alt süreci ya da fonksiyonu tek kutuyla çağırır. İki yanında çift dikey çizgi olan bir dikdörtgendir.",
+                "flowdraft": "ALT PROGRAM etiketli, Puzzle ikonlu bir “Adım” kartı; alt yazıya alt akışın adını yaz."
+              },
+              {
+                "shape": "document",
+                "name": "Belge",
+                "meaning": "Belge, rapor ya da yazıcı çıktısı üreten veya okuyan adımı gösterir. Alt kenarı dalgalı bir dikdörtgendir.",
+                "flowdraft": "BELGE etiketli, FileText ikonlu bir “Adım” kartı."
+              },
+              {
+                "shape": "multi-document",
+                "name": "Çoklu Belge",
+                "meaning": "Aynı anda birden fazla belgenin üretildiğini ya da işlendiğini anlatır; üst üste binmiş belge şekilleri gibi çizilir.",
+                "flowdraft": "BELGELER etiketli, Layers ikonlu bir “Adım” kartı."
+              },
+              {
+                "shape": "database",
+                "name": "Veritabanı / Depolama",
+                "meaning": "Verinin kalıcı olarak saklandığı ya da okunduğu yer: tablo, disk, kayıt sistemi. Silindir biçimindedir.",
+                "flowdraft": "Paletteki hazır “Veritabanı” kartı (Database ikonlu)."
+              },
+              {
+                "shape": "manual-input",
+                "name": "Elle Giriş",
+                "meaning": "Verinin bir kişi tarafından klavye, form ya da tuş takımıyla girildiğini gösterir. Üst kenarı eğik bir dörtgendir; Türkçe kaynaklarda çoğu zaman “klavyeden giriş” diye geçer.",
+                "flowdraft": "ELLE GİRİŞ etiketli bir “Adım” kartı; User ya da PenLine ikonu."
+              },
+              {
+                "shape": "manual-operation",
+                "name": "Elle İşlem",
+                "meaning": "Bir sistemin değil, bir insanın elle yaptığı adım: formu imzalamak, kutuyu paketlemek. Altı daralan bir yamuktur.",
+                "flowdraft": "Paletteki “Kişi” kartı; birinin onay vermesi gereken adımlar için “İnsan onayı” kartı."
+              },
+              {
+                "shape": "preparation",
+                "name": "Hazırlık (Döngü)",
+                "meaning": "İlk değer verme ya da sayaç kurma gibi hazırlık adımlarını gösterir; altıgendir. Türkçe ders kitaplarında döngü sembolü olarak da geçer: “i = 1, 10, 1” (başlangıç, bitiş, artış).",
+                "flowdraft": "HAZIRLIK ya da DÖNGÜ etiketli bir “Adım” kartı; Settings ya da Repeat ikonu."
+              },
+              {
+                "shape": "loop-limit",
+                "name": "Döngü Sınırı",
+                "meaning": "Bir döngünün başını ve sonunu işaretleyen şekil çifti: iki köşesi kesik dikdörtgenler (kapanış şekli ters çevrilir). Döngü koşulu bunlardan birine yazılır.",
+                "flowdraft": "DÖNGÜ BAŞI ve DÖNGÜ SONU etiketli iki “Adım” kartı ya da doğrudan geriye dönen bir ok."
+              },
+              {
+                "shape": "delay",
+                "name": "Gecikme",
+                "meaning": "Akışın devam etmeden önce beklediğini gösterir: “24 saat bekle”, “Onay gelene kadar bekle”. Büyük D harfine benzer.",
+                "flowdraft": "BEKLE etiketli bir “Adım” kartı; Hourglass (kum saati) ya da Timer ikonu."
+              },
+              {
+                "shape": "display",
+                "name": "Ekran (Görüntüleme)",
+                "meaning": "Bilginin ekranda gösterildiği adımı belirtir; solu sivri, sağı yuvarlak bir şekildir. Bazı ders kaynaklarında “ekrana yazdır” için kullanılır.",
+                "flowdraft": "EKRAN etiketli, Monitor ikonlu bir “Adım” kartı."
+              },
+              {
+                "shape": "connector",
+                "name": "Bağlayıcı",
+                "meaning": "Aynı sayfadaki uzak iki noktayı çizgileri kesiştirmeden birleştiren, içinde harf ya da rakam olan küçük bir dairedir.",
+                "flowdraft": "Daire şekli yok, sınırsız tuvalde de nadiren gerekir. Gerekirse iki noktaya aynı harfi taşıyan birer “Çip” koy (ör. “A”)."
+              },
+              {
+                "shape": "off-page",
+                "name": "Sayfa Dışı Bağlayıcı",
+                "meaning": "Akışın başka bir sayfada devam ettiğini gösterir. Aşağıyı gösteren bir beşgendir; içine sayfa numarası ya da etiket yazılır.",
+                "flowdraft": "Tek ve sınırsız tuvalde nadiren gerekir; akışı bölersen bir “Çip” öğesine diğer akışın adını yaz."
+              },
+              {
+                "shape": "annotation",
+                "name": "Açıklama (Yorum)",
+                "meaning": "Bir adıma açıklama ekler, akışın parçası değildir. Açık köşeli parantez biçimindedir, adıma kesikli çizgiyle bağlanır.",
+                "flowdraft": "“Not” öğesi; adıma noktalı ve oksuz bir bağlantıyla bağla."
+              },
+              {
+                "shape": "merge",
+                "name": "Birleştirme",
+                "meaning": "Birden fazla akışın ya da veri kümesinin tek akışta birleştiği noktayı gösterir. Ucu aşağıyı gösteren bir üçgendir.",
+                "flowdraft": "Ayrı şekil yok; gelen okların hepsini aynı karta bağlaman yeterli."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "Temel akış diyagramı sembolleri: en çok kullanılan 5 şekil",
+        "id": "temel-semboller",
+        "blocks": [
+          { "p": "Bir algoritmanın ya da iş sürecinin akış şemasını çizerken çoğu zaman şu beş sembol yeter:" },
+          {
+            "table": {
+              "head": ["Sembol", "Şekil", "Ne zaman kullanılır", "Örnek"],
+              "rows": [
+                ["**Başla / Bitir**", "Oval (elips)", "Akışın ilk ve son adımı", "Başla, Bitir"],
+                ["**İşlem**", "Dikdörtgen", "Hesaplama, atama, eylem", "toplam = a + b"],
+                ["**Karar**", "Eşkenar dörtgen", "Evet/hayır sorusu, dallanma", "Sayı > 0 mı?"],
+                ["**Girdi / Çıktı**", "Paralelkenar", "Veri okuma, sonuç yazdırma", "Sayıyı oku, Sonucu yaz"],
+                ["**Akış çizgisi**", "Ok", "Adımların sırası ve yönü", "Başla → Sayıyı oku"]
+              ]
+            }
+          },
+          { "p": "Belge, veritabanı ya da elle işlem gibi diğer şekilleri yalnızca okuyana gerçekten bilgi kattığında kullan. Fazla özel sembol basit bir akışı zor okunur hâle getirir; emin değilsen bir işlem dikdörtgeni ve kısa bir açıklama daha anlaşılırdır." },
+          { "cta": "Hesap açmadan çizmeye başla" }
+        ]
+      },
+      {
+        "h2": "Örnek: sembollerin bir arada kullanıldığı akış şeması (kütüphane iade)",
+        "id": "ornek",
+        "blocks": [
+          { "p": "Aşağıdaki akış şeması, kütüphaneye geri getirilen bir kitabın iade sürecini gösterir. Temel sembollerin yanında elle giriş, alt program, veritabanı, belge, açıklama ve sayfa dışı bağlayıcı da kullanılıyor; flowdraft'ta her biri etiketli bir karta, nota ya da çipe dönüşüyor." },
+          { "example": "symbols-library-return" },
+          {
+            "ol": [
+              "**Başla** (başla/bitir): akış buradan başlar.",
+              "**Üye numarasını gir** (elle giriş): görevli numarayı klavyeyle yazar. Kâğıtta üst kenarı eğik bir dörtgen çizersin; flowdraft'ta bu, ELLE GİRİŞ etiketli bir kart.",
+              "**Üyeyi doğrula** (önceden tanımlı işlem): ayrıntısı başka bir akışta çizilen alt süreç; flowdraft'ta ALT PROGRAM etiketli bir kart. Yanındaki mavi not bir adım değil, açıklamadır.",
+              "**Ödünç kaydını bul** (veritabanı): kayıt sistemden okunur. Kâğıtta silindir çizersin; flowdraft'ta hazır Veritabanı kartı.",
+              "**Süresi geçmiş mi?** (karar): Evet ise ceza makbuzu yazdırılır (belge), Hayır ise akış doğrudan aşağı iner.",
+              "**Kaydı kapat** (veritabanı): iki dal aynı kartta birleşir; ayrı bir birleştirme şekline gerek kalmaz.",
+              "**Ayırtılmış mı?** (karar): kitabı ayırtan biri varsa akış ayırtma akışına geçer. Oradaki çip, kâğıtta beşgen çizilen sayfa dışı bağlayıcının yerini tutar. Ayırtan yoksa kitap rafa kaldırılır ve akış biter."
+            ]
+          },
+          { "p": "Yalnızca temel sembollerle çizilmiş algoritmalar için [akış diyagramı örnekleri](/akis-diyagrami-ornekleri) sayfasına bak; [not ortalaması](/akis-diyagrami-ornekleri#not-ortalamasi), tek-çift sayı ve faktöriyel gibi şemalar orada adım adım anlatılıyor." }
+        ]
+      },
+      {
+        "h2": "Akış diyagramı sembollerini doğru kullanmanın kuralları",
+        "id": "kurallar",
+        "blocks": [
+          {
+            "ol": [
+              "**Tek başlangıç koy.** Bitiş birden fazla olabilir ama her yol bir bitişe varmalı; boşta kalan ok olmamalı.",
+              "**Her karara en az iki çıkış ver ve hepsini etiketle.** Evet/Hayır, Doğru/Yanlış ya da “> 0” / “≤ 0” gibi cevaplar okun üstünde yazmalı.",
+              "**Soruyu evet/hayır ile cevaplanacak biçimde yaz.** “Not?” değil, “Not ≥ 50 mi?”.",
+              "**Yönü sabit tut.** Akış yukarıdan aşağıya ya da soldan sağa ilerlesin; yukarı ya da geri giden oklar yalnızca döngüler için olsun.",
+              "**Her kutuya tek iş yaz.** Kısa ve fiille biten ifadeler kullan: “Sayıyı oku”, “Toplamı hesapla”.",
+              "**Aynı anlam için hep aynı şekli kullan.** Bir yerde paralelkenarla gösterdiğin girişi başka yerde dikdörtgenle gösterme.",
+              "**Okları kesiştirme.** Kaçınılmazsa yerleşimi değiştir ya da bağlayıcı sembolü kullan."
+            ]
+          },
+          { "tip": "Çizdiğin akışı bir arkadaşına hiç anlatmadan okut. Bir karar dalında “bu ok ne demek?” diye sorarsa etiket eksiktir." }
+        ]
+      },
+      {
+        "h2": "Akış şeması çizerken sık yapılan hatalar",
+        "id": "hatalar",
+        "blocks": [
+          {
+            "ul": [
+              "**Karardan tek ok çıkarmak** ya da okları etiketsiz bırakmak. Okuyan, hangi dalın hangi cevaba ait olduğunu tahmin etmek zorunda kalır.",
+              "**Girdi ve çıktıyı işlem dikdörtgeniyle çizmek.** Özellikle ödev ve sınavlarda girdi/çıktı için paralelkenar beklenir.",
+              "**Bitişi unutmak** ya da bir dalı hiçbir yere bağlamadan bırakmak.",
+              "**Bir kutuya birden çok iş sığdırmak.** “Sayıları oku, topla ve yazdır” üç ayrı adımdır.",
+              "**Döngüden önce sayacın ilk değerini vermemek.** “i = 1” gibi bir adım eksik kalınca döngünün nereden başladığı belirsizleşir.",
+              "**Ok başlarını çizmemek.** Akış soldan sağa ya da yukarıdan aşağıya gitmiyorsa ok başı şarttır.",
+              "**Gereğinden fazla özel sembol kullanmak.** Basit bir akışta belge, gecikme ve elle işlem şekillerini karıştırmak okumayı zorlaştırır."
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "flowdraft'ta akış diyagramı sembolleri nasıl çizilir?",
+        "id": "flowdraft",
+        "blocks": [
+          { "p": "flowdraft, tarayıcıda çalışan ücretsiz bir akış diyagramı editörü; masaüstünde, telefonda ve tablette açılır. Hesap açmadan çizebilirsin, çizimin bu cihazda taslak olarak durur." },
+          {
+            "ol": [
+              "[Editörü aç](/?lang=tr). Masaüstünde soldaki parça panelinden, telefonda alttaki **Ekle** düğmesinden **Başla / Bitir**, **Adım** ya da **Karar** öğesini tuvale sürükle veya tıkla.",
+              "Bir kartı seçip **Başlık**, **Alt yazı**, **Etiket** ve **İkon** alanlarını doldur. Girdi/çıktı adımı için etikete GİRDİ ya da ÇIKTI yazman yeterli.",
+              "Kutunun kenarındaki noktalardan sürükleyerek okları çiz. Bir oka tıklayınca çizgi türünü, rengini, yolunu (köşeli, eğri, düz) ve ok ucunu değiştirebilir, **Etiket** alanına Evet ya da Hayır yazabilirsin.",
+              "Buluta kaydetmek ve **Dışa aktar** menüsünden PNG görsel, SVG vektör ya da düzenlenebilir JSON indirmek için ücretsiz hesapla giriş yap."
+            ]
+          },
+          { "p": "Akışı tarif edip yapay zekâya çizdirmek istersen flowdraft'ı ChatGPT, Claude ya da Cursor'a bağlayabilirsin. Ayrıntılar [yapay zekâ ile akış diyagramı](/yapay-zeka-ile-akis-diyagrami) rehberinde, kurulum adımları [MCP sayfasında](/mcp?lang=tr); editörü 30 saniyede görmek için [tanıtım videosunu](/tanitim?lang=tr) izle." },
+          { "cta": "Akış şemanı şimdi çiz" }
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "q": "Akış diyagramında kaç sembol vardır?",
+        "a": "Bu sayfada 19 şekil var: ISO 5807'nin sembolleri ve yaygın kullanımdaki birkaç ek şekil. Günlük akış diyagramlarının çoğu ise yalnızca beş temel sembolle çizilir."
+      },
+      {
+        "q": "Temel akış diyagramı sembolleri nelerdir?",
+        "a": "Çoğu akış için beş sembol yeter: oval (başla/bitir), dikdörtgen (işlem), eşkenar dörtgen (karar), paralelkenar (giriş/çıkış) ve ok (akış çizgisi)."
+      },
+      {
+        "q": "Akış şemasında eşkenar dörtgen (baklava) ne anlama gelir?",
+        "a": "Karar sembolüdür. İçine cevabı evet/hayır olan bir soru yazılır; en az iki çıkış oku olur ve her biri cevabıyla etiketlenir."
+      },
+      {
+        "q": "Girdi ve çıktı (giriş/çıkış) için hangi sembol kullanılır?",
+        "a": "Genel girdi/çıktı sembolü paralelkenardır. Bazı ders kaynakları klavyeden girişi elle giriş, ekrana yazdırmayı ekran, yazıcı çıktısını belge sembolüyle ayrıca gösterir."
+      },
+      {
+        "q": "Algoritma akış şemasında döngü nasıl gösterilir?",
+        "a": "En yaygın yol, döngünün son adımından karar kutusuna geri dönen oktur. Türkçe ders kitaplarında altıgen hazırlık sembolü, ISO 5807'de ise döngü sınırı şekil çifti de kullanılır."
+      },
+      {
+        "q": "Oval ile dikdörtgen arasındaki fark nedir?",
+        "a": "Oval (elips) yalnızca akışın başını ve sonunu gösterir. Dikdörtgen ise aradaki her işlemi, hesaplamayı ya da eylemi gösterir."
+      },
+      {
+        "q": "flowdraft'ta paralelkenar şekli var mı?",
+        "a": "Ayrı bir paralelkenar şekli yok. Girdi/çıktı adımlarını etiketi GİRDİ ya da ÇIKTI olan bir kartla gösterirsin; başla/bitir, işlem ve karar için hazır şekiller var."
+      }
+    ]
+  },
+  "en": {
+    "path": "/flowchart-symbols",
+    "title": "Flowchart Symbols and Meanings: All 19 Shapes · flowdraft",
+    "description": "Flowchart symbols and meanings in one place: what each of the 19 shapes does, the 5 you'll use most, rules for using them and a worked example.",
+    "h1": "Flowchart symbols and their meanings",
+    "lead": "Flowchart symbols show what kind of step each box is: an oval marks the start or end, a rectangle is a process, a diamond is a decision, a parallelogram is input or output, and arrows show the direction of flow. Those five cover most flowcharts. Below are all 19 common flowchart shapes and their meanings, plus rules and a worked example.",
+    "breadcrumb": "Flowchart symbols",
+    "sections": [
+      {
+        "h2": "Where flowchart symbols come from",
+        "id": "standard",
+        "blocks": [
+          { "p": "The shapes were standardized in the 1960s to document computer programs, first in the US as ANSI X3.5; today's international standard is **ISO 5807** (1985)." },
+          { "p": "Some shapes, such as delay, merge and the off-page connector, aren't separate ISO 5807 symbols; they come from older ANSI and IBM templates and spread through tools like Visio. New to flowcharts? Start with [what a flowchart is](/what-is-a-flowchart)." },
+          { "h3": "Flowchart symbols in programming classes" },
+          { "p": "Intro programming courses often split input and output further: **manual input** for keyboard entry, **display** for screen output and **document** for printouts, plus the **preparation** hexagon to set up loops. For homework or exams, follow your instructor's notation." }
+        ]
+      },
+      {
+        "h2": "All 19 flowchart symbols and their meanings",
+        "id": "symbols",
+        "blocks": [
+          { "p": "Each entry gives the shape, its meaning and how to draw it in flowdraft. The first five are the core shapes." },
+          { "tip": "flowdraft has ready-made shapes for start/end, process and decision. For most others, such as the parallelogram or hexagon, use a step card with a **tag** and an **icon**." },
+          {
+            "symbols": [
+              {
+                "shape": "terminal",
+                "name": "Terminal (Start / End)",
+                "meaning": "Marks where the flow starts and ends: an oval or pill labeled “Start” or “End”. Use one start, and ideally one shared end.",
+                "flowdraft": "The “Start / End” item in the palette."
+              },
+              {
+                "shape": "process",
+                "name": "Process",
+                "meaning": "An action or calculation, such as “total = a + b”. The most common shape: a rectangle.",
+                "flowdraft": "A “Step” card; put detail in the subtitle."
+              },
+              {
+                "shape": "decision",
+                "name": "Decision",
+                "meaning": "A yes/no question, drawn as a diamond. It has at least two exits, each labeled with its answer.",
+                "flowdraft": "The “Decision” item; write each answer in the arrow's Label field."
+              },
+              {
+                "shape": "io",
+                "name": "Input / Output (Data)",
+                "meaning": "Data coming in (reading user input) or going out (printing a result). A parallelogram.",
+                "flowdraft": "No parallelogram: use a “Step” card tagged INPUT or OUTPUT, with an icon such as PenLine or Monitor."
+              },
+              {
+                "shape": "flowline",
+                "name": "Flowline (Arrow)",
+                "meaning": "Shows the order of steps, read top to bottom and left to right.",
+                "flowdraft": "Drag from a dot on a box's edge; style it in the right-hand panel."
+              },
+              {
+                "shape": "predefined",
+                "name": "Predefined Process (Subroutine)",
+                "meaning": "A sub-process or function defined elsewhere, kept as one box here. A rectangle with double side lines.",
+                "flowdraft": "A “Step” card tagged SUBROUTINE with the Puzzle icon."
+              },
+              {
+                "shape": "document",
+                "name": "Document",
+                "meaning": "A step that creates or reads a document or printout. A rectangle with a wavy bottom.",
+                "flowdraft": "A “Step” card tagged DOCUMENT with the FileText icon."
+              },
+              {
+                "shape": "multi-document",
+                "name": "Multiple Documents",
+                "meaning": "Several documents at once, drawn as a stack of document shapes.",
+                "flowdraft": "A “Step” card tagged DOCUMENTS with the Layers icon."
+              },
+              {
+                "shape": "database",
+                "name": "Database (Stored Data)",
+                "meaning": "Data stored permanently, such as a table or records system. A cylinder.",
+                "flowdraft": "The ready-made “Database” card in the palette."
+              },
+              {
+                "shape": "manual-input",
+                "name": "Manual Input",
+                "meaning": "Data a person enters by keyboard or form. A quadrilateral with a sloping top edge.",
+                "flowdraft": "A “Step” card tagged MANUAL INPUT with the User or PenLine icon."
+              },
+              {
+                "shape": "manual-operation",
+                "name": "Manual Operation",
+                "meaning": "Work done by hand, not by a system, like signing a form. A trapezoid narrowing toward the bottom.",
+                "flowdraft": "The “Person” card, or “Human approval” for sign-off steps."
+              },
+              {
+                "shape": "preparation",
+                "name": "Preparation",
+                "meaning": "A setup step, like setting a counter before a loop. A hexagon.",
+                "flowdraft": "A “Step” card tagged SETUP or LOOP with the Settings or Repeat icon."
+              },
+              {
+                "shape": "loop-limit",
+                "name": "Loop Limit",
+                "meaning": "A pair of shapes marking where a loop starts and ends, drawn as rectangles with two clipped corners.",
+                "flowdraft": "Two “Step” cards tagged LOOP START and LOOP END, or an arrow looping back."
+              },
+              {
+                "shape": "delay",
+                "name": "Delay",
+                "meaning": "A wait before the flow continues, like “Wait 24 hours”. Shaped like a capital D.",
+                "flowdraft": "A “Step” card tagged WAIT with the Hourglass or Timer icon."
+              },
+              {
+                "shape": "display",
+                "name": "Display",
+                "meaning": "Information shown on a screen. Pointed on the left and curved on the right.",
+                "flowdraft": "A “Step” card tagged DISPLAY with the Monitor icon."
+              },
+              {
+                "shape": "connector",
+                "name": "On-Page Connector",
+                "meaning": "A small labeled circle joining two distant points on the same page without crossing lines.",
+                "flowdraft": "Rarely needed on an unlimited canvas; if you want one, put a “Chip” with the same letter at both points."
+              },
+              {
+                "shape": "off-page",
+                "name": "Off-Page Connector",
+                "meaning": "A downward-pointing pentagon showing that the flow continues on another page.",
+                "flowdraft": "Rarely needed on one canvas; to split a flow, name the other flow on a “Chip”."
+              },
+              {
+                "shape": "annotation",
+                "name": "Annotation (Comment)",
+                "meaning": "A note explaining a step, outside the flow: an open bracket joined by a dashed line.",
+                "flowdraft": "The “Note” item, linked with a dotted line and no arrowhead."
+              },
+              {
+                "shape": "merge",
+                "name": "Merge",
+                "meaning": "Where several flows or data sets come together into one. A triangle pointing down.",
+                "flowdraft": "No separate shape; connect the incoming arrows to the same card."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "Basic flowchart symbols: the 5 you'll use most",
+        "id": "core-shapes",
+        "blocks": [
+          { "p": "For most algorithms and processes, these five are all you need:" },
+          {
+            "table": {
+              "head": ["Symbol", "Shape", "Use it for", "Example"],
+              "rows": [
+                ["**Terminal**", "Oval", "The first and last step", "Start, End"],
+                ["**Process**", "Rectangle", "A calculation or action", "total = a + b"],
+                ["**Decision**", "Diamond", "A yes/no question that branches", "Is n > 0?"],
+                ["**Input / Output**", "Parallelogram", "Reading data, printing a result", "Read n, Print result"],
+                ["**Flowline**", "Arrow", "The order of the steps", "Start → Read n"]
+              ]
+            }
+          },
+          { "p": "Add the other shapes only when they tell the reader something; extra symbols make a simple flow harder to read." },
+          { "cta": "Start drawing, no account needed" }
+        ]
+      },
+      {
+        "h2": "Example: a flowchart using many symbols (library book return)",
+        "id": "example",
+        "blocks": [
+          { "p": "This flowchart shows how a library handles a returned book. Besides the core shapes it uses manual input, a subroutine, a database, a document, an annotation and an off-page connector; in flowdraft each one becomes a tagged card, a note or a chip." },
+          { "example": "symbols-library-return" },
+          {
+            "ol": [
+              "**Start** (terminal): the flow begins.",
+              "**Enter member number** (manual input): staff type it in. A shape with a sloping top on paper; a card tagged MANUAL INPUT in flowdraft.",
+              "**Verify the member** (predefined process): a sub-process drawn in detail as its own flow; a card tagged SUBROUTINE in flowdraft. The blue note beside it is an annotation, not a step.",
+              "**Find the loan record** (database): read from the records system. A cylinder on paper; the ready-made Database card in flowdraft.",
+              "**Overdue?** (decision): Yes prints a late-fee slip (document); No goes straight down.",
+              "**Close the loan** (database): both branches meet at one card, so no separate merge shape is needed.",
+              "**Reserved?** (decision): if someone has reserved the book, the flow moves on to the reservation flow. That chip stands in for the off-page connector, a pentagon on paper. Otherwise the book goes back on the shelf and the flow ends."
+            ]
+          },
+          { "p": "For algorithms drawn with only the core symbols, such as a [grade average](/flowchart-examples#grade-average), even or odd, or a factorial, see the [flowchart examples](/flowchart-examples)." }
+        ]
+      },
+      {
+        "h2": "Rules for using flowchart symbols correctly",
+        "id": "rules",
+        "blocks": [
+          {
+            "ol": [
+              "**Use one start.** Every path must reach an end; leave no arrow hanging.",
+              "**Give every decision at least two labeled exits:** Yes/No, True/False or “> 0” / “≤ 0”.",
+              "**Phrase decisions as yes/no questions:** “Grade ≥ 50?”, not “Grade?”.",
+              "**Keep one direction,** top to bottom or left to right; only loops go back.",
+              "**One action per box,** starting with a verb: “Read the number”.",
+              "**Same meaning, same shape** throughout the diagram.",
+              "**Avoid crossing lines;** rearrange the layout or use a connector."
+            ]
+          },
+          { "tip": "Test it on someone: if they ask what an arrow out of a decision means, a label is missing." }
+        ]
+      },
+      {
+        "h2": "Common flowchart mistakes",
+        "id": "mistakes",
+        "blocks": [
+          {
+            "ul": [
+              "**A decision with one exit** or unlabeled arrows, which leaves the reader guessing.",
+              "**Input and output drawn as rectangles;** exams usually expect a parallelogram.",
+              "**No end,** or a branch that connects to nothing.",
+              "**Several actions in one box.** “Read the numbers, add them and print the sum” is three steps.",
+              "**No starting value before a loop,** such as “i = 1”.",
+              "**Missing arrowheads** where the flow runs up or right to left."
+            ]
+          }
+        ]
+      },
+      {
+        "h2": "How to draw flowchart symbols in flowdraft",
+        "id": "flowdraft",
+        "blocks": [
+          { "p": "flowdraft is a free browser-based flowchart editor for desktop, phone and tablet. Draw without an account; your work stays on the device as a draft." },
+          {
+            "ol": [
+              "[Open the editor](/?lang=en) and drag or click **Start / End**, **Step** or **Decision** from the parts panel on the left (on a phone, tap **Add**).",
+              "Fill in a card's **Title**, **Subtitle**, **Tag** and **Icon**; tag input/output steps INPUT or OUTPUT.",
+              "Drag from the dots on a box's edge to connect it; click an arrow to style it or add a **Label** like Yes or No.",
+              "Sign in with a free account to save to the cloud and **Export** a PNG image, an SVG vector or editable JSON."
+            ]
+          },
+          { "p": "Want AI to draw it from a description? Connect flowdraft to ChatGPT, Claude or Cursor: see the [ChatGPT flowchart guide](/chatgpt-flowchart) and the [setup steps](/mcp?lang=en), or watch the [30-second tour](/tanitim?lang=en)." },
+          { "cta": "Draw your flowchart now" }
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "q": "How many flowchart symbols are there?",
+        "a": "This page covers 19: the ISO 5807 symbols plus a few common extras. Most everyday flowcharts use only the five basic ones."
+      },
+      {
+        "q": "What are the basic flowchart symbols?",
+        "a": "Five cover most flowcharts: the oval (start/end), the rectangle (process), the diamond (decision), the parallelogram (input/output) and the arrow (flowline)."
+      },
+      {
+        "q": "What does a diamond mean in a flowchart?",
+        "a": "It's the decision symbol: a yes/no question with at least two exit arrows, each labeled with its answer."
+      },
+      {
+        "q": "Which flowchart symbol is used for input and output?",
+        "a": "The parallelogram. Some textbooks also use manual input for keyboard entry, display for screen output and document for printouts."
+      },
+      {
+        "q": "How do you show a loop in a flowchart?",
+        "a": "Usually with an arrow from the last step of the loop back to the decision that checks it. Some courses use the preparation hexagon, and ISO 5807 defines a pair of loop limit symbols."
+      },
+      {
+        "q": "Do I need an account to draw a flowchart in flowdraft?",
+        "a": "No. Your drawing stays on your device as a draft. Saving to the cloud and exporting PNG, SVG or JSON need a free account."
+      }
+    ]
+  },
+  "examples": {
+    "symbols-library-return": {
+      "tr": {
+        "title": "Sembollerin bir arada kullanıldığı akış şeması: kütüphane iade",
+        "caption": "Elle giriş, alt program, veritabanı, belge ve sayfa dışı bağlayıcı aynı akışta: flowdraft'ta her biri etiketli bir kart ya da çip, mavi not ise açıklama sembolü. Karar okları Evet ve Hayır diye etiketli.",
+        "slug": "kutuphane-iade-akis-semasi"
+      },
+      "en": {
+        "title": "Flowchart using many symbols: library book return",
+        "caption": "Manual input, subroutine, database, document and off-page connector in one flow: in flowdraft each is a tagged card or a chip, and the blue note is an annotation. Decision arrows read Yes and No.",
+        "slug": "library-book-return-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 40, "y": 0 }, "width": 120, "data": { "title": { "tr": "Başla", "en": "Start" } } },
+          { "id": "member", "type": "card", "position": { "x": 0, "y": 84 }, "width": 200, "data": { "tag": { "tr": "ELLE GİRİŞ", "en": "MANUAL INPUT" }, "title": { "tr": "Üye numarasını gir", "en": "Enter member number" }, "subtitle": { "tr": "görevli klavyeyle yazar", "en": "typed in by staff" }, "icon": "PenLine" } },
+          { "id": "verify", "type": "card", "position": { "x": 0, "y": 224 }, "width": 200, "data": { "tag": { "tr": "ALT PROGRAM", "en": "SUBROUTINE" }, "title": { "tr": "Üyeyi doğrula", "en": "Verify the member" }, "subtitle": { "tr": "ayrı bir akışta", "en": "its own flow" }, "icon": "Puzzle" } },
+          { "id": "why", "type": "note", "position": { "x": 280, "y": 230 }, "width": 240, "data": { "kind": "info", "title": { "tr": "Açıklama", "en": "Annotation" }, "text": { "tr": "Doğrulama adımları ayrı bir akışta çizilir.", "en": "The checks are drawn as a separate flow." } } },
+          { "id": "find", "type": "card", "position": { "x": 0, "y": 364 }, "width": 200, "data": { "tag": { "tr": "VERİTABANI", "en": "DATABASE" }, "title": { "tr": "Ödünç kaydını bul", "en": "Find the loan record" }, "subtitle": { "tr": "kitabın barkoduyla", "en": "by the book's barcode" }, "icon": "Database" } },
+          { "id": "overdue", "type": "decision", "position": { "x": 25, "y": 504 }, "data": { "title": { "tr": "Süresi geçmiş mi?", "en": "Overdue?" } } },
+          { "id": "slip", "type": "card", "position": { "x": 280, "y": 512 }, "width": 200, "data": { "tag": { "tr": "BELGE", "en": "DOCUMENT" }, "title": { "tr": "Ceza makbuzu yazdır", "en": "Print a late-fee slip" }, "subtitle": { "tr": "üyeye verilir", "en": "for the member" }, "icon": "FileText" } },
+          { "id": "close", "type": "card", "position": { "x": 0, "y": 664 }, "width": 200, "data": { "tag": { "tr": "VERİTABANI", "en": "DATABASE" }, "title": { "tr": "Kaydı kapat", "en": "Close the loan" }, "subtitle": { "tr": "iki dal burada birleşir", "en": "both branches merge here" }, "icon": "Database" } },
+          { "id": "reserved", "type": "decision", "position": { "x": 25, "y": 804 }, "data": { "title": { "tr": "Ayırtılmış mı?", "en": "Reserved?" } } },
+          { "id": "next", "type": "chip", "position": { "x": 280, "y": 839 }, "data": { "text": { "tr": "Ayırtma akışına geç", "en": "To the reservation flow" }, "icon": "Link" } },
+          { "id": "end", "type": "terminal", "position": { "x": 20, "y": 964 }, "width": 160, "data": { "title": { "tr": "Rafa kaldırıldı", "en": "Back on the shelf" } } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "member", "sourceHandle": "b", "targetHandle": "t" },
+          { "id": "e2", "source": "member", "target": "verify", "sourceHandle": "b", "targetHandle": "t" },
+          { "id": "e3", "source": "verify", "target": "find", "sourceHandle": "b", "targetHandle": "t" },
+          { "id": "e4", "source": "find", "target": "overdue", "sourceHandle": "b", "targetHandle": "t" },
+          { "id": "e5", "source": "overdue", "target": "slip", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "amber" } },
+          { "id": "e6", "source": "overdue", "target": "close", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "green" } },
+          { "id": "e7", "source": "slip", "target": "close", "sourceHandle": "b", "targetHandle": "r" },
+          { "id": "e8", "source": "close", "target": "reserved", "sourceHandle": "b", "targetHandle": "t" },
+          { "id": "e9", "source": "reserved", "target": "next", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "amber" } },
+          { "id": "e10", "source": "reserved", "target": "end", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "green" } },
+          { "id": "e11", "source": "why", "target": "verify", "sourceHandle": "l", "targetHandle": "r", "data": { "line": "dotted", "color": "muted", "arrow": "none" } }
+        ]
+      }
+    }
+  }
+}

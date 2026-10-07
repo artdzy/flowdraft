@@ -1,4 +1,5 @@
 import { t } from '../i18n';
+import { guideHref } from '../lib/guides';
 import { nativeApp } from '../lib/platform';
 import { useTheme } from '../store/theme';
 
@@ -21,6 +22,12 @@ export function Credit() {
             · <a href="/tanitim">{t('Tanıtım', 'Product tour')}</a>
           </>
         )}
+        {/* Plain links to the guide pages, so search engines reach them from every page of the app. */}
+        {' '}
+        · <a href={guideHref('what')}>{t('Akış diyagramı nedir?', 'What is a flowchart?')}</a> ·{' '}
+        <a href={guideHref('examples')}>{t('Akış diyagramı örnekleri', 'Flowchart examples')}</a> ·{' '}
+        <a href={guideHref('symbols')}>{t('Akış diyagramı sembolleri', 'Flowchart symbols')}</a> ·{' '}
+        <a href={guideHref('ai')}>{t('Yapay zekâ ile akış diyagramı', 'ChatGPT flowcharts')}</a>
       </span>
       <a
         className="wsy-credit__link"
