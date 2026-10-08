@@ -37,6 +37,10 @@
   --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
   --topbar-h: 52px;
   --mobilebar-h: 64px;
+  /* Side insets: iPhone landscape notch, and the camera and side bars on iPhone Duo. */
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-x: calc(var(--safe-left) + var(--safe-right));
 }
 
 :root[data-theme='light'] {
@@ -96,6 +100,8 @@ body,
 }
 
 body {
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
@@ -1571,7 +1577,10 @@ span.fd-editing:not(.fd-tag) {
 /* ---------- Modal ---------- */
 
 .fd-modal {
-  width: min(520px, calc(100vw - 32px));
+  /* Centred between the side insets rather than on the whole screen. */
+  left: var(--safe-left);
+  right: var(--safe-right);
+  width: min(520px, calc(100vw - 32px - var(--safe-x)));
   max-height: min(680px, calc(100dvh - 32px));
   padding: 0;
   border-radius: 14px;
@@ -1583,7 +1592,7 @@ span.fd-editing:not(.fd-tag) {
 }
 
 .fd-modal.is-narrow {
-  width: min(400px, calc(100vw - 32px));
+  width: min(400px, calc(100vw - 32px - var(--safe-x)));
 }
 
 .fd-modal::backdrop {
@@ -1721,7 +1730,7 @@ span.fd-editing:not(.fd-tag) {
 
 .fd-toasts {
   position: fixed;
-  left: 50%;
+  left: calc(50% + (var(--safe-left) - var(--safe-right)) / 2);
   bottom: 24px;
   z-index: 100;
   display: grid;
@@ -1742,7 +1751,7 @@ span.fd-editing:not(.fd-tag) {
   background: var(--panel-3);
   box-shadow: 0 10px 30px var(--shadow);
   font-size: 13.5px;
-  max-width: calc(100vw - 32px);
+  max-width: calc(100vw - 32px - var(--safe-x));
 }
 
 .fd-toast.tone-error {
@@ -1774,8 +1783,8 @@ span.fd-editing:not(.fd-tag) {
 
 .fd-sheet {
   position: fixed;
-  left: 0;
-  right: 0;
+  left: var(--safe-left);
+  right: var(--safe-right);
   bottom: calc(var(--mobilebar-h) + env(safe-area-inset-bottom));
   z-index: 40;
   display: grid;
@@ -2581,7 +2590,7 @@ ul.fd-guide-features {
 
 /* The same video as a welcome dialog in the app: sized so the whole clip fits the screen height. */
 .fd-modal.fd-promo-modal {
-  width: min(880px, calc(100vw - 32px), calc((100dvh - 200px) * 16 / 9));
+  width: min(880px, calc(100vw - 32px - var(--safe-x)), calc((100dvh - 200px) * 16 / 9));
   max-height: calc(100dvh - 32px);
 }
 
@@ -2668,7 +2677,7 @@ ul.fd-promo-features {
 /* ---------- What's new (src/components/WhatsNewDialog.tsx) ---------- */
 
 .fd-modal.fd-whatsnew-modal {
-  width: min(520px, calc(100vw - 32px));
+  width: min(520px, calc(100vw - 32px - var(--safe-x)));
 }
 
 .fd-whatsnew {
@@ -2920,7 +2929,7 @@ ul.fd-promo-features {
 }
 
 .fd-modal.fd-admin-flow-modal {
-  width: min(1100px, calc(100vw - 32px));
+  width: min(1100px, calc(100vw - 32px - var(--safe-x)));
   max-height: calc(100dvh - 32px);
 }
 
