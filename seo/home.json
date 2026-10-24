@@ -1,0 +1,214 @@
+{
+  "tr": {
+    "kicker": "Ücretsiz akış diyagramı programı",
+    "h1": "Ücretsiz online akış diyagramı çizme programı",
+    "lead": "flowdraft, bilgisayarda, telefonda ve tablette tarayıcıda çalışan ücretsiz bir akış diyagramı programı. Açtığın anda çizmeye başlarsın: kurulum yok, hesap açmak gerekmez. Adım, karar ve başla/bitir kutularını tuvale sürükle, oklarla bağla; buluta kaydetmek ya da PNG, SVG veya JSON olarak dışa aktarmak istediğinde ücretsiz bir hesapla giriş yap.",
+    "facts": ["Ücretsiz", "Çizmek için hesap gerekmez", "Telefonda ve tablette çalışır", "PNG, SVG ve JSON dışa aktarma", "Türkçe ve İngilizce"],
+    "start": "Çizmeye başla",
+    "more": { "text": "Akış diyagramı örneklerine bak", "href": "/akis-diyagrami-ornekleri" },
+    "noscript": "Akış diyagramı editörü JavaScript ister; çizmek için JavaScript'i aç. Aşağıdaki rehberler JavaScript olmadan da çalışır.",
+    "sections": [
+      {
+        "id": "online-akis-diyagrami-cizme",
+        "h2": "4 adımda online akış diyagramı çiz",
+        "blocks": [
+          {
+            "steps": [
+              "**Editörü aç.** Bu sayfanın en üstünde, hemen kullanıma hazır. Boş tuvalle başla ya da **Dosya → Yeni akış** menüsünden bir şablon seç.",
+              "**Kutuları ekle.** Soldaki parçalar panelinden **Başla / Bitir**, **Adım** ve **Karar** parçalarını tuvale sürükle. Telefonda alttaki **Ekle** düğmesine dokun.",
+              "**Oklarla bağla.** Bir kutunun kenarındaki noktadan diğer kutuya sürükle. Karardan çıkan her oku seç ve “Evet” ya da “Hayır” diye etiketle.",
+              "**Kaydet ve dışa aktar.** Çizimin bu cihazda taslak olarak saklanır. Buluta kaydetmek, otomatik kaydetmeyi açmak ve PNG görsel, SVG vektör ya da düzenlenebilir JSON indirmek için ücretsiz hesapla giriş yap."
+            ]
+          },
+          { "p": "Planlama ipuçları, kulvarlar ve kısayollar için [akış diyagramı nasıl çizilir](/akis-diyagrami#nasil-cizilir) rehberine bak." }
+        ]
+      },
+      {
+        "id": "neler-cizebilirsin",
+        "h2": "Bu akış diyagramı programıyla neler çizebilirsin?",
+        "blocks": [
+          { "p": "flowdraft'ın hazır parçaları en çok ihtiyaç duyulan akış şemalarını karşılar:" },
+          {
+            "ul": [
+              "**İş süreci akış şemaları:** sipariş, iade, onay ve işe alım süreçleri.",
+              "**Algoritma akış diyagramları:** [üç sayıdan en büyüğünü bulan akış diyagramı](/akis-diyagrami-ornekleri#uc-sayidan-en-buyugu), [tek mi çift mi](/akis-diyagrami-ornekleri#tek-mi-cift-mi) ve [faktöriyel](/akis-diyagrami-ornekleri#faktoriyel) gibi programlama dersi örnekleri.",
+              "**Kulvarlı (swimlane) diyagramlar:** her adımı hangi kişinin, ekibin ya da sistemin yaptığını gösterir.",
+              "**İş akışı ve otomasyon şemaları:** bot, sistem, veritabanı ve insan onayı adımlarıyla.",
+              "**Chatbot ve konuşma akışları:** konuşma balonlarıyla."
+            ]
+          },
+          { "figure": "guide-leave-approval" }
+        ]
+      },
+      {
+        "id": "ozellikler",
+        "h2": "Ücretsiz akış diyagramı programının özellikleri",
+        "blocks": [{ "features": true }]
+      },
+      {
+        "id": "akis-diyagrami-sembolleri",
+        "h2": "Akış diyagramı sembolleri hazır",
+        "blocks": [
+          {
+            "p": "Parçalar paneli standart akış diyagramı sembollerini karşılar: oval **Başla / Bitir**, her iş için **Adım**, evet/hayır soruları için eşkenar dörtgen **Karar** ve akışın yönünü gösteren oklar; bunlara ek olarak kişi, bot, sistem, veritabanı, not ve kulvar parçaları. Girdi ve çıktı için GİRDİ ya da ÇIKTI etiketli bir Adım kartı kullan. Tüm şekiller ve anlamları [akış diyagramı sembolleri](/akis-diyagrami-sembolleri) rehberinde."
+          }
+        ]
+      },
+      {
+        "id": "yapay-zeka",
+        "h2": "ChatGPT ya da Claude ile akış diyagramı çiz",
+        "blocks": [
+          {
+            "p": "flowdraft'ı https://flowdraft.tech/mcp adresiyle ChatGPT, Claude, Claude Code, Cursor ya da VS Code'a MCP sunucusu olarak ekle. Süreci sohbette anlat; yapay zekâ onu hesabında gerçek bir akış diyagramı olarak çizer. Claude ve ChatGPT diyagramın resmini sohbette gösterir, sen de burada düzenlemeye devam edersin. Kurulum için [yapay zekâ ile akış diyagramı](/yapay-zeka-ile-akis-diyagrami) rehberine ve [MCP kurulum sayfasına](/mcp) bak."
+          }
+        ]
+      },
+      {
+        "id": "rehberler",
+        "h2": "Akış diyagramı rehberleri ve örnekleri",
+        "blocks": [
+          {
+            "links": [
+              { "href": "/akis-diyagrami", "title": "Akış diyagramı nedir?", "text": "Akış diyagramının anlamı, türleri ve sembolleri; adım adım nasıl çizileceği." },
+              { "href": "/akis-diyagrami-sembolleri", "title": "Akış diyagramı sembolleri ve anlamları", "text": "Sık kullanılan 19 şekil, en çok kullanılan 5'i ve doğru kullanma kuralları." },
+              { "href": "/akis-diyagrami-ornekleri", "title": "Akış diyagramı örnekleri", "text": "Üç sayıdan en büyüğü, tek mi çift mi, faktöriyel, 1'den N'ye toplam, sipariş süreci ve fazlası; hepsi düzenlenebilir." },
+              { "href": "/yapay-zeka-ile-akis-diyagrami", "title": "Yapay zekâ ile akış diyagramı", "text": "ChatGPT ve Claude'dan akış diyagramı almanın üç yolu ve flowdraft MCP sunucusunun kurulumu." },
+              { "href": "/tanitim", "title": "30 saniyelik tanıtım", "text": "flowdraft'ı kısa bir videoda gör." }
+            ]
+          }
+        ]
+      }
+    ],
+    "faqTitle": "Sık sorulan sorular",
+    "faq": [
+      {
+        "q": "Ücretsiz online akış diyagramı nasıl çizilir?",
+        "a": "flowdraft'ı tarayıcıda aç, Başla / Bitir, Adım ve Karar parçalarını tuvale sürükle ve oklarla bağla. Çizmek için hesap gerekmez; buluta kaydetmek ve PNG, SVG ya da JSON olarak dışa aktarmak için ücretsiz hesapla giriş yap."
+      },
+      {
+        "q": "Bir şey indirmem ya da kurmam gerekir mi?",
+        "a": "Hayır. flowdraft her güncel tarayıcıda çalışır. Telefonda ve tablette ana ekrana uygulama (PWA) olarak da ekleyebilirsin."
+      }
+    ],
+    "foot": {
+      "guides": "Rehberler",
+      "product": "flowdraft",
+      "legal": "Yasal",
+      "tagline": "Ücretsiz online akış diyagramı editörü.",
+      "links": {
+        "/tanitim": "Tanıtım videosu",
+        "/mcp": "Yapay zekâ bağlantısı (MCP)",
+        "/destek": "Destek",
+        "/gizlilik": "Gizlilik",
+        "/kullanim-sartlari": "Kullanım şartları"
+      },
+      "other": "English"
+    }
+  },
+  "en": {
+    "kicker": "Free flowchart maker",
+    "h1": "Free online flowchart maker",
+    "lead": "flowdraft is a free flowchart maker that runs in your browser on computers, phones and tablets. Open it and start drawing right away: nothing to install, no account to create. Drag in steps, decisions and start/end shapes, join them with arrows, and sign in with a free account when you want to save to the cloud or export a PNG, SVG or JSON file.",
+    "facts": ["Free", "No account needed to draw", "Works on phones and tablets", "Export to PNG, SVG and JSON", "English and Turkish"],
+    "start": "Start drawing",
+    "more": { "text": "See flowchart examples", "href": "/flowchart-examples" },
+    "noscript": "The flowchart editor needs JavaScript; turn it on to draw. The guides below work without it.",
+    "sections": [
+      {
+        "id": "how-to-make-a-flowchart-online",
+        "h2": "How to make a flowchart online in 4 steps",
+        "blocks": [
+          {
+            "steps": [
+              "**Open the editor.** It fills the top of this page and is ready at once. Start on the blank canvas or pick a template under **File → New flow**.",
+              "**Add shapes.** Drag **Start / End**, **Step** and **Decision** from the parts panel on the left onto the canvas. On a phone, tap **Add** at the bottom.",
+              "**Connect them.** Drag from a dot on one box's edge to another box. Select each arrow that leaves a decision and label it “Yes” or “No”.",
+              "**Save and export.** Your drawing stays on this device as a draft. Sign in with a free account to save it to the cloud, turn on auto-save and export a PNG image, an SVG vector or editable JSON."
+            ]
+          },
+          { "p": "For planning tips, swimlanes and shortcuts, read the full guide on [how to make a flowchart](/what-is-a-flowchart#how-to-make-a-flowchart)." }
+        ]
+      },
+      {
+        "id": "what-you-can-draw",
+        "h2": "What you can draw with this flowchart maker",
+        "blocks": [
+          { "p": "flowdraft's ready-made parts cover the flowcharts most people need:" },
+          {
+            "ul": [
+              "**Process flowcharts** for orders, refunds, approvals and onboarding.",
+              "**Algorithm flowcharts** for programming classes, such as the [flowchart to find the largest of three numbers](/flowchart-examples#largest-of-three), [even or odd](/flowchart-examples#even-or-odd) and [factorial](/flowchart-examples#factorial).",
+              "**Swimlane diagrams** that show which person, team or system does each step.",
+              "**Workflow and automation diagrams** with bots, systems, databases and human approval steps.",
+              "**Chatbot and conversation flows** drawn with chat bubbles."
+            ]
+          },
+          { "figure": "guide-leave-approval" }
+        ]
+      },
+      {
+        "id": "features",
+        "h2": "Features of the free flowchart maker",
+        "blocks": [{ "features": true }]
+      },
+      {
+        "id": "flowchart-symbols",
+        "h2": "Flowchart symbols, ready to drag in",
+        "blocks": [
+          {
+            "p": "The parts panel covers the standard flowchart symbols: an oval **Start / End**, a **Step** for each action, a **Decision** diamond for yes/no questions and arrows for the direction of flow, plus person, bot, system, database, note and swimlane parts. For input and output, use a Step card tagged INPUT or OUTPUT. Every shape and its meaning is in the guide to [flowchart symbols](/flowchart-symbols)."
+          }
+        ]
+      },
+      {
+        "id": "ai",
+        "h2": "Make a flowchart with ChatGPT or Claude",
+        "blocks": [
+          {
+            "p": "Add flowdraft to ChatGPT, Claude, Claude Code, Cursor or VS Code as an MCP server at https://flowdraft.tech/mcp. Describe a process in the chat and the AI draws it as a real flowchart in your account. Claude and ChatGPT show a picture of it in the chat, and you can keep editing it here. For setup, see [flowcharts with ChatGPT or Claude](/chatgpt-flowchart) and the [MCP setup page](/mcp)."
+          }
+        ]
+      },
+      {
+        "id": "guides",
+        "h2": "Flowchart guides and examples",
+        "blocks": [
+          {
+            "links": [
+              { "href": "/what-is-a-flowchart", "title": "What is a flowchart?", "text": "The meaning of a flowchart, its main types and symbols, and how to make one step by step." },
+              { "href": "/flowchart-symbols", "title": "Flowchart symbols and their meanings", "text": "All 19 common shapes, the 5 you'll use most and the rules for using them." },
+              { "href": "/flowchart-examples", "title": "Flowchart examples", "text": "Largest of three numbers, even or odd, factorial, sum of 1 to N, an order process and more, each ready to edit." },
+              { "href": "/chatgpt-flowchart", "title": "Flowcharts with ChatGPT or Claude", "text": "Three ways to get a flowchart from AI, and how to connect the flowdraft MCP server." },
+              { "href": "/tanitim", "title": "30-second product tour", "text": "See flowdraft in action in a short video." }
+            ]
+          }
+        ]
+      }
+    ],
+    "faqTitle": "Frequently asked questions",
+    "faq": [
+      {
+        "q": "How do I make a flowchart online for free?",
+        "a": "Open flowdraft in your browser, drag Start / End, Step and Decision shapes onto the canvas and connect them with arrows. Drawing needs no account; sign in with a free account to save to the cloud and export PNG, SVG or JSON."
+      },
+      {
+        "q": "Do I need to download or install anything?",
+        "a": "No. flowdraft runs in any modern browser. On a phone or tablet you can also add it to your home screen as an app (PWA)."
+      }
+    ],
+    "foot": {
+      "guides": "Guides",
+      "product": "flowdraft",
+      "legal": "Legal",
+      "tagline": "The free online flowchart maker.",
+      "links": {
+        "/tanitim": "Product tour",
+        "/mcp": "Connect AI tools (MCP)",
+        "/destek": "Support",
+        "/gizlilik": "Privacy",
+        "/kullanim-sartlari": "Terms of use"
+      },
+      "other": "Türkçe"
+    }
+  }
+}

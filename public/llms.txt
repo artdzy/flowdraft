@@ -15,7 +15,7 @@ Good for: process maps, business workflows, automation and integration flows, ch
 
 ## Pages
 
-- [flowdraft editor](https://flowdraft.tech/): open the editor and start drawing right away
+- [Free online flowchart maker](https://flowdraft.tech/): the editor, ready to draw at once; below it, how to make a flowchart online, features, guides and FAQ
 - [Product tour](https://flowdraft.tech/tanitim): 30-second video, feature list and FAQ
 - [Use flowdraft with AI (MCP setup guide)](https://flowdraft.tech/mcp): how to connect ChatGPT, Claude, Claude Code, Cursor and VS Code
 - [Support](https://flowdraft.tech/destek): getting started, saving and sharing, deleting an account, contact
@@ -32,7 +32,7 @@ Plain HTML articles (no JavaScript needed) with example diagrams that open in th
 - [Akış diyagramı nedir?](https://flowdraft.tech/akis-diyagrami): the same guide in Turkish
 - [Flowchart symbols](https://flowdraft.tech/flowchart-symbols): the standard flowchart shapes, what each one means and how to draw it in flowdraft
 - [Akış diyagramı sembolleri](https://flowdraft.tech/akis-diyagrami-sembolleri): flowchart symbols in Turkish
-- [Flowchart examples](https://flowdraft.tech/flowchart-examples): ready-made flowchart examples for algorithms, business processes and daily tasks, each one editable
+- [Flowchart examples](https://flowdraft.tech/flowchart-examples): nine editable flowchart examples: algorithms (largest of three numbers, even or odd, grade average, sum of 1 to N, factorial) and processes (e-commerce order, support ticket, login and password reset)
 - [Akış diyagramı örnekleri](https://flowdraft.tech/akis-diyagrami-ornekleri): flowchart examples in Turkish
 - [Make a flowchart with ChatGPT or Claude](https://flowdraft.tech/chatgpt-flowchart): drawing and editing flowcharts with AI assistants over MCP
 - [Yapay zekâ ile akış diyagramı](https://flowdraft.tech/yapay-zeka-ile-akis-diyagrami): AI flowcharts with ChatGPT and Claude, in Turkish

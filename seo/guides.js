@@ -878,6 +878,37 @@ ${faq}
       return guides.map((g) => ({ path: g[lang].path, title: g[lang].title, name: g[lang].breadcrumb }));
     },
 
+    /** The language of a guide page, or undefined when the path isn't one: for other pages' link checks. */
+    langOf(pagePath) {
+      return byPath.get(pagePath)?.lang;
+    },
+
+    /** Whether an example id exists and drew its diagram documents without errors. */
+    hasExample(id) {
+      return examples.has(id);
+    },
+
+    /**
+     * An example's picture for another page (the home page): the 2x picture with a 1x/2x srcset when the 1x one is
+     * smaller, its size, title and caption, and the editor link. Null when the example is unknown or failed to draw.
+     */
+    figure(lang, id) {
+      const ex = examples.get(id);
+      const pic = ex && picture(lang, id);
+      if (!pic) return null;
+      const small = picture(lang, id, 1);
+      return {
+        src: pictureUrl(lang, id),
+        srcset: small && small.width < pic.width ? `${pictureUrl(lang, id, 1)} ${small.width}w, ${pictureUrl(lang, id)} ${pic.width}w` : '',
+        width: pic.width,
+        height: pic.height,
+        title: ex.text[lang].title,
+        caption: ex.text[lang].caption,
+        open: `/?lang=${lang}&ornek=${id}`,
+        openText: UI[lang].openExample,
+      };
+    },
+
     /** One sitemap entry per page and language, with the TR/EN pair as alternates (x-default: English). */
     sitemapEntries() {
       return guides.flatMap((g) => {

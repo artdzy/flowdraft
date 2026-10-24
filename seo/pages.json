@@ -4,14 +4,14 @@
   "pages": {
     "/": {
       "priority": "1.0",
-      "updated": "2026-10-07",
+      "updated": "2026-10-24",
       "tr": {
         "title": "Online Akış Diyagramı Çizme Programı (Ücretsiz) · flowdraft",
         "description": "Tarayıcıda ve telefonda çalışan ücretsiz akış diyagramı editörü. Hesap açmadan çiz; süreç, otomasyon ve konuşma akışlarını PNG, SVG ya da JSON olarak dışa aktar."
       },
       "en": {
-        "title": "Free Online Flowchart Maker in Your Browser · flowdraft",
-        "description": "Free flowchart editor for your browser and phone. Start drawing without an account; map processes, automations and chat flows, then export PNG, SVG or JSON."
+        "title": "Free Online Flowchart Maker, No Sign-Up to Draw · flowdraft",
+        "description": "Make flowcharts online for free: drag in shapes, connect them with arrows and start drawing at once, no account needed. Sign in free to save and export."
       }
     },
     "/tanitim": {

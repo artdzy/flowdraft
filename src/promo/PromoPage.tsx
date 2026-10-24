@@ -161,7 +161,7 @@ export function PromoPage() {
           ))}
         </ul>
 
-        {/* Same questions as the FAQPage structured data server.js adds to this page (seo/pages.json). */}
+        {/* The shared questions in seo/pages.json; their FAQPage structured data is on the home page (seo.js). */}
         <section className="fd-promo-faq" aria-labelledby="fd-promo-faq-title">
           <h2 id="fd-promo-faq-title">{t('Sık sorulan sorular', 'Frequently asked questions')}</h2>
           {seo.faq.map((item) => (
