@@ -37,7 +37,14 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: tech.flowdraft.app
         PRODUCT_NAME: Flowdraft
-        TARGETED_DEVICE_FAMILY: "1,2"
+        # 1 iPhone, 2 iPad, 6 Mac (Mac Catalyst, "Optimize interface for Mac": native text sizes for the web view).
+        TARGETED_DEVICE_FAMILY: "1,2,6"
+        # Mac App Store build of the same app (same bundle id and App Store record), via Mac Catalyst.
+        SUPPORTS_MACCATALYST: YES
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER: NO
+        MACOSX_DEPLOYMENT_TARGET: "15.0"
+        "CODE_SIGN_ENTITLEMENTS[sdk=macosx*]": Flowdraft/Mac.entitlements
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         ENABLE_USER_SCRIPT_SANDBOXING: YES

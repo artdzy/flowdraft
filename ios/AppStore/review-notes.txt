@@ -1,5 +1,5 @@
 1. SCREEN RECORDING
-Attached: a screen recording from a physical iPad on the latest iPadOS, installed from TestFlight. It starts on the Home Screen and shows: starting from a template, editing and connecting boxes, exporting a PNG through the share sheet, signing in with the demo account, saving and reopening the diagram from "My projects", and account deletion in the account menu. That iPad is set to Turkish, so the recording shows the Turkish UI; on devices set to any other language the app is in English with the same screens (glossary in section 3).
+Attached: a screen recording of this build on an iPad Pro 13-inch simulator (iPadOS 27, English UI). It shows: starting from the Automation template, retitling a box in the right panel, exporting a PNG through the share sheet, signing in with the demo account, saving, opening "My projects", and the account-deletion confirmation under Profile (cancelled). On devices set to Turkish the app shows the same screens in Turkish (glossary in section 3).
 
 2. PURPOSE AND AUDIENCE
 flowdraft is a flowchart editor for people who plan processes: product and operations teams, developers and students sketching a workflow, an automation, a software architecture or a customer conversation. Users drag ready-made parts (steps, decisions, people, systems, notes, lanes) onto a canvas, connect them with arrows and export PNG, SVG or editable JSON. The editor runs entirely on the device from code bundled in the app, so it opens instantly and works offline; the drawing is kept on the device automatically. A free account is optional and only adds cloud saving.
@@ -13,7 +13,7 @@ No account is needed for drawing, importing or exporting. For the account featur
 - Account (optional): "Sign in" (top right) > enter the demo email and password > "Sign in". Then "Save" stores the diagram in the account; "File" > "My projects" lists saved diagrams; the "Auto-save" switch turns on auto-save.
 - Account deletion: when signed in, tap the round account button (top right, the email's first letter) > "Profile" > "Delete account" > confirm. The account and all its saved diagrams are deleted immediately and permanently. You may test this with the demo account.
 - iPhone (portrait, compact layout): File, Export, Sign in and account items are in the ☰ menu (top right); the bottom bar has Add, undo/redo, edit panel, delete and fit.
-- Turkish labels seen in the recording: Dosya = File, Projelerim = My projects, Dışa aktar = Export, Kaydet = Save, Giriş yap = Sign in, Profil = Profile, Hesabı sil = Delete account, Otomatik kaydet = Auto-save, Otomasyon = Automation.
+- Turkish labels: Dosya = File, Projelerim = My projects, Dışa aktar = Export, Kaydet = Save, Giriş yap = Sign in, Profil = Profile, Hesabı sil = Delete account, Otomatik kaydet = Auto-save, Otomasyon = Automation.
 
 4. EXTERNAL SERVICES
 - flowdraft's own backend at flowdraft.tech (self-hosted Supabase: auth and database) stores accounts (email, password hash) and diagrams saved to an account. It is only contacted to sign up, sign in or save. Diagrams are JSON; images and files cannot be uploaded.

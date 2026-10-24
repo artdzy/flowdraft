@@ -1,4 +1,8 @@
-# App Store kaydı — flowdraft (iPhone + iPad)
+# App Store kaydı — flowdraft (iPhone + iPad + Mac)
+
+- macOS sürümü aynı kayıt ve aynı bundle ID (Mac Catalyst, `project.yml`: `SUPPORTS_MACCATALYST`, cihaz ailesi 1,2,6 = Mac arayüzü; macOS 15+; `Flowdraft/Mac.entitlements` sandbox + ağ + kullanıcı seçimli dosya). Mac'te dışa aktarma kaydetme penceresi, bağlantılar varsayılan tarayıcı. ASC macOS sürümü 1.0 (2026-10-24), metinler aşağıdaki iPhone/iPad metinlerinin Mac uyarlaması (ASC'de), inceleme notları `review-notes-mac.txt`, ekran görüntüleri `screenshots/*-mac-*` (2880×1800, Debug build + `FLOWDRAFT_DEBUG_WINDOW=1440x900` + `FLOWDRAFT_DEBUG_SNAPSHOT`).
+- Demo hesap (App Review, iki platform): `appreview@flowdraft.tech`; parola Keychain'de `flowdraft-appstore-demo` öğesinde ve ASC "Sign-In Information" alanlarında.
+- Mac arşiv/yükleme: `xcodebuild archive -destination 'generic/platform=macOS,variant=Mac Catalyst'` + aynı `ExportOptions.plist` (3rd Party Mac Developer Installer sertifikası gerekir). Kimlik için `-allowProvisioningUpdates -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_XP2X24JU5D.p8 -authenticationKeyID XP2X24JU5D -authenticationKeyIssuerID <issuer>`.
 
 - Bundle ID: `tech.flowdraft.app` · SKU: `flowdraft-ipad` · Birincil dil: English (U.S.), ek dil: Türkçe · iPhone ve iPad (iOS/iPadOS 18+; iPhone'da yalnız dikey)
 - Uygulama dili cihaza göre: Türkçe cihazda Türkçe, diğer her dilde İngilizce (`src/i18n.ts`)

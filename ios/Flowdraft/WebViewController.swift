@@ -23,6 +23,12 @@ final class WebViewController: UIViewController {
         config.userContentController.addUserScript(
             WKUserScript(source: Self.viewportScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
         )
+        #if targetEnvironment(macCatalyst)
+        // The web app leaves room for the window's traffic lights in its own top bar (styles.css, html[data-platform='mac']).
+        config.userContentController.addUserScript(
+            WKUserScript(source: "document.documentElement.dataset.platform = 'mac';", injectionTime: .atDocumentStart, forMainFrameOnly: true)
+        )
+        #endif
 
         let webView = WKWebView(frame: .zero, configuration: config)
         webView.navigationDelegate = self
@@ -46,6 +52,18 @@ final class WebViewController: UIViewController {
         webView.load(URLRequest(url: BundleSchemeHandler.startURL))
     }
 
+    #if targetEnvironment(macCatalyst)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let scene = view.window?.windowScene else { return }
+        // The editor needs room for its side panels; the desktop layout starts at 960 px.
+        scene.sizeRestrictions?.minimumSize = CGSize(width: 980, height: 640)
+        // No separate title bar: the editor's own top bar runs edge to edge and the traffic lights sit inside it.
+        scene.titlebar?.titleVisibility = .hidden
+        scene.titlebar?.toolbar = nil
+    }
+    #endif
+
     /// Links leave the app: flowdraft pages (legal texts, AI guide) open from flowdraft.tech in a Safari sheet.
     private func openExternally(_ url: URL) {
         var target = url
@@ -55,12 +73,17 @@ final class WebViewController: UIViewController {
             parts.host = Self.site.host
             target = parts.url ?? Self.site
         }
+        #if targetEnvironment(macCatalyst)
+        // On the Mac every link opens in the default browser.
+        UIApplication.shared.open(target)
+        #else
         guard ["http", "https"].contains(target.scheme?.lowercased() ?? "") else {
             UIApplication.shared.open(target)
             return
         }
         guard presentedViewController == nil else { return }
         present(SFSafariViewController(url: target), animated: true)
+        #endif
     }
 
     private func share(_ data: Data, filename: String) {
@@ -74,6 +97,13 @@ final class WebViewController: UIViewController {
             showMessage(String(localized: "The file could not be prepared. Try again."))
             return
         }
+        guard presentedViewController == nil else { return }
+        #if targetEnvironment(macCatalyst)
+        // The Mac shows a save panel (the sandbox then grants access to the chosen location).
+        let picker = UIDocumentPickerViewController(forExporting: [file], asCopy: true)
+        picker.shouldShowFileExtensions = true
+        present(picker, animated: true)
+        #else
         let sheet = UIActivityViewController(activityItems: [file], applicationActivities: nil)
         if let popover = sheet.popoverPresentationController {
             // Both the export menu and the compact menu button sit at the top right.
@@ -81,8 +111,8 @@ final class WebViewController: UIViewController {
             popover.sourceRect = CGRect(x: view.bounds.maxX - 110, y: view.safeAreaInsets.top + 44, width: 1, height: 1)
             popover.permittedArrowDirections = .up
         }
-        guard presentedViewController == nil else { return }
         present(sheet, animated: true)
+        #endif
     }
 
     private func showMessage(_ message: String) {
@@ -116,6 +146,11 @@ extension WebViewController: WKScriptMessageHandler {
             share(data, filename: filename)
         case "copy":
             UIPasteboard.general.string = body["text"] as? String
+        #if DEBUG
+        case "debugDismiss":
+            // Screen-recording hook: closes the share sheet or alert the script opened.
+            presentedViewController?.dismiss(animated: true)
+        #endif
         default:
             break
         }
@@ -204,13 +239,31 @@ extension WebViewController {
     /// `SIMCTL_CHILD_FLOWDRAFT_DEBUG_LANDSCAPE=1` turns the window to landscape first (simctl cannot rotate).
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         let env = ProcessInfo.processInfo.environment
+        #if targetEnvironment(macCatalyst)
+        // `FLOWDRAFT_DEBUG_WINDOW=1440x900` fixes the Mac window's content size (App Store screenshots).
+        if let size = env["FLOWDRAFT_DEBUG_WINDOW"]?.split(separator: "x").compactMap({ Double($0) }), size.count == 2,
+           let restrictions = view.window?.windowScene?.sizeRestrictions {
+            restrictions.minimumSize = CGSize(width: size[0], height: size[1])
+            restrictions.maximumSize = restrictions.minimumSize
+        }
+        #else
         if env["FLOWDRAFT_DEBUG_LANDSCAPE"] != nil {
             view.window?.windowScene?.requestGeometryUpdate(.iOS(interfaceOrientations: .landscapeLeft))
         }
+        #endif
         guard let script = env["FLOWDRAFT_DEBUG_JS"] else { return }
-        webView.callAsyncJavaScript(script, arguments: [:], in: nil, in: .page) { result in
+        webView.callAsyncJavaScript(script, arguments: [:], in: nil, in: .page) { [weak self] result in
             print("FLOWDRAFT_DEBUG_JS", result)
             fflush(stdout)
+            // `FLOWDRAFT_DEBUG_SNAPSHOT=/path.png` writes the web view's pixels once the script is done (App Store screenshots).
+            guard let self, let path = env["FLOWDRAFT_DEBUG_SNAPSHOT"], (try? result.get()) as? String != "reload" else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                self.webView.takeSnapshot(with: nil) { image, error in
+                    if let data = image?.pngData() { try? data.write(to: URL(fileURLWithPath: path)) }
+                    print("FLOWDRAFT_DEBUG_SNAPSHOT", image.map { "\(Int($0.size.width * $0.scale))x\(Int($0.size.height * $0.scale))" } ?? "none", error.map { "\($0)" } ?? "")
+                    fflush(stdout)
+                }
+            }
         }
     }
 }
