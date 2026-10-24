@@ -2,13 +2,13 @@
   "id": "examples",
   "priority": "0.8",
   "published": "2026-10-07",
-  "updated": "2026-10-07",
+  "updated": "2026-10-24",
   "tr": {
     "path": "/akis-diyagrami-ornekleri",
-    "title": "Akış diyagramı örnekleri: 8 algoritma ve süreç · flowdraft",
-    "description": "Akış diyagramı örnekleri: tek-çift sayı, not ortalaması, faktöriyel, sipariş ve giriş akışı. Algoritma adımlarıyla açıklamalı, tek tıkla ücretsiz düzenle.",
+    "title": "Akış diyagramı örnekleri: 9 algoritma ve süreç · flowdraft",
+    "description": "Akış diyagramı örnekleri: üç sayıdan en büyüğü, tek-çift sayı, faktöriyel, sipariş ve giriş akışı. Algoritma adımlarıyla açıklamalı, ücretsiz düzenle.",
     "h1": "Akış diyagramı örnekleri: algoritmalar ve iş süreçleri",
-    "lead": "Akış diyagramı örnekleri, bir algoritmanın ya da iş sürecinin adımlarını standart sembollerle gösterir: oval başla/bitir, dikdörtgen işlem, paralelkenar girdi/çıktı, eşkenar dörtgen karar. Aşağıda derslerde sık sorulan 5 algoritma ve gerçek hayattan 3 iş süreci var; her birinin adımları açıklanmış ve hepsi tek tıkla flowdraft'ta açılıp düzenlenebilir.",
+    "lead": "Akış diyagramı örnekleri, bir algoritmanın ya da iş sürecinin adımlarını standart sembollerle gösterir: oval başla/bitir, dikdörtgen işlem, paralelkenar girdi/çıktı, eşkenar dörtgen karar. Aşağıda derslerde sık sorulan 6 algoritma ve gerçek hayattan 3 iş süreci var; her birinin adımları açıklanmış ve hepsi tek tıkla flowdraft'ta açılıp düzenlenebilir.",
     "breadcrumb": "Akış diyagramı örnekleri",
     "sections": [
       {
@@ -19,7 +19,7 @@
             "p": "Her örnekte diyagram, kısa bir açıklama ve algoritma örneklerinde çizmeden önce yazılan numaralı adımlar var. Diyagramın altındaki **Bu örneği flowdraft'ta aç** düğmesi örneği editöre yükler; adımların adını değiştirebilir, kutu ekleyebilir, renkleri düzenleyebilirsin. Düzenlemek için hesap gerekmez, çizimin bu cihazda taslak olarak saklanır. PNG, SVG ya da JSON olarak dışa aktarmak için ücretsiz bir hesapla giriş yapman gerekir."
           },
           {
-            "p": "İlk beş örnek, programlama derslerinde sık sorulan algoritma akış şeması örnekleri. Son üçü e-ticaret, müşteri desteği ve yazılım ekiplerinin sık çizdiği süreçler. Akış diyagramına yeni başlıyorsan önce [akış diyagramı nedir](/akis-diyagrami) rehberine göz at."
+            "p": "İlk altı örnek, programlama derslerinde sık sorulan algoritma akış şeması örnekleri. Son üçü e-ticaret, müşteri desteği ve yazılım ekiplerinin sık çizdiği süreçler. Akış diyagramına yeni başlıyorsan önce [akış diyagramı nedir](/akis-diyagrami) rehberine göz at."
           }
         ]
       },
@@ -135,12 +135,50 @@
             ]
           },
           {
-            "tip": "**Üç sayıdan en büyüğünü** bulmak için aynı fikri iki kez kullan: önce A ile B'yi karşılaştırıp büyüğünü EB'ye ata, sonra “EB > C mi?” diye sor. İç içe kararlar yerine art arda iki karar olur ve diyagram sade kalır."
+            "tip": "**Üç sayıdan en büyüğünü** bulmak için aynı karşılaştırmaya bir karar daha eklenir; hemen aşağıdaki Örnek 3'te adım adım var."
           }
         ]
       },
       {
-        "h2": "Örnek 3: Sınav notu ortalaması ile geçti/kaldı",
+        "h2": "Örnek 3: Üç sayıdan en büyüğünü bulma",
+        "id": "uc-sayidan-en-buyugu",
+        "blocks": [
+          {
+            "p": "Derslerde en sık sorulan sorulardan biri: “Girilen üç sayıdan en büyüğünü bulan akış diyagramını çiziniz.” İlk karar A ile B'yi karşılaştırır, büyük olan ikinci kararda C ile karşılaştırılır. Diyagramda üç karar kutusu var ama her yol yalnızca iki soru sorar."
+          },
+          {
+            "example": "examples-max-of-three"
+          },
+          {
+            "h3": "Algoritması"
+          },
+          {
+            "ul": [
+              "Adım 1: Başla",
+              "Adım 2: A, B ve C sayılarını oku",
+              "Adım 3: A > B ise Adım 4'e, değilse Adım 5'e git",
+              "Adım 4: A > C ise A'yı, değilse C'yi yaz; Adım 6'ya git",
+              "Adım 5: B > C ise B'yi, değilse C'yi yaz",
+              "Adım 6: Bitir"
+            ]
+          },
+          {
+            "h3": "A = 7, B = 3, C = 9 ile adım adım"
+          },
+          {
+            "ol": [
+              "7 > 3 mü? Evet, akış soldaki kola geçer.",
+              "7 > 9 mu? Hayır, ekrana C yani 9 yazılır.",
+              "Akış Bitir'de sona erer."
+            ]
+          },
+          {
+            "tip": "Eşit sayılar sorun çıkarmaz: A = B = 5 ve C = 2 ise “A > B mi?” Hayır, “B > C mi?” Evet olur ve 5 yazılır. Daha kısa bir yazılışı da var: EB = A; B > EB ise EB = B; C > EB ise EB = C; EB'yi yaz. Bu yöntem bir döngüyle istediğin kadar sayıya uygulanabilir."
+          }
+        ]
+      },
+      {
+        "h2": "Örnek 4: Sınav notu ortalaması ile geçti/kaldı",
         "id": "not-ortalamasi",
         "blocks": [
           {
@@ -177,7 +215,7 @@
         ]
       },
       {
-        "h2": "Örnek 4: 1'den N'ye kadar sayıların toplamı (döngülü akış şeması)",
+        "h2": "Örnek 5: 1'den N'ye kadar sayıların toplamı (döngülü akış şeması)",
         "id": "toplam-1den-nye",
         "blocks": [
           {
@@ -222,7 +260,7 @@
         ]
       },
       {
-        "h2": "Örnek 5: Faktöriyel hesaplama akış diyagramı",
+        "h2": "Örnek 6: Faktöriyel hesaplama akış diyagramı",
         "id": "faktoriyel",
         "blocks": [
           {
@@ -270,7 +308,7 @@
         ]
       },
       {
-        "h2": "Örnek 6: E-ticaret sipariş ve kargo süreci (iş akış şeması örneği)",
+        "h2": "Örnek 7: E-ticaret sipariş ve kargo süreci (iş akış şeması örneği)",
         "id": "e-ticaret-siparis-sureci",
         "blocks": [
           {
@@ -294,7 +332,7 @@
         ]
       },
       {
-        "h2": "Örnek 7: Chatbot'tan temsilciye müşteri destek talebi",
+        "h2": "Örnek 8: Chatbot'tan temsilciye müşteri destek talebi",
         "id": "musteri-destek-talebi",
         "blocks": [
           {
@@ -318,7 +356,7 @@
         ]
       },
       {
-        "h2": "Örnek 8: Kullanıcı girişi ve şifre sıfırlama akışı",
+        "h2": "Örnek 9: Kullanıcı girişi ve şifre sıfırlama akışı",
         "id": "giris-ve-sifre-sifirlama",
         "blocks": [
           {
@@ -381,6 +419,10 @@
         "a": "Sayının 2'ye bölümünden kalanı bulup “K = 0 mı?” diye soran bir karar kutusu kullan: Evet ise sayı çift, Hayır ise tektir."
       },
       {
+        "q": "Üç sayıdan en büyüğü akış diyagramında nasıl bulunur?",
+        "a": "A, B ve C'yi oku ve “A > B mi?” diye sor. İkisinden büyük olanı ikinci bir kararda C ile karşılaştır (“A > C mi?” ya da “B > C mi?”) ve kazananı yaz. Her yol yalnızca iki soru sorar."
+      },
+      {
         "q": "Faktöriyel akış diyagramında F neden 1'den başlar?",
         "a": "1, çarpmada etkisiz elemandır: ilk tur F = 1 × 1 verir ve N = 0 girilirse sonuç doğru şekilde 1 çıkar (0! = 1)."
       },
@@ -396,10 +438,10 @@
   },
   "en": {
     "path": "/flowchart-examples",
-    "title": "Flowchart examples: 8 algorithms and processes · flowdraft",
-    "description": "Flowchart examples with step-by-step algorithms: even or odd, larger number, grade average, factorial, an order process and login. Edit any of them free.",
+    "title": "Flowchart Examples: 9 Algorithms and Processes · flowdraft",
+    "description": "Flowchart examples with algorithms: largest of three numbers, even or odd, factorial, sum of 1 to N, an order process and a login flow. All free to edit.",
     "h1": "Flowchart examples: algorithms and business processes",
-    "lead": "Flowchart examples show the steps of an algorithm or process with standard symbols: an oval for start and end, a rectangle for each step, a parallelogram for input and output and a diamond for decisions. Here are five classic algorithms and three real-world processes, each explained step by step and ready to open in flowdraft.",
+    "lead": "Flowchart examples show the steps of an algorithm or process with standard symbols: an oval for start and end, a rectangle for each step, a parallelogram for input and output and a diamond for decisions. Here are six classic algorithms, including the largest of three numbers, and three real-world processes, each explained step by step and ready to open in flowdraft.",
     "breadcrumb": "Flowchart examples",
     "sections": [
       {
@@ -410,7 +452,7 @@
             "p": "Each example has the diagram, a short explanation and, for algorithms, the numbered steps written before drawing. The **Open this example in flowdraft** button under each diagram loads it into the editor, where you can change anything. Editing needs no account; your drawing stays on your device as a draft. Exporting it as PNG, SVG or JSON requires a free account."
           },
           {
-            "p": "Examples 1 to 5 are the algorithm flowchart examples commonly set in programming classes; 6 to 8 are the kind of process flowcharts online shops, support teams and software teams draw. New to flowcharts? Start with [what a flowchart is](/what-is-a-flowchart)."
+            "p": "Examples 1 to 6 are the algorithm flowchart examples commonly set in programming classes; 7 to 9 are the kind of process flowcharts online shops, support teams and software teams draw. New to flowcharts? Start with [what a flowchart is](/what-is-a-flowchart)."
           }
         ]
       },
@@ -526,12 +568,50 @@
             ]
           },
           {
-            "tip": "For **the largest of three numbers**, store the larger of A and B in MAX, then ask “MAX > C?”. Two decisions in a row read more easily than nested ones."
+            "tip": "For **the largest of three numbers**, the same comparison gets one more decision; Example 3 just below walks through it."
           }
         ]
       },
       {
-        "h2": "Example 3: Grade average, pass or fail",
+        "h2": "Example 3: Find the largest of three numbers",
+        "id": "largest-of-three",
+        "blocks": [
+          {
+            "p": "The classic exercise “draw a flowchart to find the largest of three numbers”. The first decision compares A and B, and the larger one is then compared with C. The chart has three decisions, but every path through it asks only two questions."
+          },
+          {
+            "example": "examples-max-of-three"
+          },
+          {
+            "h3": "Algorithm"
+          },
+          {
+            "ul": [
+              "Step 1: Start",
+              "Step 2: Read A, B and C",
+              "Step 3: If A > B, go to Step 4, otherwise go to Step 5",
+              "Step 4: If A > C, print A, otherwise print C; go to Step 6",
+              "Step 5: If B > C, print B, otherwise print C",
+              "Step 6: End"
+            ]
+          },
+          {
+            "h3": "Walkthrough with A = 7, B = 3, C = 9"
+          },
+          {
+            "ol": [
+              "7 > 3? Yes, so the flow takes the left branch.",
+              "7 > 9? No, so C is printed: 9.",
+              "The flow ends."
+            ]
+          },
+          {
+            "tip": "Ties are safe: with A = B = 5 and C = 2, “A > B?” is No, “B > C?” is Yes and 5 is printed. A shorter way to write it keeps a running maximum: MAX = A; if B > MAX, MAX = B; if C > MAX, MAX = C; print MAX. Inside a loop, that works for any number of inputs."
+          }
+        ]
+      },
+      {
+        "h2": "Example 4: Grade average, pass or fail",
         "id": "grade-average",
         "blocks": [
           {
@@ -567,7 +647,7 @@
         ]
       },
       {
-        "h2": "Example 4: Sum of the numbers from 1 to N (loop)",
+        "h2": "Example 5: Sum of the numbers from 1 to N (loop)",
         "id": "sum-1-to-n",
         "blocks": [
           {
@@ -612,7 +692,7 @@
         ]
       },
       {
-        "h2": "Example 5: Factorial flowchart",
+        "h2": "Example 6: Factorial flowchart",
         "id": "factorial",
         "blocks": [
           {
@@ -660,7 +740,7 @@
         ]
       },
       {
-        "h2": "Example 6: E-commerce order and shipping (process flowchart example)",
+        "h2": "Example 7: E-commerce order and shipping (process flowchart example)",
         "id": "ecommerce-order",
         "blocks": [
           {
@@ -684,7 +764,7 @@
         ]
       },
       {
-        "h2": "Example 7: Support ticket from chatbot to human (workflow diagram example)",
+        "h2": "Example 8: Support ticket from chatbot to human (workflow diagram example)",
         "id": "support-ticket",
         "blocks": [
           {
@@ -708,7 +788,7 @@
         ]
       },
       {
-        "h2": "Example 8: Login and password reset flow",
+        "h2": "Example 9: Login and password reset flow",
         "id": "login-password-reset",
         "blocks": [
           {
@@ -766,6 +846,10 @@
       {
         "q": "How do you check if a number is even in a flowchart?",
         "a": "Use a decision such as “N mod 2 = 0?”: Yes means even, No means odd."
+      },
+      {
+        "q": "How do you find the largest of three numbers in a flowchart?",
+        "a": "Read A, B and C and ask “A > B?”. Compare the larger of the two with C in a second decision (“A > C?” or “B > C?”) and print the winner. Every path asks just two questions."
       },
       {
         "q": "Why does the factorial flowchart start F at 1?",
@@ -842,6 +926,44 @@
           { "id": "e4", "source": "check", "target": "b", "sourceHandle": "r", "targetHandle": "l", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
           { "id": "e5", "source": "a", "target": "end", "sourceHandle": "b", "targetHandle": "t", "data": {} },
           { "id": "e6", "source": "b", "target": "end", "sourceHandle": "b", "targetHandle": "r", "data": {} }
+        ]
+      }
+    },
+    "examples-max-of-three": {
+      "tr": {
+        "title": "Üç sayıdan en büyüğünü bulan akış diyagramı",
+        "caption": "Üç karar, üç çıktı: ilk soru hangi kola gidileceğini, ikinci soru en büyük sayıyı belirler.",
+        "slug": "uc-sayidan-en-buyugu-akis-diyagrami"
+      },
+      "en": {
+        "title": "Largest of three numbers flowchart",
+        "caption": "Three decisions, three outputs: the first question picks the branch, the second one finds the largest number.",
+        "slug": "largest-of-three-numbers-flowchart"
+      },
+      "doc": {
+        "nodes": [
+          { "id": "start", "type": "terminal", "position": { "x": 300, "y": 0 }, "width": 120, "height": 44, "data": { "title": { "tr": "Başla", "en": "Start" }, "tone": "default" } },
+          { "id": "read", "type": "card", "position": { "x": 260, "y": 84 }, "width": 200, "data": { "tag": { "tr": "GİRDİ", "en": "INPUT" }, "title": { "tr": "A, B ve C'yi oku", "en": "Read A, B and C" }, "subtitle": { "tr": "üç sayı", "en": "three numbers" }, "icon": "PenLine", "tone": "default", "highlight": false } },
+          { "id": "ab", "type": "decision", "position": { "x": 285, "y": 224 }, "width": 150, "height": 110, "data": { "title": { "tr": "A > B mi?", "en": "A > B?" }, "tone": "default" } },
+          { "id": "ac", "type": "decision", "position": { "x": 25, "y": 364 }, "width": 150, "height": 110, "data": { "title": { "tr": "A > C mi?", "en": "A > C?" }, "tone": "default" } },
+          { "id": "bc", "type": "decision", "position": { "x": 545, "y": 364 }, "width": 150, "height": 110, "data": { "title": { "tr": "B > C mi?", "en": "B > C?" }, "tone": "default" } },
+          { "id": "a", "type": "card", "position": { "x": 0, "y": 534 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "A'yı yaz", "en": "Print A" }, "subtitle": { "tr": "A en büyük", "en": "A is the largest" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "c", "type": "card", "position": { "x": 260, "y": 534 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "C'yi yaz", "en": "Print C" }, "subtitle": { "tr": "C en büyük", "en": "C is the largest" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "b", "type": "card", "position": { "x": 520, "y": 534 }, "width": 200, "data": { "tag": { "tr": "ÇIKTI", "en": "OUTPUT" }, "title": { "tr": "B'yi yaz", "en": "Print B" }, "subtitle": { "tr": "B en büyük", "en": "B is the largest" }, "icon": "Monitor", "tone": "default", "highlight": false } },
+          { "id": "end", "type": "terminal", "position": { "x": 300, "y": 694 }, "width": 120, "height": 44, "data": { "title": { "tr": "Bitir", "en": "End" }, "tone": "default" } }
+        ],
+        "edges": [
+          { "id": "e1", "source": "start", "target": "read", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e2", "source": "read", "target": "ab", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e3", "source": "ab", "target": "ac", "sourceHandle": "l", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e4", "source": "ab", "target": "bc", "sourceHandle": "r", "targetHandle": "t", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e5", "source": "ac", "target": "a", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e6", "source": "ac", "target": "c", "sourceHandle": "r", "targetHandle": "t", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e7", "source": "bc", "target": "b", "sourceHandle": "b", "targetHandle": "t", "data": { "label": { "tr": "Evet", "en": "Yes" }, "color": "green" } },
+          { "id": "e8", "source": "bc", "target": "c", "sourceHandle": "l", "targetHandle": "t", "data": { "label": { "tr": "Hayır", "en": "No" }, "color": "amber" } },
+          { "id": "e9", "source": "a", "target": "end", "sourceHandle": "b", "targetHandle": "l", "data": {} },
+          { "id": "e10", "source": "c", "target": "end", "sourceHandle": "b", "targetHandle": "t", "data": {} },
+          { "id": "e11", "source": "b", "target": "end", "sourceHandle": "b", "targetHandle": "r", "data": {} }
         ]
       }
     },
