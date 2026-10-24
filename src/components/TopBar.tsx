@@ -23,11 +23,12 @@ import {
   Upload,
   UserRound,
 } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, type MouseEvent, type PointerEvent } from 'react';
 import { lang, locale, setLang, t, UNTITLED, type Lang } from '../i18n';
 import { ADMIN_PATH, PROFILE_PATH } from '../lib/admin';
 import { importFile, requestAutosave, requestExport, requestSave, useSaveState } from '../lib/actions';
 import { guideHref } from '../lib/guides';
+import { macApp, postNative } from '../lib/platform';
 import { openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
@@ -137,6 +138,19 @@ function LangChoice() {
       />
     </div>
   );
+}
+
+/** In the Mac app the top bar is also the window's grip: empty parts of it move the window, like a title bar would. */
+const INTERACTIVE = 'button, input, a, select, textarea, label, [role="menu"], .fd-menu';
+
+function onBarPointerDown(event: PointerEvent<HTMLElement>) {
+  if (!macApp || event.button !== 0 || (event.target as HTMLElement).closest(INTERACTIVE)) return;
+  postNative({ type: 'dragWindow' });
+}
+
+function onBarDoubleClick(event: MouseEvent<HTMLElement>) {
+  if (!macApp || (event.target as HTMLElement).closest(INTERACTIVE)) return;
+  postNative({ type: 'zoomWindow' });
 }
 
 function clearCanvas() {
@@ -298,7 +312,7 @@ export function TopBar({ mobile }: { mobile: boolean }) {
   }
 
   return (
-    <header className="fd-topbar">
+    <header className="fd-topbar" onPointerDown={onBarPointerDown} onDoubleClick={onBarDoubleClick}>
       <Logo />
       <Menu label={<>{t('Dosya', 'File')} <ChevronDown size={14} /></>} buttonClassName="fd-btn is-ghost">
         {fileItems}

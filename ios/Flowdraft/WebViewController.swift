@@ -44,6 +44,12 @@ final class WebViewController: UIViewController {
         webView.scrollView.backgroundColor = UIColor(named: "LaunchBackground")
         webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.scrollView.bounces = false
+        if #available(iOS 26.0, *) {
+            // iOS 26 and macOS 26 blur whatever scrolls under the window's top and bottom edges; the editor's own bars sit
+            // there, and on the Mac the blur would cover the top bar together with the traffic lights.
+            webView.scrollView.topEdgeEffect.isHidden = true
+            webView.scrollView.bottomEdgeEffect.isHidden = true
+        }
         #if DEBUG
         webView.isInspectable = true
         #endif
@@ -99,6 +105,35 @@ final class WebViewController: UIViewController {
         }
     }
 
+    /// The editor's top bar doubles as the title bar: a press on an empty part of it hands the mouse event in flight
+    /// to AppKit, which moves the window with it; a double-click zooms the window like a title bar would.
+    private static func moveWindow(zoom: Bool) {
+        guard let appClass = NSClassFromString("NSApplication"),
+              let app = (appClass as AnyObject).value(forKey: "sharedApplication") as? NSObject,
+              let window = (app.value(forKey: "keyWindow") as? NSObject) ?? (app.value(forKey: "windows") as? [NSObject])?.first
+        else { return }
+        if zoom {
+            window.perform(NSSelectorFromString("performZoom:"), with: nil)
+            return
+        }
+        // The press or a drag of the left button starts the move (NSEvent.EventType 1 and 6). The message from the
+        // page arrives a moment after the press, so the current event may already be something else (the window
+        // becoming key, say); then the next drag event is waited for briefly without taking it out of the queue.
+        var event = app.value(forKey: "currentEvent") as? NSObject
+        if let type = event?.value(forKey: "type") as? UInt, type == 1 || type == 6 {
+            // Use it as is.
+        } else {
+            typealias NextEvent = @convention(c) (AnyObject, Selector, UInt64, AnyObject?, AnyObject, Bool) -> Unmanaged<AnyObject>?
+            let selector = NSSelectorFromString("nextEventMatchingMask:untilDate:inMode:dequeue:")
+            let next = unsafeBitCast(app.method(for: selector), to: NextEvent.self)
+            let dragMask: UInt64 = 1 << 6 // NSEvent.EventTypeMask.leftMouseDragged
+            event = next(app, selector, dragMask, NSDate(timeIntervalSinceNow: 0.3), "kCFRunLoopDefaultMode" as NSString, false)?
+                .takeUnretainedValue() as? NSObject
+        }
+        guard let event else { return }
+        window.perform(NSSelectorFromString("performWindowDragWithEvent:"), with: event)
+    }
+
     private static func hideTitleBarGlass(in view: NSObject) {
         guard let subviews = view.value(forKey: "subviews") as? [NSObject] else { return }
         for sub in subviews {
@@ -109,9 +144,6 @@ final class WebViewController: UIViewController {
             } else if name.contains("Titlebar") {
                 hideTitleBarGlass(in: sub)
             }
-        }
-    }
-    #endif
         }
     }
     #endif
@@ -201,6 +233,10 @@ extension WebViewController: WKScriptMessageHandler {
             share(data, filename: filename)
         case "copy":
             UIPasteboard.general.string = body["text"] as? String
+        case "dragWindow", "zoomWindow":
+            #if targetEnvironment(macCatalyst)
+            Self.moveWindow(zoom: type == "zoomWindow")
+            #endif
         #if DEBUG
         case "debugDismiss":
             // Screen-recording hook: closes the share sheet or alert the script opened.

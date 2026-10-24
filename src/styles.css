@@ -3084,3 +3084,13 @@ ul.fd-promo-features {
   display: none;
 }
 
+/* ---------- Mac app (Mac Catalyst): the window has no title bar, so the top bar makes room for the traffic lights ---------- */
+
+html[data-platform='mac'] {
+  /* A shorter bar sits closer to the traffic lights' height (they are centred 16px from the top). */
+  --topbar-h: 44px;
+}
+
+html[data-platform='mac'] .fd-topbar {
+  padding-left: 84px;
+}
