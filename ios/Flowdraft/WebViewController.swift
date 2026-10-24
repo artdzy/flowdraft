@@ -15,6 +15,10 @@ final class WebViewController: UIViewController {
 
     private let schemeHandler = BundleSchemeHandler()
     private var webView: WKWebView!
+    #if DEBUG
+    /// The share sheet last presented, for the recording hook (on iPad it lives in its own window).
+    private weak var debugPresented: UIViewController?
+    #endif
 
     override func loadView() {
         let config = WKWebViewConfiguration()
@@ -61,6 +65,54 @@ final class WebViewController: UIViewController {
         // No separate title bar: the editor's own top bar runs edge to edge and the traffic lights sit inside it.
         scene.titlebar?.titleVisibility = .hidden
         scene.titlebar?.toolbar = nil
+        Self.clearTitleBarMaterial()
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // AppKit lays the title bar out again on resize and full screen; keep its material away.
+        Self.clearTitleBarMaterial()
+    }
+
+    /// UIKit hides the title but, on macOS 26, leaves the title bar's glass material drawn over the top of the editor.
+    /// The window underneath is an AppKit NSWindow: its own switch hides the title bar background, and the two views
+    /// that paint the glass (a backdrop blur and a decoration layer) are hidden by hand. The traffic lights stay.
+    private static func clearTitleBarMaterial() {
+        guard let appClass = NSClassFromString("NSApplication"),
+              let app = (appClass as AnyObject).value(forKey: "sharedApplication") as? NSObject,
+              let windows = app.value(forKey: "windows") as? [NSObject] else { return }
+        for window in windows {
+            window.setValue(true, forKey: "titlebarAppearsTransparent")
+            if let mask = window.value(forKey: "styleMask") as? UInt, mask & (1 << 15) == 0 {
+                window.setValue(mask | (1 << 15), forKey: "styleMask") // NSWindow.StyleMask.fullSizeContentView
+            }
+            guard let frame = (window.value(forKey: "contentView") as? NSObject)?.value(forKey: "superview") as? NSObject else { continue }
+            hideTitleBarGlass(in: frame)
+            #if DEBUG
+            // `FLOWDRAFT_DEBUG_WINDOWTREE=1` prints AppKit's view tree of the window frame (title bar layers included).
+            if ProcessInfo.processInfo.environment["FLOWDRAFT_DEBUG_WINDOWTREE"] != nil,
+               let tree = frame.perform(NSSelectorFromString("_subtreeDescription"))?.takeUnretainedValue() {
+                print("FLOWDRAFT_DEBUG_WINDOWTREE\n\(tree)")
+                fflush(stdout)
+            }
+            #endif
+        }
+    }
+
+    private static func hideTitleBarGlass(in view: NSObject) {
+        guard let subviews = view.value(forKey: "subviews") as? [NSObject] else { return }
+        for sub in subviews {
+            let name = NSStringFromClass(type(of: sub))
+            let layer = (sub.value(forKey: "layer") as? NSObject).map { NSStringFromClass(type(of: $0)) } ?? ""
+            if name.contains("TitlebarDecorationView") || layer.contains("CABackdropLayer") {
+                if sub.value(forKey: "hidden") as? Bool != true { sub.setValue(true, forKey: "hidden") }
+            } else if name.contains("Titlebar") {
+                hideTitleBarGlass(in: sub)
+            }
+        }
+    }
+    #endif
+        }
     }
     #endif
 
@@ -105,6 +157,9 @@ final class WebViewController: UIViewController {
         present(picker, animated: true)
         #else
         let sheet = UIActivityViewController(activityItems: [file], applicationActivities: nil)
+        #if DEBUG
+        debugPresented = sheet
+        #endif
         if let popover = sheet.popoverPresentationController {
             // Both the export menu and the compact menu button sit at the top right.
             popover.sourceView = view
@@ -149,7 +204,8 @@ extension WebViewController: WKScriptMessageHandler {
         #if DEBUG
         case "debugDismiss":
             // Screen-recording hook: closes the share sheet or alert the script opened.
-            presentedViewController?.dismiss(animated: true)
+            (debugPresented ?? presentedViewController)?.dismiss(animated: true)
+            debugPresented = nil
         #endif
         default:
             break
