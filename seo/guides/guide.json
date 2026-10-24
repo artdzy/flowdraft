@@ -2,7 +2,7 @@
   "id": "guide",
   "priority": "0.8",
   "published": "2026-10-07",
-  "updated": "2026-10-07",
+  "updated": "2026-10-24",
   "tr": {
     "path": "/akis-diyagrami",
     "title": "Akış Diyagramı (Akış Şeması) Nedir, Nasıl Çizilir? · flowdraft",
@@ -53,12 +53,13 @@
                 ["**Kulvarlı (çapraz fonksiyonel) akış diyagramı**", "Aynı süreci kişi, ekip ya da sisteme göre şeritlere bölerek", "İzin onayı, satın alma"],
                 ["**İş akış diyagramı (workflow)**", "Görevlerin, onayların ve devirlerin kimden kime geçtiğini", "Belge onayı, otomasyon"],
                 ["**Veri akış diyagramı (DFD)**", "Verinin sistemler, kişiler ve veri depoları arasında nasıl taşındığını", "Form → sunucu → veritabanı"],
-                ["**Algoritma / program akış şeması**", "Bir problemin çözüm adımlarını, koşulları ve döngüleri", "Tek-çift sayı, en büyük sayıyı bulma"],
+                ["**Algoritma / program akış şeması**", "Bir problemin çözüm adımlarını, koşulları ve döngüleri", "Tek-çift sayı, [üç sayıdan en büyüğünü bulma](/akis-diyagrami-ornekleri#uc-sayidan-en-buyugu)"],
                 ["**Kullanıcı ve konuşma akışı**", "Kullanıcının ekranlar ya da mesajlar arasındaki yolunu", "Kayıt akışı, chatbot senaryosu"]
               ]
             }
           },
           { "p": "Veri akış diyagramının kendi gösterimi vardır (süreç, veri deposu, dış varlık); onu klasik akış şeması sembolleriyle karıştırma. Diğer türlerin hepsi bir sonraki bölümdeki şekillerle çizilir." },
+          { "p": "Bazı ders kitapları türleri dört başlıkta toplar: **belge**, **veri**, **sistem** ve **program** akış diyagramları. Ad, diyagramın neyi izlediğinden gelir: kâğıt belgeleri, veriyi, bir sistemin parçalarını ya da bir programın mantığını." },
           { "tip": "Hangisiyle başlayacağından emin değilsen düz bir süreç akış diyagramı çiz. Sürece birden fazla kişi ya da ekip giriyorsa sonradan kulvar ekleyip çapraz fonksiyonel diyagrama çevirmek kolaydır." }
         ]
       },
@@ -108,6 +109,20 @@
             ]
           },
           { "p": "Belge, veritabanı, hazırlık, gecikme ve sayfa dışı bağlayıcı gibi diğer şekillerin anlamını [akış diyagramı sembolleri](/akis-diyagrami-sembolleri) rehberinde tek tek anlattık." }
+        ]
+      },
+      {
+        "h2": "Sık çizilen akış diyagramı örnekleri",
+        "id": "ornekler",
+        "blocks": [
+          { "p": "Akış diyagramı neyi anlatırsa anlatsın aynı görünür; değişen yalnızca kutuların içindeki yazıdır. En sık çizilen örnekler:" },
+          { "ul": [
+              "**Algoritmalar:** [üç sayıdan en büyüğünü bulan akış diyagramı](/akis-diyagrami-ornekleri#uc-sayidan-en-buyugu), [tek mi çift mi](/akis-diyagrami-ornekleri#tek-mi-cift-mi) kontrolü, [1'den N'ye kadar sayıların toplamı](/akis-diyagrami-ornekleri#toplam-1den-nye) ve [faktöriyel](/akis-diyagrami-ornekleri#faktoriyel); programlama derslerinin klasik soruları.",
+              "**İş süreçleri:** bu sayfanın başındaki online sipariş akışı, [e-ticaret sipariş ve kargo süreci](/akis-diyagrami-ornekleri#e-ticaret-siparis-sureci) ve aşağıdaki kulvarlı izin onayı akışı.",
+              "**Yazılım ve destek:** [kullanıcı girişi ve şifre sıfırlama akışı](/akis-diyagrami-ornekleri#giris-ve-sifre-sifirlama) ya da [chatbot'tan temsilciye geçen destek talebi](/akis-diyagrami-ornekleri#musteri-destek-talebi)."
+            ]
+          },
+          { "p": "Her biri adım adım açıklanmış ve tek tıkla editörde açılıyor. Dokuzunun hepsi [akış diyagramı örnekleri](/akis-diyagrami-ornekleri) sayfasında." }
         ]
       },
       {
@@ -201,6 +216,7 @@
     ],
     "faq": [
       { "q": "Akış diyagramı ile akış şeması aynı şey mi?", "a": "Evet. İkisi de bir sürecin adımlarını şekil ve oklarla gösteren çizimi anlatır; “akış şeması” daha çok okullarda ve algoritma derslerinde kullanılır." },
+      { "q": "Akış diyagramının dört türü nedir?", "a": "Ders kitapları çoğunlukla belge, veri, sistem ve program akış diyagramlarını sayar. İş hayatında ise daha çok süreç akış diyagramı, kulvarlı akış diyagramı, iş akış şeması ve algoritma (program) akış şeması konuşulur." },
       { "q": "Karar sembolünden kaç ok çıkar?", "a": "En az iki; çoğu zaman “Evet” ve “Hayır”. Daha fazla seçenek varsa ya her çıkışı ayrı ayrı etiketle ya da kararları art arda bağla; böylece her karar tek bir soru sorar." },
       { "q": "Ücretsiz bir akış diyagramı çizme programı var mı?", "a": "Var. flowdraft, ücretsiz bir online akış diyagramı çizme programıdır ve hesap açmadan tarayıcıda çalışır. Buluta kaydetmek ve PNG, SVG ya da JSON olarak dışa aktarmak için ücretsiz bir hesapla giriş yapman yeterli." },
       { "q": "Telefonda akış diyagramı çizebilir miyim?", "a": "Evet. flowdraft telefonda ve tablette tarayıcıdan açılır; telefonda parçaları alttaki Ekle düğmesiyle eklersin. İstersen ana ekrana uygulama gibi de ekleyebilirsin." },
@@ -209,9 +225,9 @@
   },
   "en": {
     "path": "/what-is-a-flowchart",
-    "title": "What Is a Flowchart? Types and How to Make One · flowdraft",
-    "description": "What is a flowchart? Learn the main types, then make a flowchart step by step with two worked examples you can open and edit for free.",
-    "h1": "What is a flowchart, and how do you make one?",
+    "title": "What Is a Flowchart? Meaning, Symbols & Examples · flowdraft",
+    "description": "What is a flowchart? A diagram of the steps and decisions in a process. Learn its meaning, symbols, types and examples, then make one free in your browser.",
+    "h1": "What is a flowchart? Meaning, types and how to make one",
     "lead": "A flowchart is a diagram that shows the steps, decisions and order of a process with standard shapes joined by arrows. Ovals mark the start and end, rectangles are actions, diamonds are yes/no questions, and arrows show what happens next.",
     "breadcrumb": "What is a flowchart",
     "sections": [
@@ -219,7 +235,7 @@
         "h2": "What is a flowchart?",
         "id": "what-is-a-flowchart",
         "blocks": [
-          { "p": "A flowchart maps how a piece of work moves from start to finish. Each box is a step, each arrow leads to the next one, and the path splits at every decision. It works the same for an order process, an algorithm or a support chat. You'll also see it called a **process map** or **workflow diagram**." },
+          { "p": "A flowchart maps how a piece of work moves from start to finish. Each box is a step, each arrow leads to the next one, and the path splits at every decision. It works the same for an order process, an algorithm or a support chat. You'll also see it written as **flow chart**, or called a **flow diagram**, **process map** or **workflow diagram**; drawing one is called **flowcharting**." },
           { "p": "The idea dates back to 1921, when Frank and Lillian Gilbreth presented their process charts. The symbols were standardized later, and **ISO 5807** is still the usual reference." },
           { "p": "Here's a typical example, an online shop's order process, read from top to bottom:" },
           { "example": "guide-online-order" }
@@ -254,12 +270,13 @@
                 ["**Swimlane (cross-functional) flowchart**", "A process split into lanes by person, team or system", "Leave approval, purchasing"],
                 ["**Workflow diagram**", "Tasks, approvals and handoffs between people or tools", "Document approval, automation"],
                 ["**Data flow diagram (DFD)**", "How data moves between systems and data stores", "Form → server → database"],
-                ["**Program flowchart (algorithm)**", "Program logic: conditions, loops, input and output", "Odd or even, largest of three numbers"],
+                ["**Program flowchart (algorithm)**", "Program logic: conditions, loops, input and output", "Odd or even, [largest of three numbers](/flowchart-examples#largest-of-three)"],
                 ["**User flow / conversation flow**", "A user's path through screens or messages", "Sign-up flow, chatbot script"]
               ]
             }
           },
           { "p": "Data flow diagrams have their own notation (processes, data stores, external entities). All the other types use the symbols below." },
+          { "p": "Some textbooks list four types instead: **document**, **data**, **system** and **program** flowcharts, named after what each one follows: paper documents, data, the parts of a system, or the logic of a program." },
           { "tip": "Not sure which you need? Start with a process flowchart; add swimlanes once several people or teams are involved." }
         ]
       },
@@ -309,6 +326,20 @@
             ]
           },
           { "p": "For document, database, delay and the other shapes, see the full guide to [flowchart symbols](/flowchart-symbols)." }
+        ]
+      },
+      {
+        "h2": "Common flowchart examples",
+        "id": "flowchart-examples",
+        "blocks": [
+          { "p": "A flowchart looks the same whatever it describes; only the text in the boxes changes. These are the examples people draw most:" },
+          { "ul": [
+              "**Algorithms:** the [flowchart to find the largest of three numbers](/flowchart-examples#largest-of-three), an [even or odd check](/flowchart-examples#even-or-odd), the [sum of the numbers from 1 to N](/flowchart-examples#sum-1-to-n) and the [factorial](/flowchart-examples#factorial), the classic exercises in programming classes.",
+              "**Business processes:** the online order flowchart at the top of this page, an [e-commerce order and shipping process](/flowchart-examples#ecommerce-order) and the leave approval swimlane further down.",
+              "**Software and support:** a [login and password reset flow](/flowchart-examples#login-password-reset) or a [support ticket handed from a chatbot to a person](/flowchart-examples#support-ticket)."
+            ]
+          },
+          { "p": "Each one is explained step by step and opens in the editor with one click. See all nine in [flowchart examples](/flowchart-examples)." }
         ]
       },
       {
@@ -399,6 +430,9 @@
       }
     ],
     "faq": [
+      { "q": "What is a flowchart in simple words?", "a": "A picture of a process: boxes for the steps, diamonds for the questions and arrows for the order. You read it by following the arrows from start to end." },
+      { "q": "Is it flowchart or flow chart?", "a": "Both are correct and mean the same thing. “Flowchart” as one word is more common today; “flow chart” and “flow diagram” are also used." },
+      { "q": "What are the four types of flowcharts?", "a": "Textbooks often list document, data, system and program flowcharts. At work people more often talk about process flowcharts, swimlane flowcharts, workflow diagrams and program (algorithm) flowcharts." },
       { "q": "How many arrows can leave a decision?", "a": "At least two, usually Yes and No; for more options either label each exit or chain decisions so each asks one question." },
       { "q": "Is there a free flowchart maker?", "a": "Yes. flowdraft is free and runs in your browser without an account; signing in with a free account adds cloud saving and PNG, SVG and JSON export." },
       { "q": "Can I make a flowchart on my phone?", "a": "Yes. flowdraft works in phone and tablet browsers, and you can add it to your home screen like an app." },
