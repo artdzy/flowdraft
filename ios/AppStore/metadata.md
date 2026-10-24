@@ -1,6 +1,6 @@
 # App Store kaydı — flowdraft (iPhone + iPad + Mac)
 
-- macOS sürümü aynı kayıt ve aynı bundle ID (Mac Catalyst, `project.yml`: `SUPPORTS_MACCATALYST`, cihaz ailesi 1,2,6 = Mac arayüzü; macOS 15+; `Flowdraft/Mac.entitlements` sandbox + ağ + kullanıcı seçimli dosya). Mac'te dışa aktarma kaydetme penceresi, bağlantılar varsayılan tarayıcı. ASC macOS sürümü 1.0 (2026-10-24), metinler aşağıdaki iPhone/iPad metinlerinin Mac uyarlaması (ASC'de), inceleme notları `review-notes-mac.txt`, ekran görüntüleri `screenshots/*-mac-*` (2880×1800, Debug build + `FLOWDRAFT_DEBUG_WINDOW=1440x900` + `FLOWDRAFT_DEBUG_SNAPSHOT`).
+- macOS sürümü aynı kayıt ve aynı bundle ID (Mac Catalyst, `project.yml`: `SUPPORTS_MACCATALYST`, cihaz ailesi 1,2,6 = Mac arayüzü; macOS 15+; `Flowdraft/Mac.entitlements` sandbox + ağ + kullanıcı seçimli dosya). Mac'te dışa aktarma kaydetme penceresi, bağlantılar varsayılan tarayıcı. ASC macOS sürümü 1.0 (2026-10-24), metinler aşağıdaki iPhone/iPad metinlerinin Mac uyarlaması (ASC'de), inceleme notları `review-notes-mac.txt`, ekran görüntüleri `screenshots/*-mac-*` (2880×1800, pencerenin tamamı, trafik ışıkları dahil: Debug build + `FLOWDRAFT_DEBUG_WINDOW=1440x900` + `FLOWDRAFT_DEBUG_SNAPSHOT`, `scripts/app-store/mac-screenshots.sh`). Mac metinleri ASC'de ayrı girilir; aşağıdaki metinlerin MCP bölümü ve tanıtım metni oraya da taşınmalı.
 - Demo hesap (App Review, iki platform): `appreview@flowdraft.tech`; parola Keychain'de `flowdraft-appstore-demo` öğesinde ve ASC "Sign-In Information" alanlarında.
 - Mac arşiv/yükleme: `xcodebuild archive -destination 'generic/platform=macOS,variant=Mac Catalyst'` + aynı `ExportOptions.plist` (3rd Party Mac Developer Installer sertifikası gerekir). Kimlik için `-allowProvisioningUpdates -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_XP2X24JU5D.p8 -authenticationKeyID XP2X24JU5D -authenticationKeyIssuerID <issuer>`.
 
@@ -19,13 +19,13 @@ flowdraft
 Akış diyagramı çiz ve paylaş
 
 ## Tanıtım metni (170)
-Sürükle, bağla, dışa aktar. Otomasyon, yazılım ve konuşma akışlarını dakikalar içinde çiz; PNG, SVG ya da JSON olarak paylaş. Hesap açmadan hemen başla.
+Sürükle, bağla, dışa aktar. Akışlarını dakikalar içinde çiz; PNG, SVG ya da JSON olarak paylaş. Claude ve ChatGPT'ye MCP ile bağla, akışı sohbetten çizdir.
 
 ## Anahtar kelimeler (100)
-akış,diyagram,şema,flowchart,süreç,iş akışı,otomasyon,mimari,çizim,tahta,plan,organizasyon
+akış,diyagram,şema,flowchart,süreç,iş akışı,otomasyon,mimari,çizim,plan,mcp,yapay zeka,ai
 
 ## Açıklama
-flowdraft, iPhone ve iPad için hızlı ve sade bir akış diyagramı editörü. Süreçlerini, otomasyonlarını, yazılım mimarini ve müşteri konuşmalarını birkaç dokunuşla çiz.
+flowdraft, iPhone, iPad ve Mac için hızlı ve sade bir akış diyagramı editörü. Süreçlerini, otomasyonlarını, yazılım mimarini ve müşteri konuşmalarını birkaç dokunuşla çiz. Claude, ChatGPT gibi AI araçlarına MCP ile bağlanır: akışını sohbetten çizdir, burada düzenle.
 
 HEMEN BAŞLA
 • Hesap açmadan kullan; çizimin bu cihazda otomatik saklanır.
@@ -51,10 +51,13 @@ DIŞA AKTAR VE PAYLAŞ
 • Ücretsiz hesapla projelerini kaydet, otomatik kaydetmeyi aç; aynı projeleri flowdraft.tech üzerinden tarayıcıda da aç.
 • Hesabını ve projelerini istediğin an uygulama içinden silebilirsin.
 
-AI ARAÇLARIYLA KULLAN
-• İstersen flowdraft hesabını MCP destekleyen bir AI asistanına bağla; “bana bir akış çiz” de, akış hesabına kaydedilsin, sonra burada açıp düzenle.
+AI ARAÇLARINA MCP İLE BAĞLANIR
+• flowdraft, MCP (Model Context Protocol) destekleyen her AI aracına bağlanır: Claude, ChatGPT, Claude Code, Codex, Cursor ve VS Code. Hesabına bir kez bağla, gerisi sohbette olur.
+• Sohbette “bana bir sipariş akışı çiz” de: AI akışı hesabına çizer, görselini sohbette gösterir, düzeltmelerini aynı akışa uygular. flowdraft’ı açman bile gerekmez.
+• Uygulamada açık olan akışı AI de görebilir; AI değiştirdiğinde ekran anında yenilenir. İstersen bu paylaşımı kapat.
+• Kurulum rehberi: flowdraft.tech/mcp
 
-Geri al / ileri al, çoğalt, çoklu seçim ve klavye kısayolları (⌘Z, ⇧⌘Z, ⌘D, ⌘S) var. Açık ve koyu tema cihazına uyar.
+Geri al / ileri al, kopyala / yapıştır, çoğalt, çoklu seçim, sağ tık menüsü, hizalama kılavuzları ve klavye kısayolları (⌘Z, ⌘C / ⌘V, ⌘D, ⌘S) var. Açık ve koyu tema cihazına uyar.
 
 flowdraft ücretsizdir; reklam ve uygulama içi satın alma yoktur.
 
@@ -67,13 +70,13 @@ flowdraft
 Draw and share flowcharts
 
 ## Promotional text (170)
-Drag, connect, export. Sketch automations, software architecture and conversations in minutes, then share them as PNG, SVG or JSON. Start right away, no account needed.
+Drag, connect, export. Sketch flows in minutes and share them as PNG, SVG or JSON. Connect Claude or ChatGPT over MCP and have your flows drawn from the chat.
 
 ## Keywords (100)
-flowchart,diagram,workflow,process,flow,chart,automation,architecture,mind map,whiteboard,planning
+flowchart,diagram,workflow,process,flow,chart,automation,architecture,whiteboard,planning,mcp,ai
 
 ## Description
-flowdraft is a fast, simple flowchart and diagram editor for iPhone and iPad. Sketch processes, automations, software architecture and customer conversations in a few taps.
+flowdraft is a fast, simple flowchart and diagram editor for iPhone, iPad and Mac. Sketch processes, automations, software architecture and customer conversations in a few taps. It connects to AI tools such as Claude and ChatGPT over MCP: have a flow drawn from the chat, then edit it here.
 
 START RIGHT AWAY
 • No account needed; your drawing is kept on this device automatically.
@@ -99,10 +102,13 @@ SAVE TO THE CLOUD IF YOU LIKE
 • With a free account, save your projects, turn on auto-save and open the same projects in your browser at flowdraft.tech.
 • Delete your account and projects from inside the app at any time.
 
-USE WITH AI
-• Optionally connect your flowdraft account to an AI assistant that supports MCP; ask it to "draw me a flow", it is saved to your account, then open and edit it here.
+CONNECTS TO AI TOOLS OVER MCP
+• flowdraft connects to any AI tool that supports MCP (Model Context Protocol): Claude, ChatGPT, Claude Code, Codex, Cursor and VS Code. Connect your account once; the rest happens in the chat.
+• Say "draw me an order flow" in the chat: the AI draws it into your account, shows a picture of it in the chat and applies your corrections to the same flow. You don't even need to open flowdraft.
+• The AI can also see the flow you have open here, and the screen updates the moment the AI changes it. Turn that sharing off whenever you like.
+• Setup guide: flowdraft.tech/mcp
 
-Undo/redo, duplicate, multi-select and keyboard shortcuts (⌘Z, ⇧⌘Z, ⌘D, ⌘S). Light and dark themes follow your device.
+Undo/redo, copy/paste, duplicate, multi-select, a right-click menu, alignment guides and keyboard shortcuts (⌘Z, ⌘C / ⌘V, ⌘D, ⌘S). Light and dark themes follow your device.
 
 flowdraft is free, with no ads and no in-app purchases.
 

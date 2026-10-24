@@ -337,6 +337,7 @@ extension WebViewController {
            let restrictions = view.window?.windowScene?.sizeRestrictions {
             restrictions.minimumSize = CGSize(width: size[0], height: size[1])
             restrictions.maximumSize = restrictions.minimumSize
+            Self.moveWindowToRetinaScreen(height: size[1])
         }
         #else
         if env["FLOWDRAFT_DEBUG_LANDSCAPE"] != nil {
@@ -350,14 +351,125 @@ extension WebViewController {
             // `FLOWDRAFT_DEBUG_SNAPSHOT=/path.png` writes the web view's pixels once the script is done (App Store screenshots).
             guard let self, let path = env["FLOWDRAFT_DEBUG_SNAPSHOT"], (try? result.get()) as? String != "reload" else { return }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                #if targetEnvironment(macCatalyst)
+                // The Mac picture is the window as the App Store shows it: the page from the web view (rendered out of
+                // process, so a plain window capture misses it) with the traffic lights AppKit draws on top. The app
+                // comes to the front first so the lights are coloured.
+                Self.activateApp()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    // 2x pixels whatever the screen: WebKit renders at the requested width and tags the image 1x.
+                    let config = WKSnapshotConfiguration()
+                    config.snapshotWidth = NSNumber(value: Double(self.webView.bounds.width) * 2)
+                    self.webView.takeSnapshot(with: config) { page, error in
+                        Self.logScreens(page: page)
+                        let image = page.map { Self.windowPicture(page: $0, size: self.webView.bounds.size) }
+                        if let data = image?.pngData() { try? data.write(to: URL(fileURLWithPath: path)) }
+                        print("FLOWDRAFT_DEBUG_SNAPSHOT", image.map { "\(Int($0.size.width * $0.scale))x\(Int($0.size.height * $0.scale))" } ?? "none", error.map { "\($0)" } ?? "")
+                        fflush(stdout)
+                    }
+                }
+                #else
                 self.webView.takeSnapshot(with: nil) { image, error in
                     if let data = image?.pngData() { try? data.write(to: URL(fileURLWithPath: path)) }
                     print("FLOWDRAFT_DEBUG_SNAPSHOT", image.map { "\(Int($0.size.width * $0.scale))x\(Int($0.size.height * $0.scale))" } ?? "none", error.map { "\($0)" } ?? "")
                     fflush(stdout)
                 }
+                #endif
             }
         }
     }
+
+    #if targetEnvironment(macCatalyst)
+    private static func activateApp() {
+        guard let appClass = NSClassFromString("NSApplication"),
+              let app = (appClass as AnyObject).value(forKey: "sharedApplication") as? NSObject else { return }
+        app.perform(NSSelectorFromString("activate"))
+    }
+
+    /// App Store pictures want 2x pixels: the window goes to a Retina screen when it was left on another one.
+    private static func moveWindowToRetinaScreen(height: Double) {
+        guard let window = appKitWindow(), let screenClass = NSClassFromString("NSScreen"),
+              let screens = (screenClass as AnyObject).value(forKey: "screens") as? [NSObject],
+              let retina = screens.first(where: { ($0.value(forKey: "backingScaleFactor") as? Double ?? 1) >= 2 }),
+              let frame = (retina.value(forKey: "frame") as? NSValue)?.cgRectValue else { return }
+        typealias SetOrigin = @convention(c) (AnyObject, Selector, CGPoint) -> Void
+        let selector = NSSelectorFromString("setFrameOrigin:")
+        guard let imp = window.method(for: selector) else { return }
+        unsafeBitCast(imp, to: SetOrigin.self)(window, selector, CGPoint(x: frame.minX, y: frame.maxY - height))
+    }
+
+    private static func appKitWindow() -> NSObject? {
+        guard let appClass = NSClassFromString("NSApplication"),
+              let app = (appClass as AnyObject).value(forKey: "sharedApplication") as? NSObject else { return nil }
+        return (app.value(forKey: "keyWindow") as? NSObject) ?? (app.value(forKey: "windows") as? [NSObject])?.first
+    }
+
+    /// The title bar strip as AppKit draws it (the traffic lights on a transparent background), at the screen's scale.
+    private static func titleBarPicture() -> (image: UIImage, size: CGSize)? {
+        guard let window = appKitWindow(),
+              let frame = (window.value(forKey: "contentView") as? NSObject)?.value(forKey: "superview") as? NSObject,
+              let subviews = frame.value(forKey: "subviews") as? [NSObject],
+              let bar = subviews.first(where: { NSStringFromClass(type(of: $0)).contains("TitlebarContainerView") }),
+              let bounds = (bar.value(forKey: "bounds") as? NSValue)?.cgRectValue else { return nil }
+        typealias RepFor = @convention(c) (AnyObject, Selector, CGRect) -> Unmanaged<AnyObject>?
+        typealias Cache = @convention(c) (AnyObject, Selector, CGRect, AnyObject) -> Void
+        let repSelector = NSSelectorFromString("bitmapImageRepForCachingDisplayInRect:")
+        let cacheSelector = NSSelectorFromString("cacheDisplayInRect:toBitmapImageRep:")
+        guard let repImp = bar.method(for: repSelector), let cacheImp = bar.method(for: cacheSelector),
+              let rep = unsafeBitCast(repImp, to: RepFor.self)(bar, repSelector, bounds)?.takeUnretainedValue() as? NSObject
+        else { return nil }
+        unsafeBitCast(cacheImp, to: Cache.self)(bar, cacheSelector, bounds, rep)
+        // The rep's CGImage can't travel through key-value coding; its PNG bytes can (NSBitmapImageFileTypePNG = 4).
+        typealias RepData = @convention(c) (AnyObject, Selector, UInt, AnyObject?) -> Unmanaged<AnyObject>?
+        let dataSelector = NSSelectorFromString("representationUsingType:properties:")
+        guard let dataImp = rep.method(for: dataSelector),
+              let data = unsafeBitCast(dataImp, to: RepData.self)(rep, dataSelector, 4, NSDictionary())?.takeUnretainedValue() as? Data,
+              let image = UIImage(data: data) else { return nil }
+        return (image, bounds.size)
+    }
+
+    private static func logScreens(page: UIImage?) {
+        guard let screenClass = NSClassFromString("NSScreen"),
+              let screens = (screenClass as AnyObject).value(forKey: "screens") as? [NSObject] else { return }
+        let list = screens.map { "\(($0.value(forKey: "frame") as? NSValue)?.cgRectValue ?? .zero)@\($0.value(forKey: "backingScaleFactor") ?? 0)" }
+        let window = appKitWindow()
+        print("FLOWDRAFT_DEBUG_SCREENS", list, "window", (window?.value(forKey: "frame") as? NSValue)?.cgRectValue ?? .zero,
+              "@", window?.value(forKey: "backingScaleFactor") ?? 0, "page", page?.size ?? .zero, "@", page?.scale ?? 0)
+        fflush(stdout)
+    }
+
+    /// The window's backing scale, 1 on a plain screen and 2 on a Retina one.
+    private static func windowScale() -> CGFloat {
+        (appKitWindow()?.value(forKey: "backingScaleFactor") as? CGFloat) ?? 1
+    }
+
+    /// The page's pixels at 2x with the title bar strip on top. AppKit's own strip is used when the window sits on a
+    /// Retina screen; on a plain screen it would come out soft, so the traffic lights are drawn in macOS's colours.
+    private static func windowPicture(page: UIImage, size: CGSize) -> UIImage {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = 2
+        return UIGraphicsImageRenderer(size: size, format: format).image { ctx in
+            page.draw(in: CGRect(origin: .zero, size: size))
+            if windowScale() >= 2, let bar = titleBarPicture() {
+                bar.image.draw(in: CGRect(origin: .zero, size: bar.size))
+                return
+            }
+            let lights: [(fill: UIColor, ring: UIColor)] = [
+                (UIColor(red: 1, green: 0.373, blue: 0.341, alpha: 1), UIColor(red: 0.878, green: 0.267, blue: 0.243, alpha: 1)),
+                (UIColor(red: 0.996, green: 0.737, blue: 0.18, alpha: 1), UIColor(red: 0.871, green: 0.631, blue: 0.137, alpha: 1)),
+                (UIColor(red: 0.157, green: 0.784, blue: 0.251, alpha: 1), UIColor(red: 0.102, green: 0.671, blue: 0.161, alpha: 1)),
+            ]
+            for (i, light) in lights.enumerated() {
+                let rect = CGRect(x: 9 + CGFloat(i) * 23, y: 9, width: 14, height: 14)
+                light.fill.setFill()
+                ctx.cgContext.fillEllipse(in: rect)
+                light.ring.setStroke()
+                ctx.cgContext.setLineWidth(0.5)
+                ctx.cgContext.strokeEllipse(in: rect.insetBy(dx: 0.25, dy: 0.25))
+            }
+        }
+    }
+    #endif
 }
 #endif
 
