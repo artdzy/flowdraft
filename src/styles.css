@@ -1022,8 +1022,13 @@ a.fd-menu-item {
   filter: drop-shadow(0 0 3px rgba(229, 72, 77, 0.55));
 }
 
-.fd-edge-label {
+.fd-edge-label-wrap {
   position: absolute;
+  pointer-events: all;
+}
+
+.fd-edge-label {
+  display: block;
   padding: 2px 7px;
   border-radius: 5px;
   border: 1px solid var(--line-2);
@@ -3020,3 +3025,62 @@ ul.fd-promo-features {
   color: var(--text);
   text-decoration: none;
 }
+
+/* ---------- Right-click menu, alignment guides, connection ends ---------- */
+
+.fd-context {
+  position: fixed;
+  top: auto;
+  z-index: 100;
+  min-width: 210px;
+}
+
+.fd-menu-item kbd {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+/* Guide lines while a node is dragged level with a neighbour; drawn over the canvas in screen coordinates. */
+.fd-guide {
+  position: absolute;
+  z-index: 6;
+  pointer-events: none;
+  background: var(--accent);
+  opacity: 0.85;
+}
+
+.fd-guide.is-v {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+
+.fd-guide.is-h {
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+
+/* A connection label being typed keeps room for the caret while it is empty. */
+.fd-edge-label.fd-editing {
+  min-width: 3ch;
+  text-align: center;
+}
+
+/* The ends of a selected connection can be dragged to another box. */
+.react-flow__edge.selected .react-flow__edgeupdater {
+  fill: var(--bg);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.react-flow__edgeupdater:hover {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+
+.fd-exporting .react-flow__edgeupdater {
+  display: none;
+}
+

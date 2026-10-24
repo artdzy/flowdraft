@@ -292,16 +292,28 @@ export function Inspector() {
       <div className="fd-shortcuts">
         <h3>{t('Kısayollar', 'Shortcuts')}</h3>
         <dl>
-          <dt>{t('Sil', 'Delete')}</dt>
-          <dd>Delete / ⌫</dd>
-          <dt>{t('Geri al / ileri', 'Undo / redo')}</dt>
-          <dd>⌘Z / ⇧⌘Z</dd>
+          <dt>{t('Kopyala / yapıştır / kes', 'Copy / paste / cut')}</dt>
+          <dd>⌘C / ⌘V / ⌘X</dd>
           <dt>{t('Çoğalt', 'Duplicate')}</dt>
           <dd>⌘D</dd>
-          <dt>{t('Kaydet', 'Save')}</dt>
-          <dd>⌘S</dd>
+          <dt>{t('Geri al / ileri', 'Undo / redo')}</dt>
+          <dd>⌘Z / ⇧⌘Z</dd>
+          <dt>{t('Sil', 'Delete')}</dt>
+          <dd>⌫</dd>
+          <dt>{t('Metni düzenle', 'Edit text')}</dt>
+          <dd>⏎ / {t('çift tık', 'double-click')}</dd>
+          <dt>{t('Bağlı yeni parça', 'New connected part')}</dt>
+          <dd>{t('noktayı boşluğa sürükle', 'drag a dot into space')}</dd>
+          <dt>{t('Sığdır / %100 / seçim', 'Fit / 100% / selection')}</dt>
+          <dd>⇧1 / ⇧0 / ⇧2</dd>
+          <dt>{t('Yakınlaş / uzaklaş', 'Zoom in / out')}</dt>
+          <dd>⌘+ / ⌘−</dd>
           <dt>{t('Çoklu seçim', 'Multi-select')}</dt>
           <dd>{t('⇧ + sürükle', '⇧ + drag')}</dd>
+          <dt>{t('Menü', 'Menu')}</dt>
+          <dd>{t('sağ tık', 'right-click')}</dd>
+          <dt>{t('Kaydet', 'Save')}</dt>
+          <dd>⌘S</dd>
         </dl>
       </div>
     </div>

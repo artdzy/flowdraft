@@ -1,3 +1,4 @@
+import type { XYPosition } from '@xyflow/react';
 import { create } from 'zustand';
 
 export type Toast = { id: number; text: string; tone: 'default' | 'error' };
@@ -9,6 +10,14 @@ export type ConfirmRequest = {
   resolve: (ok: boolean) => void;
 };
 
+/** Alignment lines, in canvas coordinates, shown while a node is dragged next to its neighbours. */
+export type Guides = { x?: number; y?: number };
+
+export type ContextTarget = { kind: 'node'; id: string } | { kind: 'edge'; id: string } | { kind: 'pane'; at: XYPosition };
+
+/** The right-click menu: where it opens on screen and what it is about. */
+export type ContextMenuState = { x: number; y: number; target: ContextTarget };
+
 type UiState = {
   projectsOpen: boolean;
   newOpen: boolean;
@@ -17,8 +26,10 @@ type UiState = {
   promoOpen: boolean;
   paletteSheet: boolean;
   inspectorSheet: boolean;
-  /** Node text field being edited in place on the canvas. */
+  /** Node text (or connection label) being edited in place on the canvas. */
   editing: { id: string; field: string } | null;
+  guides: Guides | null;
+  contextMenu: ContextMenuState | null;
   /** Question shown in the app's own confirm dialog (never the browser's). */
   confirm: ConfirmRequest | null;
   toasts: Toast[];
@@ -32,6 +43,8 @@ export const useUi = create<UiState>()(() => ({
   paletteSheet: false,
   inspectorSheet: false,
   editing: null,
+  guides: null,
+  contextMenu: null,
   confirm: null,
   toasts: [],
 }));

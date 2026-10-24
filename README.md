@@ -8,6 +8,9 @@ Tarayıcıda ve telefonda çalışan, ücretsiz akış diyagramı editörü — 
 - Hazır parçalar: adım, vurgulu adım, insan onayı, karar, başla/bitir, kişi, bot, sistem,
   veritabanı, konuşma balonu, not/bilgi/uyarı/hata/başarılı, kulvar, otomatik bölge, başlık, çip.
 - Bağlantılar: düz / kesikli / noktalı, 6 renk, köşeli / eğri / düz yol, ok yönü, animasyon, etiket.
+- Editör: kopyala / yapıştır / kes (başka akışa da), bağlantı noktasından boşluğa sürükleyince bağlı yeni parça, sağ tık
+  menüsü, çizgiye çift tıkla etiket, seçili çizginin ucunu başka kutuya taşıma, kulvar içindekilerle birlikte taşınır,
+  sürüklerken hizalama kılavuzları, zoom kısayolları (⇧1 sığdır, ⇧0 %100, ⇧2 seçim, ⌘+ / ⌘−).
 - Dışa aktarma: PNG, SVG, JSON. PWA olarak ana ekrana eklenebilir.
 
 ## Geliştirme

@@ -3,6 +3,7 @@ import { useEffect, useSyncExternalStore } from 'react';
 import { AiDialog } from './components/AiDialog';
 import { AuthModal } from './components/AuthModal';
 import { Canvas } from './components/Canvas';
+import { ContextMenu } from './components/ContextMenu';
 import { Credit } from './components/Credit';
 import { ConfirmDialog, NewDialog, ProjectsDialog, Toasts } from './components/Dialogs';
 import { Inspector } from './components/Inspector';
@@ -16,6 +17,7 @@ import { openExampleLink, openProjectLink, refreshFromCloud, requestSave, saveTo
 import { saveDraft } from './lib/draft';
 import { useLiveLink } from './lib/live';
 import { serializeDoc } from './lib/doc';
+import { isTyping } from './lib/keys';
 import { useAuth } from './store/auth';
 import { isDirty, useEditor } from './store/editor';
 import { useSettings } from './store/settings';
@@ -28,11 +30,6 @@ const subscribeMobile = (cb: () => void) => {
 
 function useIsMobile() {
   return useSyncExternalStore(subscribeMobile, () => mobileQuery.matches);
-}
-
-function isTyping(target: EventTarget | null) {
-  const el = target as HTMLElement | null;
-  return !!el && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName));
 }
 
 function useShortcuts() {
@@ -205,6 +202,7 @@ export default function App() {
         <PromoDialog />
         <WhatsNewDialog />
         <ConfirmDialog />
+        <ContextMenu />
         <Toasts />
       </div>
     </ReactFlowProvider>

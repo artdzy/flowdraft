@@ -9,6 +9,7 @@ import {
 } from '@xyflow/react';
 import { create } from 'zustand';
 import { EDGE_DEFAULTS, NODE_DEFAULTS, NODE_SIZE } from '../flow/defaults';
+import { shapeMoves } from '../flow/drag';
 import { decorateEdge } from '../flow/edgeStyle';
 import type { FlowDoc, FlowEdge, FlowEdgeData, FlowNode, NodeDataMap, NodeKind } from '../flow/types';
 import { UNTITLED } from '../i18n';
@@ -43,6 +44,16 @@ export type EditorState = {
   setEdgeDraft: (patch: Partial<FlowEdgeData>) => void;
   deleteSelection: () => void;
   duplicateSelection: () => void;
+  removeEdges: (ids: string[]) => void;
+  /** Inserts a copied document with fresh ids, moved by `offset`, and selects it. */
+  pasteDoc: (doc: FlowDoc, offset: XYPosition) => void;
+  /** Adds a node and connects it from a handle in one undo step; returns the new node's id. */
+  connectNew: (from: { id: string; handle: string }, kind: NodeKind, patch: Record<string, unknown>, position: XYPosition) => string;
+  reconnect: (id: string, connection: Connection) => void;
+  reverseEdges: (ids: string[]) => void;
+  /** Moves the selected nodes above or below everything else (lanes always stay at the back). */
+  reorder: (where: 'front' | 'back') => void;
+  /** Selects one node or connection and nothing else. */
   selectOnly: (id: string) => void;
   selectAll: () => void;
   clearCanvas: () => void;
@@ -52,6 +63,7 @@ export type EditorState = {
 };
 
 const HISTORY_LIMIT = 100;
+const OPPOSITE: Record<string, string> = { t: 'b', r: 'l', b: 't', l: 'r' };
 const TYPING_SNAPSHOT_GAP = 800;
 let lastTypingSnapshot = 0;
 
@@ -73,7 +85,8 @@ export const useEditor = create<EditorState>()((set, get) => ({
   edgeDraft: EDGE_DEFAULTS,
   fitRequest: 0,
 
-  onNodesChange: (changes) => {
+  onNodesChange: (raw) => {
+    const changes = shapeMoves(raw, get().nodes);
     const content = changes.some(
       (c) =>
         c.type === 'position' ||
@@ -204,10 +217,101 @@ export const useEditor = create<EditorState>()((set, get) => ({
     }));
   },
 
+  removeEdges: (ids) => {
+    const gone = new Set(ids);
+    if (!get().edges.some((e) => gone.has(e.id))) return;
+    get().snapshot();
+    set((s) => ({ edges: s.edges.filter((e) => !gone.has(e.id)), revision: s.revision + 1 }));
+  },
+
+  pasteDoc: (doc, offset) => {
+    if (!doc.nodes.length) return;
+    get().snapshot();
+    const idMap = new Map(doc.nodes.map((n) => [n.id, uid('n')]));
+    const nodes = doc.nodes.map(
+      (n) =>
+        ({
+          ...n,
+          id: idMap.get(n.id)!,
+          position: { x: n.position.x + offset.x, y: n.position.y + offset.y },
+          zIndex: n.type === 'lane' ? -1 : undefined,
+          selected: true,
+          dragging: false,
+        }) as FlowNode,
+    );
+    const edges = doc.edges
+      .filter((e) => idMap.has(e.source) && idMap.has(e.target))
+      .map((e) => decorateEdge({ ...e, id: uid('e'), source: idMap.get(e.source)!, target: idMap.get(e.target)!, selected: false }));
+    set((s) => ({
+      nodes: [...s.nodes.map((n) => (n.selected ? { ...n, selected: false } : n)), ...nodes],
+      edges: [...s.edges.map((e) => (e.selected ? { ...e, selected: false } : e)), ...edges],
+      revision: s.revision + 1,
+    }));
+  },
+
+  connectNew: (from, kind, patch, position) => {
+    get().snapshot();
+    const id = uid('n');
+    const node = {
+      id,
+      type: kind,
+      position,
+      data: { ...NODE_DEFAULTS[kind], ...patch },
+      ...NODE_SIZE[kind],
+      zIndex: kind === 'lane' ? -1 : undefined,
+      selected: true,
+    } as FlowNode;
+    const edge = decorateEdge({
+      id: uid('e'),
+      type: 'flow',
+      source: from.id,
+      sourceHandle: from.handle,
+      target: id,
+      targetHandle: OPPOSITE[from.handle] ?? null,
+      data: { ...get().edgeDraft, label: '' },
+    } as FlowEdge);
+    set((s) => ({
+      nodes: [...s.nodes.map((n) => (n.selected ? { ...n, selected: false } : n)), node],
+      edges: [...s.edges.map((e) => (e.selected ? { ...e, selected: false } : e)), edge],
+      revision: s.revision + 1,
+    }));
+    return id;
+  },
+
+  reconnect: (id, c) => {
+    get().snapshot();
+    set((s) => ({
+      edges: s.edges.map((e) =>
+        e.id === id ? { ...e, source: c.source, sourceHandle: c.sourceHandle, target: c.target, targetHandle: c.targetHandle } : e,
+      ),
+      revision: s.revision + 1,
+    }));
+  },
+
+  reverseEdges: (ids) => {
+    if (!ids.length) return;
+    get().snapshot();
+    set((s) => ({
+      edges: s.edges.map((e) =>
+        ids.includes(e.id) ? { ...e, source: e.target, sourceHandle: e.targetHandle, target: e.source, targetHandle: e.sourceHandle } : e,
+      ),
+      revision: s.revision + 1,
+    }));
+  },
+
+  reorder: (where) => {
+    const { nodes } = get();
+    const picked = nodes.filter((n) => n.selected && n.type !== 'lane');
+    if (!picked.length) return;
+    get().snapshot();
+    const rest = nodes.filter((n) => !picked.includes(n));
+    set((s) => ({ nodes: where === 'front' ? [...rest, ...picked] : [...picked, ...rest], revision: s.revision + 1 }));
+  },
+
   selectOnly: (id) =>
     set((s) => ({
       nodes: s.nodes.map((n) => (n.id === id ? { ...n, selected: true } : n.selected ? { ...n, selected: false } : n)),
-      edges: s.edges.map((e) => (e.selected ? { ...e, selected: false } : e)),
+      edges: s.edges.map((e) => (e.id === id ? { ...e, selected: true } : e.selected ? { ...e, selected: false } : e)),
     })),
 
   selectAll: () =>

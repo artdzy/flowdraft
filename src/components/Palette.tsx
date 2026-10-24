@@ -43,8 +43,8 @@ export function Palette({ onAdded }: { onAdded?: () => void }) {
       ))}
       <p className="fd-palette-tip">
         {t(
-          'Kutuların kenarındaki noktalardan sürükleyerek bağla. Çizgiye tıklayıp stilini değiştir.',
-          'Drag from the dots on a box’s edge to connect it. Click a line to change its style.',
+          'Kutuların kenarındaki noktalardan sürükleyerek bağla; boşluğa bırakırsan bağlı yeni bir parça oluşur. Çizgiye çift tıklayıp etiket yaz.',
+          'Drag from the dots on a box’s edge to connect it; drop in empty space to add a connected part. Double-click a line to label it.',
         )}
       </p>
     </div>

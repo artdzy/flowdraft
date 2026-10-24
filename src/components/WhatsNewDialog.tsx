@@ -1,4 +1,4 @@
-import { MessageSquare, RefreshCw, Wrench, type LucideIcon } from 'lucide-react';
+import { Copy, Rows3, Spline, type LucideIcon } from 'lucide-react';
 import { useState } from 'react';
 import { version } from '../../package.json';
 import { t } from '../i18n';
@@ -12,27 +12,27 @@ type Change = { icon: LucideIcon; title: string; text: string };
 /** What this version brings. Update together with the version in package.json; everyone sees it once. */
 const CHANGES: Change[] = [
   {
-    icon: MessageSquare,
-    title: t('Sohbetten çiz, sohbette gör', 'Draw from the chat, see it in the chat'),
+    icon: Copy,
+    title: t('Kopyala, yapıştır, sağ tık', 'Copy, paste, right-click'),
     text: t(
-      'flowdraft’ı Claude, ChatGPT ya da Codex’e bağladıysan AI akışı çizdiğinde veya değiştirdiğinde sonucun görseli sohbete gelir. Düzeltmeni sohbete yaz; AI aynı akışı günceller ve yeni görseli gösterir. flowdraft’ı açman bile gerekmez.',
-      'If you’ve connected flowdraft to Claude, ChatGPT or Codex, a picture of the result shows up in the chat whenever the AI draws or changes a flow. Type your corrections in the chat; the AI updates the same flow and shows the new picture. You don’t even need to open flowdraft.',
+      '⌘C / ⌘V / ⌘X artık çalışıyor; başka bir akışa bile yapıştırabilirsin. Düz metin yapıştırınca yazı kutusu olur. Kutuya, çizgiye ya da boş tuvale sağ tıklayınca menü açılır.',
+      '⌘C / ⌘V / ⌘X now work, even into another flow. Pasted plain text becomes a text box. Right-click a box, a line or the empty canvas for a menu.',
     ),
   },
   {
-    icon: RefreshCw,
-    title: t('Değişiklikler ekrana canlı gelir', 'Changes appear live'),
+    icon: Spline,
+    title: t('Çizgiler daha hızlı', 'Faster connections'),
     text: t(
-      'AI açık olan akışını değiştirdiğinde flowdraft sayfayı yenilemeden son hali gösterir. AI, burada açık olan akışı da görebilir; istersen Dosya → AI araçlarına bağla altından kapatabilirsin.',
-      'When the AI changes the flow you have open, flowdraft shows the latest version without a reload. The AI can also see the flow open here; you can turn that off under File → Connect AI tools.',
+      'Bir noktadan boşluğa sürükleyip bırak: bağlı yeni bir parça oluşur ve hemen yazmaya başlarsın. Çizgiye çift tıklayıp etiket yaz; seçili çizginin ucunu başka bir kutuya taşı.',
+      'Drag from a dot into empty space: a connected part appears and you start typing right away. Double-click a line to label it; drag the end of a selected line to another box.',
     ),
   },
   {
-    icon: Wrench,
-    title: t('Düzeltme', 'Fix'),
+    icon: Rows3,
+    title: t('Düzen', 'Layout'),
     text: t(
-      'Karar kutuları PNG ve SVG dışa aktarımında artık siyah çıkmıyor.',
-      'Decision diamonds no longer come out black in PNG and SVG exports.',
+      'Kulvarı taşıyınca içindekiler birlikte gelir. Sürüklerken kırmızı kılavuz çizgileri komşulara hizalar. ⇧1 sığdır, ⇧0 %100, ⇧2 seçime yakınlaş, ⌘+ / ⌘− yakınlaş ve uzaklaş.',
+      'Moving a lane takes its contents along. Red guide lines snap to neighbours while you drag. ⇧1 fits everything, ⇧0 is 100%, ⇧2 zooms to the selection, ⌘+ / ⌘− zoom in and out.',
     ),
   },
 ];

@@ -64,6 +64,8 @@ type EditableProps = {
   upper?: boolean;
   /** Hidden while empty, unless it is being edited. */
   optional?: boolean;
+  /** Where the text goes; by default into the node's data field. */
+  onSave?: (text: string) => void;
 };
 
 /** A node text that turns into an in-place editor on double-click; edits go to the store as you type. */
@@ -79,7 +81,7 @@ function Editable(props: EditableProps) {
   );
 }
 
-function InlineEditor({ id, field, value, as: Tag = 'span', className, multiline, upper }: EditableProps) {
+export function InlineEditor({ id, field, value, as: Tag = 'span', className, multiline, upper, onSave }: EditableProps) {
   const ref = useRef<HTMLElement>(null);
   const initial = useRef(value);
 
@@ -94,7 +96,9 @@ function InlineEditor({ id, field, value, as: Tag = 'span', className, multiline
 
   const save = (text: string) => {
     const next = upper ? text.toLocaleUpperCase(locale) : text;
-    if (next !== value) useEditor.getState().updateNodeData(id, { [field]: next });
+    if (next === value) return;
+    if (onSave) onSave(next);
+    else useEditor.getState().updateNodeData(id, { [field]: next });
   };
 
   // Browsers keep a placeholder line break after a trailing Enter; drop trailing breaks once editing ends.
