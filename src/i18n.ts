@@ -2,6 +2,11 @@ export type Lang = 'tr' | 'en';
 
 const LANG_KEY = 'flowdraft:lang';
 
+/** The saved choice as a cookie too, so the server (seo.js) writes the page's own texts in the same language. */
+function tellServer(chosen: Lang) {
+  document.cookie = `fd_lang=${chosen}; path=/; max-age=31536000; samesite=lax`;
+}
+
 function detect(): Lang {
   // The MCP server (server/mcp.ts) shares the node defaults and keeps its original Turkish ones.
   if (typeof window === 'undefined') return 'tr';
@@ -10,7 +15,11 @@ function detect(): Lang {
   if (asked === 'tr' || asked === 'en') return asked;
   try {
     const chosen = localStorage.getItem(LANG_KEY);
-    if (chosen === 'tr' || chosen === 'en') return chosen;
+    if (chosen === 'tr' || chosen === 'en') {
+      // Choices saved before the cookie existed reach the server from the next page load on.
+      tellServer(chosen);
+      return chosen;
+    }
   } catch {
     // Storage blocked: fall back to the browser language.
   }
@@ -32,6 +41,7 @@ export function setLang(next: Lang) {
   } catch {
     return;
   }
+  tellServer(next);
   // A ?lang= in the address would override the new choice after the reload.
   const url = new URL(window.location.href);
   url.searchParams.delete('lang');

@@ -5,29 +5,37 @@ import { useTheme } from '../store/theme';
 
 const YEAR = new Date().getFullYear();
 
-/** websiteniyapalım.com standard footer badge, light or dark to match the app theme. */
-export function Credit() {
+/**
+ * websiteniyapalım.com standard footer badge, light or dark to match the app theme.
+ * `compact` keeps only the copyright line, for the home page, whose landing section footer already has the links.
+ */
+export function Credit({ compact = false }: { compact?: boolean }) {
   const theme = useTheme((s) => s.theme);
   return (
     <div className="wsy-credit" data-theme={theme}>
       <span className="wsy-credit__copy">
-        © {YEAR} flowdraft · {t('Tüm hakları saklıdır.', 'All rights reserved.')} ·{' '}
-        <a href="/kullanim-sartlari">{t('Kullanım Şartları', 'Terms of Use')}</a> ·{' '}
-        <a href="/gizlilik">{t('Gizlilik', 'Privacy')}</a> · <a href="/destek">{t('Destek', 'Support')}</a> ·{' '}
-        <a href="/mcp">{t('Yapay zekâ ile kullan', 'Use with AI')}</a>
-        {/* The promo videos are web-only (not bundled into the iPad app). */}
-        {!nativeApp && (
+        © {YEAR} flowdraft · {t('Tüm hakları saklıdır.', 'All rights reserved.')}
+        {!compact && (
           <>
             {' '}
-            · <a href="/tanitim">{t('Tanıtım', 'Product tour')}</a>
+            · <a href="/kullanim-sartlari">{t('Kullanım Şartları', 'Terms of Use')}</a> ·{' '}
+            <a href="/gizlilik">{t('Gizlilik', 'Privacy')}</a> · <a href="/destek">{t('Destek', 'Support')}</a> ·{' '}
+            <a href="/mcp">{t('Yapay zekâ ile kullan', 'Use with AI')}</a>
+            {/* The promo videos are web-only (not bundled into the iPad app). */}
+            {!nativeApp && (
+              <>
+                {' '}
+                · <a href="/tanitim">{t('Tanıtım', 'Product tour')}</a>
+              </>
+            )}
+            {/* Plain links to the guide pages, so search engines reach them from every page of the app. */}
+            {' '}
+            · <a href={guideHref('what')}>{t('Akış diyagramı nedir?', 'What is a flowchart?')}</a> ·{' '}
+            <a href={guideHref('examples')}>{t('Akış diyagramı örnekleri', 'Flowchart examples')}</a> ·{' '}
+            <a href={guideHref('symbols')}>{t('Akış diyagramı sembolleri', 'Flowchart symbols')}</a> ·{' '}
+            <a href={guideHref('ai')}>{t('Yapay zekâ ile akış diyagramı', 'ChatGPT flowcharts')}</a>
           </>
         )}
-        {/* Plain links to the guide pages, so search engines reach them from every page of the app. */}
-        {' '}
-        · <a href={guideHref('what')}>{t('Akış diyagramı nedir?', 'What is a flowchart?')}</a> ·{' '}
-        <a href={guideHref('examples')}>{t('Akış diyagramı örnekleri', 'Flowchart examples')}</a> ·{' '}
-        <a href={guideHref('symbols')}>{t('Akış diyagramı sembolleri', 'Flowchart symbols')}</a> ·{' '}
-        <a href={guideHref('ai')}>{t('Yapay zekâ ile akış diyagramı', 'ChatGPT flowcharts')}</a>
       </span>
       <a
         className="wsy-credit__link"

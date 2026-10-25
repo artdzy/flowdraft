@@ -92,7 +92,7 @@ app.get('/{*splat}', (req, res) => {
     return;
   }
   const { html, varies } = seo.render(req);
-  if (varies) res.vary('Accept-Language');
+  if (varies) res.vary(['Accept-Language', 'Cookie']);
   // public/sw.js keeps only responses marked as the app shell for offline use.
   res.set({ 'Cache-Control': 'no-cache', 'X-Flowdraft-Shell': '1' }).type('html').send(html);
 });

@@ -34,10 +34,13 @@ export function createSeo({ root, dist, guides }) {
   // English is therefore canonical on the plain URL and only Turkish gets its own (?lang=tr).
   const canonical = (pagePath, lang) => url(pagePath, lang === 'tr' ? 'tr' : undefined);
 
-  // Same rule as src/i18n.ts: an explicit ?lang= wins, else Turkish for Turkish browsers and English otherwise.
+  // Same rule as src/i18n.ts: an explicit ?lang= wins, then the TR / EN switch's choice (its fd_lang cookie), else
+  // Turkish for Turkish browsers and English otherwise.
   function pickLang(req) {
     const asked = typeof req.query.lang === 'string' ? req.query.lang : '';
     if (asked === 'tr' || asked === 'en') return { lang: asked, explicit: true };
+    const saved = /(?:^|;\s*)fd_lang=(tr|en)(?:;|$)/.exec(req.get('cookie') ?? '')?.[1];
+    if (saved) return { lang: saved, explicit: false };
     const first = (req.get('accept-language') ?? '').split(',')[0].trim().toLowerCase();
     return { lang: first.startsWith('tr') ? 'tr' : 'en', explicit: false };
   }

@@ -1,5 +1,6 @@
 import { ReactFlowProvider } from '@xyflow/react';
 import { useEffect, useSyncExternalStore } from 'react';
+import { createPortal } from 'react-dom';
 import { AiDialog } from './components/AiDialog';
 import { AuthModal } from './components/AuthModal';
 import { Canvas } from './components/Canvas';
@@ -154,6 +155,21 @@ function useCloudRefresh() {
 const pageTitle = document.title;
 
 /**
+ * The home page's landing section (seo.js) sits under the full-height editor and ends with its own footer, so there
+ * the footer strip goes to the very end of the page instead of between the editor and the landing. A hidden landing
+ * (installed app) keeps the strip under the editor.
+ */
+function landingFoot() {
+  const landing = document.querySelector('.fd-home');
+  if (!landing?.getClientRects().length) return null;
+  const host = document.createElement('div');
+  landing.after(host);
+  return host;
+}
+
+const pageFoot = landingFoot();
+
+/**
  * Browser tab shows the open diagram, with a dot while there are unsaved cloud changes.
  * A fresh empty canvas keeps the server's title, which is also what search engines see after rendering.
  */
@@ -194,7 +210,8 @@ export default function App() {
             </aside>
           )}
         </main>
-        {mobile ? <MobileBar /> : <Credit />}
+        {mobile && <MobileBar />}
+        {pageFoot ? createPortal(<Credit compact />, pageFoot) : !mobile && <Credit />}
         <AuthModal />
         <ProjectsDialog />
         <NewDialog />
