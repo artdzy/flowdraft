@@ -3042,7 +3042,7 @@ ul.fd-promo-features {
 }
 
 /* Guide lines while a node is dragged level with a neighbour; drawn over the canvas in screen coordinates. */
-.fd-guide {
+.fd-snap-guide {
   position: absolute;
   z-index: 6;
   pointer-events: none;
@@ -3050,13 +3050,13 @@ ul.fd-promo-features {
   opacity: 0.85;
 }
 
-.fd-guide.is-v {
+.fd-snap-guide.is-v {
   top: 0;
   bottom: 0;
   width: 1px;
 }
 
-.fd-guide.is-h {
+.fd-snap-guide.is-h {
   left: 0;
   right: 0;
   height: 1px;

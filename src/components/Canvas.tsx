@@ -75,8 +75,8 @@ function GuideLines() {
   if (!guides) return null;
   return (
     <>
-      {guides.x !== undefined && <div className="fd-guide is-v" style={{ left: guides.x * zoom + x }} />}
-      {guides.y !== undefined && <div className="fd-guide is-h" style={{ top: guides.y * zoom + y }} />}
+      {guides.x !== undefined && <div className="fd-snap-guide is-v" style={{ left: guides.x * zoom + x }} />}
+      {guides.y !== undefined && <div className="fd-snap-guide is-h" style={{ top: guides.y * zoom + y }} />}
     </>
   );
 }
