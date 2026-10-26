@@ -106,7 +106,7 @@ function DescribeForm({ onDone }: { onDone: () => void }) {
           rows={5}
           maxLength={1000}
           value={text}
-          disabled={busy}
+          readOnly={busy}
           placeholder={t('Kim ne yapıyor, nerede karar veriliyor? Birkaç cümle yeter.', 'Who does what, and where is a decision made? A few sentences will do.')}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => {
