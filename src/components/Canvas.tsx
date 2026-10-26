@@ -25,10 +25,12 @@ import { DND_MIME, PALETTE_BY_ID } from '../flow/palette';
 import type { FlowEdge, FlowNode, NodeKind } from '../flow/types';
 import { t } from '../i18n';
 import { useClipboard } from '../lib/clipboard';
-import { isTyping } from '../lib/keys';
+import { isTyping, runOnce } from '../lib/keys';
+import { onNativeEvent } from '../lib/platform';
 import { useEditor } from '../store/editor';
 import { useTheme } from '../store/theme';
 import { toast, useUi, type ContextTarget } from '../store/ui';
+import { DescribeButton } from './DescribeDialog';
 import { TemplateGrid } from './Dialogs';
 import { useAddNode } from './useAddNode';
 
@@ -62,6 +64,7 @@ function EmptyState() {
       <div className="fd-empty-card">
         <p className="fd-kicker">{t('Boş tuval', 'Blank canvas')}</p>
         <h2>{t('Bir parça sürükle ya da bir şablonla başla', 'Drag in a part or start from a template')}</h2>
+        <DescribeButton />
         <TemplateGrid includeBlank={false} />
       </div>
     </div>
@@ -81,6 +84,21 @@ function GuideLines() {
   );
 }
 
+/** View menu of the iOS / Mac app (ios/Flowdraft/EditorCommands.swift). */
+function useZoomCommands() {
+  const rf = useReactFlow();
+  useEffect(
+    () =>
+      onNativeEvent((e) => {
+        if (e.type !== 'command') return;
+        if (e.name === 'zoomIn') runOnce('zoomIn', () => void rf.zoomIn(ANIM));
+        else if (e.name === 'zoomOut') runOnce('zoomOut', () => void rf.zoomOut(ANIM));
+        else if (e.name === 'zoomFit') runOnce('zoomFit', () => void rf.fitView({ ...FIT, ...ANIM }));
+      }),
+    [rf],
+  );
+}
+
 /** ⌘+ / ⌘− zoom, ⌘0 or ⇧1 fit everything, ⌘1 or ⇧0 is 100%, ⇧2 zooms to the selection. */
 function useZoomShortcuts(enabled: boolean) {
   const rf = useReactFlow();
@@ -94,9 +112,9 @@ function useZoomShortcuts(enabled: boolean) {
       const fit = (meta && !e.shiftKey && e.code === 'Digit0') || (!meta && e.shiftKey && e.code === 'Digit1');
       const actual = (meta && e.code === 'Digit1') || (!meta && e.shiftKey && e.code === 'Digit0');
       const selection = !meta && e.shiftKey && e.code === 'Digit2';
-      if (zoomIn) void rf.zoomIn(ANIM);
-      else if (zoomOut) void rf.zoomOut(ANIM);
-      else if (fit) void rf.fitView({ ...FIT, ...ANIM });
+      if (zoomIn) runOnce('zoomIn', () => void rf.zoomIn(ANIM));
+      else if (zoomOut) runOnce('zoomOut', () => void rf.zoomOut(ANIM));
+      else if (fit) runOnce('zoomFit', () => void rf.fitView({ ...FIT, ...ANIM }));
       else if (actual) void rf.zoomTo(1, ANIM);
       else if (selection) {
         const picked = useEditor.getState().nodes.filter((n) => n.selected);
@@ -134,6 +152,7 @@ export function Canvas({ mobile }: { mobile: boolean }) {
   const reconnectFrom = useRef<XYPosition | null>(null);
 
   useZoomShortcuts(!mobile);
+  useZoomCommands();
   const pointerOnCanvas = useCallback(() => (pointer.current ? rf.screenToFlowPosition(pointer.current) : null), [rf]);
   useClipboard(pointerOnCanvas);
 
@@ -145,11 +164,20 @@ export function Canvas({ mobile }: { mobile: boolean }) {
     if (fitRequest) pendingFit.current = true;
   }, [fitRequest]);
 
+  const fitFrame = useRef(0);
+  useEffect(() => () => cancelAnimationFrame(fitFrame.current), []);
   useEffect(() => {
     if (!pendingFit.current || (!initialized && nodes.length)) return;
     pendingFit.current = false;
-    const frame = requestAnimationFrame(() => void rf.fitView(FIT));
-    return () => cancelAnimationFrame(frame);
+    // A flow loaded over another one is drawn a frame or two before its nodes are measured; wait for their sizes.
+    let tries = 0;
+    const fit = () => {
+      const unmeasured = rf.getNodes().some((n) => !rf.getInternalNode(n.id)?.measured?.width);
+      if (unmeasured && tries++ < 30) fitFrame.current = requestAnimationFrame(fit);
+      else void rf.fitView(FIT);
+    };
+    cancelAnimationFrame(fitFrame.current);
+    fitFrame.current = requestAnimationFrame(fit);
   }, [initialized, fitRequest, nodes.length, rf]);
 
   // Enter edits the text of the one selected node or the label of the one selected connection.

@@ -8,6 +8,7 @@ import { getIcon } from '../flow/icons';
 import { TEMPLATES, type TemplateId } from '../flow/templates';
 import { useEditor } from '../store/editor';
 import { askConfirm, settleConfirm, toast, useUi, type ConfirmRequest } from '../store/ui';
+import { DescribeButton } from './DescribeDialog';
 import { Modal } from './Modal';
 
 export async function startTemplate(id: TemplateId): Promise<boolean> {
@@ -50,6 +51,7 @@ export function NewDialog() {
   const close = () => useUi.setState({ newOpen: false });
   return (
     <Modal open={open} onClose={close} title={t('Yeni akış', 'New flow')} titleId="fd-new-title">
+      <DescribeButton />
       <TemplateGrid onPicked={close} />
     </Modal>
   );

@@ -3094,3 +3094,88 @@ html[data-platform='mac'] {
 html[data-platform='mac'] .fd-topbar {
   padding-left: 84px;
 }
+
+/* ---------- Describe a flow (Apple Intelligence, iOS / Mac app) ---------- */
+
+.fd-describe-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--accent-line);
+  background: var(--accent-soft);
+  text-align: left;
+  transition: border-color 0.12s, background-color 0.12s;
+}
+
+.fd-describe-cta:hover {
+  border-color: var(--accent);
+}
+
+.fd-describe-cta .fd-template-icon {
+  flex: none;
+  margin-bottom: 0;
+  background: var(--accent);
+  color: #fff;
+}
+
+.fd-describe-cta-text {
+  display: grid;
+  gap: 2px;
+}
+
+.fd-describe {
+  display: grid;
+  gap: 14px;
+}
+
+.fd-describe-lead {
+  color: var(--text-2);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.fd-describe-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.fd-describe-example {
+  height: 28px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  background: var(--panel-2);
+  color: var(--text-2);
+  font-size: 12.5px;
+}
+
+.fd-describe-example:hover:not(:disabled) {
+  border-color: var(--accent-line);
+  color: var(--text);
+}
+
+.fd-describe .fd-field textarea {
+  min-height: 112px;
+}
+
+.fd-describe-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-2);
+  font-size: 13px;
+}
+
+.fd-describe-progress svg {
+  flex: none;
+  color: var(--accent);
+}
+
+.fd-describe-actions {
+  display: flex;
+  justify-content: flex-end;
+}

@@ -3,3 +3,21 @@
 "Cancel" = "Cancel";
 "The file could not be prepared. Try again." = "The file could not be prepared. Try again.";
 "Export failed." = "Export failed.";
+"This file can’t be opened." = "This file can’t be opened.";
+
+/* Menu bar (EditorCommands.swift) */
+"New Flow…" = "New Flow…";
+"Draw from a Description…" = "Draw from a Description…";
+"Open…" = "Open…";
+"My Projects…" = "My Projects…";
+"Save" = "Save";
+"Export" = "Export";
+"PNG Image…" = "PNG Image…";
+"SVG Vector…" = "SVG Vector…";
+"JSON (Editable)…" = "JSON (Editable)…";
+"Zoom In" = "Zoom In";
+"Zoom Out" = "Zoom Out";
+"Fit Flow" = "Fit Flow";
+"Flowchart Guide" = "Flowchart Guide";
+"Connect AI Tools…" = "Connect AI Tools…";
+"Select All" = "Select All";

@@ -1,0 +1,34 @@
+Thank you for the review. We believe flowdraft meets guidelines 4.3(a), 4.3(b) and 4.2.6, so we are replying instead of resubmitting. This answer covers both the iOS/iPadOS and the macOS (Mac Catalyst) versions, which are built from the same project.
+
+1. What the app does
+flowdraft is a diagram editor for mapping how a process works: who does what, in which order, where a decision branches, where a person must approve, and which system or AI agent handles a step. The user places typed parts on a canvas (step, decision, human approval gate, person, AI agent/bot, system, database, chat bubble, swimlane, automation zone), connects them with labelled arrows and exports PNG, SVG or editable JSON through the share sheet, Files or, on Mac, a save panel. The editor is bundled in the app and works offline without an account; an optional free account syncs diagrams with flowdraft.tech. The account can also be connected to AI assistants over MCP (Model Context Protocol): the assistant creates or edits diagrams in the user's account, gets a rendered picture back to check its layout, and the diagram open in the app updates live.
+
+2. Intended users
+People who design processes rather than draw pictures: operations and product teams documenting workflows and approvals; developers sketching architectures and automations; people building chatbot and AI-agent flows who must show where a human steps in; students learning flowcharts. Many now plan with an AI assistant and want the result as an editable diagram. The app is fully localized in English and Turkish.
+
+3. The gap it addresses
+Whiteboard apps leave the structure to the user, and classic flowchart apps offer generic shapes. flowdraft's parts carry meaning for today's workflows (human-approval gates, agent vs. system vs. person, automation zones, conversation bubbles), so a diagram reads as a process spec. Through MCP, an assistant such as Claude or ChatGPT can draw into the user's account, check the picture, apply corrections to the same diagram and see what is open on screen (users can turn this off). The user then refines it by hand on iPhone, iPad, Mac or the web, offline and without an account; there are no ads or in-app purchases.
+
+4. Beta testing
+The same editor has been publicly available on the web at flowdraft.tech since September 25, 2026, and builds have gone to internal TestFlight testers since then. Feedback applied before this build:
+- The toolbar did not fit on iPad; the compact layout now applies up to 960 px.
+- Testers wanted to type into boxes directly; text is now edited on the canvas.
+- iPhone landscape was requested; it is supported now, with safe-area handling.
+- Signing out left the previous drawing on screen; sign-out now clears the canvas and local draft.
+
+5. Standalone or suite
+Standalone. The other apps on this account are unrelated: fashion design with AI, virtual try-on, a gallery cleaner, a screenshot tool for Mac, a speech filler-word coach and a baby camera. None of them edits diagrams.
+
+6. Could it be part of another app?
+No. None of our other apps has a canvas, diagram model or audience this could extend.
+
+7. Code shared with our other apps
+None. The native layer (a WKWebView host with a custom URL scheme that serves the bundled editor offline, share sheet / Files / save panel export, file import, Mac window integration), the assets and the branding are specific to flowdraft.
+
+8. Codebase shared with third-party apps
+None beyond standard open-source libraries: React, React Flow (MIT) for canvas pan/zoom and edge drawing, the Supabase JS client and the official MCP SDK. Everything on top (part library, templates, export, account sync, MCP server, diagram rendering) was built for flowdraft.
+
+9. Client, partner or template
+No. flowdraft is my own product: I own the brand and the flowdraft.tech domain and run its backend. It was not made from a commercial template or an app generation service.
+
+Thank you.

@@ -198,15 +198,24 @@ export function requestExport(kind: ExportKind) {
 }
 
 export async function importFile(file: File) {
+  if (file.size > 2 * 1024 * 1024) {
+    toast(t('Dosya çok büyük.', 'This file is too large.'), 'error');
+    return;
+  }
+  importText(await file.text(), file.name);
+}
+
+/** Opens an exported flowdraft JSON file as a new, unsaved flow. */
+export function importText(text: string, filename: string) {
   try {
-    if (file.size > 2 * 1024 * 1024) throw new Error(t('Dosya çok büyük.', 'This file is too large.'));
-    const raw = JSON.parse(await file.text()) as { title?: unknown };
+    const raw = JSON.parse(text) as { title?: unknown };
     const doc = parseDoc(raw);
     if (!doc) throw new Error(t('Bu bir flowdraft JSON dosyası değil.', 'This isn’t a flowdraft JSON file.'));
-    const title = typeof raw.title === 'string' && raw.title.trim() ? raw.title : file.name.replace(/\.json$/i, '');
+    const title = typeof raw.title === 'string' && raw.title.trim() ? raw.title : filename.replace(/\.json$/i, '');
     useEditor.getState().loadDoc(doc, { title, projectId: null, dirty: true });
     toast(t('İçe aktarıldı', 'Imported'));
   } catch (err) {
-    toast(err instanceof Error ? err.message : t('İçe aktarılamadı.', 'Couldn’t import.'), 'error');
+    const message = err instanceof SyntaxError ? t('Bu bir flowdraft JSON dosyası değil.', 'This isn’t a flowdraft JSON file.') : null;
+    toast(message ?? (err instanceof Error ? err.message : t('İçe aktarılamadı.', 'Couldn’t import.')), 'error');
   }
 }

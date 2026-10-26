@@ -22,6 +22,8 @@ type UiState = {
   projectsOpen: boolean;
   newOpen: boolean;
   aiOpen: boolean;
+  /** Drawing a flow from a description with Apple Intelligence (iOS / Mac app only, src/lib/describe.ts). */
+  describeOpen: boolean;
   /** Welcome video dialog (PromoDialog); the what's-new dialog waits until it is closed. */
   promoOpen: boolean;
   paletteSheet: boolean;
@@ -39,6 +41,7 @@ export const useUi = create<UiState>()(() => ({
   projectsOpen: false,
   newOpen: false,
   aiOpen: false,
+  describeOpen: false,
   promoOpen: false,
   paletteSheet: false,
   inspectorSheet: false,

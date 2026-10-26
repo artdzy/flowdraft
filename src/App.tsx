@@ -6,6 +6,7 @@ import { AuthModal } from './components/AuthModal';
 import { Canvas } from './components/Canvas';
 import { ContextMenu } from './components/ContextMenu';
 import { Credit } from './components/Credit';
+import { DescribeDialog } from './components/DescribeDialog';
 import { ConfirmDialog, NewDialog, ProjectsDialog, Toasts } from './components/Dialogs';
 import { Inspector } from './components/Inspector';
 import { MobileBar } from './components/MobileBar';
@@ -15,10 +16,11 @@ import { TopBar } from './components/TopBar';
 import { WhatsNewDialog } from './components/WhatsNewDialog';
 import { t, UNTITLED } from './i18n';
 import { openExampleLink, openProjectLink, refreshFromCloud, requestSave, saveToCloud } from './lib/actions';
+import { useNativeCommands } from './lib/commands';
 import { saveDraft } from './lib/draft';
 import { useLiveLink } from './lib/live';
 import { serializeDoc } from './lib/doc';
-import { isTyping } from './lib/keys';
+import { isTyping, runOnce } from './lib/keys';
 import { useAuth } from './store/auth';
 import { isDirty, useEditor } from './store/editor';
 import { useSettings } from './store/settings';
@@ -40,7 +42,7 @@ function useShortcuts() {
       const key = e.key.toLowerCase();
       if (key === 's') {
         e.preventDefault();
-        requestSave();
+        runOnce('save', requestSave);
         return;
       }
       if (isTyping(e.target)) return;
@@ -192,6 +194,7 @@ export default function App() {
   useExampleLink();
   useCloudRefresh();
   useLiveLink();
+  useNativeCommands();
 
   return (
     <ReactFlowProvider>
@@ -216,6 +219,7 @@ export default function App() {
         <ProjectsDialog />
         <NewDialog />
         <AiDialog />
+        <DescribeDialog />
         <PromoDialog />
         <WhatsNewDialog />
         <ConfirmDialog />

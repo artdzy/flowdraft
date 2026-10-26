@@ -3,3 +3,21 @@
 "Cancel" = "Vazgeç";
 "The file could not be prepared. Try again." = "Dosya hazırlanamadı. Tekrar dene.";
 "Export failed." = "Dışa aktarılamadı.";
+"This file can’t be opened." = "Bu dosya açılamıyor.";
+
+/* Menu bar (EditorCommands.swift) */
+"New Flow…" = "Yeni Akış…";
+"Draw from a Description…" = "Anlatarak Çiz…";
+"Open…" = "Aç…";
+"My Projects…" = "Projelerim…";
+"Save" = "Kaydet";
+"Export" = "Dışa Aktar";
+"PNG Image…" = "PNG Görsel…";
+"SVG Vector…" = "SVG Vektör…";
+"JSON (Editable)…" = "JSON (Düzenlenebilir)…";
+"Zoom In" = "Yakınlaştır";
+"Zoom Out" = "Uzaklaştır";
+"Fit Flow" = "Akışı Sığdır";
+"Flowchart Guide" = "Akış Diyagramı Rehberi";
+"Connect AI Tools…" = "AI Araçlarına Bağla…";
+"Select All" = "Tümünü Seç";

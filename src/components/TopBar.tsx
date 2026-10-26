@@ -17,6 +17,7 @@ import {
   Moon,
   Redo2,
   Save,
+  Sparkles,
   ShieldCheck,
   Sun,
   Undo2,
@@ -27,6 +28,7 @@ import { useRef, type MouseEvent, type PointerEvent } from 'react';
 import { lang, locale, setLang, t, UNTITLED, type Lang } from '../i18n';
 import { ADMIN_PATH, PROFILE_PATH } from '../lib/admin';
 import { importFile, requestAutosave, requestExport, requestSave, useSaveState } from '../lib/actions';
+import { openDescribe } from '../lib/describe';
 import { guideHref } from '../lib/guides';
 import { macApp, postNative } from '../lib/platform';
 import { openAuth, requireAuth, signOut, useAuth } from '../store/auth';
@@ -35,6 +37,7 @@ import { useSettings } from '../store/settings';
 import { toast, useUi } from '../store/ui';
 import { THEME_LABEL, useTheme, type ThemePref } from '../store/theme';
 import { Credit } from './Credit';
+import { describeAvailable } from './DescribeDialog';
 import { Segmented, Switch } from './fields';
 import { LANGS, LangSwitch } from './LangSwitch';
 import { Menu, MenuItem, MenuLink } from './Menu';
@@ -160,7 +163,7 @@ function clearCanvas() {
   toast(t('Tuval temizlendi. Geri almak için ⌘Z / Ctrl+Z', 'Canvas cleared. Press ⌘Z / Ctrl+Z to undo'));
 }
 
-function openProjects() {
+export function openProjects() {
   requireAuth(t('Projelerini görmek için giriş yap.', 'Sign in to see your projects.'), () =>
     useUi.setState({ projectsOpen: true }),
   );
@@ -209,6 +212,11 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       <MenuItem icon={<FilePlus2 size={16} />} onSelect={() => (close(), useUi.setState({ newOpen: true }))}>
         {t('Yeni akış', 'New flow')}
       </MenuItem>
+      {describeAvailable && (
+        <MenuItem icon={<Sparkles size={16} />} onSelect={() => (close(), openDescribe())}>
+          {t('Anlatarak çiz…', 'Draw from a description…')}
+        </MenuItem>
+      )}
       <MenuItem icon={<FolderOpen size={16} />} onSelect={() => (close(), openProjects())}>
         {t('Projelerim', 'My projects')}
       </MenuItem>

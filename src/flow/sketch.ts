@@ -15,7 +15,7 @@ type H = 't' | 'r' | 'b' | 'l';
 type Step = { id: string; kind: SketchStepKind; title: string; detail: string; lane: string };
 type Link = { from: string; to: string; label: string };
 
-const COL = 230; // column pitch
+const COL = 270; // column pitch: room for a decision's answer between two cards
 const ROW = 150; // lane / row pitch
 const LANE_X = 160; // first column inside swimlanes
 
@@ -50,7 +50,7 @@ export function repairSketch(input: FlowSketch): { lanes: string[]; steps: Step[
     const to = idMap.get(clean(raw.to, 20));
     if (!from || !to || from === to || byId.get(from)?.kind === 'end') continue;
     if (links.some((l) => l.from === from && l.to === to)) continue;
-    links.push({ from, to, label: clean(raw.label, 24) });
+    links.push({ from, to, label: clean(raw.label, 18) });
   }
   const outs = (id: string) => links.filter((l) => l.from === id);
   const ins = (id: string) => links.filter((l) => l.to === id);
@@ -86,7 +86,9 @@ export function repairSketch(input: FlowSketch): { lanes: string[]; steps: Step[
       }
     }
   }
-  return { lanes, steps, links };
+  // Lanes nobody works in would be empty rows.
+  const used = lanes.filter((l) => steps.some((s) => s.lane === l));
+  return { lanes: used, steps, links };
 }
 
 /** Longest-path column per step, ignoring links that loop back. */
@@ -171,7 +173,7 @@ export function sketchToDoc(input: FlowSketch): FlowDoc {
   if (swim) {
     for (const l of lanes) {
       nodes.push(node('lane', `lane_${lanes.indexOf(l)}`, 0, laneTop.get(l)!, { label: l.toLocaleUpperCase(), icon: 'Rows3' }, {
-        width: LANE_X + (maxCol + 1) * COL + 20,
+        width: LANE_X + maxCol * COL + 230,
         height: laneRows.get(l)! * ROW,
       }));
     }
@@ -233,6 +235,28 @@ export function sketchToDoc(input: FlowSketch): FlowDoc {
       data: { ...EDGE_DEFAULTS, ...data },
     };
   });
+
+  // A decision's answers leave from different sides, so their labels don't end up on one line.
+  for (const s of steps) {
+    if (s.kind !== 'decision') continue;
+    const from = centre.get(s.id)!;
+    const dist = (e: FlowEdge) => Math.abs(centre.get(e.target)!.cy - from.cy);
+    const used = new Set<string>();
+    for (const e of edges.filter((e) => e.source === s.id).sort((a, b) => dist(a) - dist(b))) {
+      const side = e.sourceHandle ?? 'r';
+      if (!used.has(side)) {
+        used.add(side);
+        continue;
+      }
+      const { cx, cy } = centre.get(e.target)!;
+      const ahead = cx >= from.cx ? 'r' : 'l';
+      const options = cy >= from.cy ? [ahead, 'b'] : [ahead, 't'];
+      const free = options.find((h) => !used.has(h));
+      if (!free) continue;
+      used.add(free);
+      e.sourceHandle = free;
+    }
+  }
 
   return { version: 1, nodes, edges };
 }

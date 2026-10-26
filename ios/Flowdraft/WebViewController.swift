@@ -1,5 +1,6 @@
 import SafariServices
 import UIKit
+import UniformTypeIdentifiers
 import WebKit
 
 /// Hosts the bundled flowdraft editor. The web app talks to it through `window.webkit.messageHandlers.flowdraft`
@@ -15,6 +16,8 @@ final class WebViewController: UIViewController {
 
     private let schemeHandler = BundleSchemeHandler()
     private var webView: WKWebView!
+    /// The flow being drawn from a description (FlowSketcher); one at a time.
+    private var sketchTask: Task<Void, Never>?
     #if DEBUG
     /// The share sheet last presented, for the recording hook (on iPad it lives in its own window).
     private weak var debugPresented: UIViewController?
@@ -26,6 +29,14 @@ final class WebViewController: UIViewController {
         config.userContentController.add(WeakMessageHandler(self), name: "flowdraft")
         config.userContentController.addUserScript(
             WKUserScript(source: Self.viewportScript, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        )
+        // What the app adds to the web app (src/lib/platform.ts): drawing a flow from a description on the device.
+        config.userContentController.addUserScript(
+            WKUserScript(
+                source: "window.flowdraftNative = { sketch: '\(FlowSketcher.status)' };",
+                injectionTime: .atDocumentStart,
+                forMainFrameOnly: true
+            )
         )
         #if targetEnvironment(macCatalyst)
         // The web app leaves room for the window's traffic lights in its own top bar (styles.css, html[data-platform='mac']).
@@ -60,6 +71,25 @@ final class WebViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         webView.load(URLRequest(url: BundleSchemeHandler.startURL))
+        NotificationCenter.default.addObserver(self, selector: #selector(runCommand(_:)), name: .flowdraftCommand, object: nil)
+    }
+
+    /// Edit > Select All (AppDelegate.buildMenu): the web app selects the canvas parts or the text being edited.
+    @objc func selectAllInEditor(_ sender: Any?) {
+        send(["type": "command", "name": "selectAll"])
+    }
+
+    /// A menu bar command (EditorCommands): Open shows the file picker here, the rest go to the web app.
+    @objc private func runCommand(_ note: Notification) {
+        guard let name = note.object as? String else { return }
+        guard name == EditorCommand.open.rawValue else {
+            send(["type": "command", "name": name])
+            return
+        }
+        guard presentedViewController == nil else { return }
+        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.json], asCopy: true)
+        picker.delegate = self
+        present(picker, animated: true)
     }
 
     #if targetEnvironment(macCatalyst)
@@ -209,6 +239,27 @@ final class WebViewController: UIViewController {
         present(alert, animated: true)
     }
 
+    /// Hands an event to the web app (window.flowdraftNativeEvent, src/lib/platform.ts).
+    private func send(_ event: [String: Any]) {
+        webView.callAsyncJavaScript("window.flowdraftNativeEvent?.(event)", arguments: ["event": event], in: nil, in: .page)
+    }
+
+    /// Draws a flow from the user's description on the device and reports progress, then the sketch or an error code.
+    private func startSketch(id: Int, prompt: String) {
+        sketchTask?.cancel()
+        sketchTask = Task { [weak self] in
+            do {
+                let sketch = try await FlowSketcher.sketch(prompt) { steps, latest in
+                    self?.send(["type": "sketchProgress", "id": id, "steps": steps, "latest": latest])
+                }
+                try Task.checkCancellation()
+                self?.send(["type": "sketchResult", "id": id, "sketch": sketch])
+            } catch {
+                self?.send(["type": "sketchError", "id": id, "code": FlowSketcher.code(for: error)])
+            }
+        }
+    }
+
     /// Reads a data: URL as produced by the web exporter (base64 PNG, percent-encoded SVG and JSON).
     private static func decode(dataURL: String) -> Data? {
         guard dataURL.hasPrefix("data:"), let comma = dataURL.firstIndex(of: ",") else { return nil }
@@ -237,6 +288,17 @@ extension WebViewController: WKScriptMessageHandler {
             #if targetEnvironment(macCatalyst)
             Self.moveWindow(zoom: type == "zoomWindow")
             #endif
+        case "sketchPrepare":
+            // The describe dialog opened: report whether the model is ready now and load it in the background.
+            send(["type": "sketchStatus", "status": FlowSketcher.status])
+            FlowSketcher.prepare()
+        case "sketch":
+            guard let id = body["id"] as? Int, let prompt = body["prompt"] as? String,
+                  !prompt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return }
+            startSketch(id: id, prompt: String(prompt.prefix(1200)))
+        case "sketchCancel":
+            sketchTask?.cancel()
+            sketchTask = nil
         #if DEBUG
         case "debugDismiss":
             // Screen-recording hook: closes the share sheet or alert the script opened.
@@ -246,6 +308,19 @@ extension WebViewController: WKScriptMessageHandler {
         default:
             break
         }
+    }
+}
+
+extension WebViewController: UIDocumentPickerDelegate {
+    /// File > Open: the chosen flowdraft JSON goes to the web app, which checks and opens it like an import.
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        guard let url = urls.first else { return }
+        let size = (try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize) ?? 0
+        guard size <= 2 * 1024 * 1024, let data = try? Data(contentsOf: url), let text = String(data: data, encoding: .utf8) else {
+            showMessage(String(localized: "This file can’t be opened."))
+            return
+        }
+        send(["type": "importFile", "name": url.lastPathComponent, "text": text])
     }
 }
 
