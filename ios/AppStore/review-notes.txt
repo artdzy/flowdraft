@@ -1,27 +1,28 @@
-1. SCREEN RECORDING
-Attached: a screen recording of this build on an iPad Pro 13-inch simulator (iPadOS 27, English UI). It shows: starting from the Automation template, retitling a box in the right panel, exporting a PNG through the share sheet, signing in with the demo account, saving, opening "My projects", and the account-deletion confirmation under Profile (cancelled). On devices set to Turkish the app shows the same screens in Turkish (glossary in section 3).
+0. NEW IN BUILD 7 (after the 4.3 review; our answers to the nine questions are in the App Review thread)
+- Draw from a description, on the device: the user writes a process in plain words; Apple's on-device model (Foundation Models framework) returns its steps, lanes and yes/no branches, and flowdraft lays them out as an editable flowchart. No server is involved. To try it: on the empty canvas tap "Describe it, Apple Intelligence draws it" (also File > "Draw from a description…"), tap the "Refund request" example, then "Draw the flow" (about 10–15 seconds). It needs Apple Intelligence turned on; otherwise the dialog says how to turn it on. The end of the attached recording shows it on a Mac.
+- Menu bar commands (iPadOS menu bar, and the ⌘ shortcut overlay with a keyboard): New, Draw from a Description, Open, My Projects, Save, Export and zoom.
+
+1. ATTACHMENTS
+A screen recording of the previous build on an iPad simulator (templates, editing, PNG export through the share sheet, sign-in with the demo account, saving, My projects, the account-deletion confirmation), followed by two pictures of drawing from a description in this build.
 
 2. PURPOSE AND AUDIENCE
-flowdraft is a flowchart editor for people who plan processes: product and operations teams, developers and students sketching a workflow, an automation, a software architecture or a customer conversation. Users drag ready-made parts (steps, decisions, people, systems, notes, lanes) onto a canvas, connect them with arrows and export PNG, SVG or editable JSON. The editor runs entirely on the device from code bundled in the app, so it opens instantly and works offline; the drawing is kept on the device automatically. A free account is optional and only adds cloud saving.
+flowdraft is a flowchart editor for people who plan processes: product and operations teams, developers and students mapping a workflow, an automation, a software architecture or a customer conversation. The editor is bundled in the app, opens instantly and works offline; drawings stay on the device. A free account is optional and only adds cloud saving.
 
 3. HOW TO USE
 No account is needed for drawing, importing or exporting. For the account features please use the demo account in the Sign-In Information fields.
-- Launch the app. The empty canvas offers templates: tap "Automation", "Software" or "Conversation" to start from one, or drag parts from the left panel onto the canvas.
-- Connect boxes by dragging from a dot on a box edge to another box. Tap a box or an arrow to edit its text, color and style in the right panel.
-- Export: "Export" (top right) > "PNG image", "SVG vector" or "JSON (editable)". The share sheet opens (Save to Files, AirDrop, Photos, other apps).
-- Import: "File" (top left) > "Import JSON" opens the Files picker for a previously exported .json file.
-- Account (optional): "Sign in" (top right) > enter the demo email and password > "Sign in". Then "Save" stores the diagram in the account; "File" > "My projects" lists saved diagrams; the "Auto-save" switch turns on auto-save.
-- Account deletion: when signed in, tap the round account button (top right, the email's first letter) > "Profile" > "Delete account" > confirm. The account and all its saved diagrams are deleted immediately and permanently. You may test this with the demo account.
-- iPhone (portrait, compact layout): File, Export, Sign in and account items are in the ☰ menu (top right); the bottom bar has Add, undo/redo, edit panel, delete and fit.
-- Turkish labels: Dosya = File, Projelerim = My projects, Dışa aktar = Export, Kaydet = Save, Giriş yap = Sign in, Profil = Profile, Hesabı sil = Delete account, Otomatik kaydet = Auto-save, Otomasyon = Automation.
+- The empty canvas offers templates ("Automation", "Software", "Conversation"); parts can also be dragged from the left panel.
+- Connect boxes by dragging from a dot on a box edge to another box; tap a box or an arrow to edit it in the right panel.
+- "Export" (top right) > PNG, SVG or JSON opens the share sheet. "File" > "Import JSON" opens the Files picker.
+- "Sign in" (top right) with the demo account; "Save" stores the diagram; "File" > "My projects" lists saved diagrams.
+- Account deletion: account button (top right) > "Profile" > "Delete account" > confirm. The account and its diagrams are deleted immediately; you may test this with the demo account.
+- iPhone: File, Export and account items are in the ☰ menu; the bottom bar has Add, undo/redo, edit, delete and fit.
+- Turkish labels: Dosya = File, Projelerim = My projects, Dışa aktar = Export, Kaydet = Save, Giriş yap = Sign in, Profil = Profile, Hesabı sil = Delete account, Anlatarak çiz = Draw from a description.
 
 4. EXTERNAL SERVICES
-- flowdraft's own backend at flowdraft.tech (self-hosted Supabase: auth and database) stores accounts (email, password hash) and diagrams saved to an account. It is only contacted to sign up, sign in or save. Diagrams are JSON; images and files cannot be uploaded.
-- Optional, user-initiated: under "File" > "Connect AI tools" the app shows the address of flowdraft's MCP server and a link to a setup guide. A user can add this address to an AI assistant of their choice (any MCP client) and authorize it with their flowdraft account; the assistant can then read and write that user's diagrams. The connection is made in the third-party tool, not in this app, and can be revoked in the same section of the app.
-- There is no analytics, advertising, tracking, payment processor or in-app purchase. Links to the terms, privacy policy, support page and guide open in a Safari view.
+- flowdraft's own backend at flowdraft.tech (self-hosted Supabase: auth and database) stores accounts and diagrams saved to an account. It is contacted only to sign up, sign in or save.
+- Optional, user-initiated: "File" > "Connect AI tools" shows the address of flowdraft's MCP server. A user can add it to an AI assistant of their choice and authorize it with their flowdraft account; the assistant can then read and write that user's diagrams. The connection is made in the third-party tool and can be revoked in the same section of the app.
+- Drawing from a description uses only Apple's on-device model.
+- No analytics, advertising, tracking, payments or in-app purchases. Links to the terms, privacy policy, support page and guide open in a Safari view.
 
-5. REGIONAL DIFFERENCES
-None. The UI is in English, and in Turkish on devices set to Turkish.
-
-6. REGULATED INDUSTRY / THIRD-PARTY MATERIAL
-Not applicable. The app is not in a regulated industry and contains no third-party content. It uses open-source libraries (React Flow, MIT license).
+5. REGIONAL DIFFERENCES / REGULATED INDUSTRY / THIRD-PARTY MATERIAL
+None / not applicable. The UI is in English, and in Turkish on devices set to Turkish. Open-source libraries only (React Flow, MIT license).

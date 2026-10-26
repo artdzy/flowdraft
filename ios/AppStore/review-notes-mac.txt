@@ -1,24 +1,28 @@
+0. NEW IN BUILD 7 (after the 4.3 review; our answers to the nine questions are in the App Review thread of the iOS submission)
+- Draw from a description, on the Mac: the user writes a process in plain words; Apple's on-device model (Foundation Models framework) returns its steps, lanes and yes/no branches, and flowdraft lays them out as an editable flowchart. No server is involved. To try it: on the empty canvas click "Describe it, Apple Intelligence draws it" (or File > "Draw from a Description…", ⇧⌘N), click the "Refund request" example, then "Draw the flow" (about 10–15 seconds). It needs Apple Intelligence turned on; otherwise the dialog says how to turn it on. The attached video shows it.
+- A real menu bar: File (New Flow ⌘N, Draw from a Description, Open… ⌘O with the open panel, My Projects, Save ⌘S, Export ⌘E), Edit (Select All selects the parts on the canvas), View (Zoom In, Zoom Out, Fit Flow ⌘0) and Help. Document and toolbar items the app has no use for were removed.
+
 1. WHAT THIS IS
-flowdraft for Mac is the same app as the iPhone/iPad version, built with Mac Catalyst from the same code and bundle id. It is a flowchart editor for people who plan processes: product and operations teams, developers and students sketching a workflow, an automation, a software architecture or a customer conversation. Users drag ready-made parts (steps, decisions, people, systems, notes, lanes) onto a canvas, connect them with arrows and export PNG, SVG or editable JSON. The editor runs entirely on the Mac from code bundled in the app, so it opens instantly and works offline; the drawing is kept on the Mac automatically. A free account is optional and only adds cloud saving.
+flowdraft for Mac is the same app as the iPhone/iPad version, built with Mac Catalyst from the same code and bundle id. It is a flowchart editor for people who plan processes: product and operations teams, developers and students mapping a workflow, an automation, a software architecture or a customer conversation. The editor is bundled in the app, opens instantly and works offline; drawings stay on the Mac. A free account is optional and only adds cloud saving.
 
 2. HOW TO USE
 No account is needed for drawing, importing or exporting. For the account features please use the demo account in the Sign-In Information fields.
-- Launch the app. The empty canvas offers templates: click "Automation", "Software" or "Conversation" to start from one, or drag parts from the left panel onto the canvas.
-- Connect boxes by dragging from a dot on a box edge to another box. Click a box or an arrow to edit its text, color and style in the right panel.
-- Export: "Export" (top right) > "PNG image", "SVG vector" or "JSON (editable)". A standard save panel opens; choose a location and save.
-- Import: "File" (top left) > "Import JSON" opens the open panel for a previously exported .json file.
-- Account (optional): "Sign in" (top right) > enter the demo email and password > "Sign in". Then "Save" stores the diagram in the account; "File" > "My projects" lists saved diagrams; the "Auto-save" switch turns on auto-save.
-- Account deletion: when signed in, click the round account button (top right, the email's first letter) > "Profile" > "Delete account" > confirm. The account and all its saved diagrams are deleted immediately and permanently. You may test this with the demo account.
+- The empty canvas offers templates ("Automation", "Software", "Conversation"); parts can also be dragged from the left panel.
+- Connect boxes by dragging from a dot on a box edge to another box; click a box or an arrow to edit it in the right panel.
+- Export: the "Export" button or File > Export > PNG, SVG or JSON; a standard save panel opens. Import: File > Open… (or "File" > "Import JSON" in the editor's top bar).
+- "Sign in" (top right) with the demo account; Save stores the diagram; File > My Projects lists saved diagrams.
+- Account deletion: account button (top right) > "Profile" > "Delete account" > confirm. The account and its diagrams are deleted immediately; you may test this with the demo account.
 - Links to the terms, privacy policy, support page and guide open in the default browser.
-- The UI is in English, and in Turkish on Macs set to Turkish (Dosya = File, Projelerim = My projects, Dışa aktar = Export, Kaydet = Save, Giriş yap = Sign in, Profil = Profile, Hesabı sil = Delete account, Otomatik kaydet = Auto-save, Otomasyon = Automation).
+- The UI is in English, and in Turkish on Macs set to Turkish (Dosya = File, Projelerim = My projects, Dışa aktar = Export, Kaydet = Save, Giriş yap = Sign in, Profil = Profile, Hesabı sil = Delete account, Anlatarak Çiz = Draw from a Description).
 
 3. EXTERNAL SERVICES
-- flowdraft's own backend at flowdraft.tech (self-hosted Supabase: auth and database) stores accounts (email, password hash) and diagrams saved to an account. It is only contacted to sign up, sign in or save. Diagrams are JSON; images and files cannot be uploaded.
-- Optional, user-initiated: under "File" > "Connect AI tools" the app shows the address of flowdraft's MCP server and a link to a setup guide. A user can add this address to an AI assistant of their choice (any MCP client) and authorize it with their flowdraft account; the assistant can then read and write that user's diagrams. The connection is made in the third-party tool, not in this app, and can be revoked in the same section of the app.
-- There is no analytics, advertising, tracking, payment processor or in-app purchase.
+- flowdraft's own backend at flowdraft.tech (self-hosted Supabase: auth and database) stores accounts and diagrams saved to an account. It is contacted only to sign up, sign in or save.
+- Optional, user-initiated: File > "Connect AI tools" shows the address of flowdraft's MCP server. A user can add it to an AI assistant of their choice and authorize it with their flowdraft account; the assistant can then read and write that user's diagrams. The connection is made in the third-party tool and can be revoked in the same section of the app.
+- Drawing from a description uses only Apple's on-device model.
+- No analytics, advertising, tracking, payments or in-app purchases.
 
 4. SANDBOX AND PERMISSIONS
-The app is sandboxed with outgoing network access (flowdraft.tech) and user-selected file access (the save and open panels for exports and imports). It asks for no other permission.
+Sandboxed with outgoing network access (flowdraft.tech) and user-selected file access (the save and open panels). No other permission is requested.
 
 5. REGIONAL DIFFERENCES / REGULATED INDUSTRY / THIRD-PARTY MATERIAL
-None / not applicable. The app contains no third-party content and uses open-source libraries (React Flow, MIT license).
+None / not applicable. Open-source libraries only (React Flow, MIT license).

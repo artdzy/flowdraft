@@ -1,6 +1,7 @@
 # App Store kaydı — flowdraft (iPhone + iPad + Mac)
 
 - macOS sürümü aynı kayıt ve aynı bundle ID (Mac Catalyst, `project.yml`: `SUPPORTS_MACCATALYST`, cihaz ailesi 1,2,6 = Mac arayüzü; macOS 15+; `Flowdraft/Mac.entitlements` sandbox + ağ + kullanıcı seçimli dosya). Mac'te dışa aktarma kaydetme penceresi, bağlantılar varsayılan tarayıcı. ASC macOS sürümü 1.0 (2026-10-24), metinler aşağıdaki iPhone/iPad metinlerinin Mac uyarlaması (ASC'de), inceleme notları `review-notes-mac.txt`, ekran görüntüleri `screenshots/*-mac-*` (2880×1800, pencerenin tamamı, trafik ışıkları dahil: Debug build + `FLOWDRAFT_DEBUG_WINDOW=1440x900` + `FLOWDRAFT_DEBUG_SNAPSHOT`, `scripts/app-store/mac-screenshots.sh`). Mac metinleri ASC'de ayrı girilir; aşağıdaki metinlerin MCP bölümü ve tanıtım metni oraya da taşınmalı.
+- 4.3 (Spam) reddi, 2026-10-26: 9 sorunun cevabı `review-reply-4.3.txt` (App Review mesajı); build 7 cihaz üstü "Anlat, çizelim" (Foundation Models) ve menü çubuğu ile yeniden gönderildi. Mac ekran görüntüleri 5-describe / 6-described setin başında. İnceleme eki her platformda en fazla 1 dosya: iOS'ta iPad tanıtım videosu + yeni özellik görüntüleri tek videoda, Mac'te 11 sn'lik özellik videosu.
 - Demo hesap (App Review, iki platform): `appreview@flowdraft.tech`; parola Keychain'de `flowdraft-appstore-demo` öğesinde ve ASC "Sign-In Information" alanlarında.
 - Mac arşiv/yükleme: `xcodebuild archive -destination 'generic/platform=macOS,variant=Mac Catalyst'` + aynı `ExportOptions.plist` (3rd Party Mac Developer Installer sertifikası gerekir). Kimlik için `-allowProvisioningUpdates -authenticationKeyPath ~/.appstoreconnect/private_keys/AuthKey_XP2X24JU5D.p8 -authenticationKeyID XP2X24JU5D -authenticationKeyIssuerID <issuer>`.
 
@@ -19,13 +20,17 @@ flowdraft
 Akış diyagramı çiz ve paylaş
 
 ## Tanıtım metni (170)
-Sürükle, bağla, dışa aktar. Akışlarını dakikalar içinde çiz; PNG, SVG ya da JSON olarak paylaş. Claude ve ChatGPT'ye MCP ile bağla, akışı sohbetten çizdir.
+Süreci anlat, Apple Intelligence akışı cihazında çizsin. Sürükle, bağla; PNG, SVG ya da JSON olarak dışa aktar ya da Claude ve ChatGPT’ye MCP ile çizdir.
 
 ## Anahtar kelimeler (100)
 akış,diyagram,şema,flowchart,süreç,iş akışı,otomasyon,mimari,çizim,plan,mcp,yapay zeka,ai
 
 ## Açıklama
 flowdraft, iPhone, iPad ve Mac için hızlı ve sade bir akış diyagramı editörü. Süreçlerini, otomasyonlarını, yazılım mimarini ve müşteri konuşmalarını birkaç dokunuşla çiz. Claude, ChatGPT gibi AI araçlarına MCP ile bağlanır: akışını sohbetten çizdir, burada düzenle.
+
+ANLAT, APPLE INTELLIGENCE ÇİZSİN
+• Süreci kendi cümlelerinle yaz. Apple’ın cihaz üstü modeli adımları, kimin yaptığını ve nerede dallandığını bulur; flowdraft akışı düzenlemeye hazır biçimde çizer.
+• Gizli ve çevrimdışı: yazdıkların cihazdan çıkmaz. Apple Intelligence destekleyen bir cihaz gerekir.
 
 HEMEN BAŞLA
 • Hesap açmadan kullan; çizimin bu cihazda otomatik saklanır.
@@ -57,7 +62,7 @@ AI ARAÇLARINA MCP İLE BAĞLANIR
 • Uygulamada açık olan akışı AI de görebilir; AI değiştirdiğinde ekran anında yenilenir. İstersen bu paylaşımı kapat.
 • Kurulum rehberi: flowdraft.tech/mcp
 
-Geri al / ileri al, kopyala / yapıştır, çoğalt, çoklu seçim, sağ tık menüsü, hizalama kılavuzları ve klavye kısayolları (⌘Z, ⌘C / ⌘V, ⌘D, ⌘S) var. Açık ve koyu tema cihazına uyar.
+Geri al / ileri al, kopyala / yapıştır, çoğalt, çoklu seçim, sağ tık menüsü, hizalama kılavuzları menü çubuğu komutları ve klavye kısayolları (⌘Z, ⌘C / ⌘V, ⌘D, ⌘S) var. Açık ve koyu tema cihazına uyar.
 
 flowdraft ücretsizdir; reklam ve uygulama içi satın alma yoktur.
 
@@ -70,13 +75,17 @@ flowdraft
 Draw and share flowcharts
 
 ## Promotional text (170)
-Drag, connect, export. Sketch flows in minutes and share them as PNG, SVG or JSON. Connect Claude or ChatGPT over MCP and have your flows drawn from the chat.
+Describe a process and Apple Intelligence draws the flowchart on your device. Drag, connect, export as PNG, SVG or JSON, or let Claude and ChatGPT draw over MCP.
 
 ## Keywords (100)
 flowchart,diagram,workflow,process,flow,chart,automation,architecture,whiteboard,planning,mcp,ai
 
 ## Description
 flowdraft is a fast, simple flowchart and diagram editor for iPhone, iPad and Mac. Sketch processes, automations, software architecture and customer conversations in a few taps. It connects to AI tools such as Claude and ChatGPT over MCP: have a flow drawn from the chat, then edit it here.
+
+DESCRIBE IT, APPLE INTELLIGENCE DRAWS IT
+• Write a process in your own words. Apple’s on-device model finds its steps, who does them and where it branches, and flowdraft lays out the flowchart, ready to edit.
+• Private and offline: your text never leaves the device. Requires a device with Apple Intelligence.
 
 START RIGHT AWAY
 • No account needed; your drawing is kept on this device automatically.
@@ -108,7 +117,7 @@ CONNECTS TO AI TOOLS OVER MCP
 • The AI can also see the flow you have open here, and the screen updates the moment the AI changes it. Turn that sharing off whenever you like.
 • Setup guide: flowdraft.tech/mcp
 
-Undo/redo, copy/paste, duplicate, multi-select, a right-click menu, alignment guides and keyboard shortcuts (⌘Z, ⌘C / ⌘V, ⌘D, ⌘S). Light and dark themes follow your device.
+Undo/redo, copy/paste, duplicate, multi-select, a right-click menu, alignment guides menu bar commands and keyboard shortcuts (⌘Z, ⌘C / ⌘V, ⌘D, ⌘S). Light and dark themes follow your device.
 
 flowdraft is free, with no ads and no in-app purchases.
 
