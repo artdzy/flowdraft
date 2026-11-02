@@ -4,6 +4,7 @@ Allow: /
 Disallow: /oauth/
 Disallow: /yonetim
 Disallow: /profil
+Disallow: /s/
 
 # AI search and assistant crawlers, listed explicitly so the intent is clear.
 User-agent: GPTBot
@@ -21,5 +22,6 @@ Allow: /
 Disallow: /oauth/
 Disallow: /yonetim
 Disallow: /profil
+Disallow: /s/
 
 Sitemap: https://flowdraft.tech/sitemap.xml

@@ -12,6 +12,7 @@ import { Inspector } from './components/Inspector';
 import { MobileBar } from './components/MobileBar';
 import { Palette } from './components/Palette';
 import { PromoDialog } from './components/PromoDialog';
+import { ShareDialog } from './components/ShareDialog';
 import { TopBar } from './components/TopBar';
 import { WhatsNewDialog } from './components/WhatsNewDialog';
 import { t, UNTITLED } from './i18n';
@@ -219,6 +220,7 @@ export default function App() {
         <ProjectsDialog />
         <NewDialog />
         <AiDialog />
+        <ShareDialog />
         <DescribeDialog />
         <PromoDialog />
         <WhatsNewDialog />

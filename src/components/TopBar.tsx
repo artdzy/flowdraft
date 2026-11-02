@@ -17,6 +17,7 @@ import {
   Moon,
   Redo2,
   Save,
+  Share2,
   Sparkles,
   ShieldCheck,
   Sun,
@@ -27,10 +28,10 @@ import {
 import { useRef, type MouseEvent, type PointerEvent } from 'react';
 import { lang, locale, setLang, t, UNTITLED, type Lang } from '../i18n';
 import { ADMIN_PATH, PROFILE_PATH } from '../lib/admin';
-import { importFile, requestAutosave, requestExport, requestSave, useSaveState } from '../lib/actions';
+import { importFile, requestAutosave, requestExport, requestSave, requestShare, useSaveState } from '../lib/actions';
 import { openDescribe } from '../lib/describe';
 import { guideHref } from '../lib/guides';
-import { macApp, postNative } from '../lib/platform';
+import { macApp, nativeApp, postNative } from '../lib/platform';
 import { openAuth, requireAuth, signOut, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
@@ -223,6 +224,11 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       <MenuItem icon={<Upload size={16} />} onSelect={() => (close(), fileInput.current?.click())}>
         {t('JSON içe aktar', 'Import JSON')}
       </MenuItem>
+      {mobile && !nativeApp && (
+        <MenuItem icon={<Share2 size={16} />} onSelect={() => (close(), requestShare())}>
+          {t('Paylaş', 'Share')}
+        </MenuItem>
+      )}
       <MenuItem icon={<Bot size={16} />} onSelect={() => (close(), useUi.setState({ aiOpen: true }))}>
         {t('AI araçlarına bağla', 'Connect AI tools')}
       </MenuItem>
@@ -360,6 +366,11 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       >
         {saving ? <LoaderCircle size={16} className="fd-spin" /> : <Save size={16} />} {t('Kaydet', 'Save')}
       </button>
+      {!nativeApp && (
+        <button type="button" className="fd-btn" onClick={requestShare} disabled={saving}>
+          <Share2 size={16} /> {t('Paylaş', 'Share')}
+        </button>
+      )}
       <Menu label={<><Download size={16} /> {t('Dışa aktar', 'Export')}</>} align="right">
         {exportItems}
       </Menu>

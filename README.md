@@ -12,6 +12,8 @@ Tarayıcıda ve telefonda çalışan, ücretsiz akış diyagramı editörü — 
   menüsü, çizgiye çift tıkla etiket, seçili çizginin ucunu başka kutuya taşıma, kulvar içindekilerle birlikte taşınır,
   sürüklerken hizalama kılavuzları, zoom kısayolları (⇧1 sığdır, ⇧0 %100, ⇧2 seçim, ⌘+ / ⌘−).
 - Dışa aktarma: PNG, SVG, JSON. PWA olarak ana ekrana eklenebilir.
+- Paylaşım (web, üyelere): `/s/<token>` linki herkese açık ya da şifreli olur ve her zaman salt okunur açılır. E-postayla
+  eklenen kişi salt okunur ya da düzenleyici olur; düzenleyici aynı e-postayla giriş yapıp akışı editörde kaydeder.
 
 ## Geliştirme
 
@@ -33,7 +35,7 @@ Coolify: build pack **Dockerfile**, port **3000**, ortam değişkenleri `SUPABAS
 
 ## Veritabanı
 
-`supabase/migrations/` altındaki dosyaları sırayla (0001 → 0005) Supabase SQL Editor'de çalıştır.
+`supabase/migrations/` altındaki dosyaları sırayla (0001 → 0006) Supabase SQL Editor'de çalıştır.
 Auth → URL Configuration → Site URL: `https://flowdraft.tech`.
 
 ## AI araçları (MCP)
@@ -121,6 +123,7 @@ Supabase Cloud kullanılırsa 1–2 yerine: Dashboard → Authentication → OAu
 - `src/admin/` — yönetim paneli (`/yonetim`): üyeler, akışları ve salt okunur akış önizlemesi. Yöneticiler
   `public.admins` tablosunda durur (`0004_admin.sql`, `0005_admin_flow.sql`)
 - `src/profile/` — profil sayfası (`/profil`): hesap bilgisi, çıkış, hesabı silme
+- `src/share/` — paylaşılan akış sayfası (`/s/<token>`); kurallar `0006_flow_sharing.sql`, istemci `src/lib/share.ts`
 - `src/oauth/` — AI araçları için OAuth onay sayfası (`/oauth/consent`)
 - `src/guide/` — kurulum rehberi (`/mcp`, tarayıcıdan açılınca)
 - `server/mcp.ts` — MCP sunucusu (`/mcp`); `npm run build` ile `dist-server/`'a derlenir

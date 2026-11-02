@@ -4,6 +4,7 @@ import { locale, t, UNTITLED } from '../i18n';
 import { confirmDiscard, openProject } from '../lib/actions';
 import { parseDoc } from '../lib/doc';
 import { deleteProject, describeError, listProjects, type ProjectSummary } from '../lib/projects';
+import { listSharedWithMe, shareUrl, type SharedFlow } from '../lib/share';
 import { getIcon } from '../flow/icons';
 import { TEMPLATES, type TemplateId } from '../flow/templates';
 import { useEditor } from '../store/editor';
@@ -61,6 +62,7 @@ const dateFmt = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'short'
 
 function ProjectList({ onDone }: { onDone: () => void }) {
   const [items, setItems] = useState<ProjectSummary[] | null>(null);
+  const [shared, setShared] = useState<SharedFlow[]>([]);
   const [error, setError] = useState('');
   const [busyId, setBusyId] = useState<string | null>(null);
   const currentId = useEditor((s) => s.projectId);
@@ -69,6 +71,7 @@ function ProjectList({ onDone }: { onDone: () => void }) {
     listProjects()
       .then(setItems)
       .catch((err: unknown) => setError(describeError(err)));
+    listSharedWithMe().then(setShared, () => setShared([]));
   }, []);
 
   const open = async (p: ProjectSummary) => {
@@ -82,6 +85,12 @@ function ProjectList({ onDone }: { onDone: () => void }) {
     } finally {
       setBusyId(null);
     }
+  };
+
+  // Read-only flows open in the viewer, flows you may edit in the editor.
+  const openShared = (p: SharedFlow) => {
+    if (p.role === 'editor') void open(p);
+    else window.location.assign(shareUrl(p.token));
   };
 
   const remove = async (p: ProjectSummary) => {
@@ -111,36 +120,56 @@ function ProjectList({ onDone }: { onDone: () => void }) {
         <LoaderCircle size={16} className="fd-spin" /> {t('Yükleniyor…', 'Loading…')}
       </p>
     );
-  if (!items.length)
-    return (
-      <p className="fd-muted">
-        {t(
-          'Henüz kayıtlı projen yok. Çiz, sonra “Kaydet”e bas.',
-          'You don’t have any saved projects yet. Draw something, then hit “Save”.',
-        )}
-      </p>
-    );
 
   return (
-    <ul className="fd-projects">
-      {items.map((p) => (
-        <li key={p.id} className={p.id === currentId ? 'is-current' : ''}>
-          <button type="button" className="fd-project-open" onClick={() => void open(p)} disabled={busyId === p.id}>
-            <span className="fd-project-title">{p.title}</span>
-            <span className="fd-project-date">{dateFmt.format(new Date(p.updated_at))}</span>
-          </button>
-          <button
-            type="button"
-            className="fd-icon-btn"
-            aria-label={t(`${p.title} projesini sil`, `Delete ${p.title}`)}
-            onClick={() => void remove(p)}
-            disabled={busyId === p.id}
-          >
-            {busyId === p.id ? <LoaderCircle size={16} className="fd-spin" /> : <Trash2 size={16} />}
-          </button>
-        </li>
-      ))}
-    </ul>
+    <>
+      {items.length > 0 ? (
+        <ul className="fd-projects">
+          {items.map((p) => (
+            <li key={p.id} className={p.id === currentId ? 'is-current' : ''}>
+              <button type="button" className="fd-project-open" onClick={() => void open(p)} disabled={busyId === p.id}>
+                <span className="fd-project-title">{p.title}</span>
+                <span className="fd-project-date">{dateFmt.format(new Date(p.updated_at))}</span>
+              </button>
+              <button
+                type="button"
+                className="fd-icon-btn"
+                aria-label={t(`${p.title} projesini sil`, `Delete ${p.title}`)}
+                onClick={() => void remove(p)}
+                disabled={busyId === p.id}
+              >
+                {busyId === p.id ? <LoaderCircle size={16} className="fd-spin" /> : <Trash2 size={16} />}
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="fd-muted">
+          {t(
+            'Henüz kayıtlı projen yok. Çiz, sonra “Kaydet”e bas.',
+            'You don’t have any saved projects yet. Draw something, then hit “Save”.',
+          )}
+        </p>
+      )}
+      {shared.length > 0 && (
+        <>
+          <h3 className="fd-projects-head">{t('Benimle paylaşılanlar', 'Shared with me')}</h3>
+          <ul className="fd-projects">
+            {shared.map((p) => (
+              <li key={p.id} className={p.id === currentId ? 'is-current' : ''}>
+                <button type="button" className="fd-project-open" onClick={() => openShared(p)} disabled={busyId === p.id}>
+                  <span className="fd-project-title">{p.title}</span>
+                  <span className="fd-project-date">
+                    {p.role === 'editor' ? t('Düzenleyebilirsin', 'Can edit') : t('Salt okunur', 'Read only')} ·{' '}
+                    {dateFmt.format(new Date(p.updated_at))}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </>
   );
 }
 

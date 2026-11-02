@@ -4,9 +4,9 @@ import { Credit } from '../components/Credit';
 import { LangSwitch } from '../components/LangSwitch';
 import { lang, t } from '../i18n';
 
-export const LEGAL_VERSION = '2026-09-30';
-const UPDATED = '30 Eylül 2026';
-const UPDATED_EN = 'September 30, 2026';
+export const LEGAL_VERSION = '2026-11-02';
+const UPDATED = '2 Kasım 2026';
+const UPDATED_EN = 'November 2, 2026';
 const CONTACT_URL = 'https://websiteniyapalim.com/?utm_source=flowdraft&utm_medium=legal';
 
 export type LegalKind = 'terms' | 'privacy' | 'support';
@@ -121,6 +121,7 @@ function PrivacyTr() {
         <li><strong>Hesap bilgileri:</strong> e-posta adresin ve şifren. Şifre düz metin olarak değil, tek yönlü şifrelenmiş (hash) olarak saklanır.</li>
         <li><strong>Projelerin:</strong> diyagram başlığı ve içeriği (kutular, metinler, bağlantılar). Görsel veya dosya yüklenemez.</li>
         <li><strong>AI araçları için açık akış:</strong> hesabına bir AI aracı bağlıysan ve paylaşımı kapatmadıysan, o an açık olan akış (kaydedilmemiş değişiklikler dahil) hesabına yazılır, böylece bağlı araç onu okuyabilir. Paylaşımı Dosya → AI araçlarına bağla altından kapatabilirsin.</li>
+        <li><strong>Paylaşım:</strong> bir akışı paylaşırsan paylaşım ayarların ve eklediğin kişilerin e-posta adresleri saklanır. Link şifreliyse şifre tek yönlü şifrelenmiş olarak tutulur. Herkese açık linki bilen herkes akışı görebilir; paylaşımı istediğin an kapatabilirsin.</li>
         <li><strong>Onay kaydı:</strong> kayıt olurken bu metinleri kabul ettiğin tarih ve metin sürümü.</li>
         <li><strong>Teknik kayıtlar:</strong> sunucular, güvenlik ve hata ayıklama için IP adresi, tarih ve tarayıcı bilgisi gibi standart erişim kayıtları tutabilir.</li>
       </ul>
@@ -332,6 +333,7 @@ function PrivacyEn() {
         <li><strong>Account information:</strong> your email address and password. Your password is not stored in plain text; it is stored as a one-way hash.</li>
         <li><strong>Your projects:</strong> the diagram title and content (boxes, text, connections). Images and files cannot be uploaded.</li>
         <li><strong>The open flow, for AI tools:</strong> if you have connected an AI tool and kept sharing on, the flow open at that moment (unsaved changes included) is written to your account so that tool can read it. You can turn sharing off under File → Connect AI tools.</li>
+        <li><strong>Sharing:</strong> if you share a flow, your sharing settings and the email addresses of the people you add are stored. A link password is stored as a one-way hash. Anyone with a public link can view the flow; you can stop sharing at any time.</li>
         <li><strong>Consent record:</strong> the date on which you accepted these documents when signing up, and the version of the documents.</li>
         <li><strong>Technical logs:</strong> for security and debugging, servers may keep standard access logs such as IP address, date and browser information.</li>
       </ul>

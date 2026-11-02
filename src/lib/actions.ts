@@ -3,7 +3,7 @@ import { lang, t, UNTITLED } from '../i18n';
 import { requireAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
-import { askConfirm, toast } from '../store/ui';
+import { askConfirm, toast, useUi } from '../store/ui';
 import { parseDoc, serializeDoc } from './doc';
 import { nativeApp } from './platform';
 import { exportImage, exportJson, type ExportKind } from './exporter';
@@ -166,6 +166,18 @@ export function requestSave() {
   );
   requireAuth(reason, () => {
     void saveToCloud().then((ok) => ok && toast(t('Kaydedildi', 'Saved')));
+  });
+}
+
+/** A share link shows the saved flow, so the canvas is saved first. */
+export function requestShare() {
+  if (!useEditor.getState().nodes.length) {
+    toast(t('Paylaşmadan önce bir şeyler çiz.', 'Draw something before sharing.'));
+    return;
+  }
+  requireAuth(t('Akışını paylaşmak için giriş yap.', 'Sign in to share your flow.'), () => {
+    const s = useEditor.getState();
+    void (s.projectId && !isDirty(s) ? Promise.resolve(true) : saveToCloud()).then((ok) => ok && useUi.setState({ shareOpen: true }));
   });
 }
 

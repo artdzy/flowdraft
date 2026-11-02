@@ -10,6 +10,8 @@ import App from './App';
 import { AdminPage, isAdminPath } from './admin/AdminPage';
 import { LegalPage, legalKindFromPath } from './legal/LegalPage';
 import { loadDraft } from './lib/draft';
+import { shareTokenFromPath } from './lib/share';
+import { SharePage } from './share/SharePage';
 import { isGuidePath, McpGuidePage } from './guide/McpGuidePage';
 import { ConsentPage, isConsentPath } from './oauth/ConsentPage';
 import { isProfilePath, ProfilePage } from './profile/ProfilePage';
@@ -28,7 +30,8 @@ const guide = isGuidePath(path);
 const promo = isPromoPath(path);
 const admin = isAdminPath(path);
 const profile = isProfilePath(path);
-const editor = !legal && !consent && !guide && !promo && !admin && !profile;
+const shared = shareTokenFromPath(path);
+const editor = !legal && !consent && !guide && !promo && !admin && !profile && !shared;
 
 if (editor) {
   const draft = loadDraft();
@@ -36,7 +39,7 @@ if (editor) {
     useEditor.getState().loadDoc(draft.doc, { title: draft.title, projectId: draft.projectId, dirty: draft.dirty });
   }
 }
-if (editor || consent || admin || profile) initAuth();
+if (editor || consent || admin || profile || shared) initAuth();
 
 function Page() {
   if (legal) return <LegalPage kind={legal} />;
@@ -45,6 +48,7 @@ function Page() {
   if (promo) return <PromoPage />;
   if (admin) return <AdminPage />;
   if (profile) return <ProfilePage />;
+  if (shared) return <SharePage token={shared} />;
   return <App />;
 }
 

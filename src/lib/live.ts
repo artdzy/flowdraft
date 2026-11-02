@@ -130,20 +130,21 @@ function useLiveCanvas() {
 /** Reloads the open diagram as soon as it changes elsewhere, e.g. when a connected AI tool updates it. */
 function useRemoteUpdates() {
   const userId = useAuth((s) => s.user?.id);
+  const projectId = useEditor((s) => s.projectId);
   useEffect(() => {
     const db = supabase;
-    if (!db || !userId) return;
+    if (!db || !userId || !projectId) return;
+    // By flow, not by owner: someone a flow was shared with to edit needs these updates too.
     const channel = db
-      .channel(`fd-live-${userId}`)
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'projects', filter: `user_id=eq.${userId}` }, (payload) => {
-        const row = payload.new as { id?: unknown };
-        if (typeof row.id === 'string') void handleRemoteUpdate(row.id);
+      .channel(`fd-live-${projectId}`)
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'projects', filter: `id=eq.${projectId}` }, () => {
+        void handleRemoteUpdate(projectId);
       })
       .subscribe();
     return () => {
       void db.removeChannel(channel);
     };
-  }, [userId]);
+  }, [userId, projectId]);
 }
 
 export function useLiveLink() {

@@ -1,13 +1,18 @@
 import type { FlowDoc } from '../flow/types';
 import { t } from '../i18n';
+import { useAuth } from '../store/auth';
 import { requireClient } from './supabase';
 
 export type ProjectSummary = { id: string; title: string; updated_at: string };
+
+/** Row access also reaches flows others shared to edit, so "mine" has to be asked for. */
+const ownerId = () => useAuth.getState().user?.id ?? '';
 
 export async function listProjects(): Promise<ProjectSummary[]> {
   const { data, error } = await requireClient()
     .from('projects')
     .select('id,title,updated_at')
+    .eq('user_id', ownerId())
     .order('updated_at', { ascending: false })
     .limit(200);
   if (error) throw error;
@@ -15,7 +20,10 @@ export async function listProjects(): Promise<ProjectSummary[]> {
 }
 
 export async function countProjects(): Promise<number> {
-  const { count, error } = await requireClient().from('projects').select('id', { count: 'exact', head: true });
+  const { count, error } = await requireClient()
+    .from('projects')
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', ownerId());
   if (error) throw error;
   return count ?? 0;
 }
