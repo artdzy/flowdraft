@@ -108,7 +108,7 @@
   "en": {
     "kicker": "Free flowchart maker",
     "h1": "Free online flowchart maker",
-    "lead": "flowdraft is a free flowchart maker that runs in your browser on computers, phones and tablets. Open it and start drawing right away: nothing to install, no account to create. Drag in steps, decisions and start/end shapes, join them with arrows, and sign in with a free account when you want to save to the cloud or export a PNG, SVG or JSON file.",
+    "lead": "Create a flowchart online for free: flowdraft runs in your browser on computers, phones and tablets. Open it and start drawing right away: nothing to install, no account to create. Drag in steps, decisions and start/end shapes, join them with arrows, and sign in with a free account when you want to save to the cloud or export a PNG, SVG or JSON file.",
     "facts": ["Free", "No account needed to draw", "Works on phones and tablets", "Export to PNG, SVG and JSON", "English and Turkish"],
     "start": "Start drawing",
     "more": { "text": "See flowchart examples", "href": "/flowchart-examples" },
