@@ -214,7 +214,7 @@ export function ConfirmDialog() {
       <p className="fd-confirm-text">{shown?.message}</p>
       <div className="fd-confirm-actions">
         <button type="button" className="fd-btn" onClick={() => settleConfirm(false)}>
-          {t('Vazgeç', 'Cancel')}
+          {shown?.cancelLabel ?? t('Vazgeç', 'Cancel')}
         </button>
         <button type="button" className="fd-btn is-primary" onClick={() => settleConfirm(true)}>
           {shown?.confirmLabel}

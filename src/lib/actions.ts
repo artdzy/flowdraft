@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 import { lang, t, UNTITLED } from '../i18n';
-import { requireAuth } from '../store/auth';
+import { requireAuth, useAuth } from '../store/auth';
 import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
 import { askConfirm, toast, useUi } from '../store/ui';
 import { parseDoc, serializeDoc } from './doc';
-import { nativeApp, siteOrigin } from './platform';
+import { nativeApp } from './platform';
 import { exportImage, exportJson, exportPdf, type ExportKind } from './exporter';
-import { getShare, shareUrl } from './share';
+import { describeShareError, getShare, saveShare, shareUrl } from './share';
 import { createProject, describeError, fetchProject, fetchUpdatedAt, updateProject, type ProjectRow } from './projects';
 
 type SaveState = { status: 'idle' | 'saving' | 'saved' | 'error'; savedAt: number | null; error: string | null };
@@ -195,26 +195,54 @@ export function requestAutosave(on: boolean) {
 }
 
 /**
- * Where a saved flow lives on the web, for the QR code of a PDF: its share link when it is shared, otherwise the
- * link that opens it for its owner. A flow that was never saved has none.
+ * The address the QR code of a PDF leads to: the flow's share link, which shows it read-only to whoever scans the
+ * code. A flow that isn't shared yet gets a public link, after asking; saying no leaves the code out. An existing
+ * share is used as it is, private or not.
  */
-async function flowUrl(projectId: string | null): Promise<string | null> {
-  if (!projectId) return null;
-  // Only the owner may read the share settings; for anyone else this fails and the plain link is used.
-  const share = await getShare(projectId).catch(() => null);
-  return share ? shareUrl(share.token) : `${siteOrigin}/?p=${projectId}`;
+async function flowUrl(): Promise<string | null> {
+  if (!useAuth.getState().user) return null;
+  const { projectId } = useEditor.getState();
+  if (projectId) {
+    try {
+      const share = await getShare(projectId);
+      if (share) return shareUrl(share.token);
+    } catch {
+      // Only the owner may read or change the share settings (and offline nobody can).
+      return null;
+    }
+  }
+  const ok = await askConfirm({
+    title: t('QR kod için akışı paylaş', 'Share the flow for the QR code'),
+    message: t(
+      'PDF’teki QR kodu okutan herkes akışı salt okunur görebilsin diye akış kaydedilir ve herkese açık bir bağlantı oluşturulur. Bunu sonradan Paylaş’tan kapatabilirsin.',
+      'So that anyone who scans the QR code in the PDF can view the flow read-only, the flow is saved and gets a public link. You can turn this off later under Share.',
+    ),
+    confirmLabel: t('Paylaş ve QR ekle', 'Share and add QR'),
+    cancelLabel: t('QR’sız aktar', 'Export without QR'),
+  });
+  if (!ok) return null;
+  const s = useEditor.getState();
+  if ((!s.projectId || isDirty(s)) && !(await saveToCloud())) return null;
+  const id = useEditor.getState().projectId;
+  if (!id) return null;
+  try {
+    return shareUrl((await saveShare(id, 'public', null, [])).token);
+  } catch (err) {
+    toast(describeShareError(err), 'error');
+    return null;
+  }
 }
 
 export function requestExport(kind: ExportKind) {
   const run = () => {
-    const { nodes, edges, title, projectId } = useEditor.getState();
+    const { nodes, edges, title } = useEditor.getState();
     if (kind === 'json') {
       exportJson(serializeDoc(nodes, edges), title);
       return;
     }
     const work =
       kind === 'pdfA4' || kind === 'pdfA3'
-        ? flowUrl(projectId).then((url) => exportPdf(kind === 'pdfA4' ? 'a4' : 'a3', nodes, title, url))
+        ? (nodes.length ? flowUrl() : Promise.resolve(null)).then((url) => exportPdf(kind === 'pdfA4' ? 'a4' : 'a3', nodes, title, url))
         : exportImage(kind, nodes, title);
     work.catch((err: unknown) =>
       toast(err instanceof Error ? err.message : t('Dışa aktarılamadı.', 'Couldn’t export.'), 'error'),
