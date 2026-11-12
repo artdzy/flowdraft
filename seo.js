@@ -236,6 +236,11 @@ export function createSeo({ root, dist, guides }) {
         .join('') +
       '</section>';
     const guideLinks = (guides?.nav(lang) ?? []).map((g) => `<li><a href="${g.path}">${esc(g.name)}</a></li>`).join('');
+    // The other language's guides are linked here too: crawlers get the English page, and without these links the
+    // Turkish guides had no link from the home page at all.
+    const otherGuideLinks = (guides?.nav(other) ?? [])
+      .map((g) => `<li><a href="${g.path}" hreflang="${other}" lang="${other}">${esc(g.name)}</a></li>`)
+      .join('');
     const footLinks = (paths) => paths.map((p) => `<li><a href="${p}?lang=${lang}">${esc(h.foot.links[p])}</a></li>`).join('');
     const html =
       `<section class="fd-home" aria-labelledby="fd-home-h">` +
@@ -256,6 +261,9 @@ export function createSeo({ root, dist, guides }) {
       '<footer class="fd-home-foot"><div class="fd-home-foot-in">' +
       `<div><p class="fd-home-brand">flowdraft</p><p>${esc(h.foot.tagline)}</p></div>` +
       `<nav aria-label="${esc(h.foot.guides)}"><h2>${esc(h.foot.guides)}</h2><ul>${guideLinks}</ul></nav>` +
+      (otherGuideLinks
+        ? `<nav aria-label="${esc(h.foot.otherGuides)}"><h2 lang="${other}">${esc(h.foot.otherGuides)}</h2><ul>${otherGuideLinks}</ul></nav>`
+        : '') +
       `<nav aria-label="${esc(h.foot.product)}"><h2>${esc(h.foot.product)}</h2><ul>${footLinks(['/tanitim', '/mcp', '/destek'])}</ul></nav>` +
       `<nav aria-label="${esc(h.foot.legal)}"><h2>${esc(h.foot.legal)}</h2><ul>${footLinks(['/gizlilik', '/kullanim-sartlari'])}` +
       `<li><a href="/?lang=${other}" hreflang="${other}" lang="${other}">${esc(h.foot.other)}</a></li></ul></nav>` +
