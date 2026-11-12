@@ -2,7 +2,7 @@ import { getNodesBounds } from '@xyflow/react';
 import { toCanvas, toPng, toSvg } from 'html-to-image';
 import type { FlowDoc, FlowNode } from '../flow/types';
 import { t } from '../i18n';
-import { buildPdf, layoutPdf, type PdfPage } from './pdf';
+import { buildPdf, composePage, layoutPdf, type PdfPage } from './pdf';
 import { nativeApp, postNative } from './platform';
 
 const PADDING = 48;
@@ -79,12 +79,25 @@ function readAsDataUrl(blob: Blob) {
   });
 }
 
-/** The flow as a picture on one A4 or A3 page, landscape or portrait to suit its shape. */
-export async function exportPdf(page: PdfPage, nodes: FlowNode[], title: string) {
+/**
+ * The flow as a picture on one A4 or A3 page, landscape or portrait to suit its shape, with the logo and, for a
+ * flow that has an address on the web, a QR code to it.
+ */
+export async function exportPdf(page: PdfPage, nodes: FlowNode[], title: string, flowUrl: string | null) {
   const blob = await capture(nodes, async (viewport, options) => {
-    const layout = layoutPdf(page, options.width, options.height);
-    const canvas = await toCanvas(viewport, { ...options, pixelRatio: layout.pixelRatio });
-    return buildPdf(canvas, layout, title);
+    const layout = layoutPdf(page, options.width, options.height, flowUrl !== null);
+    const flow = await toCanvas(viewport, { ...options, pixelRatio: layout.pixelRatio });
+    const css = getComputedStyle(document.documentElement);
+    const { canvas, links } = await composePage(flow, layout, {
+      flowUrl,
+      caption: t('Akışı webde aç', 'Open this flow on the web'),
+      text: css.getPropertyValue('--text').trim() || '#f2f2f2',
+      textMuted: css.getPropertyValue('--text-2').trim() || '#a8a8a8',
+      textFaint: css.getPropertyValue('--text-3').trim() || '#6e6e6e',
+      fontSans: css.getPropertyValue('--font-sans').trim() || 'sans-serif',
+      fontMono: css.getPropertyValue('--font-mono').trim() || 'monospace',
+    });
+    return buildPdf(canvas, layout.pageWidth, layout.pageHeight, title, links);
   });
   const filename = `${slug(title)}-${page}.pdf`;
   if (nativeApp) {

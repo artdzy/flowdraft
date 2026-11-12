@@ -5,8 +5,9 @@ import { isDirty, useEditor } from '../store/editor';
 import { useSettings } from '../store/settings';
 import { askConfirm, toast, useUi } from '../store/ui';
 import { parseDoc, serializeDoc } from './doc';
-import { nativeApp } from './platform';
+import { nativeApp, siteOrigin } from './platform';
 import { exportImage, exportJson, exportPdf, type ExportKind } from './exporter';
+import { getShare, shareUrl } from './share';
 import { createProject, describeError, fetchProject, fetchUpdatedAt, updateProject, type ProjectRow } from './projects';
 
 type SaveState = { status: 'idle' | 'saving' | 'saved' | 'error'; savedAt: number | null; error: string | null };
@@ -193,14 +194,28 @@ export function requestAutosave(on: boolean) {
   });
 }
 
+/**
+ * Where a saved flow lives on the web, for the QR code of a PDF: its share link when it is shared, otherwise the
+ * link that opens it for its owner. A flow that was never saved has none.
+ */
+async function flowUrl(projectId: string | null): Promise<string | null> {
+  if (!projectId) return null;
+  // Only the owner may read the share settings; for anyone else this fails and the plain link is used.
+  const share = await getShare(projectId).catch(() => null);
+  return share ? shareUrl(share.token) : `${siteOrigin}/?p=${projectId}`;
+}
+
 export function requestExport(kind: ExportKind) {
   const run = () => {
-    const { nodes, edges, title } = useEditor.getState();
+    const { nodes, edges, title, projectId } = useEditor.getState();
     if (kind === 'json') {
       exportJson(serializeDoc(nodes, edges), title);
       return;
     }
-    const work = kind === 'pdfA4' || kind === 'pdfA3' ? exportPdf(kind === 'pdfA4' ? 'a4' : 'a3', nodes, title) : exportImage(kind, nodes, title);
+    const work =
+      kind === 'pdfA4' || kind === 'pdfA3'
+        ? flowUrl(projectId).then((url) => exportPdf(kind === 'pdfA4' ? 'a4' : 'a3', nodes, title, url))
+        : exportImage(kind, nodes, title);
     work.catch((err: unknown) =>
       toast(err instanceof Error ? err.message : t('Dışa aktarılamadı.', 'Couldn’t export.'), 'error'),
     );
