@@ -7,6 +7,7 @@ import {
   Download,
   Eraser,
   FileJson,
+  FileText,
   FilePlus2,
   FolderOpen,
   LoaderCircle,
@@ -248,6 +249,12 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       </MenuItem>
       <MenuItem icon={<Download size={16} />} onSelect={() => (close(), requestExport('svg'))}>
         {t('SVG vektör', 'SVG vector')}
+      </MenuItem>
+      <MenuItem icon={<FileText size={16} />} onSelect={() => (close(), requestExport('pdfA4'))}>
+        {t('PDF · A4', 'PDF · A4')}
+      </MenuItem>
+      <MenuItem icon={<FileText size={16} />} onSelect={() => (close(), requestExport('pdfA3'))}>
+        {t('PDF · A3', 'PDF · A3')}
       </MenuItem>
       <MenuItem icon={<FileJson size={16} />} onSelect={() => (close(), requestExport('json'))}>
         {t('JSON (düzenlenebilir)', 'JSON (editable)')}

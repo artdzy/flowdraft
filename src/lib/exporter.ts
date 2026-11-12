@@ -1,13 +1,14 @@
 import { getNodesBounds } from '@xyflow/react';
-import { toPng, toSvg } from 'html-to-image';
+import { toCanvas, toPng, toSvg } from 'html-to-image';
 import type { FlowDoc, FlowNode } from '../flow/types';
 import { t } from '../i18n';
+import { buildPdf, layoutPdf, type PdfPage } from './pdf';
 import { nativeApp, postNative } from './platform';
 
 const PADDING = 48;
 const MAX_SIDE = 8000;
 
-export type ExportKind = 'png' | 'svg' | 'json';
+export type ExportKind = 'png' | 'svg' | 'json' | 'pdfA4' | 'pdfA3';
 
 function slug(title: string) {
   const base = title
@@ -33,7 +34,8 @@ function download(href: string, filename: string) {
   a.remove();
 }
 
-export async function exportImage(kind: 'png' | 'svg', nodes: FlowNode[], title: string) {
+/** Renders the whole flow, whatever part of it the canvas shows, with the editing chrome hidden. */
+async function capture<T>(nodes: FlowNode[], render: (viewport: HTMLElement, options: CaptureOptions) => Promise<T>) {
   const viewport = document.querySelector<HTMLElement>('.react-flow__viewport');
   if (!viewport || !nodes.length) throw new Error(t('Dışa aktarılacak bir şey yok.', 'There’s nothing to export.'));
 
@@ -48,18 +50,50 @@ export async function exportImage(kind: 'png' | 'svg', nodes: FlowNode[], title:
 
   document.documentElement.classList.add('fd-exporting');
   try {
-    const options = {
+    return await render(viewport, {
       backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#111111',
       width,
       height,
-      pixelRatio: kind === 'png' ? 2 : 1,
       style: { width: `${width}px`, height: `${height}px`, transform: `translate(${x}px, ${y}px) scale(${scale})` },
-    };
-    const dataUrl = kind === 'png' ? await toPng(viewport, options) : await toSvg(viewport, options);
-    download(dataUrl, `${slug(title)}.${kind}`);
+    });
   } finally {
     document.documentElement.classList.remove('fd-exporting');
   }
+}
+
+type CaptureOptions = { backgroundColor: string; width: number; height: number; style: Record<string, string> };
+
+export async function exportImage(kind: 'png' | 'svg', nodes: FlowNode[], title: string) {
+  const dataUrl = await capture(nodes, (viewport, options) =>
+    kind === 'png' ? toPng(viewport, { ...options, pixelRatio: 2 }) : toSvg(viewport, { ...options, pixelRatio: 1 }),
+  );
+  download(dataUrl, `${slug(title)}.${kind}`);
+}
+
+function readAsDataUrl(blob: Blob) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}
+
+/** The flow as a picture on one A4 or A3 page, landscape or portrait to suit its shape. */
+export async function exportPdf(page: PdfPage, nodes: FlowNode[], title: string) {
+  const blob = await capture(nodes, async (viewport, options) => {
+    const layout = layoutPdf(page, options.width, options.height);
+    const canvas = await toCanvas(viewport, { ...options, pixelRatio: layout.pixelRatio });
+    return buildPdf(canvas, layout, title);
+  });
+  const filename = `${slug(title)}-${page}.pdf`;
+  if (nativeApp) {
+    download(await readAsDataUrl(blob), filename);
+    return;
+  }
+  const url = URL.createObjectURL(blob);
+  download(url, filename);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 export function exportJson(doc: FlowDoc, title: string) {

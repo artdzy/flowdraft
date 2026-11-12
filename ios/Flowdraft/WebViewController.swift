@@ -260,7 +260,7 @@ final class WebViewController: UIViewController {
         }
     }
 
-    /// Reads a data: URL as produced by the web exporter (base64 PNG, percent-encoded SVG and JSON).
+    /// Reads a data: URL as produced by the web exporter (base64 PNG and PDF, percent-encoded SVG and JSON).
     private static func decode(dataURL: String) -> Data? {
         guard dataURL.hasPrefix("data:"), let comma = dataURL.firstIndex(of: ",") else { return nil }
         let header = dataURL[..<comma]

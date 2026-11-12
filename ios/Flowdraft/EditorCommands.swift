@@ -8,7 +8,7 @@ extension Notification.Name {
 /// Menu bar commands (Mac menu bar, iPadOS menu bar and the ⌘ shortcut overlay on iPad). WebViewController hands
 /// them to the web app (src/lib/commands.ts), except Open, which shows the system file picker first.
 enum EditorCommand: String {
-    case newFlow, describe, open, projects, save, exportPng, exportSvg, exportJson, zoomIn, zoomOut, zoomFit, aiTools, guide
+    case newFlow, describe, open, projects, save, exportPng, exportSvg, exportPdfA4, exportPdfA3, exportJson, zoomIn, zoomOut, zoomFit, aiTools, guide
 
     func send() {
         NotificationCenter.default.post(name: .flowdraftCommand, object: rawValue)
@@ -42,6 +42,8 @@ struct EditorCommands: Commands {
                 Button("PNG Image…") { EditorCommand.exportPng.send() }
                     .keyboardShortcut("e")
                 Button("SVG Vector…") { EditorCommand.exportSvg.send() }
+                Button("PDF (A4)…") { EditorCommand.exportPdfA4.send() }
+                Button("PDF (A3)…") { EditorCommand.exportPdfA3.send() }
                 Button("JSON (Editable)…") { EditorCommand.exportJson.send() }
             }
             Divider()

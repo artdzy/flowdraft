@@ -6,7 +6,7 @@ import { useSettings } from '../store/settings';
 import { askConfirm, toast, useUi } from '../store/ui';
 import { parseDoc, serializeDoc } from './doc';
 import { nativeApp } from './platform';
-import { exportImage, exportJson, type ExportKind } from './exporter';
+import { exportImage, exportJson, exportPdf, type ExportKind } from './exporter';
 import { createProject, describeError, fetchProject, fetchUpdatedAt, updateProject, type ProjectRow } from './projects';
 
 type SaveState = { status: 'idle' | 'saving' | 'saved' | 'error'; savedAt: number | null; error: string | null };
@@ -200,7 +200,8 @@ export function requestExport(kind: ExportKind) {
       exportJson(serializeDoc(nodes, edges), title);
       return;
     }
-    exportImage(kind, nodes, title).catch((err: unknown) =>
+    const work = kind === 'pdfA4' || kind === 'pdfA3' ? exportPdf(kind === 'pdfA4' ? 'a4' : 'a3', nodes, title) : exportImage(kind, nodes, title);
+    work.catch((err: unknown) =>
       toast(err instanceof Error ? err.message : t('Dışa aktarılamadı.', 'Couldn’t export.'), 'error'),
     );
   };

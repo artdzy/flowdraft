@@ -19,6 +19,8 @@ const COMMANDS: Record<string, () => void> = {
   save: () => runOnce('save', requestSave),
   exportPng: () => requestExport('png'),
   exportSvg: () => requestExport('svg'),
+  exportPdfA4: () => requestExport('pdfA4'),
+  exportPdfA3: () => requestExport('pdfA3'),
   exportJson: () => requestExport('json'),
   aiTools: () => useUi.setState({ aiOpen: true }),
   guide: () => window.open(guideHref('what'), '_blank'),
