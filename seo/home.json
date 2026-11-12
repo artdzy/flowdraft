@@ -92,6 +92,7 @@
     ],
     "foot": {
       "guides": "Rehberler",
+      "otherGuides": "Guides in English",
       "product": "flowdraft",
       "legal": "Yasal",
       "tagline": "Ücretsiz online akış diyagramı editörü.",
@@ -198,6 +199,7 @@
     ],
     "foot": {
       "guides": "Guides",
+      "otherGuides": "Türkçe rehberler",
       "product": "flowdraft",
       "legal": "Legal",
       "tagline": "The free online flowchart maker.",
