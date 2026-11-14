@@ -638,6 +638,13 @@ a.fd-icon-btn {
   }
 }
 
+/* The MCP and Menu buttons keep their icon and drop their word before the bar runs out of room. */
+@media (max-width: 1240px) {
+  .fd-topbar .fd-btn-text {
+    display: none;
+  }
+}
+
 /* ---------- Menu ---------- */
 
 .fd-menu {

@@ -1,7 +1,6 @@
 import {
   BookOpen,
   Bot,
-  ChevronDown,
   Cloud,
   CloudOff,
   Download,
@@ -335,9 +334,6 @@ export function TopBar({ mobile }: { mobile: boolean }) {
   return (
     <header className="fd-topbar" onPointerDown={onBarPointerDown} onDoubleClick={onBarDoubleClick}>
       <Logo />
-      <Menu label={<>{t('Dosya', 'File')} <ChevronDown size={14} /></>} buttonClassName="fd-btn is-ghost">
-        {fileItems}
-      </Menu>
       {titleInput}
       <div className="fd-topbar-spacer" />
       <div className="fd-topbar-group">
@@ -380,6 +376,22 @@ export function TopBar({ mobile }: { mobile: boolean }) {
       )}
       <Menu label={<><Download size={16} /> {t('Dışa aktar', 'Export')}</>} align="right">
         {exportItems}
+      </Menu>
+      <button
+        type="button"
+        className="fd-btn"
+        onClick={() => useUi.setState({ aiOpen: true })}
+        aria-label={t('AI araçlarına bağla (MCP)', 'Connect AI tools (MCP)')}
+        title={t('AI araçlarına bağla: ChatGPT, Claude… (MCP)', 'Connect AI tools: ChatGPT, Claude… (MCP)')}
+      >
+        <Bot size={16} /> <span className="fd-btn-text">MCP</span>
+      </button>
+      <Menu
+        label={<><MenuIcon size={16} /> <span className="fd-btn-text">{t('Menü', 'Menu')}</span></>}
+        ariaLabel={t('Menü', 'Menu')}
+        align="right"
+      >
+        {fileItems}
       </Menu>
       <LangSwitch />
       <ThemeButton />

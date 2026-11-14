@@ -17,10 +17,11 @@ export type Member = {
 
 export type MemberFlow = { id: string; title: string; node_count: number; created_at: string; updated_at: string };
 
-/** False for everyone but admins, and also when the migration hasn't been applied yet. */
+/** False for everyone but admins. Throws when the server couldn't answer, so the caller can ask again. */
 export async function checkAdmin(): Promise<boolean> {
   const { data, error } = await requireClient().rpc('is_admin');
-  return !error && data === true;
+  if (error) throw error;
+  return data === true;
 }
 
 export async function listMembers(): Promise<Member[]> {

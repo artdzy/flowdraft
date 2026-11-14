@@ -27,6 +27,46 @@ export const useAuth = create<AuthState>()(() => ({
   pending: null,
 }));
 
+const ADMIN_KEY = 'flowdraft-admin';
+/** Waits before asking again when the admin check fails (a dropped request, the server restarting). */
+const ADMIN_RETRY_MS = [1500, 5000, 15000];
+
+function knownAdmin(id: string) {
+  try {
+    return localStorage.getItem(ADMIN_KEY) === id;
+  } catch {
+    return false;
+  }
+}
+
+function rememberAdmin(id: string, admin: boolean) {
+  try {
+    if (admin) localStorage.setItem(ADMIN_KEY, id);
+    else if (localStorage.getItem(ADMIN_KEY) === id) localStorage.removeItem(ADMIN_KEY);
+  } catch {
+    // Storage is blocked: the check simply runs again on the next visit.
+  }
+}
+
+/** Asks the server whether this account is an admin. One failed request must not hide the panel until a reload. */
+async function resolveAdmin(id: string) {
+  for (let attempt = 0; ; attempt++) {
+    if (useAuth.getState().user?.id !== id) return;
+    try {
+      const admin = await checkAdmin();
+      if (useAuth.getState().user?.id !== id) return;
+      rememberAdmin(id, admin);
+      useAuth.setState({ admin });
+      return;
+    } catch {
+      const wait = ADMIN_RETRY_MS[attempt];
+      if (wait === undefined) break;
+      await new Promise((resolve) => setTimeout(resolve, wait));
+    }
+  }
+  if (useAuth.getState().user?.id === id) useAuth.setState({ admin: knownAdmin(id) });
+}
+
 export function initAuth() {
   if (!supabase) return;
   useAuth.subscribe((state, prev) => {
@@ -34,13 +74,9 @@ export function initAuth() {
     if (id === prev.user?.id) return;
     // Signed out here, in another tab or by an expired session: the next person must not see this account's flow.
     if (prev.user && !id) resetWorkspace();
-    useAuth.setState({ admin: id ? null : false });
-    if (!id) return;
-    void checkAdmin()
-      .catch(() => false)
-      .then((admin) => {
-        if (useAuth.getState().user?.id === id) useAuth.setState({ admin });
-      });
+    // An admin seen on this device before gets the menu entry at once; the server still decides what the panel shows.
+    useAuth.setState({ admin: id ? (knownAdmin(id) ? true : null) : false });
+    if (id) void resolveAdmin(id);
   });
   void supabase.auth.getSession().then(({ data }) => {
     useAuth.setState({ user: data.session?.user ?? null, ready: true });
