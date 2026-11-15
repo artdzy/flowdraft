@@ -1,11 +1,11 @@
 <div align="center">
-<a href="https://flowdraft.tech"><img src="docs/images/01-hero.png" width="100%" alt="flowdraft. From idea to flow. A free flowchart editor for the web, iPhone, iPad and Mac. Draw it yourself, or let ChatGPT and Claude draw it for you."></a>
-<img src="docs/images/02-building-blocks.png" width="100%" alt="01 Building blocks. Draw processes, not pictures: human approval gates, people, agents, systems, databases, chat bubbles, swimlanes and automation zones.">
-<a href="https://flowdraft.tech/mcp"><img src="docs/images/03-draw-with-ai.png" width="100%" alt="02 Draw with AI. Your AI draws, you refine. Add flowdraft.tech/mcp as a connector in Claude, ChatGPT, Claude Code, Cursor or VS Code."></a>
-<img src="docs/images/04-light-or-dark.png" width="100%" alt="03 Light or dark. Any process, in any light: automations, software architecture, customer conversations and approvals.">
-<img src="docs/images/05-everywhere.png" width="100%" alt="04 Everywhere. Web, iPhone, iPad and Mac. On iOS and macOS 26, describe a process and Apple Intelligence draws it on the device.">
-<img src="docs/images/06-details.png" width="100%" alt="05 The details. Export to PNG, SVG, PDF and JSON, share links and invites, templates, keyboard shortcuts, English and Turkish, no tracking.">
-<a href="https://flowdraft.tech"><img src="docs/images/07-start-drawing.png" width="100%" alt="Start drawing. Free on the web, no sign-up to start. flowdraft.tech"></a>
+<a href="https://flowdraft.tech"><img src="docs/images/01-hero.png" width="100%" align="top" alt="flowdraft. From idea to flow. A free flowchart editor for the web, iPhone, iPad and Mac. Draw it yourself, or let ChatGPT and Claude draw it for you."></a>
+<img src="docs/images/02-building-blocks.png" width="100%" align="top" alt="01 Building blocks. Draw processes, not pictures: human approval gates, people, agents, systems, databases, chat bubbles, swimlanes and automation zones.">
+<a href="https://flowdraft.tech/mcp"><img src="docs/images/03-draw-with-ai.png" width="100%" align="top" alt="02 Draw with AI. Your AI draws, you refine. Add flowdraft.tech/mcp as a connector in Claude, ChatGPT, Claude Code, Cursor or VS Code."></a>
+<img src="docs/images/04-light-or-dark.png" width="100%" align="top" alt="03 Light or dark. Any process, in any light: automations, software architecture, customer conversations and approvals.">
+<img src="docs/images/05-everywhere.png" width="100%" align="top" alt="04 Everywhere. Web, iPhone, iPad and Mac. On iOS and macOS 26, describe a process and Apple Intelligence draws it on the device.">
+<img src="docs/images/06-details.png" width="100%" align="top" alt="05 The details. Export to PNG, SVG, PDF and JSON, share links and invites, templates, keyboard shortcuts, English and Turkish, no tracking.">
+<a href="https://flowdraft.tech"><img src="docs/images/07-start-drawing.png" width="100%" align="top" alt="Start drawing. Free on the web, no sign-up to start. flowdraft.tech"></a>
 </div>
 
 <br>
